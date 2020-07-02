@@ -1,17 +1,15 @@
 import React, { FunctionComponent } from "react";
 
-import { Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { FiltersContainer } from "@app/Menu/Filters";
+import { FiltersContainer } from "./Filters";
+import { FoodContainer } from "./Food";
 
 const Image = ({ classes, ...rest }) => (
     <div className={classes.container} {...rest}>
-        <img src="/images/image_001.png" className={classes.img} />
+        <img src="/images/image_001.png" className={classes.img}/>
     </div>
 );
-// const Filter = (props) => (<Button {...props}>filter</Button>);
-const Item = (props) => (<div {...props}>item</div>);
 
 const useStyles = makeStyles({
     root: {
@@ -43,17 +41,13 @@ const useStyles = makeStyles({
 }, { name: "MenuPage" });
 
 interface IMenuPageProps {
-    filters: any[];
     menuItems: any[];
 }
 
 type Props = IMenuPageProps;
 
 const MenuPage: FunctionComponent<Props> = (props) => {
-    const {
-        filters = new Array(5).fill(null),
-        menuItems = new Array(5).fill(null),
-    } = props;
+    const { } = props;
 
     const classes = useStyles();
 
@@ -71,17 +65,8 @@ const MenuPage: FunctionComponent<Props> = (props) => {
                     root: classes.filters,
                 }}
             />
-            {/*<div className={classes.filters}>
-                {filters.map((item, index) => (
-                    <Filter key={`filter-${index}`}/>
-                ))}
-            </div>*/}
 
-            <div className={classes.menu}>
-                {menuItems.map((item, index) => (
-                    <Item key={`item-${index}`}/>
-                ))}
-            </div>
+            <FoodContainer classes={{ root: classes.menu }}/>
         </div>
     );
 };

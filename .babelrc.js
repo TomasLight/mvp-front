@@ -19,7 +19,7 @@ const alias = {
 
     "@api": "./src/api",
     "@config": "./src/config",
-    "@models": "./src/models",
+    "@enums": "./src/enums",
     "@selectors": "./src/utils/redux/selectors",
     "@shared": "./src/shared",
     "@utils": "./src/utils"

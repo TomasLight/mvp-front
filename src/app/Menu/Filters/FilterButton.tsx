@@ -4,7 +4,7 @@ import { Button, ButtonClassKey, withStyles } from "@material-ui/core";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 
 interface IFilterButtonProps {
-    classes: Partial<ClassNameMap<ButtonClassKey>>,
+    classes: Partial<ClassNameMap<ButtonClassKey>>;
     isActive: boolean;
 }
 

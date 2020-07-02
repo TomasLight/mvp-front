@@ -7,7 +7,7 @@ import { Tag } from "../models";
 import { FilterButton } from "./FilterButton";
 
 interface IFiltersProps {
-    classes: Partial<ClassNameMap<"root">>;
+    classes: Partial<ClassNameMap<FiltersClassKey>>;
     tags: Tag[];
 }
 
@@ -49,7 +49,11 @@ const Filters: FC<Props> = (props) => {
     );
 };
 
-const componentWithStyles = withStyles({
+type FiltersClassKey =
+    | "root"
+    ;
+
+const componentWithStyles = withStyles<FiltersClassKey>({
     root: {
         display: "grid",
         gridAutoFlow: "column",
@@ -59,5 +63,5 @@ const componentWithStyles = withStyles({
     },
 }, { name: nameof(Filters) })(Filters);
 
-export { componentWithStyles as Filters, IFiltersProps, IFiltersCallProps };
+export { componentWithStyles as Filters, FiltersClassKey, IFiltersProps, IFiltersCallProps };
 

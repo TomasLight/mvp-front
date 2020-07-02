@@ -23,7 +23,7 @@
 
             "@api/*": ["api/*"],
             "@config/*": ["config/*"],
-            "@models/*": ["models/*"],
+            "@enums/*": ["enums/*"],
             "@selectors/*": ["utils/redux/selectors/*"],
             "@shared/*": ["shared/*"],
             "@utils/*": ["utils/*"]

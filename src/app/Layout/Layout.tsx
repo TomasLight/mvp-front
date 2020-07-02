@@ -8,6 +8,7 @@ import { DrawerContainer } from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        backgroundColor: theme.palette.background.default,
         display: "grid",
         gridTemplateAreas: "'drawer app-bar' 'content content'",
         minHeight: "100%",
