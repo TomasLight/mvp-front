@@ -11,6 +11,9 @@ function createTheme() {
                 main: "#000",
                 contrastText: "#FFF",
             },
+            background: {
+                default: "#F3F3F5",
+            },
         },
     });
 }

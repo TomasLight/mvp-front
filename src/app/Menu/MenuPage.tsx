@@ -1,14 +1,16 @@
-import { makeStyles } from "@material-ui/core/styles";
 import React, { FunctionComponent } from "react";
 
 import { Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+import { FiltersContainer } from "@app/Menu/Filters";
 
 const Image = ({ classes, ...rest }) => (
     <div className={classes.container} {...rest}>
         <img src="/images/image_001.png" className={classes.img} />
     </div>
 );
-const Filter = (props) => (<Button {...props}>filter</Button>);
+// const Filter = (props) => (<Button {...props}>filter</Button>);
 const Item = (props) => (<div {...props}>item</div>);
 
 const useStyles = makeStyles({
@@ -22,9 +24,9 @@ const useStyles = makeStyles({
         gridArea: "image",
         width: "100%",
         position: "relative",
-        borderRadius: 6,
     },
     image: {
+        borderRadius: 6,
         objectFit: "cover",
         height: "100%",
         width: "100%",
@@ -64,11 +66,16 @@ const MenuPage: FunctionComponent<Props> = (props) => {
                 }}
             />
 
-            <div className={classes.filters}>
+            <FiltersContainer
+                classes={{
+                    root: classes.filters,
+                }}
+            />
+            {/*<div className={classes.filters}>
                 {filters.map((item, index) => (
                     <Filter key={`filter-${index}`}/>
                 ))}
-            </div>
+            </div>*/}
 
             <div className={classes.menu}>
                 {menuItems.map((item, index) => (
