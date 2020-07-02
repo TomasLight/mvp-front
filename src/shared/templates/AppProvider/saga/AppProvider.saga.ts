@@ -2,7 +2,7 @@ import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
 import { AppProviderSelectors } from "@selectors/AppProvider.store.selectors";
-import { SagaBase } from "@utils/saga/SagaBase";
+import { SagaBase } from "@utils/saga";
 
 import { AppProviderActions } from "../redux/AppProvider.actions";
 import { AppProviderStore } from "../redux/AppProvider.store";

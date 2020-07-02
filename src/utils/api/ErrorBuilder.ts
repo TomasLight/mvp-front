@@ -1,4 +1,4 @@
-import { IApiError } from "@utils/api/IApiError";
+import { IApiError } from "./IApiError";
 
 export class ErrorBuilder {
     public static getErrorMessage(apiError: IApiError): string {

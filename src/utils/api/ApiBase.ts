@@ -1,7 +1,7 @@
-import { ApiResponse } from "@utils/api/ApiResponse";
-import { ErrorBuilder } from "@utils/api/ErrorBuilder";
-import { IApiError } from "@utils/api/IApiError";
-import { RequestInitBuilder } from "@utils/api/RequestInitBuilder";
+import { ApiResponse } from "./ApiResponse";
+import { ErrorBuilder } from "./ErrorBuilder";
+import { IApiError } from "./IApiError";
+import { RequestInitBuilder } from "./RequestInitBuilder";
 
 export class ApiBase {
     protected static async get<TResponseData = any>(url: string): Promise<ApiResponse<TResponseData>> {

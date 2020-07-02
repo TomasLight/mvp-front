@@ -1,8 +1,9 @@
-import { Translate } from "@utils/translates/Translate";
 import { SnackbarProvider, WithSnackbarProps } from "notistack";
 import React, { createRef, FunctionComponent, PropsWithChildren } from "react";
 
 import { Button } from "@material-ui/core";
+
+import { Translate } from "@utils/translates";
 
 type Props = PropsWithChildren<any>;
 

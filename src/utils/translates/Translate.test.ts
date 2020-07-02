@@ -1,6 +1,6 @@
 import { expect, test } from "@jest/globals";
 
-import { Translate } from "@utils/translates/Translate";
+import { Translate } from "./Translate";
 
 test("Translate simple", () => {
     const translatedString = Translate.getString("Test string");

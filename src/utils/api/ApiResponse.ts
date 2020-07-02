@@ -1,4 +1,4 @@
-import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";
+import { ApiResponseStatus } from "./ApiResponseStatus";
 
 export class ApiResponse<TResponseData = any> {
     public statusCode: ApiResponseStatus;

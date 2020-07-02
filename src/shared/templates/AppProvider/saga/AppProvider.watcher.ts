@@ -1,4 +1,4 @@
-import { WatcherBase } from "@utils/saga/WatcherBase";
+import { WatcherBase } from "@utils/saga";
 
 import { AppProviderActions } from "../redux/AppProvider.actions";
 import { AppProviderSaga } from "./AppProvider.saga";

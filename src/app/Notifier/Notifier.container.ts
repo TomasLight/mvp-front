@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import { AnyAction, Dispatch } from "redux";
 
 import { IAppState } from "@utils/redux/IAppState";
+import { NotifierActions } from "./redux";
 import { INotifierCallProps, INotifierProps, Notifier } from "./Notifier";
-import { NotifierActions } from "./redux/Notifier.actions";
 
 const mapStateToProps = (state: IAppState): INotifierProps => {
     return {

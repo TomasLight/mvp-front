@@ -1,4 +1,4 @@
-import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";
+import { ApiResponseStatus } from "./ApiResponseStatus";
 
 export type ApiValidationError = {
     [key: string]: string[];

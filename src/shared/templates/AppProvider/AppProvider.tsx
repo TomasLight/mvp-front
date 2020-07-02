@@ -4,9 +4,10 @@ import React, {
     useEffect, useMemo,
 } from "react";
 
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/core/styles";
 
-import { LoaderBlock } from "@shared/molecules/Loaders/LoaderBlock";
+import { LoaderBlock } from "@shared/molecules/Loaders";
+import { createTheme } from "@shared/theme";
 
 import { AppSnackbarProvider } from "./AppSnackbarProvider";
 
@@ -32,7 +33,7 @@ const AppProvider: FunctionComponent<Props> = (props: Props) => {
         initialize();
     }, []);
 
-    const theme = useMemo(() => createMuiTheme(), []);
+    const theme = useMemo(() => createTheme(), []);
 
     if (!appIsInitialized) {
         return (

@@ -1,4 +1,4 @@
-import { WatchFunction } from "@utils/saga/WatchFunction";
+import { WatchFunction } from "./WatchFunction";
 
 export interface IWatcher {
     watchFunctions: WatchFunction[];

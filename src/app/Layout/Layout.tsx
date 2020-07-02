@@ -1,28 +1,18 @@
-import React, { FunctionComponent } from "react";
 import clsx from "clsx";
+import React, { FunctionComponent } from "react";
 
+import { AppBar, Drawer, IconButton, List, ListItem, ListItemText, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import { ChevronLeft, ChevronRight, Menu } from "@material-ui/icons";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: "flex",
     },
     appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create([ "margin", "width" ], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
@@ -30,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
+        transition: theme.transitions.create([ "margin", "width" ], {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -39,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     hide: {
-        display: 'none',
+        display: "none",
     },
     drawer: {
         width: drawerWidth,
@@ -49,24 +39,24 @@ const useStyles = makeStyles((theme) => ({
         width: drawerWidth,
     },
     drawerHeader: {
-        display: 'flex',
-        alignItems: 'center',
+        display: "flex",
+        alignItems: "center",
         padding: theme.spacing(0, 1),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: -drawerWidth,
     },
     contentShift: {
-        transition: theme.transitions.create('margin', {
+        transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.easeOut,
             duration: theme.transitions.duration.enteringScreen,
         }),
@@ -90,11 +80,10 @@ const Layout: FunctionComponent<Props> = (props) => {
     const theme = useTheme();
     const [ open, setOpen ] = React.useState(false);
 
-    const toggle = () => setOpen(isOpen => !isOpen);
+    const toggle = () => setOpen((isOpen) => !isOpen);
 
     return (
         <div className={classes.root}>
-            <CssBaseline/>
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
@@ -111,10 +100,10 @@ const Layout: FunctionComponent<Props> = (props) => {
                     >
                         {open
                             ? (
-                                theme.direction === "ltr" ? <ChevronLeftIcon/> : <ChevronRightIcon/>
+                                theme.direction === "ltr" ? <ChevronLeft/> : <ChevronRight/>
                             )
                             : (
-                                <MenuIcon/>
+                                <Menu/>
                             )
                         }
                     </IconButton>

@@ -1,5 +1,6 @@
-import { Translate } from "@utils/translates/Translate";
 import { AppAction } from "app-redux-utils";
+
+import { Translate } from "@utils/translates";
 
 import { Notification } from "../Notification";
 import { NotifierActions } from "./Notifier.actions";

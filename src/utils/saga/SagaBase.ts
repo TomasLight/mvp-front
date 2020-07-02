@@ -1,7 +1,8 @@
-import { INotification, Notification } from "@app/Notifier/Notification";
-import { NotifierActions } from "@app/Notifier/redux/Notifier.actions";
 import { put } from "@redux-saga/core/effects";
-import { ApiResponse } from "@utils/api/ApiResponse";
+
+import { INotification, Notification } from "@app/Notifier/Notification";
+import { NotifierActions } from "@app/Notifier/redux";
+import { ApiResponse } from "@utils/api";
 
 export class SagaBase {
     protected static* displayNotification(notification: INotification) {

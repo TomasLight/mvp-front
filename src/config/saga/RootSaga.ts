@@ -1,5 +1,5 @@
-import { AppProviderWatcher } from "@shared/templates/AppProvider/saga/AppProvider.watcher";
-import { RootSagaBase } from "@utils/saga/RootSagaBase";
+import { RootSagaBase } from "@utils/saga";
+import { AppProviderWatcher } from "@shared/templates/AppProvider/saga";
 
 // import { IssuesWatcher } from "@app/Menu/saga/Issues.watcher";
 

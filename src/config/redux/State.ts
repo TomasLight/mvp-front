@@ -1,8 +1,8 @@
 import { RouterState } from "connected-react-router";
 
-import { IAppState } from "@utils/redux/IAppState";
-import { NotifierStore } from "@app/Notifier/redux/Notifier.store";
-import { AppProviderStore } from "@shared/templates/AppProvider/redux/AppProvider.store";
+import { IAppState } from "@utils/redux";
+import { NotifierStore } from "@app/Notifier/redux";
+import { AppProviderStore } from "@shared/templates/AppProvider/redux";
 
 export class State implements IAppState {
     public router: RouterState;

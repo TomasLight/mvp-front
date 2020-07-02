@@ -6,9 +6,9 @@ import { State } from "@State";
 import {
     AppProvider,
     IAppProviderCallProps,
-    IAppProviderProps
-} from "@shared/templates/AppProvider/AppProvider";
-import { AppProviderActions } from "@shared/templates/AppProvider/redux/AppProvider.actions";
+    IAppProviderProps,
+    AppProviderActions,
+} from "@shared/templates/AppProvider";
 
 const mapStateToProps = (state: State): IAppProviderProps => {
     return {

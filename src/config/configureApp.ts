@@ -3,7 +3,7 @@ import { createBrowserHistory, History } from "history";
 import { applyMiddleware, compose, createStore, Reducer, Store } from "redux";
 import createSagaMiddleware, { SagaMiddleware } from "redux-saga";
 
-import { RootSagaBase } from "@utils/saga/RootSagaBase";
+import { RootSagaBase } from "@utils/saga";
 
 export function configureApp<TReducers>(
     makeReducer: (history: History) => Reducer<TReducers>,

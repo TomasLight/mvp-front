@@ -1,8 +1,8 @@
 import { expect, test } from "@jest/globals";
 import { SagaMiddleware } from "redux-saga";
-import { IWatcher } from "@utils/saga/IWatcher";
-import { WatchFunction } from "@utils/saga/WatchFunction";
 
+import { IWatcher } from "./IWatcher";
+import { WatchFunction } from "./WatchFunction";
 import { RootSagaBase } from "./RootSagaBase";
 
 class MockRootSaga extends RootSagaBase {
