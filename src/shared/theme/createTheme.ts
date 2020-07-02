@@ -1,5 +1,16 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
+declare module "@material-ui/core/styles/createMuiTheme" {
+    interface Theme {
+        drawerWidth: number;
+    }
+
+    // allow configuration using `createMuiTheme`
+    interface ThemeOptions {
+        drawerWidth?: number;
+    }
+}
+
 function createTheme() {
     return createMuiTheme({
         palette: {
@@ -15,6 +26,7 @@ function createTheme() {
                 default: "#F3F3F5",
             },
         },
+        drawerWidth: 240,
     });
 }
 
