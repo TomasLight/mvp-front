@@ -24,6 +24,7 @@ function createTheme() {
             },
             background: {
                 default: "#F3F3F5",
+                paper: "#FFF",
             },
         },
         drawerWidth: 240,

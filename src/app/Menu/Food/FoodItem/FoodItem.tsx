@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 
 import {
-    Button,
-    ButtonGroup,
     Card,
     CardActionArea,
     CardActions,
@@ -11,11 +9,11 @@ import {
     Typography,
     makeStyles
 } from "@material-ui/core";
-import { Add, Remove } from "@material-ui/icons";
 import { Translate } from "@utils/translates";
 
 import { Cart as CartIcon } from "@shared/atoms/icons";
 import { Dish } from "@app/Menu/models";
+import { CartOperationButtons, SizeButtons } from "./Buttons";
 
 const useStyles = makeStyles((theme) => ({
     actions: {
@@ -120,9 +118,13 @@ const FoodItem: FunctionComponent<Props> = (props) => {
             </CardActionArea>
 
             <CardActions className={classes.actions} disableSpacing>
-                <div className={classes.sizes}>
-                    sizes
-                </div>
+                <SizeButtons
+                    className={classes.sizes}
+                    sizes={dish.sizes}
+                    selectedSize={selectedSize}
+                    sizeType={dish.sizeType}
+                    changeSelectedSize={setSelectedSize}
+                />
 
                 <Typography variant="body1" className={classes.title}>
                     {dish.title}
@@ -135,29 +137,11 @@ const FoodItem: FunctionComponent<Props> = (props) => {
 
                     {amounts.has(selectedSize)
                         ? (
-                            <ButtonGroup variant="contained" color="primary" aria-label="split button">
-                                <Button
-                                    color="primary"
-                                    size="small"
-                                    aria-controls={open ? "split-button-menu" : undefined}
-                                    aria-expanded={open ? "true" : undefined}
-                                    aria-label="decrease dish amount"
-                                    onClick={handleDecrease}
-                                >
-                                    <Remove/>
-                                </Button>
-                                <Button>{amounts.get(selectedSize)}</Button>
-                                <Button
-                                    color="primary"
-                                    size="small"
-                                    aria-controls={open ? "split-button-menu" : undefined}
-                                    aria-expanded={open ? "true" : undefined}
-                                    aria-label="increase dish amount"
-                                    onClick={handleIncrease}
-                                >
-                                    <Add/>
-                                </Button>
-                            </ButtonGroup>
+                            <CartOperationButtons
+                                amount={amounts.get(selectedSize)}
+                                increaseAmount={handleIncrease}
+                                decreaseAmount={handleDecrease}
+                            />
                         )
                         : (
                             <IconButton

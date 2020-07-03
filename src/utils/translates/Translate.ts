@@ -1,4 +1,5 @@
 import { Tag } from "@api/mock/menu/Tag";
+import { SizeType } from "@enums/SizeType";
 
 export class Translate {
     public static getString(key: string, options?: any) {
@@ -13,6 +14,7 @@ export class Translate {
 
     private static dictionary = new Map<string, (options: any) => string>([
         [ "tag", Translate.getTagText ],
+        [ "size", Translate.getSizeText ],
     ]);
 
     private static getTagText(options: { id: number }): string {
@@ -37,6 +39,25 @@ export class Translate {
 
             default:
                 throw new Error(`Translate.getString - Invalid key for TagId: ${options.id}`);
+        }
+    }
+
+    private static getSizeText(options: { size: number, sizeType: SizeType }): string {
+        switch (options.sizeType) {
+            case SizeType.Milliliter:
+                return `${options.size} мл`;
+
+            case SizeType.Liter:
+                return `${options.size} л`;
+
+            case SizeType.Gram:
+                return `${options.size} гр`;
+
+            case SizeType.Kilogram:
+                return `${options.size} кг`;
+
+            default:
+                throw new Error(`Translate.getString - Invalid key for SizeType: ${options.sizeType}`);
         }
     }
 }
