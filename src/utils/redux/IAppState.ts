@@ -4,5 +4,5 @@ import { NotifierStore } from "@app/Notifier/redux";
 
 export interface IAppState {
     router: RouterState;
-    notifierStore: NotifierStore;
+    notifier: NotifierStore;
 }

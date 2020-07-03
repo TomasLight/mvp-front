@@ -1,14 +1,15 @@
+import { Translate } from "@utils/translates";
 import React, { FC, useEffect, useState } from "react";
 
 import { withStyles } from "@material-ui/core";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 
-import { Tag } from "../models";
 import { FilterButton } from "./FilterButton";
 
 interface IFiltersProps {
     classes: Partial<ClassNameMap<FiltersClassKey>>;
-    tags: Tag[];
+    tagIds: number[];
+    selectedTagId: number;
 }
 
 interface IFiltersCallProps {
@@ -18,31 +19,21 @@ interface IFiltersCallProps {
 type Props = IFiltersProps & IFiltersCallProps;
 
 const Filters: FC<Props> = (props) => {
-    const { classes, tags, onTagChange } = props;
-
-    const [ selectedTagId, setSelectedTagId ] = useState<number>(null);
-
-    useEffect(() => {
-        if (!tags || tags.length === 0) {
-            return;
-        }
-        setSelectedTagId(tags[0].id);
-    }, [ tags ]);
+    const { classes, tagIds, selectedTagId, onTagChange } = props;
 
     const handleClick = (tagId) => () => {
-        setSelectedTagId(tagId);
         onTagChange(tagId);
     };
 
     return (
         <div className={classes.root}>
-            {tags.map((tag: Tag) => (
+            {tagIds.map((id: number) => (
                 <FilterButton
-                    key={`tag-${tag.id}`}
-                    isActive={tag.id === selectedTagId}
-                    onClick={handleClick(tag.id)}
+                    key={`tag-${id}`}
+                    isActive={id === selectedTagId}
+                    onClick={handleClick(id)}
                 >
-                    {tag.title}
+                    {Translate.getString("tag", { id })}
                 </FilterButton>
             ))}
         </div>

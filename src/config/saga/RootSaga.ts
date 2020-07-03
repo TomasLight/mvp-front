@@ -1,7 +1,6 @@
-import { RootSagaBase } from "@utils/saga";
+import { MenuWatcher } from "@app/Menu/saga";
 import { AppProviderWatcher } from "@shared/templates/AppProvider/saga";
-
-// import { IssuesWatcher } from "@app/Menu/saga/Issues.watcher";
+import { RootSagaBase } from "@utils/saga";
 
 export class RootSaga extends RootSagaBase {
     constructor() {
@@ -10,7 +9,7 @@ export class RootSaga extends RootSagaBase {
         this.addWatchers([
             new AppProviderWatcher(),
 
-            // new IssuesWatcher(),
+            new MenuWatcher(),
         ]);
     }
 }

@@ -3,23 +3,30 @@ import React, { FunctionComponent } from "react";
 import { withStyles } from "@material-ui/core";
 import { ClassNameMap } from "@material-ui/core/styles/withStyles";
 
-import { CartItem, Dish } from "../models";
-import { FoodItem } from "./FoodItem";
+import { Cart, Dish } from "../models";
+import { FoodItem, IFoodItemCallProps } from "./FoodItem";
 
 interface IFoodProps {
     classes: Partial<ClassNameMap<FoodClassKey>>;
     dishes: Dish[];
+    cart: Cart;
 }
 
-interface IFoodCallProps {
-    openDish: (dishId: number) => void;
-    addToCart: (cartItem: CartItem) => void;
+interface IFoodCallProps extends IFoodItemCallProps {
 }
 
 type Props = IFoodProps & IFoodCallProps;
 
 const Food: FunctionComponent<Props> = (props) => {
-    const { classes, dishes, openDish, addToCart } = props;
+    const {
+        classes,
+        dishes,
+        cart,
+        openDish,
+        addToCart,
+        increaseAmount,
+        decreaseAmount,
+    } = props;
 
     return (
         <div className={classes.root}>
@@ -29,6 +36,9 @@ const Food: FunctionComponent<Props> = (props) => {
                     dish={dish}
                     openDish={openDish}
                     addToCart={addToCart}
+                    amounts={cart.getAmounts(dish.id)}
+                    increaseAmount={increaseAmount}
+                    decreaseAmount={decreaseAmount}
                 />
             ))}
         </div>

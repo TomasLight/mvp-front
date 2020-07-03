@@ -1,4 +1,6 @@
 import path from "path";
+import { DefinePlugin } from "webpack";
+import dotenv from "dotenv";
 import merge from "webpack-merge";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 
@@ -8,6 +10,7 @@ import { fontRule } from "./rules/font-rule";
 
 const paths = {
     root: path.join(__dirname, "../"),
+    env: path.join(__dirname, "../.env"),
 
     app: path.join(__dirname, "../src/index.tsx"),
 
@@ -33,6 +36,9 @@ const commonWebpackConfig = merge(
         plugins: [
             // increase build performance
             new ForkTsCheckerWebpackPlugin(),
+            new DefinePlugin({
+                'process.env': JSON.stringify(dotenv.config({path: paths.env}).parsed)
+            }),
         ],
     },
     tsRule(),

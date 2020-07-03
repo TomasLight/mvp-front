@@ -1,24 +1,28 @@
+import React, { FunctionComponent, useEffect, useState } from "react";
+
 import {
+    Button,
+    ButtonGroup,
     Card,
     CardActionArea,
     CardActions,
     CardMedia,
     IconButton,
-    Typography
+    Typography,
+    makeStyles
 } from "@material-ui/core";
+import { Add, Remove } from "@material-ui/icons";
 import { Translate } from "@utils/translates";
-import React, { FunctionComponent, useEffect, useState } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
-
-import { Cart } from "@shared/atoms/icons";
+import { Cart as CartIcon } from "@shared/atoms/icons";
 import { CartItem, Dish } from "@app/Menu/models";
 
 const useStyles = makeStyles((theme) => ({
     actions: {
         display: "grid",
-        gridTemplateAreas: "'sizes sizes sizes' 'title . add'",
+        gridTemplateAreas: "'sizes sizes sizes' '. . .' 'title . add'",
         gridTemplateColumns: "auto 1fr auto",
+        gridTemplateRows: "auto 32px 48px",
         padding: "20px",
     },
     sizes: {
@@ -47,22 +51,37 @@ const useStyles = makeStyles((theme) => ({
         gridArea: "cart",
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.primary.contrastText,
+
+        "&:hover": {
+            backgroundColor: theme.palette.primary.contrastText,
+            color: theme.palette.primary.main,
+        },
     },
 }), { name: "FoodItem" });
 
 interface IFoodItemProps {
     dish: Dish;
+    amounts: Map<number, number>;
 }
 
 interface IFoodItemCallProps {
     openDish: (dishId: number) => void;
-    addToCart: (cartItem: CartItem) => void;
+    addToCart: (dishId: number, size: number) => void;
+    increaseAmount: (dishId: number, size: number) => void;
+    decreaseAmount: (dishId: number, size: number) => void;
 }
 
 type Props = IFoodItemProps & IFoodItemCallProps;
 
 const FoodItem: FunctionComponent<Props> = (props) => {
-    const { dish, openDish, addToCart } = props;
+    const {
+        dish,
+        amounts,
+        openDish,
+        addToCart,
+        increaseAmount,
+        decreaseAmount,
+    } = props;
 
     const classes = useStyles();
     const [ selectedSize, setSelectedSize ] = useState<number>(null);
@@ -79,10 +98,13 @@ const FoodItem: FunctionComponent<Props> = (props) => {
     };
 
     const handleAddToCart = () => {
-        addToCart({
-            id: dish.id,
-            size: selectedSize,
-        });
+        addToCart(dish.id, selectedSize);
+    };
+    const handleIncrease = () => {
+        increaseAmount(dish.id, selectedSize);
+    };
+    const handleDecrease = () => {
+        decreaseAmount(dish.id, selectedSize);
     };
 
     return (
@@ -111,17 +133,46 @@ const FoodItem: FunctionComponent<Props> = (props) => {
                         {Translate.getString(`${dish.cost} ₽`)}
                     </Typography>
 
-                    <IconButton
-                        className={classes.cartButton}
-                        color="primary"
-                        onClick={handleAddToCart}
-                    >
-                        <Cart/>
-                    </IconButton>
+                    {amounts.has(selectedSize)
+                        ? (
+                            <ButtonGroup variant="contained" color="primary" aria-label="split button">
+                                <Button
+                                    color="primary"
+                                    size="small"
+                                    aria-controls={open ? "split-button-menu" : undefined}
+                                    aria-expanded={open ? "true" : undefined}
+                                    aria-label="decrease dish amount"
+                                    onClick={handleDecrease}
+                                >
+                                    <Remove/>
+                                </Button>
+                                <Button>{amounts.get(selectedSize)}</Button>
+                                <Button
+                                    color="primary"
+                                    size="small"
+                                    aria-controls={open ? "split-button-menu" : undefined}
+                                    aria-expanded={open ? "true" : undefined}
+                                    aria-label="increase dish amount"
+                                    onClick={handleIncrease}
+                                >
+                                    <Add/>
+                                </Button>
+                            </ButtonGroup>
+                        )
+                        : (
+                            <IconButton
+                                className={classes.cartButton}
+                                color="primary"
+                                onClick={handleAddToCart}
+                            >
+                                <CartIcon/>
+                            </IconButton>
+                        )
+                    }
                 </div>
             </CardActions>
         </Card>
     );
 };
 
-export { FoodItem };
+export { FoodItem, IFoodItemProps, IFoodItemCallProps };

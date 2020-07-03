@@ -7,7 +7,7 @@ import { INotifierCallProps, INotifierProps, Notifier } from "./Notifier";
 
 const mapStateToProps = (state: IAppState): INotifierProps => {
     return {
-        notifications: state.notifierStore.notifications,
+        notifications: state.notifier.notifications,
     };
 };
 

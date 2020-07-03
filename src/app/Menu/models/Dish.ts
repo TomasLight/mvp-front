@@ -5,6 +5,7 @@ interface IDish {
     title: string;
     image: string;
     cost: number;
+    tag: number;
 
     sizes: number[];
     sizeType: SizeType;
@@ -15,6 +16,7 @@ export class Dish implements IDish {
     public title: string;
     public image: string;
     public cost: number;
+    public tag: number;
 
     public sizes: number[];
     public sizeType: SizeType;
@@ -25,6 +27,7 @@ export class Dish implements IDish {
             this.title = "";
             this.image = "";
             this.cost = null;
+            this.tag = null;
 
             this.sizes = [];
             this.sizeType = SizeType.NA;
@@ -34,6 +37,7 @@ export class Dish implements IDish {
             this.title = dish.title;
             this.image = dish.image;
             this.cost = dish.cost;
+            this.tag = dish.tag;
 
             this.sizes = dish.sizes;
             this.sizeType = dish.sizeType;

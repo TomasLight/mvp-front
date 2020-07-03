@@ -4,6 +4,7 @@ import { applyMiddleware, compose, createStore, Reducer, Store } from "redux";
 import createSagaMiddleware, { SagaMiddleware } from "redux-saga";
 
 import { RootSagaBase } from "@utils/saga";
+import { configureMapper } from "./mapper";
 
 export function configureApp<TReducers>(
     makeReducer: (history: History) => Reducer<TReducers>,
@@ -26,6 +27,8 @@ export function configureApp<TReducers>(
     const store: Store<TReducers> = createStore(reducer, enhancer);
 
     rootSaga.run(sagaMiddleware);
+
+    configureMapper();
 
     return { store, history };
 }

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.default,
         display: "grid",
         gridTemplateAreas: "'drawer app-bar' 'content content'",
-        minHeight: "100%",
+        height: "100%",
         gridTemplateRows: "auto 1fr",
         gridTemplateColumns: "0 1fr",
     },
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
         marginLeft: 0,
+        overflowY: "auto",
     },
     contentShift: {
         marginLeft: theme.drawerWidth,

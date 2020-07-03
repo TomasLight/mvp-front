@@ -32,7 +32,8 @@ body {
 #root {
     -ms-flex-order: 2;
     order: 2;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
+    overflow-y: hidden;
 }
 
 ::-webkit-scrollbar {

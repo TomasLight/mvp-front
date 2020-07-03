@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
 import { State } from "@State";
-import { Translate } from "@utils/translates";
+import { MenuActions } from "../redux";
 import {
     Filters,
     IFiltersProps,
@@ -11,36 +11,14 @@ import {
 } from "./Filters";
 
 const mapStateToProps = (state: State): Partial<IFiltersProps> => ({
-    tags: [
-        {
-            id: 1,
-            title: Translate.getString("Кофе"),
-        },
-        {
-            id: 2,
-            title: Translate.getString("Чай"),
-        },
-        {
-            id: 3,
-            title: Translate.getString("Другие напитки"),
-        },
-        {
-            id: 4,
-            title: Translate.getString("Бутерброды"),
-        },
-        {
-            id: 5,
-            title: Translate.getString("Десерты"),
-        },
-        {
-            id: 6,
-            title: Translate.getString("Завтраки"),
-        },
-    ],
+    tagIds: state.menu.tagIds,
+    selectedTagId: state.menu.selectedTagId,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IFiltersCallProps => ({
-    onTagChange: (tagId: number) => undefined,
+    onTagChange: (tagId: number) => dispatch(MenuActions.changeSelectedTag({
+        tagId,
+    })),
 });
 
 const FiltersContainer: ComponentType<Partial<IFiltersProps>> = connect(

@@ -12,7 +12,7 @@ import {
 
 const mapStateToProps = (state: State): IAppProviderProps => {
     return {
-        appIsInitialized: state.appProviderStore.initialized,
+        appIsInitialized: state.appProvider.initialized,
     };
 };
 

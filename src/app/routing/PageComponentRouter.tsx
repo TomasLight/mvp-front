@@ -3,7 +3,7 @@ import { Route, Switch } from "react-router-dom";
 
 import { Layout } from "@app/Layout/Layout";
 import { NotifierContainer } from "@app/Notifier/Notifier.container";
-import { MenuPage } from "@app/Menu/MenuPage";
+import { MenuPage, MenuPageContainer } from "@app/Menu";
 
 import { appUrls } from "./appUrls";
 
@@ -17,7 +17,7 @@ const PageComponentRouter: FunctionComponent = () => {
                         appUrls.rootPath,
                         appUrls.menu,
                     ]}
-                    component={MenuPage}
+                    component={MenuPageContainer}
                 />
             </Switch>
 

@@ -1,9 +1,11 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { Simulate } from "react-dom/test-utils";
 
 import { FiltersContainer } from "./Filters";
 import { FoodContainer } from "./Food";
+import load = Simulate.load;
 
 const Image = ({ classes, ...rest }) => (
     <div className={classes.container} {...rest}>
@@ -40,14 +42,18 @@ const useStyles = makeStyles({
     },
 }, { name: "MenuPage" });
 
-interface IMenuPageProps {
-    menuItems: any[];
+interface IMenuPageCallProps {
+    loadData: () => void;
 }
 
-type Props = IMenuPageProps;
+type Props = IMenuPageCallProps;
 
 const MenuPage: FunctionComponent<Props> = (props) => {
-    const { } = props;
+    const { loadData } = props;
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     const classes = useStyles();
 
@@ -71,4 +77,4 @@ const MenuPage: FunctionComponent<Props> = (props) => {
     );
 };
 
-export { MenuPage };
+export { MenuPage, IMenuPageCallProps };

@@ -21,6 +21,7 @@
             "@State": ["config/redux/State"],
             "@app/*": ["app/*"],
 
+            "@api": ["api/index.ts"],
             "@api/*": ["api/*"],
             "@config/*": ["config/*"],
             "@enums/*": ["enums/*"],
