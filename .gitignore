@@ -44,3 +44,4 @@ node_modules
 public/aspnet_client/*
 public/logs/*
 public/js/*
+/.env

@@ -15,7 +15,7 @@ import { Add, Remove } from "@material-ui/icons";
 import { Translate } from "@utils/translates";
 
 import { Cart as CartIcon } from "@shared/atoms/icons";
-import { CartItem, Dish } from "@app/Menu/models";
+import { Dish } from "@app/Menu/models";
 
 const useStyles = makeStyles((theme) => ({
     actions: {
