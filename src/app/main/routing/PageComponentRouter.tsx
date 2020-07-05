@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { LayoutContainer } from "@pos/Layout";
+import { LayoutContainer } from "@main/Layout";
 import { NotifierContainer } from "@shared/templates/Notifier";
-import { MenuPageContainer } from "@pos/Menu";
+import { SetupPage } from "@main/Setup/SetupPage";
 
-import { posUrls } from "./posUrls";
+import { mainUrls } from "./mainUrls";
 
 const PageComponentRouter: FunctionComponent = () => {
     return (
@@ -13,8 +13,8 @@ const PageComponentRouter: FunctionComponent = () => {
             <Switch>
                 <Route
                     exact
-                    path={posUrls.menu}
-                    component={MenuPageContainer}
+                    path={mainUrls.setup}
+                    component={SetupPage}
                 />
             </Switch>
 

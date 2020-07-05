@@ -1,17 +1,9 @@
 import React, { FunctionComponent, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Simulate } from "react-dom/test-utils";
 
 import { FiltersContainer } from "./Filters";
 import { FoodContainer } from "./Food";
-import load = Simulate.load;
-
-const Image = ({ classes, ...rest }) => (
-    <div className={classes.container} {...rest}>
-        <img src="/images/image_001.png" className={classes.img}/>
-    </div>
-);
 
 const useStyles = makeStyles({
     root: {
@@ -59,12 +51,9 @@ const MenuPage: FunctionComponent<Props> = (props) => {
 
     return (
         <div className={classes.root}>
-            <Image
-                classes={{
-                    container: classes.imageContainer,
-                    img: classes.image,
-                }}
-            />
+            <div className={classes.imageContainer}>
+                <img src="/images/image_001.png" className={classes.image}/>
+            </div>
 
             <FiltersContainer
                 classes={{

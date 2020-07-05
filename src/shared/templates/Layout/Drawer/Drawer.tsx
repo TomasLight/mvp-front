@@ -29,12 +29,19 @@ interface IDrawerProps {
     menuItems: SideBarItem[];
 }
 
-type Props = IDrawerProps;
+interface IDrawerCallProps {
+    redirect: (url: string) => void;
+}
+
+type Props = IDrawerProps & IDrawerCallProps;
 
 const Drawer: FunctionComponent<Props> = (props) => {
-    const { open, menuItems } = props;
+    const { open, menuItems, redirect } = props;
 
     const classes = useStyles();
+    const handleRedirect = (url: string) => () => {
+        redirect(url);
+    };
 
     return (
         <MuiDrawer
@@ -48,7 +55,7 @@ const Drawer: FunctionComponent<Props> = (props) => {
         >
             <List>
                 {menuItems.map((item: SideBarItem) => (
-                    <ListItem button key={item.title}>
+                    <ListItem button key={item.title} onClick={handleRedirect(item.url)}>
                         <ListItemText primary={item.title}/>
                     </ListItem>
                 ))}

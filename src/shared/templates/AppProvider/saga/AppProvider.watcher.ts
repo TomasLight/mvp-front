@@ -12,6 +12,10 @@ export class AppProviderWatcher extends WatcherBase {
             AppProviderSaga.incrementInitializedActions
         );
         this.watchLatest(
+            AppProviderActions.INITIALIZE_MAIN_APP,
+            AppProviderSaga.initializeMainApp
+        );
+        this.watchLatest(
             AppProviderActions.INITIALIZE_POS_APP,
             AppProviderSaga.initializePosApp
         );

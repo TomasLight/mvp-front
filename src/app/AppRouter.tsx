@@ -1,5 +1,6 @@
-import React, { FunctionComponent } from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { History } from "history";
+import React, { FC } from "react";
+import { Route, Switch, Router } from "react-router-dom";
 
 import { App as MainApp } from "@main/App";
 import { App as PosApp } from "@pos/App";
@@ -13,27 +14,35 @@ const appUrls = {
     workspace: "/workspace",
 };
 
-const AppRouter: FunctionComponent = () => {
+interface IAppRouterProps {
+    history: History;
+}
+
+type Props = IAppRouterProps;
+
+const AppRouter: FC<Props> = (props) => {
+    const { history } = props;
+
     return (
-        <Router>
+        <Router history={history}>
             <Switch>
                 <Route
                     path={appUrls.main}
-                    component={MainApp}
+                    render={() => <MainApp history={history} />}
                 />
                 <Route
                     path={appUrls.pos}
-                    component={PosApp}
+                    render={() => <PosApp history={history} />}
                 />
                 <Route
                     path={appUrls.workspace}
-                    component={WorkspaceApp}
+                    render={() => <WorkspaceApp history={history} />}
                 />
 
                 <Route
                     exact
                     path={appUrls.root}
-                    component={MainApp}
+                    render={() => <MainApp history={history} />}
                 />
                 <Route path="*">
                     <NotFound />

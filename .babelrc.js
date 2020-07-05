@@ -15,13 +15,13 @@ const presets = [
 
 const alias = {
     "@main": "./src/app/main",
-    "@MainState": "./src/app/main/config/redux/State",
+    "@MainState": "./src/app/main/config/redux/State.ts",
 
     "@pos": "./src/app/pos",
     "@PosState": "./src/app/pos/config/redux/State.ts",
 
     "@ws": "./src/app/workspace",
-    "@WsState": "./src/app/workspace/config/redux/State",
+    "@WsState": "./src/app/workspace/config/redux/State.ts",
 
     "@api": "./src/api",
     "@config": "./src/config/index.ts",

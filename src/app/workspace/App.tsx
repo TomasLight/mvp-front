@@ -1,6 +1,15 @@
-import React, { FunctionComponent } from "react";
+import { History } from "history";
+import React, { FC } from "react";
 
-const App: FunctionComponent = () => {
+interface IAppProps {
+    history: History;
+}
+
+type Props = IAppProps;
+
+const App: FC<Props> = (props) => {
+    const { history } = props;
+
     return (
         <div>
             workspace app

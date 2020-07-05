@@ -5,8 +5,6 @@ import { AppBar as MuiAppBar, IconButton, Toolbar, Typography } from "@material-
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { ChevronLeft, ChevronRight, Menu } from "@material-ui/icons";
 
-// const drawerWidth = 240;
-
 const useStyles = makeStyles((theme) => ({
     appBar: {
         gridArea: "app-bar",

@@ -19,6 +19,7 @@
         "baseUrl": "./src/",
         "paths": {
             "@main/*": ["app/main/*"],
+            "@MainState": ["app/main/config/redux/State.ts"],
 
             "@pos/*": ["app/pos/*"],
             "@PosState": ["app/pos/config/redux/State.ts"],

@@ -1,10 +1,11 @@
+import { SideBarItem } from "@shared/templates/Layout/models";
 import clsx from "clsx";
 import React, { FunctionComponent } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { AppBarContainer } from "./AppBar";
-import { DrawerContainer } from "./Drawer";
+import { AppBar } from "./AppBar";
+import { Drawer } from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,12 +33,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface ILayoutProps {
+    title: string;
+    menuItems: SideBarItem[];
 }
 
-type Props = ILayoutProps;
+interface ILayoutCallProps {
+    redirect: (url: string) => void;
+}
+
+type Props = ILayoutProps & ILayoutCallProps;
 
 const Layout: FunctionComponent<Props> = (props) => {
     const {
+        title,
+        menuItems,
+        redirect,
         children,
     } = props;
 
@@ -48,12 +58,17 @@ const Layout: FunctionComponent<Props> = (props) => {
 
     return (
         <div className={classes.root}>
-            <AppBarContainer
+            <AppBar
+                title={title}
                 open={open}
                 toggle={toggle}
             />
 
-            <DrawerContainer open={open} />
+            <Drawer
+                menuItems={menuItems}
+                redirect={redirect}
+                open={open}
+            />
 
             <main
                 className={clsx(classes.content, {
@@ -66,4 +81,4 @@ const Layout: FunctionComponent<Props> = (props) => {
     );
 };
 
-export { Layout };
+export { Layout, ILayoutProps, ILayoutCallProps };

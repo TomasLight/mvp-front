@@ -1,3 +1,3 @@
-export const appUrls = {
+export const posUrls = {
     menu: "/pos/menu",
 };
