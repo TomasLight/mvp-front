@@ -13,9 +13,6 @@ const paths = {
     env: path.join(__dirname, "../.env"),
 
     app: path.join(__dirname, "../src/app/index.tsx"),
-    // main: path.join(__dirname, "../src/app/workspace.tsx"),
-    // workspace: path.join(__dirname, "../src/app/main.tsx"),
-    // pos: path.join(__dirname, "../src/app/pos.tsx"),
 
     output: path.join(__dirname, "../public/js"),
 };
@@ -27,8 +24,6 @@ const commonWebpackConfig = merge(
         },
         entry: {
             app: [ "@babel/polyfill", paths.app ],
-            // main: paths.main,
-            // pos: paths.pos,
         },
         output: {
             filename: "[name].bundle.js",

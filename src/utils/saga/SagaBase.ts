@@ -1,6 +1,6 @@
 import { put } from "@redux-saga/core/effects";
 
-import { INotification, Notification } from "@shared/templates/Notifier/Notification";
+import { INotification, Notification } from "@shared/templates/Notifier";
 import { NotifierActions } from "@shared/templates/Notifier/redux";
 import { ApiResponse } from "@utils/api";
 

@@ -7,7 +7,7 @@ import { ReducerConfig } from "@config";
 import { RootSagaBase } from "@utils/saga";
 
 export function configureApp(
-    routeConfig: ReducerConfig,
+    reducerConfig: ReducerConfig,
     rootSaga: RootSagaBase,
     configureMapper?: () => void
 ): {
@@ -23,7 +23,7 @@ export function configureApp(
         sagaMiddleware
     );
 
-    const reducer = routeConfig.reducer(history);
+    const reducer = reducerConfig.reducer(history);
     const enhancer = composeEnhancer(middleware);
     const store: Store = createStore(reducer, enhancer);
 

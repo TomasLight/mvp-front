@@ -13,7 +13,7 @@ export class AppProviderWatcher extends WatcherBase {
         );
         this.watchLatest(
             AppProviderActions.INITIALIZE_POS_APP,
-            AppProviderSaga.initializeApp
+            AppProviderSaga.initializePosApp
         );
     }
 }
