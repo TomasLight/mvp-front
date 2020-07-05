@@ -12,7 +12,7 @@ export class AppProviderSaga extends SagaBase {
         yield put(AppProviderActions.updateStore(store));
     }
 
-    public static* initializeApp(action: AppAction) {
+    public static* initializePosApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             // put(UsersActions.loadCurrentUser()(callbackAction)),

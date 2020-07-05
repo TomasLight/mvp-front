@@ -1,7 +1,7 @@
 import { put } from "@redux-saga/core/effects";
 
-import { INotification, Notification } from "@app/Notifier/Notification";
-import { NotifierActions } from "@app/Notifier/redux";
+import { INotification, Notification } from "@shared/templates/Notifier";
+import { NotifierActions } from "@shared/templates/Notifier/redux";
 import { ApiResponse } from "@utils/api";
 
 export abstract class SagaBase {

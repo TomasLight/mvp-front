@@ -12,7 +12,7 @@ const paths = {
     root: path.join(__dirname, "../"),
     env: path.join(__dirname, "../.env"),
 
-    app: path.join(__dirname, "../src/index.tsx"),
+    app: path.join(__dirname, "../src/app/index.tsx"),
 
     output: path.join(__dirname, "../public/js"),
 };
