@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
 
 interface IAppBarProps {
     open: boolean;
+    className?: string;
+    elevation?: number;
 }
 
 type Props = IAppBarProps;
@@ -30,7 +32,9 @@ type Props = IAppBarProps;
 const AppBar: FunctionComponent<Props> = (props) => {
     const {
         open,
+        className,
         children,
+        ...rest
     } = props;
 
     const classes = useStyles();
@@ -38,9 +42,14 @@ const AppBar: FunctionComponent<Props> = (props) => {
     return (
         <MuiAppBar
             position="relative"
-            className={clsx(classes.appBar, {
-                [classes.appBarShift]: open,
-            })}
+            className={clsx(
+                classes.appBar,
+                {
+                    [classes.appBarShift]: open,
+                },
+                className
+            )}
+            {...rest}
         >
             {children}
         </MuiAppBar>

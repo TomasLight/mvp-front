@@ -8,16 +8,23 @@ import { AppBar } from "@shared/atoms/AppBar";
 import { MenuButton } from "../MenuButton";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        borderBottomColor: "#BDBDBD",
+        borderBottomStyle: "solid",
+        borderBottomWidth: 1,
+    },
     toolbar: {
         display: "grid",
         gridAutoFlow: "column",
         gridTemplateAreas: "'menu . title . name . lock'",
         gridTemplateColumns: "36px 6px auto 1fr auto 20px 20px",
+        paddingLeft: 22,
+        paddingRight: 22,
     },
     menu: {
         gridArea: "menu",
         backgroundColor: theme.palette.background.default,
-        borderRadius: 6,
+        borderRadius: theme.borderRadius,
     },
     title: {
         gridArea: "title",
@@ -25,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 18,
         lineHeight: "21px",
         backgroundColor: theme.palette.background.default,
-        borderRadius: 6,
+        borderRadius: theme.borderRadius,
         padding: "7px 8px",
     },
     name: {
@@ -62,7 +69,7 @@ const MainAppBar: FunctionComponent<Props> = (props) => {
     const classes = useStyles();
 
     return (
-        <AppBar open={open}>
+        <AppBar open={open} className={classes.root} elevation={0}>
             <Toolbar className={classes.toolbar}>
                 <MenuButton
                     open={open}

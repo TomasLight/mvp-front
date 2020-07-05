@@ -1,13 +1,28 @@
 import { createMuiTheme } from "@material-ui/core/styles";
+import { PaletteColor, PaletteColorOptions } from "@material-ui/core/styles/createPalette";
 
 declare module "@material-ui/core/styles/createMuiTheme" {
     interface Theme {
         drawerWidth: number;
+        borderRadius: number;
+        content: {
+            primary: string,
+            secondary: string,
+            tertiary: string,
+        };
+        disabled: PaletteColor;
     }
 
     // allow configuration using `createMuiTheme`
     interface ThemeOptions {
         drawerWidth?: number;
+        borderRadius?: number;
+        content?: {
+            primary: string,
+            secondary: string,
+            tertiary: string,
+        };
+        disabled?: PaletteColorOptions;
     }
 }
 
@@ -28,6 +43,16 @@ function createTheme() {
             },
         },
         drawerWidth: 240,
+        borderRadius: 6,
+        content: {
+            primary: "#000",
+            secondary: "#000",
+            tertiary: "#757575",
+        },
+        disabled: {
+            main: "#e7e5e5",
+            contrastText: "#b0b0b0",
+        },
     });
 }
 

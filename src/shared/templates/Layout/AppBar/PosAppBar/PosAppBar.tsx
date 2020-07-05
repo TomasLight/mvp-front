@@ -12,6 +12,8 @@ const useStyles = makeStyles({
         gridAutoFlow: "columns",
         gridTemplateAreas: "'menu . title'",
         gridTemplateColumns: "36px 6px 1fr",
+        paddingLeft: 50,
+        paddingRight: 50,
     },
     title: {
         gridArea: "title",

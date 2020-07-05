@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     content: {
         gridArea: "content",
         flexGrow: 1,
-        padding: theme.spacing(3),
         transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -30,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
     },
     contentShift: {
         marginLeft: theme.drawerWidth,
+    },
+    [Variant.Main]: {
+        padding: 0,
+    },
+    [Variant.Pos]: {
+        padding: "20px 50px",
     },
 }));
 
@@ -78,9 +83,13 @@ const Layout: FunctionComponent<Props> = (props) => {
             />
 
             <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
+                className={clsx(
+                    classes.content,
+                    {
+                        [classes.contentShift]: open,
+                    },
+                    classes[variant]
+                )}
             >
                 {children}
             </main>

@@ -35,6 +35,8 @@
             "@selectors/*": ["utils/redux/selectors/*"],
             "@shared/*": ["shared/*"],
             "@icons": ["shared/atoms/icons/index.ts"],
+
+            "@utils": ["utils/index.ts"],
             "@utils/*": ["utils/*"]
         },
         "plugins": [{ "name": "typescript-tslint-plugin" }]

@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FiltersContainer } from "./Filters";
 import { FoodContainer } from "./Food";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: "grid",
         gridAutoFlow: "row",
@@ -18,7 +18,7 @@ const useStyles = makeStyles({
         position: "relative",
     },
     image: {
-        borderRadius: 6,
+        borderRadius: theme.borderRadius,
         objectFit: "cover",
         height: "100%",
         width: "100%",
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
         gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))",
         gridGap: 20,
     },
-}, { name: "MenuPage" });
+}), { name: "MenuPage" });
 
 interface IMenuPageCallProps {
     loadData: () => void;

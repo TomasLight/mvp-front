@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         display: "grid",
         gridAutoFlow: "column",
         gridTemplateColumns: (props: Props) => `repeat(${props.sizes.length}, auto 1px)`,
-        borderRadius: 6,
+        borderRadius: theme.borderRadius,
     },
     button: {
         backgroundColor: theme.palette.background.default,
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     active: {
         backgroundColor: theme.palette.background.paper,
         boxShadow: "0px 8px 36px rgba(0, 0, 0, 0.17)",
-        borderRadius: 6,
+        borderRadius: theme.borderRadius,
         zIndex: 1,
         marginLeft: -1, // hack to hide a divider from left sid of button
 
