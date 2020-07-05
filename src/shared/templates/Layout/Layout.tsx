@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { AppBar } from "./AppBar";
 import { Drawer } from "./Drawer";
+import { Variant } from "./variant";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,7 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface ILayoutProps {
     title: string;
+    name: string;
     menuItems: SideBarItem[];
+    variant: Variant;
 }
 
 interface ILayoutCallProps {
@@ -46,7 +49,9 @@ type Props = ILayoutProps & ILayoutCallProps;
 const Layout: FunctionComponent<Props> = (props) => {
     const {
         title,
+        name,
         menuItems,
+        variant,
         redirect,
         children,
     } = props;
@@ -59,7 +64,9 @@ const Layout: FunctionComponent<Props> = (props) => {
     return (
         <div className={classes.root}>
             <AppBar
+                variant={variant}
                 title={title}
+                name={name}
                 open={open}
                 toggle={toggle}
             />
