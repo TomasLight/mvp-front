@@ -1,1 +1,1 @@
-export * from "./Cart";
+export { Cart as CartIcon } from "./Cart";

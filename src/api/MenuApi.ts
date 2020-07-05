@@ -1,5 +1,5 @@
 import { IDishDto, IDishDetailsDto } from "@api/models/menu/responses";
-import { Dish, DishDetails } from "@app/Menu/models";
+import { Dish, DishDetails } from "@pos/Menu/models";
 import { ApiBase } from "@utils/api/ApiBase";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { Mapper } from "@utils/mapping/Mapper";

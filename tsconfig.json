@@ -18,15 +18,22 @@
 
         "baseUrl": "./src/",
         "paths": {
-            "@State": ["config/redux/State"],
-            "@app/*": ["app/*"],
+            "@main/*": ["app/main/*"],
+
+            "@pos/*": ["app/pos/*"],
+            "@PosState": ["app/pos/config/redux/State.ts"],
+
+            "@ws/*": ["app/workspace/*"],
+
 
             "@api": ["api/index.ts"],
             "@api/*": ["api/*"],
-            "@config/*": ["config/*"],
+
+            "@config": ["config/index.ts"],
             "@enums/*": ["enums/*"],
             "@selectors/*": ["utils/redux/selectors/*"],
             "@shared/*": ["shared/*"],
+            "@icons": ["shared/atoms/icons/index.ts"],
             "@utils/*": ["utils/*"]
         },
         "plugins": [{ "name": "typescript-tslint-plugin" }]
