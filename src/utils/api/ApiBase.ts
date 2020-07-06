@@ -1,3 +1,4 @@
+import { AdvancedConfig } from "@utils/api/AdvancedConfig";
 import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";
 import { ApiResponse } from "./ApiResponse";
 import { ErrorBuilder } from "./ErrorBuilder";
@@ -15,6 +16,27 @@ export abstract class ApiBase {
 
     private static url(url) {
         return `${process.env.API_BASE_URL}/${url}`;
+    }
+
+    protected static async advancedRequest<TResponseData = any>(
+        config: AdvancedConfig
+    ): Promise<ApiResponse<TResponseData>> {
+        if (this.useMockApi()) {
+            return this.createMockResponse<TResponseData>(config.url, config.method);
+        }
+
+        const builder = new RequestInitBuilder(config.method);
+        if (config.dto) {
+            builder.appendJson(config.dto);
+        }
+
+        let url = config.url;
+        if (!config.isAbsoluteUrl) {
+            url = this.url(config.url);
+        }
+
+        const response: Response = await fetch(url, builder.build());
+        return this.createResponse<TResponseData>(response);
     }
 
     protected static async get<TResponseData = any>(url: string): Promise<ApiResponse<TResponseData>> {

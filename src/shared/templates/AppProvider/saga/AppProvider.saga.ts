@@ -1,11 +1,13 @@
 import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
-import { AppProviderSelectors } from "@selectors/AppProvider.store.selectors";
+import { UserApi } from "@api/UserApi";
+import { AuthorizedUser } from "@models";
+import { AppProviderSelectors } from "@selectors";
+import { ApiResponse } from "@utils";
 import { SagaBase } from "@utils/saga";
 
-import { AppProviderActions } from "../redux/AppProvider.actions";
-import { AppProviderStore } from "../redux/AppProvider.store";
+import { AppProviderActions, AppProviderStore } from "../redux";
 
 export class AppProviderSaga extends SagaBase {
     private static* updateStore(store: Partial<AppProviderStore>) {
@@ -15,13 +17,11 @@ export class AppProviderSaga extends SagaBase {
     public static* initializeMainApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
-            // put(UsersActions.loadCurrentUser()(callbackAction)),
-            // put(UsersActions.loadUsers()(callbackAction)),
+            put(AppProviderActions.getAuthorizedUser()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({
-            // targetActionsAmount: initializedActions.length,
-            initialized: true,
+            targetActionsAmount: initializedActions.length,
         });
         yield all(initializedActions);
     }
@@ -29,15 +29,38 @@ export class AppProviderSaga extends SagaBase {
     public static* initializePosApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
-            // put(UsersActions.loadCurrentUser()(callbackAction)),
-            // put(UsersActions.loadUsers()(callbackAction)),
+            put(AppProviderActions.getAuthorizedUser()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({
-            // targetActionsAmount: initializedActions.length,
-            initialized: true,
+            targetActionsAmount: initializedActions.length,
         });
         yield all(initializedActions);
+    }
+
+    public static* initializedWorkspaceApp(action: AppAction) {
+        const callbackAction = AppProviderActions.incrementInitializedActions;
+        const initializedActions = [
+            put(AppProviderActions.getAuthorizedUser()(callbackAction)),
+        ];
+
+        yield AppProviderSaga.updateStore({
+            targetActionsAmount: initializedActions.length,
+        });
+        yield all(initializedActions);
+    }
+
+    public static* getAuthorizedUser(action: AppAction) {
+        const response: ApiResponse<AuthorizedUser> = yield UserApi.getAuthorizedUser();
+        if (response.hasError()) {
+            AppProviderSaga.displayClientError(response);
+            return;
+        }
+
+        if (!response.data || !response.data.id) {
+            const currentUrl = window.location.href;
+            window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
+        }
     }
 
     public static* incrementInitializedActions(action: AppAction) {

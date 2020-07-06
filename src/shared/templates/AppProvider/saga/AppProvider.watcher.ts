@@ -1,6 +1,6 @@
 import { WatcherBase } from "@utils/saga";
 
-import { AppProviderActions } from "../redux/AppProvider.actions";
+import { AppProviderActions } from "../redux";
 import { AppProviderSaga } from "./AppProvider.saga";
 
 export class AppProviderWatcher extends WatcherBase {
@@ -18,6 +18,14 @@ export class AppProviderWatcher extends WatcherBase {
         this.watchLatest(
             AppProviderActions.INITIALIZE_POS_APP,
             AppProviderSaga.initializePosApp
+        );
+        this.watchLatest(
+            AppProviderActions.INITIALIZE_WORKSPACE_APP,
+            AppProviderSaga.initializedWorkspaceApp
+        );
+        this.watchLatest(
+            AppProviderActions.GET_AUTHORIZED_USER,
+            AppProviderSaga.getAuthorizedUser
         );
     }
 }
