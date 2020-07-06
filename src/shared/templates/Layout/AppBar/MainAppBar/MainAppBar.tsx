@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { IconButton, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -58,7 +58,7 @@ interface IMainAppBarCallProps {
 
 type Props = IMainAppBarProps & IMainAppBarCallProps;
 
-const MainAppBar: FunctionComponent<Props> = (props) => {
+const MainAppBar: FC<Props> = (props) => {
     const {
         open,
         title,

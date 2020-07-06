@@ -6,7 +6,7 @@ const presets = [
                 node: "current",
             },
             "useBuiltIns": "usage",
-            "corejs": "3.6.4"
+            "corejs": "3.6.5"
         }
     ],
     "@babel/preset-react",
@@ -25,10 +25,14 @@ const alias = {
 
     "@api": "./src/api",
     "@config": "./src/config/index.ts",
-    "@enums": "./src/enums",
-    "@selectors": "./src/utils/redux/selectors",
+    "@enums": "./src/enums/index.ts",
+    "@models": "./src/models/index.ts",
+    "@selectors": "./src/utils/redux/selectors/index.ts",
+
     "@shared": "./src/shared",
     "@icons": "./src/shared/atoms/icons",
+    "@select": "./src/shared/organisms/Fields/Select",
+
     "@utils": "./src/utils"
 };
 

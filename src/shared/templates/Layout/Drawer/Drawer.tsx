@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { Drawer as MuiDrawer, List, ListItem, ListItemText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,7 +35,7 @@ interface IDrawerCallProps {
 
 type Props = IDrawerProps & IDrawerCallProps;
 
-const Drawer: FunctionComponent<Props> = (props) => {
+const Drawer: FC<Props> = (props) => {
     const { open, menuItems, redirect } = props;
 
     const classes = useStyles();

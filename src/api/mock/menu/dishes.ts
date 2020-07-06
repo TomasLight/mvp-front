@@ -1,6 +1,6 @@
 import { Tag } from "@api/mock/menu/Tag";
 import { IDishDetailsDto, IDishDto } from "@api/models/menu/responses";
-import { SizeType } from "@enums/SizeType";
+import { SizeType } from "@enums";
 
 const newItem = (item): IDishDetailsDto => {
     return {

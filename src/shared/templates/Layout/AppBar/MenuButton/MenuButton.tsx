@@ -1,11 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
-import { IconButton, withStyles } from "@material-ui/core";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { IconButton, StyledComponentProps, withStyles } from "@material-ui/core";
 import { ChevronLeft, Menu } from "@material-ui/icons";
 
 interface IMenuButtonProps {
-    classes: Partial<ClassNameMap<MenuButtonClassKey>>;
     open: boolean;
 }
 
@@ -13,9 +11,9 @@ interface IMenuButtonCallProps {
     toggle: () => void;
 }
 
-type Props = IMenuButtonProps & IMenuButtonCallProps;
+type Props = IMenuButtonProps & IMenuButtonCallProps & StyledComponentProps<MenuButtonClassKey>;
 
-const MenuButton: FunctionComponent<Props> = (props) => {
+const MenuButton: FC<Props> = (props) => {
     const { classes, open, toggle } = props;
 
     return (

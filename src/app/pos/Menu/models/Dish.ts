@@ -1,4 +1,4 @@
-import { SizeType } from "@enums/SizeType";
+import { SizeType } from "@enums";
 
 interface IDish {
     id: number;

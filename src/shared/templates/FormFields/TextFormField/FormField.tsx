@@ -1,19 +1,14 @@
-import { FieldSubscription } from "final-form";
-import React from "react";
+import React, { FC } from "react";
 import { Field } from "react-final-form";
 
-import { ITextFormFieldProps, TextFormField } from "./TextFormField";
+import { ITextFieldComponentProps, TextFieldComponent } from "./TextFieldComponent";
+import { IFormFieldProps } from "../IFormFieldProps";
 
-interface IFormFieldProps {
-    name: string;
-    subscription?: FieldSubscription;
-}
+type Props = IFormFieldProps & ITextFieldComponentProps;
 
-type Props = IFormFieldProps & ITextFormFieldProps;
-
-const FormField = (props: Props) => (
+const FormField: FC<Props> = (props) => (
     <Field
-        component={TextFormField}
+        component={TextFieldComponent}
         {...props}
     />
 );

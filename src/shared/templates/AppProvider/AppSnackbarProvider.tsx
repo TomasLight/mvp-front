@@ -1,5 +1,5 @@
 import { SnackbarProvider, WithSnackbarProps } from "notistack";
-import React, { createRef, FunctionComponent, PropsWithChildren } from "react";
+import React, { createRef, FC, PropsWithChildren } from "react";
 
 import { Button } from "@material-ui/core";
 
@@ -7,7 +7,7 @@ import { Translate } from "@utils/translates";
 
 type Props = PropsWithChildren<any>;
 
-const AppSnackbarProvider: FunctionComponent<Props> = (props: Props) => {
+const AppSnackbarProvider: FC<Props> = (props) => {
     const { children } = props;
 
     const snackbarRef = createRef<WithSnackbarProps>();

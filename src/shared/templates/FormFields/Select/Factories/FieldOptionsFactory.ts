@@ -1,4 +1,4 @@
-import { FieldOptionEnum, IFieldOption, SelectFieldOption } from "@shared/molecules/SelectComponents/types";
+import { FieldOptionEnum, IFieldOption, SelectFieldOption } from "@select/types";
 
 export class FieldOptionsFactory {
     public static make(type: FieldOptionEnum): IFieldOption<any, any> {

@@ -1,7 +1,7 @@
 export interface ISetupFormValues {
     siteName: string;
     domain: string;
-    favicon: string;
+    favicon: number;
 
     openGraphImage: string;
     openGraphTitle: string;

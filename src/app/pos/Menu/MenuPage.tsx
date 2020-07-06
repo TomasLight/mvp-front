@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -40,7 +40,7 @@ interface IMenuPageCallProps {
 
 type Props = IMenuPageCallProps;
 
-const MenuPage: FunctionComponent<Props> = (props) => {
+const MenuPage: FC<Props> = (props) => {
     const { loadData } = props;
 
     useEffect(() => {

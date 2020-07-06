@@ -1,7 +1,7 @@
 import path from "path";
 import { DefinePlugin } from "webpack";
 import dotenv from "dotenv";
-import merge from "webpack-merge";
+import { merge } from "webpack-merge";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 
 import { tsRule } from "./rules/ts-rule";

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { Variant } from "../variant";
 import { MainAppBar } from "./MainAppBar";
@@ -17,7 +17,7 @@ interface IAppBarCallProps {
 
 type Props = IAppBarProps & IAppBarCallProps;
 
-const AppBar: FunctionComponent<Props> = (props) => {
+const AppBar: FC<Props> = (props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {

@@ -1,5 +1,6 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { PaletteColor, PaletteColorOptions } from "@material-ui/core/styles/createPalette";
+import { overrideInput } from "@shared/theme/overrides/overrideInput";
 
 declare module "@material-ui/core/styles/createMuiTheme" {
     interface Theme {
@@ -52,6 +53,9 @@ function createTheme() {
         disabled: {
             main: "#e7e5e5",
             contrastText: "#b0b0b0",
+        },
+        overrides: {
+            ...overrideInput(),
         },
     });
 }

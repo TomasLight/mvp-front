@@ -1,20 +1,20 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import { LayoutContainer } from "@main/Layout";
 import { NotifierContainer } from "@shared/templates/Notifier";
-import { SetupPage } from "@main/Setup/SetupPage";
+import { SetupPageContainer } from "@main/Setup";
 
 import { mainUrls } from "./mainUrls";
 
-const PageComponentRouter: FunctionComponent = () => {
+const PageComponentRouter: FC = () => {
     return (
         <LayoutContainer>
             <Switch>
                 <Route
                     exact
                     path={mainUrls.setup}
-                    component={SetupPage}
+                    component={SetupPageContainer}
                 />
             </Switch>
 

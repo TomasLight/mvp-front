@@ -1,5 +1,5 @@
 import { FormApi, FormSubscription } from "final-form";
-import React, { FunctionComponent, KeyboardEvent } from "react";
+import React, { FC, KeyboardEvent } from "react";
 import { Form as FinalForm } from "react-final-form";
 
 import { FormMutators } from "./FormMutators";
@@ -20,7 +20,7 @@ interface IFormProps {
 
 type Props = IFormOwnProps & IFormProps;
 
-const Form: FunctionComponent<Props> = (props) => {
+const Form: FC<Props> = (props) => {
     const { submit, children, setFormApi, className, ...rest } = props;
 
     const formSubscription: FormSubscription = {

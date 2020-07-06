@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useEffect, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { ISetupFormValues } from "@main/Setup/models";
 import { FormProvider } from "@shared/organisms";
-import { SetupForm } from "./SetupForm/SetupForm";
+import { ISetupFormValues } from "./models";
+import { SetupFormContainer } from "./SetupForm";
 import { SetupValidator } from "./validation";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const formProvider = new FormProvider(new SetupValidator());
 
 interface ISetupPageProps {
-    initialValues: ISetupFormValues;
+    initialValues: Partial<ISetupFormValues>;
 }
 
 interface ISetupPageCallProps {
@@ -40,7 +40,7 @@ interface ISetupPageCallProps {
 
 type Props = ISetupPageProps & ISetupPageCallProps;
 
-const SetupPage: FunctionComponent<Props> = (props) => {
+const SetupPage: FC<Props> = (props) => {
     const { initialValues, next } = props;
     const classes = useStyles();
 
@@ -50,7 +50,7 @@ const SetupPage: FunctionComponent<Props> = (props) => {
         <div className={classes.root}>
             <div className={classes.left}>
                 <Form initialValues={initialValues}>
-                    <SetupForm />
+                    <SetupFormContainer onSubmit={formProvider.submitOnClick} />
                 </Form>
             </div>
 
@@ -58,12 +58,9 @@ const SetupPage: FunctionComponent<Props> = (props) => {
                 <p>
                     images
                 </p>
-                <Button onClick={formProvider.submitOnClick}>
-                    submit
-                </Button>
             </div>
         </div>
     );
 };
 
-export { SetupPage, ISetupPageCallProps };
+export { SetupPage, ISetupPageProps, ISetupPageCallProps };

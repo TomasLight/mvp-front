@@ -1,4 +1,4 @@
-import { SizeType } from "@enums/SizeType";
+import { SizeType } from "@enums";
 
 export interface IDishDto {
     readonly id: number;

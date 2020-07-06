@@ -1,7 +1,7 @@
 import { FieldMetaState } from "react-final-form";
 import { ActionMeta } from "react-select/src/types";
 
-import { IFieldOption, isFieldOption } from "@shared/molecules/SelectComponents/types";
+import { IFieldOption, isFieldOption } from "@select/types";
 
 export class SelectStateFieldManager {
     private readonly optionInstance: IFieldOption;

@@ -1,5 +1,5 @@
 import React, {
-    FunctionComponent,
+    FC,
     PropsWithChildren,
     useEffect, useMemo,
 } from "react";
@@ -21,7 +21,7 @@ export interface IAppProviderCallProps {
 
 type Props = PropsWithChildren<IAppProviderProps & IAppProviderCallProps>;
 
-const AppProvider: FunctionComponent<Props> = (props: Props) => {
+const AppProvider: FC<Props> = (props) => {
     const {
         appIsInitialized,
         children,

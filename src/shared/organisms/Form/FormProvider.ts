@@ -19,20 +19,21 @@ export class FormProvider {
     constructor(validator: IValidator<any>, settings: FormSettings = {}) {
         this.validator = validator;
         this.settings = settings;
+        this.submitOnClick = this.submitOnClick.bind(this);
     }
 
     public createForm(submit: Submit) {
         this.submit = submit;
         const formValidator = new FormValidator(this.validator, this.settings);
 
-        const formProps = new FormPropsContainer(
+        this.formProps = new FormPropsContainer(
             this.handleFormSubmit.bind(this),
             this.setFormApi.bind(this)
         );
-        formProps.addMutator("setErrors", setErrors);
-        formProps.validate = (values: any) => formValidator.validate(this.formApi, values);
+        this.formProps.addMutator("setErrors", setErrors);
+        this.formProps.validate = (values: any) => formValidator.validate(this.formApi, values);
 
-        const FormContainer: ComponentType<IFormProps> = connect(() => formProps.build())(Form);
+        const FormContainer: ComponentType<IFormProps> = connect(() => this.formProps.build())(Form);
         return FormContainer;
     }
 

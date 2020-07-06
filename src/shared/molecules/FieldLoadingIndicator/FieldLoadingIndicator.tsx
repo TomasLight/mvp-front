@@ -1,12 +1,20 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
-import { makeStyles } from "@material-ui/core";
+import {
+    createStyles,
+    withStyles,
+    StyledComponentProps,
+} from "@material-ui/core";
 
-import { Loader, LoaderProps } from "@shared/molecules/Loaders/Loader";
+import { Loader, LoaderProps } from "../Loaders";
+
+type ClassKey =
+    | "root"
+    ;
 
 const loaderSize = 24;
-const useStyles = makeStyles({
-    loader: {
+const styles = createStyles<ClassKey, IFieldLoadingIndicatorProps>({
+    root: {
         position: "absolute",
         bottom: 0,
         display: "block",
@@ -14,33 +22,43 @@ const useStyles = makeStyles({
         boxSizing: "border-box",
         zIndex: 1,
         top: `calc(50% - ${(loaderSize / 2)}px)`,
-        right: (props: { right: number | string }) => props.right,
+        right: (props) => props.right,
     },
 });
 
-export interface IFieldLoadingIndicatorProps extends LoaderProps {
+interface IFieldLoadingIndicatorProps extends LoaderProps {
     right?: number | string;
 }
 
-type Props = IFieldLoadingIndicatorProps;
+type Props = IFieldLoadingIndicatorProps & StyledComponentProps<ClassKey>;
 
-const FieldLoadingIndicator: FunctionComponent<Props> = (props: Props) => {
+const FieldLoadingIndicator: FC<Props> = (props) => {
     const {
+        classes,
         isLoading,
         right = 12,
         ...rest
     } = props;
 
-    const classes = useStyles({ right });
-
     return (
         <Loader
             isLoading={isLoading}
             size={loaderSize}
-            className={classes.loader}
+            className={classes.root}
+            // style={{
+            //     right,
+            // }}
             {...rest}
         />
     );
 };
 
-export { FieldLoadingIndicator };
+const componentWithStyles = withStyles<ClassKey>(
+    styles,
+    { name: "FieldLoadingIndicator" }
+)(FieldLoadingIndicator);
+export {
+    componentWithStyles as FieldLoadingIndicator,
+    IFieldLoadingIndicatorProps,
+    ClassKey as FieldLoadingIndicatorClassKey,
+};

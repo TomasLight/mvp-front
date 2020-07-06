@@ -1,4 +1,4 @@
-import React, { FunctionComponent, Fragment } from "react";
+import React, { FC, Fragment } from "react";
 import clsx from "clsx";
 
 import { Button, makeStyles } from "@material-ui/core";
@@ -68,7 +68,7 @@ interface ISizeButtonsCallProps {
 
 type Props = ISizeButtonsProps & ISizeButtonsCallProps;
 
-const SizeButtons: FunctionComponent<Props> = (props) => {
+const SizeButtons: FC<Props> = (props) => {
     const {
         className,
         sizes,

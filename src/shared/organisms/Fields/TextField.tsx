@@ -1,8 +1,13 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
-import { InputBaseComponentProps, FilledInput, FilledInputProps, withStyles } from "@material-ui/core";
+import {
+    InputBaseComponentProps,
+    FilledInput,
+    FilledInputProps,
+    withStyles,
+} from "@material-ui/core";
 
-import { Guid } from "@utils/Guid";
+import { Guid } from "@utils";
 import { FieldBase, FieldBaseProps, getHelperTextId } from "./FieldBase";
 
 const Input = withStyles((theme) => ({
@@ -10,13 +15,13 @@ const Input = withStyles((theme) => ({
         borderRadius: theme.borderRadius,
         borderTopLeftRadius: theme.borderRadius,
         borderTopRightRadius: theme.borderRadius,
-    },
-    input: {
-        padding: "12px 16px",
+        width: "100%",
     },
 }))(FilledInput);
 
 export interface ITextFieldProps extends FieldBaseProps {
+    id?: string;
+    name?: string;
     value?: any;
     onChange?: (value: any) => void;
     InputProps?: Partial<FilledInputProps>;
@@ -25,14 +30,12 @@ export interface ITextFieldProps extends FieldBaseProps {
 
 type Props = ITextFieldProps;
 
-const TextField: FunctionComponent<Props> = (props) => {
+const TextField: FC<Props> = (props) => {
     const {
         id = Guid.generate(),
         value,
         onChange,
 
-        disabled = false,
-        error = false,
         required = false,
 
         inputProps,
@@ -45,10 +48,8 @@ const TextField: FunctionComponent<Props> = (props) => {
 
     return (
         <FieldBase
-            disabled={disabled}
-            error={error}
             required={required}
-            inputId={id}
+            htmlFor={id}
             {...rest}
         >
             <Input
@@ -57,6 +58,7 @@ const TextField: FunctionComponent<Props> = (props) => {
                 id={id}
                 required={required}
                 inputProps={inputProps}
+                error={rest.error}
                 {...InputProps}
                 onChange={onChange}
                 disableUnderline

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { Button, ButtonGroup } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
@@ -14,7 +14,7 @@ interface ICartOperationButtonsCallProps {
 
 type Props = ICartOperationButtonsProps & ICartOperationButtonsCallProps;
 
-const CartOperationButtons: FunctionComponent<Props> = (props) => {
+const CartOperationButtons: FC<Props> = (props) => {
     const {
         amount,
         increaseAmount,

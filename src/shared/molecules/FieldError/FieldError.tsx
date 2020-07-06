@@ -1,78 +1,77 @@
 import clsx from "clsx";
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FC } from "react";
 
-import { makeStyles, Typography } from "@material-ui/core";
+import {
+    createStyles,
+    StyledComponentProps,
+    Typography,
+    withStyles,
+} from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-    text: {
-        position: "absolute",
-        bottom: 0,
+type FieldErrorClassKey =
+    | "root"
+    | "error"
+    | "help"
+    ;
+
+const styles = (theme) => createStyles<FieldErrorClassKey, IFieldErrorProps>({
+    root: {
         display: "block",
         width: "100%",
-        margin: 0,
-        paddingTop: 12,
         boxSizing: "border-box",
 
         fontSize: 14,
         lineHeight: "20px",
     },
-    errorText: {
-        color: theme.palette.error.main,
+    error: {
+        color: "#D44333",
     },
-    helpText: {
-        color: theme.content.primary,
+    help: {
+        color: "#757575",
     },
+});
 
-    hidden: {
-        visibility: "hidden",
-    },
-}), { name: "FieldError" });
-
-export interface IFieldErrorProps {
+interface IFieldErrorProps {
     id?: string;
-    show: boolean;
     error: boolean;
     text: string;
 }
 
-type Props = IFieldErrorProps;
+type Props = IFieldErrorProps & StyledComponentProps<FieldErrorClassKey>;
 
-const FieldError: FunctionComponent<Props> = (props: Props) => {
+const FieldError: FC<Props> = (props) => {
     const {
-        show,
+        classes,
         error,
         text,
         ...rest
     } = props;
 
-    const classes = useStyles();
-    const ref = useRef<HTMLDivElement>(null);
-    const [ height, setHeight ] = useState<number>(0);
+    const show = Boolean(text || error);
 
-    useEffect(() => {
-        if (!ref || !ref.current) {
-            return;
-        }
-        const typographyHeight = ref.current.offsetHeight;
-        setHeight(typographyHeight);
-    }, [ show, error, text ]);
+    if (!show) {
+        return null;
+    }
 
     return (
         <Typography
-            className={clsx(
-                classes.text,
-                error ? classes.errorText : classes.helpText,
-                show ? "" : classes.hidden
-            )}
-            ref={ref}
+            className={clsx(classes.root, {
+                [classes.error]: error,
+                [classes.help]: !error,
+            })}
             {...rest}
-            style={{
-                transform: `translate(0px, ${height}px)`,
-            }}
         >
             {text}
         </Typography>
     );
 };
 
-export { FieldError };
+const componentWithStyles = withStyles<FieldErrorClassKey>(
+    styles,
+    { name: "FieldError" }
+)(FieldError);
+export {
+    componentWithStyles as FieldError,
+    IFieldErrorProps,
+    FieldErrorClassKey,
+};

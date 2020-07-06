@@ -31,9 +31,14 @@
             "@api/*": ["api/*"],
 
             "@config": ["config/index.ts"],
-            "@enums/*": ["enums/*"],
-            "@selectors/*": ["utils/redux/selectors/*"],
+            "@enums": ["enums/index.ts"],
+            "@models": ["models/index.ts"],
+            "@selectors": ["utils/redux/selectors/index.ts"],
             "@shared/*": ["shared/*"],
+
+            "@select": ["shared/organisms/Fields/Select/index.ts"],
+            "@select/*": ["shared/organisms/Fields/Select/*"],
+
             "@icons": ["shared/atoms/icons/index.ts"],
 
             "@utils": ["utils/index.ts"],

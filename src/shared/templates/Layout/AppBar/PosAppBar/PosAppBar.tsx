@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -34,7 +34,7 @@ interface IPosAppBarCallProps {
 
 type Props = IPosAppBarProps & IPosAppBarCallProps;
 
-const PosAppBar: FunctionComponent<Props> = (props) => {
+const PosAppBar: FC<Props> = (props) => {
     const {
         open,
         title,

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 
 import { LayoutContainer } from "@pos/Layout";
@@ -7,7 +7,7 @@ import { MenuPageContainer } from "@pos/Menu";
 
 import { posUrls } from "./posUrls";
 
-const PageComponentRouter: FunctionComponent = () => {
+const PageComponentRouter: FC = () => {
     return (
         <LayoutContainer>
             <Switch>

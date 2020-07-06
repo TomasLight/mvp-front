@@ -1,5 +1,5 @@
 import { Tag } from "@api/mock/menu/Tag";
-import { SizeType } from "@enums/SizeType";
+import { SizeType } from "@enums";
 
 export class Translate {
     public static getString(key: string, options?: any) {

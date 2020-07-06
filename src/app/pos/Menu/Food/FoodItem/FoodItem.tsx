@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 import {
     Card,
@@ -71,7 +71,7 @@ interface IFoodItemCallProps {
 
 type Props = IFoodItemProps & IFoodItemCallProps;
 
-const FoodItem: FunctionComponent<Props> = (props) => {
+const FoodItem: FC<Props> = (props) => {
     const {
         dish,
         amounts,

@@ -1,6 +1,6 @@
 import { SideBarItem } from "@shared/templates/Layout/models";
 import clsx from "clsx";
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -51,7 +51,7 @@ interface ILayoutCallProps {
 
 type Props = ILayoutProps & ILayoutCallProps;
 
-const Layout: FunctionComponent<Props> = (props) => {
+const Layout: FC<Props> = (props) => {
     const {
         title,
         name,

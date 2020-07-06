@@ -1,18 +1,33 @@
-import { Typography } from "@material-ui/core";
-import React, { FunctionComponent } from "react";
+import clsx from "clsx";
+import React, { FC } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Button } from "@material-ui/core";
 
-import { ISetupFormValues } from "@main/Setup/models";
+import { FieldBaseProps } from "@shared/organisms/Fields/FieldBase";
+import { IFormFieldProps } from "@shared/templates/FormFields/IFormFieldProps";
 import { DefaultFieldSubscription } from "@shared/organisms";
-import { TextFormField } from "@shared/templates";
+import { IconSelectFieldOption } from "@select/types";
 import { Translate } from "@utils";
+
+import { SetupDomain, SetupSiteName, SetupFavicon, SetupOpenGraph } from "./SetupItems";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "grid",
-        gridTemplateAreas: "'siteName' '.' 'domain' '.' 'favicon' '.' 'openGraph' '.' 'colors'",
-        gridTemplateRows: "auto 64px auto 60px auto 132px auto 60px",
+        gridTemplateAreas: "\
+            'siteName' '.' \
+            'domain' '.' \
+            'favicon' '.' \
+            'openGraph' '.' \
+            'colors' '.' \
+            'stepper'",
+        gridTemplateRows: "\
+            auto 64px \
+            auto 60px \
+            auto 132px \
+            auto 264px \
+            auto 80px \
+            auto",
     },
     siteName: {
         gridArea: "siteName",
@@ -20,28 +35,8 @@ const useStyles = makeStyles((theme) => ({
     field: {
         width: 308,
     },
-    label: {
-        fontWeight: "bold",
-        fontSize: 20,
-        lineHeight: "23px",
-        paddingBottom: 12,
-        color: theme.content.primary,
-    },
-    helpText: {
-        fontSize: 14,
-        lineHeight: "20px",
-        paddingTop: 12,
-        color: theme.content.primary,
-        width: 380,
-    },
     domain: {
         gridArea: "domain",
-    },
-    domainAdornment: {
-        textTransform: "uppercase",
-        fontWeight: 500,
-        fontSize: 16,
-        lineHeight: "19px",
     },
     favicon: {
         gridArea: "favicon",
@@ -52,75 +47,60 @@ const useStyles = makeStyles((theme) => ({
     colors: {
         gridArea: "colors",
     },
+    stepper: {
+        gridArea: "stepper",
+    },
 }), { name: "SetupPage" });
 
 interface ISetupFormProps {
+    faviconOptions: IconSelectFieldOption[];
 }
 
 interface ISetupFormCallProps {
+    onSubmit: () => void;
 }
 
 type Props = ISetupFormProps & ISetupFormCallProps;
 
-const SetupForm: FunctionComponent<Props> = (props) => {
-    const {} = props;
+const SetupForm: FC<Props> = (props) => {
+    const { faviconOptions, onSubmit } = props;
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <div className={classes.siteName}>
-                <Typography className={classes.label}>
-                    {Translate.getString("Как назовём сайт?")}
-                </Typography>
+            <SetupSiteName
+                classes={{
+                    item: classes.siteName,
+                    field: classes.field,
+                }}
+            />
 
-                <TextFormField
-                    name={nameof<ISetupFormValues>((o) => o.siteName)}
-                    required
+            <SetupDomain
+                classes={{
+                    item: classes.domain,
+                    field: classes.field,
+                }}
+            />
 
-                    subscription={DefaultFieldSubscription}
-                    InputProps={{
-                        placeholder: Translate.getString("Вкусник доставка кофе и выпечки"),
-                    }}
-                    FormControlProps={{
-                        classes: {
-                            root: classes.field,
-                        },
-                    }}
-                />
+            <SetupFavicon
+                classes={{
+                    item: classes.favicon,
+                    field: classes.field,
+                }}
+                faviconOptions={faviconOptions}
+            />
 
-                <Typography className={classes.helpText}>
-                    {Translate.getString("Этот текст будет показываться на вкладке в браузере. Рекомендуем написать название и что-то про доставку :)")}
-                </Typography>
-            </div>
+            <SetupOpenGraph
+                classes={{
+                    item: classes.openGraph,
+                    field: classes.field,
+                }}
+            />
 
-            <div className={classes.domain}>
-                <Typography className={classes.label}>
-                    {Translate.getString("Домен")}
-                </Typography>
-
-                <TextFormField
-                    name={nameof<ISetupFormValues>((o) => o.domain)}
-                    required
-
-                    subscription={DefaultFieldSubscription}
-                    InputProps={{
-                        placeholder: "vkusnikdostavka",
-                    }}
-                    FormControlProps={{
-                        classes: {
-                            root: classes.field,
-                        },
-                    }}
-                    customEndAdornment={(
-                        <Typography className={classes.domainAdornment}>
-                            .bizarre.ru
-                        </Typography>
-                    )}
-                />
-
-                <Typography className={classes.helpText}>
-                    {Translate.getString("Это адрес в интернете, по которому будет жить ваш сайт.")}
-                </Typography>
+            <div className={classes.stepper}>
+                <Button onClick={onSubmit}>
+                    {Translate.getString("Дальше")}
+                </Button>
             </div>
         </div>
     );

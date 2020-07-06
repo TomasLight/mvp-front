@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { AppBar as MuiAppBar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -29,7 +29,7 @@ interface IAppBarProps {
 
 type Props = IAppBarProps;
 
-const AppBar: FunctionComponent<Props> = (props) => {
+const AppBar: FC<Props> = (props) => {
     const {
         open,
         className,

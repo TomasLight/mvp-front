@@ -2,12 +2,13 @@ import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { StyledComponentProps } from "@material-ui/core";
 import { State } from "@PosState";
 
 import { MenuActions } from "../redux";
-import { Food, IFoodCallProps, IFoodProps } from "./Food";
+import { Food, FoodClassKey, IFoodCallProps, IFoodProps } from "./Food";
 
-const mapStateToProps = (state: State): Partial<IFoodProps> => {
+const mapStateToProps = (state: State): IFoodProps => {
     return {
         dishes: state.menu.dishes.filter(dish => dish.tag === state.menu.selectedTagId),
         cart: state.menu.cart,
@@ -40,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch): IFoodCallProps => ({
     ),
 });
 
-const FoodContainer: ComponentType<Partial<IFoodProps>> = connect(
+const FoodContainer: ComponentType<StyledComponentProps<FoodClassKey>> = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Food);

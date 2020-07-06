@@ -1,1 +1,1 @@
-export * from "./SingleSelect";
+export * from "./Select";

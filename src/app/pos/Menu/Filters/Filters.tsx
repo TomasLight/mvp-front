@@ -1,13 +1,11 @@
 import { Translate } from "@utils/translates";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 
-import { withStyles } from "@material-ui/core";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { StyledComponentProps, withStyles } from "@material-ui/core";
 
 import { FilterButton } from "./FilterButton";
 
 interface IFiltersProps {
-    classes: Partial<ClassNameMap<FiltersClassKey>>;
     tagIds: number[];
     selectedTagId: number;
 }
@@ -16,7 +14,7 @@ interface IFiltersCallProps {
     onTagChange: (tagId: number) => void;
 }
 
-type Props = IFiltersProps & IFiltersCallProps;
+type Props = IFiltersProps & IFiltersCallProps & StyledComponentProps<FiltersClassKey>;
 
 const Filters: FC<Props> = (props) => {
     const { classes, tagIds, selectedTagId, onTagChange } = props;

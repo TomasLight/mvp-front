@@ -1,9 +1,13 @@
-import React, { FC, PropsWithChildren, useRef, useState, useEffect } from "react";
+import React, { FC, useRef, useState, useEffect } from "react";
 
-import { makeStyles } from "@material-ui/core";
+import { createStyles, withStyles, StyledComponentProps, } from "@material-ui/core";
 
-const useStyles = makeStyles({
-    customAdornment: {
+type EndAdornmentClassKey =
+    | "root"
+    ;
+
+const styles = createStyles({
+    root: {
         position: "absolute",
         right: 8,
         display: "block",
@@ -11,16 +15,15 @@ const useStyles = makeStyles({
         boxSizing: "border-box",
         zIndex: 1,
     },
-}, { name: "EndAdornment" });
+});
 
-type Props = PropsWithChildren<any>;
+type Props = StyledComponentProps<EndAdornmentClassKey>;
 
-const EndAdornment: FC<Props> = (props: Props) => {
+const EndAdornment: FC<Props> = (props) => {
     const {
+        classes,
         children,
     } = props;
-
-    const classes = useStyles();
 
     const ref = useRef<HTMLDivElement>(null);
     const [ height, setHeight ] = useState<number>(0);
@@ -36,7 +39,7 @@ const EndAdornment: FC<Props> = (props: Props) => {
     return (
         <div
             ref={ref}
-            className={classes.customAdornment}
+            className={classes.root}
             style={{
                 top: `calc(50% - ${(height / 2)}px)`,
             }}
@@ -46,4 +49,11 @@ const EndAdornment: FC<Props> = (props: Props) => {
     );
 };
 
-export { EndAdornment };
+const componentWithStyles = withStyles<EndAdornmentClassKey>(
+    styles,
+    { name: "EndAdornment" }
+)(EndAdornment);
+export {
+    componentWithStyles as EndAdornment,
+    EndAdornmentClassKey,
+};

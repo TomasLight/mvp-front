@@ -1,57 +1,64 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
-import { InputLabel, InputLabelProps, makeStyles, withStyles } from "@material-ui/core";
-
-const Label = withStyles({
-    shrink: {
-        position: "relative",
-        transform: "none",
-    },
-})(InputLabel);
+import {
+    InputLabel,
+    withStyles,
+    StyledComponentProps,
+} from "@material-ui/core";
+import { InputLabelClassKey } from "@material-ui/core/InputLabel/InputLabel";
 
 interface IFieldLabelProps {
-    label: string;
-    inputId: string;
+    label?: string;
+    htmlFor?: string;
     id?: string;
     disabled?: boolean;
-    InputLabelProps?: InputLabelProps;
 }
 
-type Props = IFieldLabelProps;
+type Props = IFieldLabelProps & StyledComponentProps<InputLabelClassKey>;
 
-const FieldLabel: FunctionComponent<Props> = (props) => {
-    const {
-        label,
-        inputId,
-        id,
-        disabled,
-        InputLabelProps: {
-            color,
-            className,
-            ...rest
-        } = {
-            color: "default",
-            className: "",
-        },
-    } = props;
+const FieldLabel: FC<Props> = (props) => {
+    const { label, ...rest } = props;
 
     if (!label) {
         return null;
     }
 
     return (
-        <Label
-            {...rest}
-            htmlFor={inputId}
-            id={id}
+        <InputLabel
             variant="standard"
             shrink
-            disabled={disabled}
-            className={className}
+            {...rest}
         >
             {label}
-        </Label>
+        </InputLabel>
     );
 };
 
-export { FieldLabel };
+const componentWithStyles = withStyles<InputLabelClassKey>((theme) => ({
+    shrink: {
+        position: "relative",
+        transform: "none",
+    },
+    filled: {},
+    disabled: {},
+    root: {
+        fontWeight: 500,
+        fontSize: 16,
+        lineHeight: "19px",
+        fontVariant: "small-caps",
+        color: "#061727",
+    },
+    animated: {},
+    asterisk: {},
+    error: {},
+    focused: {},
+    formControl: {},
+    marginDense: {},
+    outlined: {},
+    required: {},
+}), { name: "FieldLabel" })(FieldLabel);
+export {
+    componentWithStyles as FieldLabel,
+    IFieldLabelProps,
+    InputLabelClassKey as FieldLabelClassKey,
+};
