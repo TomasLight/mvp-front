@@ -62,6 +62,7 @@ const FieldBase: FC<Props> = (props) => {
         LabelProps,
         ErrorProps,
         LoadingIndicatorProps,
+        ...rest
     } = props;
 
     const _classes = useStyles();
@@ -70,7 +71,7 @@ const FieldBase: FC<Props> = (props) => {
     const labelId = getLabelTextId(htmlFor);
 
     return (
-        <div className={clsx(_classes.root, classes.root.root)}>
+        <div className={clsx(_classes.root, classes.root.root)} {...rest}>
             <FieldLabel
                 label={label}
                 classes={classes.label}

@@ -12,7 +12,7 @@ import { Guid, Translate } from "@utils";
 
 import { FieldBase, FieldBaseProps } from "./FieldBase";
 
-const DragAndDrop = withStyles((theme) => ({
+const DragAndDrop = withStyles<DragAndDropClassKey>((theme) => ({
     root: {
         boxSizing: "border-box",
         height: 48,
@@ -44,6 +44,11 @@ const DragAndDrop = withStyles((theme) => ({
             lineHeight: "19px",
             fontVariant: "small-caps",
         },
+    },
+    idle: {},
+    dragging: {
+        backgroundColor: "#F0FAF3",
+        borderColor: "#9EE2B8",
     },
 }))(DragAndDropAtom);
 
