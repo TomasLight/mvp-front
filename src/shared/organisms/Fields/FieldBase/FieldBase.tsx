@@ -15,6 +15,7 @@ import { RootClassKey, FieldBaseClasses } from "./FieldBaseClasses";
 import { IFieldBaseComponentProps } from "./IFieldBaseComponentProps";
 import { getHelperTextId } from "./getHelperTextId";
 import { getLabelTextId } from "./getLabelTextId";
+import { correctClasses } from "./correctClasses";
 
 const useStyles = makeStyles<RootClassKey>({
     root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles<RootClassKey>({
     },
 });
 
-export interface IFieldBaseProps extends IFieldBaseComponentProps {
+export interface IFieldBaseProps<ClassKey extends string = string> extends IFieldBaseComponentProps {
     label?: string;
     htmlFor?: string;
 
@@ -37,12 +38,12 @@ export interface IFieldBaseProps extends IFieldBaseComponentProps {
     disabled?: boolean;
     isLoading?: boolean;
 
-    classes?: FieldBaseClasses;
+    classes?: FieldBaseClasses<ClassKey>;
 
     customEndAdornment?: ReactNode;
 }
 
-type Props = IFieldBaseProps;
+type Props<ClassKey extends string = string> = IFieldBaseProps<ClassKey>;
 
 const FieldBase: FC<Props> = (props) => {
     const {
@@ -57,19 +58,14 @@ const FieldBase: FC<Props> = (props) => {
         required = false,
         isLoading = false,
 
-        classes = {
-            root: {},
-            label: {},
-            endAdornment: {},
-            error: {},
-            indicator: {},
-        },
+        classes,
         LabelProps,
         ErrorProps,
         LoadingIndicatorProps,
     } = props;
 
     const _classes = useStyles();
+    correctClasses(classes);
     const helperTextId = getHelperTextId(htmlFor);
     const labelId = getLabelTextId(htmlFor);
 
@@ -110,49 +106,6 @@ const FieldBase: FC<Props> = (props) => {
             />
         </div>
     );
-
-    // return (
-    //     <FormControl
-    //         {...ControlProps}
-    //         classes={classes.root}
-    //         disabled={disabled}
-    //         error={error}
-    //         required={required}
-    //         variant="outlined"
-    //     >
-    //         <FieldLabel
-    //             label={label}
-    //             InputLabelProps={LabelProps}
-    //             classes={classes.label}
-    //             htmlFor={htmlFor}
-    //             id={labelId}
-    //             disabled={disabled}
-    //         />
-    //
-    //         {children}
-    //
-    //         {Boolean(customEndAdornment) && (
-    //             <EndAdornment classes={classes.endAdornment}>
-    //                 {customEndAdornment}
-    //             </EndAdornment>
-    //         )}
-    //
-    //         <FieldError
-    //             id={helperTextId}
-    //             error={error}
-    //             text={helperText}
-    //             {...ErrorProps}
-    //             classes={classes.error}
-    //         />
-    //
-    //         <FieldLoadingIndicator
-    //             isLoading={isLoading}
-    //             right={17}
-    //             {...LoadingIndicatorProps}
-    //             classes={classes.indicator}
-    //         />
-    //     </FormControl>
-    // );
 };
 
 export { FieldBase, Props as FieldBaseProps };

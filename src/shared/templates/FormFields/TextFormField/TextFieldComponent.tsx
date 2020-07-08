@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent, useState } from "react";
 import {FieldRenderProps } from "react-final-form";
 
-import { TextField, TextFieldProps } from "@shared/organisms/Fields/TextField";
+import { TextField, TextFieldProps } from "@shared/organisms/Fields";
 import { IFieldComponentCallProps } from "../IFieldComponentCallProps";
 import { FormFieldManager } from "../managers";
 

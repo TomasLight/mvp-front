@@ -4,10 +4,11 @@ import {
     InputBaseComponentProps,
     FilledInput,
     FilledInputProps,
+    FilledInputClassKey,
     withStyles,
 } from "@material-ui/core";
 
-import { Guid } from "@utils";
+import { Classes, Guid } from "@utils";
 import { FieldBase, FieldBaseProps, getHelperTextId } from "./FieldBase";
 
 const Input = withStyles((theme) => ({
@@ -19,7 +20,7 @@ const Input = withStyles((theme) => ({
     },
 }))(FilledInput);
 
-export interface ITextFieldProps extends FieldBaseProps {
+interface ITextFieldProps extends FieldBaseProps<FilledInputClassKey> {
     id?: string;
     name?: string;
     value?: any;
@@ -62,9 +63,10 @@ const TextField: FC<Props> = (props) => {
                 {...InputProps}
                 onChange={onChange}
                 disableUnderline
+                classes={rest.classes.input}
             />
         </FieldBase>
     );
 };
 
-export { TextField, Props as TextFieldProps };
+export { TextField, ITextFieldProps, Props as TextFieldProps };
