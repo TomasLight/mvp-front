@@ -37,7 +37,7 @@ const commonWebpackConfig = merge(
             // increase build performance
             new ForkTsCheckerWebpackPlugin(),
             new DefinePlugin({
-                'process.env': JSON.stringify(dotenv.config({path: paths.env}).parsed)
+                'process.env': JSON.stringify(dotenv.config({path: paths.env}).parsed),
             }),
         ],
     },

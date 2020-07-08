@@ -1,4 +1,3 @@
-import { AdvancedConfig } from "@utils/api/AdvancedConfig";
 import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";
 import { ApiResponse } from "./ApiResponse";
 import { ErrorBuilder } from "./ErrorBuilder";
@@ -14,29 +13,11 @@ export abstract class ApiBase {
         throw new Error (`Not implemented ${nameof(ApiBase.mockApi)}`);
     }
 
-    private static url(url) {
+    private static url(url: string) {
+        if (url.startsWith("http")) {
+            return url;
+        }
         return `${process.env.API_BASE_URL}/${url}`;
-    }
-
-    protected static async advancedRequest<TResponseData = any>(
-        config: AdvancedConfig
-    ): Promise<ApiResponse<TResponseData>> {
-        if (this.useMockApi()) {
-            return this.createMockResponse<TResponseData>(config.url, config.method);
-        }
-
-        const builder = new RequestInitBuilder(config.method);
-        if (config.dto) {
-            builder.appendJson(config.dto);
-        }
-
-        let url = config.url;
-        if (!config.isAbsoluteUrl) {
-            url = this.url(config.url);
-        }
-
-        const response: Response = await fetch(url, builder.build());
-        return this.createResponse<TResponseData>(response);
     }
 
     protected static async get<TResponseData = any>(url: string): Promise<ApiResponse<TResponseData>> {
@@ -114,7 +95,7 @@ export abstract class ApiBase {
     private static async createMockResponse<TResponseData>(url, method, data?): Promise<ApiResponse<TResponseData>> {
         const apiResponse = new ApiResponse<TResponseData>();
         apiResponse.statusCode = ApiResponseStatus.Ok;
-        apiResponse.data = this.mockApi<TResponseData>(url, "GET");
+        apiResponse.data = this.mockApi<TResponseData>(url, method, data);
 
         return apiResponse;
     }

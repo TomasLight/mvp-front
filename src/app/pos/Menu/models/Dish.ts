@@ -1,46 +1,44 @@
-import { SizeType } from "@enums";
-
 interface IDish {
-    id: number;
+    id: string;
     title: string;
+    description: string;
     image: string;
-    cost: number;
-    tag: number;
-
-    sizes: number[];
-    sizeType: SizeType;
+    price: number;
+    productIds: string[];
+    workspaceId: string;
+    created: string;
 }
 
 export class Dish implements IDish {
-    public id: number;
+    public id: string;
     public title: string;
+    public description: string;
     public image: string;
-    public cost: number;
-    public tag: number;
-
-    public sizes: number[];
-    public sizeType: SizeType;
+    public price: number;
+    public productIds: string[];
+    public workspaceId: string;
+    public created: string;
 
     constructor(dish: IDish = null) {
         if (!dish) {
-            this.id = null;
+            this.id = "";
             this.title = "";
+            this.description = "";
             this.image = "";
-            this.cost = null;
-            this.tag = null;
-
-            this.sizes = [];
-            this.sizeType = SizeType.NA;
+            this.price = null;
+            this.productIds = [];
+            this.workspaceId = "";
+            this.created = "";
         }
         else {
             this.id = dish.id;
             this.title = dish.title;
+            this.description = dish.description;
             this.image = dish.image;
-            this.cost = dish.cost;
-            this.tag = dish.tag;
-
-            this.sizes = dish.sizes;
-            this.sizeType = dish.sizeType;
+            this.price = dish.price;
+            this.productIds = dish.productIds;
+            this.workspaceId = dish.workspaceId;
+            this.created = dish.created;
         }
     }
 }

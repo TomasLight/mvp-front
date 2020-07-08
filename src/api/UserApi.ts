@@ -10,11 +10,7 @@ export class UserApi extends ApiBase {
     }
 
     public static async getAuthorizedUser(): Promise<ApiResponse<AuthorizedUser>> {
-        const response = await this.advancedRequest<IAuthorizedUserDto>({
-            url: process.env.CHECK_USER_AUTHORIZATION_URL,
-            isAbsoluteUrl: true,
-            method: "GET",
-        });
+        const response = await this.get<IAuthorizedUserDto>(process.env.CHECK_USER_AUTHORIZATION_URL);
         if (response.data) {
             response.data = Mapper.map<AuthorizedUser>(
                 nameof<IAuthorizedUserDto>(),

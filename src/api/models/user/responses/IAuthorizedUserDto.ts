@@ -1,8 +1,8 @@
 export interface IAuthorizedUserDto {
-    id: string;
-    email: string;
-    role: string;
-    firstName: string;
-    lastName: string;
-    patronymic: string;
+    readonly id: string;
+    readonly email: string;
+    readonly role: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly patronymic: string;
 }

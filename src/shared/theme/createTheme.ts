@@ -27,10 +27,11 @@ declare module "@material-ui/core/styles/createMuiTheme" {
     }
 }
 
-function createTheme() {
+function createTheme(primaryColor: string = "#ED6E33") {
     return createMuiTheme({
         palette: {
             primary: {
+                // main: primaryColor,
                 main: "#ED6E33",
                 contrastText: "#FFF",
             },

@@ -7,7 +7,7 @@ export class Cart {
         this.items = [];
     }
 
-    public add(id: number, size: number) {
+    public add(id: string, size: number) {
         const exist = this.get(id, size);
         if (!exist) {
             this.items.push(
@@ -20,7 +20,7 @@ export class Cart {
         }
     }
 
-    public remove(id: number, size: number) {
+    public remove(id: string, size: number) {
         this.items = this.items.filter((existedItem) =>
             existedItem.id !== id &&
             existedItem.size !== size
@@ -47,11 +47,11 @@ export class Cart {
         }
     }
 
-    public getById(id: number): CartItem[] {
+    public getById(id: string): CartItem[] {
         return this.items.filter((item) => item.id === id);
     }
 
-    public getAmounts(id: number): Map<number, number> {
+    public getAmounts(id: string): Map<number, number> {
         const map = new Map<number, number>();
         this.items
             .filter((cartItem) => cartItem.id === id)
@@ -62,7 +62,7 @@ export class Cart {
         return map;
     }
 
-    public get(id: number, size: number): CartItem {
+    public get(id: string, size: number): CartItem {
         return this.items.find((item) =>
             item.id === id &&
             item.size === size

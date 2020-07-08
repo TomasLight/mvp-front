@@ -12,14 +12,16 @@ import {
 } from "./Filters";
 
 const mapStateToProps = (state: State): IFiltersProps => ({
-    tagIds: state.menu.tagIds,
-    selectedTagId: state.menu.selectedTagId,
+    categories: state.menu.categories,
+    selectedCategory: state.menu.selectedCategory,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IFiltersCallProps => ({
-    onTagChange: (tagId: number) => dispatch(MenuActions.changeSelectedTag({
-        tagId,
-    })),
+    onCategoryChange: (categoryId: string) => dispatch(
+        MenuActions.changeSelectedCategory({
+            categoryId,
+        })
+    ),
 });
 
 const FiltersContainer: ComponentType<StyledComponentProps<FiltersClassKey>> = connect(

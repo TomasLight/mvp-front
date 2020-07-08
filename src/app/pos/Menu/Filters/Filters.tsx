@@ -1,4 +1,4 @@
-import { Translate } from "@utils/translates";
+import { Category } from "@pos/Menu/models";
 import React, { FC } from "react";
 
 import { StyledComponentProps, withStyles } from "@material-ui/core";
@@ -6,32 +6,32 @@ import { StyledComponentProps, withStyles } from "@material-ui/core";
 import { FilterButton } from "./FilterButton";
 
 interface IFiltersProps {
-    tagIds: number[];
-    selectedTagId: number;
+    categories: Category[];
+    selectedCategory: Category;
 }
 
 interface IFiltersCallProps {
-    onTagChange: (tagId: number) => void;
+    onCategoryChange: (categoryId: string) => void;
 }
 
 type Props = IFiltersProps & IFiltersCallProps & StyledComponentProps<FiltersClassKey>;
 
 const Filters: FC<Props> = (props) => {
-    const { classes, tagIds, selectedTagId, onTagChange } = props;
+    const { classes, categories, selectedCategory, onCategoryChange } = props;
 
     const handleClick = (tagId) => () => {
-        onTagChange(tagId);
+        onCategoryChange(tagId);
     };
 
     return (
         <div className={classes.root}>
-            {tagIds.map((id: number) => (
+            {categories.map((category: Category) => (
                 <FilterButton
-                    key={`tag-${id}`}
-                    isActive={id === selectedTagId}
-                    onClick={handleClick(id)}
+                    key={`category-${category.id}`}
+                    isActive={category.id === selectedCategory.id}
+                    onClick={handleClick(category.id)}
                 >
-                    {Translate.getString("tag", { id })}
+                    {category.name}
                 </FilterButton>
             ))}
         </div>

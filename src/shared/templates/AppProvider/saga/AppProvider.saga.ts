@@ -1,7 +1,8 @@
+import { PosActions } from "@pos/redux";
 import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
-import { UserApi } from "@api/UserApi";
+import { UserApi } from "@api";
 import { AuthorizedUser } from "@models";
 import { AppProviderSelectors } from "@selectors";
 import { ApiResponse } from "@utils";
@@ -30,6 +31,7 @@ export class AppProviderSaga extends SagaBase {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
+            put(PosActions.loadPage()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({

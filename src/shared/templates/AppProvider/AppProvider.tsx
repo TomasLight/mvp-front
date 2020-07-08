@@ -13,6 +13,7 @@ import { AppSnackbarProvider } from "./AppSnackbarProvider";
 
 export interface IAppProviderProps {
     appIsInitialized: boolean;
+    themeSettings?: any;
 }
 
 export interface IAppProviderCallProps {
@@ -27,13 +28,14 @@ const AppProvider: FC<Props> = (props) => {
         children,
 
         initialize,
+        themeSettings,
     } = props;
 
     useEffect(() => {
         initialize();
     }, []);
 
-    const theme = useMemo(() => createTheme(), []);
+    const theme = useMemo(() => createTheme(themeSettings), [ themeSettings ]);
 
     if (!appIsInitialized) {
         return (

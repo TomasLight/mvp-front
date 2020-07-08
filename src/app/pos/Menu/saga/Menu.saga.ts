@@ -1,3 +1,4 @@
+import { MenuSelectors, PosSelectors } from "@selectors";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
@@ -5,13 +6,13 @@ import { MenuApi } from "@api";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { SagaBase } from "@utils/saga/SagaBase";
 
-import { Cart, Dish, DishDetails } from "../models";
+import { Cart, Category, Dish, Menu } from "../models";
 import {
     MenuActions,
     MenuStoreSelector,
     MenuStore,
     IAddDishToCartData,
-    IChangeSelectedTagData,
+    IChangeSelectedCategoryData,
     IDecreaseDishAmountInCartData,
     IIncreaseDishAmountInCartData,
     IOpenDishModalData
@@ -22,24 +23,51 @@ export class MenuSaga extends SagaBase {
         yield put(MenuActions.updateStore(partialStore));
     }
 
-    public static* loadTags(action: AppAction) {
+    public static* loadMenu(action: AppAction) {
+        // now we no need menu information
+
+        // yield MenuSaga.updateStore({
+        //     menuIsLoading: true,
+        // });
+        //
+        // const menuId = yield PosSelectors.getMenuId();
+        // const response: ApiResponse<Menu> = yield MenuApi.getMenu(menuId);
+        // if (response.hasError()) {
+        //     yield MenuSaga.updateStore({
+        //         menuIsLoading: false,
+        //     });
+        //     yield SagaBase.displayClientError(response);
+        //     return;
+        // }
+        //
+        // yield MenuSaga.updateStore({
+        //     menuIsLoading: false,
+        //     menu: response.data,
+        // });
+
+        yield put(MenuActions.loadCategories());
+        yield put(MenuActions.loadDishes());
+    }
+
+    public static* loadCategories(action: AppAction) {
         yield MenuSaga.updateStore({
-            tagIdsAreLoading: true,
+            categoriesAreLoading: true,
         });
 
-        const response: ApiResponse<number[]> = yield MenuApi.getDishTagIds();
+        const menuId = yield PosSelectors.getMenuId();
+        const response: ApiResponse<Category[]> = yield MenuApi.getCategories(menuId);
         if (response.hasError()) {
             yield MenuSaga.updateStore({
-                tagIdsAreLoading: false,
+                categoriesAreLoading: false,
             });
             yield SagaBase.displayClientError(response);
             return;
         }
 
         yield MenuSaga.updateStore({
-            tagIdsAreLoading: false,
-            tagIds: response.data,
-            selectedTagId: response.data.length ? response.data[0] : null,
+            categoriesAreLoading: false,
+            categories: response.data,
+            selectedCategory: response.data.length ? response.data[0] : null,
         });
     }
 
@@ -71,7 +99,7 @@ export class MenuSaga extends SagaBase {
 
         yield MenuSaga.preloadDish(dishId);
 
-        const response: ApiResponse<DishDetails> = yield MenuApi.getDish(dishId);
+        const response: ApiResponse<Dish> = yield MenuApi.getMenuItem(dishId);
         if (response.hasError()) {
             yield MenuSaga.updateStore({
                 openedDishIsLoading: false,
@@ -88,8 +116,8 @@ export class MenuSaga extends SagaBase {
         yield MenuSaga.updateDishInStore(response.data);
     }
 
-    private static* preloadDish(dishId: number) {
-        const dish: DishDetails = yield MenuStoreSelector.getDishById(dishId);
+    private static* preloadDish(dishId: string) {
+        const dish: Dish = yield MenuStoreSelector.getDishById(dishId);
         if (dish) {
             yield MenuSaga.updateStore({
                 openedDish: dish,
@@ -153,11 +181,13 @@ export class MenuSaga extends SagaBase {
         });
     }
 
-    public static* changeSelectedTag(action: AppAction<IChangeSelectedTagData>) {
-        const { tagId } = action.payload;
+    public static* changeSelectedCategory(action: AppAction<IChangeSelectedCategoryData>) {
+        const { categoryId } = action.payload;
 
+        const categories: Category[] = yield MenuSelectors.getCategories();
+        const selectedCategory = categories.find(category => category.id === categoryId);
         yield MenuSaga.updateStore({
-            selectedTagId: tagId,
+            selectedCategory,
         });
     }
 }
