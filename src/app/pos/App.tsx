@@ -1,19 +1,30 @@
 import { ConnectedRouter } from "connected-react-router";
-import React, { FunctionComponent } from "react";
+import { History } from "history";
+import React, { FC, useMemo } from "react";
 import { Provider } from "react-redux";
 
 import { configureApp } from "@config";
 import { configureMapper, PosReducerConfig, RootSaga } from "@pos/config";
 import { AppProviderContainer } from "./AppProvider.container";
-import { PageComponentRouter } from "./routing/PageComponentRouter";
+import { PageComponentRouter } from "./routing";
 
-export const { store, history } = configureApp(
-    new PosReducerConfig(),
-    new RootSaga(),
-    configureMapper
-);
+configureMapper();
 
-const App: FunctionComponent = () => {
+interface IAppProps {
+    history: History;
+}
+
+type Props = IAppProps;
+
+const App: FC<Props> = (props) => {
+    const { history } = props;
+
+    const store = useMemo(() => configureApp(
+        history,
+        new PosReducerConfig(),
+        new RootSaga()
+    ), []);
+
     return (
         <Provider store={store}>
             <ConnectedRouter history={history}>

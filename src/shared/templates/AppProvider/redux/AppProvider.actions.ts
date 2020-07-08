@@ -1,4 +1,4 @@
-import { createAction } from "app-redux-utils";
+import { createAction, createActionWithCallback } from "app-redux-utils";
 
 import { AppProviderStore } from "./AppProvider.store";
 
@@ -13,6 +13,8 @@ export class AppProviderActions {
     public static readonly INITIALIZE_POS_APP = AppProviderActions.PREFIX + "INITIALIZE_POS_APP";
     public static readonly INITIALIZE_WORKSPACE_APP = AppProviderActions.PREFIX + "INITIALIZE_WORKSPACE_APP";
 
+    public static readonly GET_AUTHORIZED_USER = AppProviderActions.PREFIX + "GET_AUTHORIZED_USER";
+
     public static updateStore = (partialStore: Partial<AppProviderStore>) =>
         createAction(AppProviderActions.UPDATE_STORE, partialStore);
 
@@ -21,4 +23,6 @@ export class AppProviderActions {
     public static initializedMainApp = () => createAction(AppProviderActions.INITIALIZE_MAIN_APP);
     public static initializedPosApp = () => createAction(AppProviderActions.INITIALIZE_POS_APP);
     public static initializedWorkspaceApp = () => createAction(AppProviderActions.INITIALIZE_WORKSPACE_APP);
+
+    public static getAuthorizedUser = () => createActionWithCallback(AppProviderActions.GET_AUTHORIZED_USER);
 }

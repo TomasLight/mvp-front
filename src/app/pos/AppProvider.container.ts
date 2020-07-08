@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { CommonState } from "@config";
+import { State } from "@PosState";
 import {
     AppProvider,
     IAppProviderCallProps,
@@ -10,9 +11,10 @@ import {
     AppProviderActions,
 } from "@shared/templates/AppProvider";
 
-const mapStateToProps = (state: CommonState): IAppProviderProps => {
+const mapStateToProps = (state: CommonState & State): IAppProviderProps => {
     return {
         appIsInitialized: state.appProvider.initialized,
+        themeSettings: state.pos.page.blocks.site.styleColor,
     };
 };
 

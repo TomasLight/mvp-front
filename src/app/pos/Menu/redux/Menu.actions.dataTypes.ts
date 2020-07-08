@@ -1,22 +1,22 @@
 export interface IOpenDishModalData {
-    dishId: number;
+    dishId: string;
 }
 
 export interface IAddDishToCartData {
-    dishId: number;
+    dishId: string;
     size: number;
 }
 
 export interface IIncreaseDishAmountInCartData {
-    dishId: number;
+    dishId: string;
     size: number;
 }
 
 export interface IDecreaseDishAmountInCartData {
-    dishId: number;
+    dishId: string;
     size: number;
 }
 
-export interface IChangeSelectedTagData {
-    tagId: number;
+export interface IChangeSelectedCategoryData {
+    categoryId: string;
 }

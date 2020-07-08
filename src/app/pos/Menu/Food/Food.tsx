@@ -1,13 +1,11 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
-import { withStyles } from "@material-ui/core";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { StyledComponentProps, withStyles } from "@material-ui/core";
 
 import { Cart, Dish } from "../models";
 import { FoodItem, IFoodItemCallProps } from "./FoodItem";
 
 interface IFoodProps {
-    classes: Partial<ClassNameMap<FoodClassKey>>;
     dishes: Dish[];
     cart: Cart;
 }
@@ -15,9 +13,9 @@ interface IFoodProps {
 interface IFoodCallProps extends IFoodItemCallProps {
 }
 
-type Props = IFoodProps & IFoodCallProps;
+type Props = IFoodProps & IFoodCallProps & StyledComponentProps<FoodClassKey>;
 
-const Food: FunctionComponent<Props> = (props) => {
+const Food: FC<Props> = (props) => {
     const {
         classes,
         dishes,

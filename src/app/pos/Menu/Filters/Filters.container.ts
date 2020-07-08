@@ -2,27 +2,30 @@ import { ComponentType } from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 
+import { StyledComponentProps } from "@material-ui/core";
 import { State } from "@PosState";
 import { MenuActions } from "../redux";
 import {
     Filters,
     IFiltersProps,
-    IFiltersCallProps,
+    IFiltersCallProps, FiltersClassKey,
 } from "./Filters";
 
-const mapStateToProps = (state: State): Partial<IFiltersProps> => ({
-    tagIds: state.menu.tagIds,
-    selectedTagId: state.menu.selectedTagId,
+const mapStateToProps = (state: State): IFiltersProps => ({
+    categories: state.menu.categories,
+    selectedCategory: state.menu.selectedCategory,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IFiltersCallProps => ({
-    onTagChange: (tagId: number) => dispatch(MenuActions.changeSelectedTag({
-        tagId,
-    })),
+    onCategoryChange: (categoryId: string) => dispatch(
+        MenuActions.changeSelectedCategory({
+            categoryId,
+        })
+    ),
 });
 
-const FiltersContainer: ComponentType<Partial<IFiltersProps>> = connect(
+const FiltersContainer: ComponentType<StyledComponentProps<FiltersClassKey>> = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(Filters);
 export { FiltersContainer };

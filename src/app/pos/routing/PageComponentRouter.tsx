@@ -1,25 +1,25 @@
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import { Layout } from "@pos/Layout/Layout";
+import { LayoutContainer } from "@pos/Layout";
 import { NotifierContainer } from "@shared/templates/Notifier";
 import { MenuPageContainer } from "@pos/Menu";
 
-import { appUrls } from "./appUrls";
+import { posUrls } from "./posUrls";
 
-const PageComponentRouter: FunctionComponent = () => {
+const PageComponentRouter: FC = () => {
     return (
-        <Layout>
+        <LayoutContainer>
             <Switch>
                 <Route
-                    // exact
-                    path={appUrls.menu}
+                    exact
+                    path={posUrls.menu}
                     component={MenuPageContainer}
                 />
             </Switch>
 
             <NotifierContainer/>
-        </Layout>
+        </LayoutContainer>
     );
 };
 

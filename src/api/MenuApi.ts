@@ -1,5 +1,6 @@
-import { IDishDto, IDishDetailsDto } from "@api/models/menu/responses";
-import { Dish, DishDetails } from "@pos/Menu/models";
+import { IMenuItemDto, IMenuDto, ICategoryDto } from "@api/models/menu/responses";
+import { Category, Dish, Menu } from "@pos/Menu/models";
+import { urlWithIds } from "@utils";
 import { ApiBase } from "@utils/api/ApiBase";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { Mapper } from "@utils/mapping/Mapper";
@@ -11,16 +12,39 @@ export class MenuApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    public static async getDishTagIds(): Promise<ApiResponse<number[]>> {
-        const response = await this.get<number[]>("menu/tag");
-        return response as ApiResponse<number[]>;
+    public static async getMenu(menuId: string): Promise<ApiResponse<Menu>> {
+        const url = urlWithIds(process.env.API_GET_MENU, { menuId });
+
+        const response: ApiResponse = await this.get<IMenuDto>(url);
+        if (response.data) {
+            response.data = Mapper.map<Menu>(
+                nameof<IMenuDto>(),
+                nameof<Menu>(),
+                response.data
+            );
+        }
+        return response as ApiResponse<Menu>;
+    }
+
+    public static async getCategories(menuId: string): Promise<ApiResponse<Category[]>> {
+        const url = urlWithIds(process.env.API_GET_MENU_CATEGORIES, { menuId });
+
+        const response: ApiResponse = await this.post<ICategoryDto[]>(url, { menuId });
+        if (response.data) {
+            response.data = response.data.map((dto: ICategoryDto) => Mapper.map<Dish>(
+                nameof<ICategoryDto>(),
+                nameof<Category>(),
+                dto
+            ));
+        }
+        return response as ApiResponse<Category[]>;
     }
 
     public static async getDishes(): Promise<ApiResponse<Dish[]>> {
-        const response = await this.get<IDishDto[]>("menu/dish");
+        const response: ApiResponse = await this.get<IMenuItemDto[]>(process.env.API_GET_MENU_ITEMS);
         if (response.data) {
-            response.data = response.data.map((dto: IDishDto) => Mapper.map<Dish>(
-                nameof<IDishDto>(),
+            response.data = response.data.map((dto: IMenuItemDto) => Mapper.map<Dish>(
+                nameof<IMenuItemDto>(),
                 nameof<Dish>(),
                 dto
             ));
@@ -28,15 +52,17 @@ export class MenuApi extends ApiBase {
         return response as ApiResponse<Dish[]>;
     }
 
-    public static async getDish(dishId: number): Promise<ApiResponse<DishDetails>> {
-        const response = await this.get<IDishDetailsDto>(`menu/dish/${dishId}`);
+    public static async getMenuItem(menuItemId: string): Promise<ApiResponse<Dish>> {
+        const url = urlWithIds(process.env.API_GET_MENU_ITEM, { menuItemId });
+
+        const response: ApiResponse = await this.get<IMenuItemDto>(url);
         if (response.data) {
-            response.data = Mapper.map<DishDetails>(
-                nameof<IDishDetailsDto>(),
-                nameof<DishDetails>(),
+            response.data = Mapper.map<Dish>(
+                nameof<IMenuItemDto>(),
+                nameof<Dish>(),
                 response.data
             );
         }
-        return response as ApiResponse<DishDetails>;
+        return response as ApiResponse<Dish>;
     }
 }

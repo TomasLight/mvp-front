@@ -1,5 +1,5 @@
 import React, {
-    FunctionComponent,
+    FC,
     PropsWithChildren,
     useEffect, useMemo,
 } from "react";
@@ -13,6 +13,7 @@ import { AppSnackbarProvider } from "./AppSnackbarProvider";
 
 export interface IAppProviderProps {
     appIsInitialized: boolean;
+    themeSettings?: any;
 }
 
 export interface IAppProviderCallProps {
@@ -21,19 +22,20 @@ export interface IAppProviderCallProps {
 
 type Props = PropsWithChildren<IAppProviderProps & IAppProviderCallProps>;
 
-const AppProvider: FunctionComponent<Props> = (props: Props) => {
+const AppProvider: FC<Props> = (props) => {
     const {
         appIsInitialized,
         children,
 
         initialize,
+        themeSettings,
     } = props;
 
     useEffect(() => {
         initialize();
     }, []);
 
-    const theme = useMemo(() => createTheme(), []);
+    const theme = useMemo(() => createTheme(themeSettings), [ themeSettings ]);
 
     if (!appIsInitialized) {
         return (

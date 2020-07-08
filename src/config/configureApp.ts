@@ -1,5 +1,5 @@
 import { routerMiddleware } from "connected-react-router";
-import { createBrowserHistory, History } from "history";
+import { History } from "history";
 import { applyMiddleware, compose, createStore, Store } from "redux";
 import createSagaMiddleware, { SagaMiddleware } from "redux-saga";
 
@@ -7,14 +7,10 @@ import { ReducerConfig } from "@config";
 import { RootSagaBase } from "@utils/saga";
 
 export function configureApp(
+    history: History,
     reducerConfig: ReducerConfig,
-    rootSaga: RootSagaBase,
-    configureMapper?: () => void
-): {
-    store: Store,
-    history: History
-} {
-    const history: History = createBrowserHistory();
+    rootSaga: RootSagaBase
+): Store {
 
     const composeEnhancer = window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] || compose;
     const sagaMiddleware: SagaMiddleware = createSagaMiddleware();
@@ -29,9 +25,5 @@ export function configureApp(
 
     rootSaga.run(sagaMiddleware);
 
-    if (typeof configureMapper === "function") {
-        configureMapper();
-    }
-
-    return { store, history };
+    return store;
 }

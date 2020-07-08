@@ -6,10 +6,7 @@ import { MenuActions} from "./redux";
 import { MenuPage, IMenuPageCallProps } from "./MenuPage";
 
 const mapDispatchToProps = (dispatch: Dispatch): IMenuPageCallProps => ({
-    loadData: () => {
-        dispatch(MenuActions.loadTags());
-        dispatch(MenuActions.loadDishes());
-    },
+    loadData: () => dispatch(MenuActions.loadMenu()),
 });
 
 const MenuPageContainer: ComponentType = connect(

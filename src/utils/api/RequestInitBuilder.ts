@@ -1,8 +1,10 @@
+import { ApiMethod } from "@utils/api/ApiMethod";
+
 export class RequestInitBuilder {
     private readonly options: RequestInit;
     private readonly headers: Headers;
 
-    constructor(method: "GET" | "POST" | "PUT" | "DELETE") {
+    constructor(method: ApiMethod) {
         this.options = {
             method,
         };

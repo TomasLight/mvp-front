@@ -1,38 +1,33 @@
-import { IDishDetailsDto, IDishDto } from "@api/models/menu/responses";
+import { IMenuItemDto } from "@api/models/menu/responses";
+import { ApiMethod } from "@utils";
+import { UrlRegExp } from "@utils/api/UrlRegExp";
 
-import { dishes } from "./dishes";
-import { tags } from "./Tag";
+import { categories } from "./categories";
+import { menuItems } from "./menuItems";
+import { menu } from "./menu";
 
-const urlsRegexp = {
-    dish: new RegExp(/menu\/dish\/\d$/),
-};
-
-function mockApi(url, method, data) {
-    switch (url) {
-        case "menu/tag":
-            return getDishTagIds();
-
-        case "menu/dish":
-            return getDishes();
+function mockApi(url: string, method: ApiMethod, data) {
+    if (UrlRegExp.build(process.env.API_GET_MENU_CATEGORIES).test(url) && method === "POST") {
+        return categories;
     }
 
-    if (urlsRegexp.dish.test(url)) {
-        return getDish(data);
+    if (UrlRegExp.build(process.env.API_GET_MENU).test(url)) {
+        return menu;
     }
 
-    throw new Error(`Invalid ${nameof(url)} for ${nameof(mockApi)}`);
+    if (UrlRegExp.build(process.env.API_GET_MENU_ITEM).test(url)) {
+        return getMenuItem(data);
+    }
+
+    if (UrlRegExp.build(process.env.API_GET_MENU_ITEMS).test(url)) {
+        return menuItems;
+    }
+
+    throw new Error(`Invalid (${url}) with ${method} method for MENU ${nameof(mockApi)}`);
 }
 
-function getDishTagIds(): number[] {
-    return tags;
-}
-
-function getDishes(): IDishDto[] {
-    return dishes;
-}
-
-function getDish(dishId: number): IDishDetailsDto {
-    return dishes.find((dish) => dish.id === dishId);
+function getMenuItem(menuItemId: string): IMenuItemDto {
+    return menuItems.find((menuItem) => menuItem.id === menuItemId);
 }
 
 export { mockApi };

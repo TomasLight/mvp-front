@@ -1,10 +1,8 @@
 import React, { FC } from "react";
 
-import { Button, ButtonClassKey, withStyles } from "@material-ui/core";
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
+import { Button, ButtonClassKey, StyledComponentProps, withStyles } from "@material-ui/core";
 
 interface IFilterButtonProps {
-    classes: Partial<ClassNameMap<ButtonClassKey>>;
     isActive: boolean;
 }
 
@@ -12,7 +10,7 @@ interface IFilterButtonCallProps {
     onClick: () => void;
 }
 
-type Props = IFilterButtonProps & IFilterButtonCallProps;
+type Props = IFilterButtonProps & IFilterButtonCallProps & StyledComponentProps<ButtonClassKey>;
 
 const FilterButton: FC<Props> = (props) => {
     const { classes, isActive, onClick, children } = props;

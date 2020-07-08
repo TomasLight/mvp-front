@@ -1,11 +1,11 @@
 export class CartItem {
-    id: number;
+    id: string;
     size: number;
     amount?: number;
 
     constructor(cartItem: CartItem = null) {
         if (!cartItem) {
-            this.id = null;
+            this.id = "";
             this.size = null;
             this.amount = null;
         }

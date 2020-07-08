@@ -14,12 +14,12 @@ export class MenuStoreSelector {
         return store.dishes;
     }
 
-    public static* filterDishes(dishId: number) {
+    public static* filterDishes(dishId: string) {
         const dishes: Dish[] = yield MenuStoreSelector.dishes();
         return dishes.filter((dish: Dish) => dish.id !== dishId);
     }
 
-    public static* getDishById(dishId: number) {
+    public static* getDishById(dishId: string) {
         const store: MenuStore = yield MenuStoreSelector.getStore();
         return store.dishes.find((issue: Dish) => issue.id === dishId);
     }

@@ -13,7 +13,10 @@ export abstract class ApiBase {
         throw new Error (`Not implemented ${nameof(ApiBase.mockApi)}`);
     }
 
-    private static url(url) {
+    private static url(url: string) {
+        if (url.startsWith("http")) {
+            return url;
+        }
         return `${process.env.API_BASE_URL}/${url}`;
     }
 
@@ -92,7 +95,7 @@ export abstract class ApiBase {
     private static async createMockResponse<TResponseData>(url, method, data?): Promise<ApiResponse<TResponseData>> {
         const apiResponse = new ApiResponse<TResponseData>();
         apiResponse.statusCode = ApiResponseStatus.Ok;
-        apiResponse.data = this.mockApi<TResponseData>(url, "GET");
+        apiResponse.data = this.mockApi<TResponseData>(url, method, data);
 
         return apiResponse;
     }

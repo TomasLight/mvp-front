@@ -1,5 +1,5 @@
-import { IDishDto, IDishDetailsDto } from "@api/models/menu/responses";
-import { Dish, DishDetails } from "@pos/Menu/models";
+import { ICategoryDto, IMenuDto, IMenuItemDto } from "@api/models/menu/responses";
+import { Category, Dish, Menu } from "@pos/Menu/models";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
 import { MapFunction } from "@utils/mapping/MapFunction";
@@ -9,25 +9,39 @@ export class MenuMappingProfile extends MappingProfileBase implements IMappingPr
     public get(): IMapFunction[] {
         return [
             new MapFunction(
-                nameof<IDishDto>(),
-                nameof<Dish>(),
-                MenuMappingProfile.mapIDishDtoToDish
+                nameof<ICategoryDto>(),
+                nameof<Category>(),
+                MenuMappingProfile.mapICategoryDtoToCategory
             ),
             new MapFunction(
-                nameof<IDishDetailsDto>(),
-                nameof<DishDetails>(),
-                MenuMappingProfile.mapIDishDetailsDtoToDish
+                nameof<IMenuDto>(),
+                nameof<Menu>(),
+                MenuMappingProfile.mapIMenuDtoToMenu
+            ),
+            new MapFunction(
+                nameof<IMenuItemDto>(),
+                nameof<Dish>(),
+                MenuMappingProfile.mapIDishDtoToDish
             ),
         ];
     }
 
-    private static mapIDishDtoToDish(dto: IDishDto): Dish {
-        const dish = MappingProfileBase.autoMap(dto, new Dish());
-        return dish;
+    private static mapICategoryDtoToCategory(dto: ICategoryDto): Category {
+        const category = MappingProfileBase.autoMap(dto, new Category());
+        category.dishIds = dto.items;
+        return category;
     }
 
-    private static mapIDishDetailsDtoToDish(dto: IDishDetailsDto): DishDetails {
-        const dishDetails = MappingProfileBase.autoMap(dto, new DishDetails());
-        return dishDetails;
+    private static mapIMenuDtoToMenu(dto: IMenuDto): Menu {
+        const menu = MappingProfileBase.autoMap(dto, new Menu());
+        menu.categories = dto.categories.map(MenuMappingProfile.mapICategoryDtoToCategory);
+        return menu;
+    }
+
+    private static mapIDishDtoToDish(dto: IMenuItemDto): Dish {
+        const dish = MappingProfileBase.autoMap(dto, new Dish());
+        dish.title = dto.name;
+        dish.productIds = dto.products;
+        return dish;
     }
 }

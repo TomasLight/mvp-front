@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FunctionComponent } from "react";
+import React, { FC } from "react";
 
 import { CircularProgress, CircularProgressProps, makeStyles } from "@material-ui/core/";
 
@@ -20,7 +20,7 @@ interface ILoaderBlockOwnProps {
 
 type Props = ILoaderBlockOwnProps & CircularProgressProps;
 
-const Loader: FunctionComponent<Props> = (props: Props) => {
+const Loader: FC<Props> = (props) => {
     const classes = useStyles();
     const { isLoading, className, testId, ...rest } = props;
 
