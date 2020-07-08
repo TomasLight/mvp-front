@@ -1,6 +1,6 @@
 # BizarreLab client-side application
 
-The app consists of two projects:
+Веб приложение состоит из двух проектов:
 * [https://github.com/BizarreLab/bizarre-monster](https://github.com/BizarreLab/bizarre-monster)
 * [https://github.com/BizarreLab/mvp-front](https://github.com/BizarreLab/mvp-front)
 
