@@ -1,8 +1,8 @@
 export class AppProviderStore {
-    public initialized: boolean;
+    initialized: boolean;
 
-    public targetActionsAmount: number;
-    public initializedActionsAmount: number;
+    targetActionsAmount: number;
+    initializedActionsAmount: number;
 
     constructor() {
         this.initialized = false;

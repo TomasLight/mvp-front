@@ -25,6 +25,7 @@
             "@PosState": ["app/pos/config/redux/State.ts"],
 
             "@ws/*": ["app/workspace/*"],
+            "@WsState": ["app/workspace/config/redux/State.ts"],
 
 
             "@api": ["api/index.ts"],

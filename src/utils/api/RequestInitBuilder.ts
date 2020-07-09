@@ -13,7 +13,7 @@ export class RequestInitBuilder {
         this.headers.append("X-Requested-With", "XMLHttpRequest");
     }
 
-    public appendJson(dto: any): RequestInitBuilder {
+    appendJson(dto: any): RequestInitBuilder {
         const json = JSON.stringify(dto);
 
         this.headers.append("Content-Type", "application/json;charset=UTF-8");
@@ -22,7 +22,7 @@ export class RequestInitBuilder {
         return this;
     }
 
-    public build(): RequestInit {
+    build(): RequestInit {
         const options: RequestInit = this.options;
         options.headers = this.headers;
         return this.options;

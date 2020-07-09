@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import {
     createStyles,
@@ -32,7 +32,7 @@ interface IFieldLoadingIndicatorProps extends LoaderProps {
 
 type Props = IFieldLoadingIndicatorProps & StyledComponentProps<ClassKey>;
 
-const FieldLoadingIndicator: FC<Props> = (props) => {
+const FieldLoadingIndicator = (props: Props) => {
     const {
         classes,
         isLoading,

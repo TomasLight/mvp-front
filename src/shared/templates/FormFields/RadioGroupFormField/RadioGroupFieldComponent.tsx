@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { FieldRenderProps } from "react-final-form";
 
 import { RadioGroup, IRadioGroupProps } from "@shared/organisms";
@@ -9,7 +9,7 @@ interface IRadioGroupFieldComponentProps extends IRadioGroupProps, IFieldCompone
 }
 type Props = IRadioGroupFieldComponentProps & FieldRenderProps<any, HTMLInputElement>;
 
-const RadioGroupFieldComponent: FC<Props> = (props) => {
+const RadioGroupFieldComponent = (props: Props) => {
     const {
         input: { onChange, value },
         sideOnChange,

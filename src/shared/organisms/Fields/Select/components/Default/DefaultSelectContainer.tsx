@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { components } from "react-select";
 import { ContainerProps } from "react-select/src/components/containers";
 
@@ -11,7 +11,7 @@ interface IDefaultSelectContainerProps {
 
 type Props = IDefaultSelectContainerProps & ContainerProps<IFieldOption>;
 
-const DefaultSelectContainer: FC<Props> = (props) => {
+const DefaultSelectContainer = (props: Props) => {
     const {
         selectProps: {
             classes,

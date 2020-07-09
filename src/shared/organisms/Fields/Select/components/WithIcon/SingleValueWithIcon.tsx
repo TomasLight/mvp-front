@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FC, ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { components, SingleValueProps } from "react-select";
 
 import { makeStyles, Typography } from "@material-ui/core";
@@ -49,7 +49,7 @@ export interface ISingleValueWithIconProps {
 
 type Props = SingleValueProps<IFieldOption> & ISingleValueWithIconProps;
 
-const SingleValueWithIcon: FC<Props> = (props) => {
+const SingleValueWithIcon = (props: Props) => {
     const {
         children,
         data,

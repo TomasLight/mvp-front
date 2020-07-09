@@ -18,7 +18,7 @@ export abstract class RootSagaBase {
         this.watchFunctions = [];
     }
 
-    public run(sagaMiddleware: SagaMiddleware) {
+    run(sagaMiddleware: SagaMiddleware) {
         this.watchFunctions.forEach(saga => sagaMiddleware.run(saga));
     }
 }

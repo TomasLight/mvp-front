@@ -1,9 +1,9 @@
 import { History } from "history";
-import React, { FC } from "react";
+import React from "react";
 import { Route, Switch, Router } from "react-router-dom";
 
 import { App as MainApp } from "@main/App";
-import { App as PosApp } from "@pos/App";
+import { App as PosApp } from "@ws/App";
 import { App as WorkspaceApp } from "@ws/App";
 import { NotFound } from "./404";
 
@@ -20,7 +20,7 @@ interface IAppRouterProps {
 
 type Props = IAppRouterProps;
 
-const AppRouter: FC<Props> = (props) => {
+const AppRouter = (props: Props) => {
     const { history } = props;
 
     return (

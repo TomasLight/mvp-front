@@ -1,12 +1,12 @@
 import { renderFavicon } from "@main/Setup/SetupForm/renderFavicon";
 import { IconSelectFieldOption } from "@select";
-import React, { FC } from "react";
+import React from "react";
 
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
 import { ISetupFormValues } from "@main/Setup/models";
 import { DefaultFieldSubscription } from "@shared/organisms";
-import { SelectFormField, TextFormField } from "@shared/templates";
+import { SelectFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
 import { SetupItem } from "./SetupItem";
@@ -19,7 +19,7 @@ interface ISetupFaviconProps extends StyledComponentProps<ClassKey> {
 
 type Props = ISetupFaviconProps;
 
-const SetupFavicon: FC<Props> = (props) => {
+const SetupFavicon = (props: Props) => {
     const { classes, faviconOptions } = props;
 
     return (

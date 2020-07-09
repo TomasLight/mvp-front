@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import React, { FC, useState } from "react";
+import React from "react";
 
 import { StyledComponentProps, Typography } from "@material-ui/core";
 
 import { ISetupFormValues } from "@main/Setup/models";
-import { DefaultFieldSubscription, DragAndDropField } from "@shared/organisms";
+import { DefaultFieldSubscription } from "@shared/organisms";
 import { DragAndDropFormField, TextFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
@@ -12,9 +12,8 @@ import { ClassKey, withClasses } from "./SetupOpenGraph.classes";
 
 type Props = StyledComponentProps<ClassKey>;
 
-const SetupOpenGraph: FC<Props> = (props) => {
+const SetupOpenGraph = (props: Props) => {
     const { classes } = props;
-    const [ imageName, setImageName ] = useState<string>("");
 
     const chooseFile = (fileList: FileList) => {
         if (!fileList || !fileList.length) {
@@ -25,8 +24,6 @@ const SetupOpenGraph: FC<Props> = (props) => {
         if (!file.name) {
             return;
         }
-
-        setImageName(file.name);
     };
 
     return (
@@ -49,9 +46,7 @@ const SetupOpenGraph: FC<Props> = (props) => {
                         root: clsx(classes.field, classes.imageField),
                     },
                 }}
-            >
-                <div>{imageName}</div>
-            </DragAndDropFormField>
+            />
 
             <Typography className={clsx(classes.helpText, classes.imageHelpArea)}>
                 {Translate.getString("Изображение JPG или PNG разрешением 968x504 размером до 1 MB.")}

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { SvgIconProps } from "@material-ui/core/SvgIcon";
 import SvgIcon from "@material-ui/core/SvgIcon/SvgIcon";
@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core";
 
 type Props = SvgIconProps;
 
-const PizzaSlice: FC<Props> = (props) => (
+const PizzaSlice = (props: Props) => (
     <SvgIcon {...props} width="20px" height="22px" viewBox="0 0 20 22">
         <g clipPath="url(#clip0)">
             <path

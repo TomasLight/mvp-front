@@ -8,12 +8,12 @@ export interface IContentBlock {
 }
 
 export class ContentBlock {
-    public firstPhotoUrl: string;
-    public firstText: string;
-    public phone: string;
-    public address: string;
-    public deliveryTime: string;
-    public deliveryMapUrl: string;
+    firstPhotoUrl: string;
+    firstText: string;
+    phone: string;
+    address: string;
+    deliveryTime: string;
+    deliveryMapUrl: string;
 
     constructor(block: IContentBlock = null) {
         if (!block) {

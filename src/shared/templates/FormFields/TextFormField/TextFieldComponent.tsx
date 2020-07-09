@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {FieldRenderProps } from "react-final-form";
 
 import { TextField, TextFieldProps } from "@shared/organisms/Fields";
@@ -9,7 +9,7 @@ interface ITextFieldComponentProps extends TextFieldProps, IFieldComponentCallPr
 }
 type Props = ITextFieldComponentProps & FieldRenderProps<any, HTMLInputElement>;
 
-const TextFieldComponent: FC<Props> = (props) => {
+const TextFieldComponent = (props: Props) => {
     const {
         input: { name, onChange, value, ...restInput },
         sideOnChange,

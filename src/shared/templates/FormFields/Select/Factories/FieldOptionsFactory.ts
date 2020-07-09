@@ -1,7 +1,7 @@
 import { FieldOptionEnum, IFieldOption, SelectFieldOption } from "@select/types";
 
 export class FieldOptionsFactory {
-    public static make(type: FieldOptionEnum): IFieldOption<any, any> {
+    static make(type: FieldOptionEnum): IFieldOption<any, any> {
         switch (type) {
             case FieldOptionEnum.SelectFieldOption:
                 return new SelectFieldOption();

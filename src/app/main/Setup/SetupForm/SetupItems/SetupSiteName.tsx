@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
@@ -12,7 +12,7 @@ import { SetupItem } from "./SetupItem";
 type ClassKey = "item" | "field";
 type Props = StyledComponentProps<ClassKey>;
 
-const SetupSiteName: FC<Props> = (props) => {
+const SetupSiteName = (props: Props) => {
     const { classes } = props;
 
     return (

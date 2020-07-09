@@ -20,10 +20,7 @@ const styles = createStyles({
 type Props = StyledComponentProps<EndAdornmentClassKey>;
 
 const EndAdornment: FC<Props> = (props) => {
-    const {
-        classes,
-        children,
-    } = props;
+    const { classes, children } = props;
 
     const ref = useRef<HTMLDivElement>(null);
     const [ height, setHeight ] = useState<number>(0);

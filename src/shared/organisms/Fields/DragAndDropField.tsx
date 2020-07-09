@@ -1,5 +1,5 @@
 import { FileImageIcon } from "@icons";
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import { Typography, withStyles } from "@material-ui/core";
 
 import {
@@ -61,13 +61,12 @@ interface IDragAndDropFieldProps extends FieldBaseProps<DragAndDropClassKey>,
 
 type Props = IDragAndDropFieldProps;
 
-const DragAndDropField: FC<Props> = (props) => {
+const DragAndDropField = (props: Props) => {
     const {
         id = Guid.generate(),
         name,
         innerText = Translate.getString("перетащите или кликните"),
         onDrop,
-
         ...rest
     } = props;
 

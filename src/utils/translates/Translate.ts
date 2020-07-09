@@ -1,7 +1,7 @@
 import { SizeType } from "@enums";
 
 export class Translate {
-    public static getString(key: string, options?: any) {
+    static getString(key: string, options?: any) {
         // todo: add localization library usage of
         // for example: i18next
         if (Translate.dictionary.has(key)) {

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { Field } from "react-final-form";
 
 import { ISelectFieldComponentProps, SelectFieldComponent } from "./SelectFieldComponent";
@@ -6,7 +6,7 @@ import { IFormFieldProps } from "../IFormFieldProps";
 
 type Props = IFormFieldProps & ISelectFieldComponentProps;
 
-const FormField: FC<Props> = (props) => (
+const FormField = (props: Props) => (
     <Field
         component={SelectFieldComponent}
         {...props}

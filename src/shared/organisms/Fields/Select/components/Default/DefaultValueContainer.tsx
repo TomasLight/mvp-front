@@ -21,10 +21,7 @@ const useStyles = makeStyles({
 type Props = ValueContainerProps<SelectFieldOption>;
 
 const DefaultValueContainer: FC<Props> = (props) => {
-    const {
-        children,
-        ...rest
-    } = props;
+    const { children, ...rest } = props;
 
     const classes = useStyles();
 

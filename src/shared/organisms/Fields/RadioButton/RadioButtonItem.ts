@@ -1,6 +1,6 @@
 export class RadioButtonItem {
-    public id: number;
-    public label: string;
+    id: number;
+    label: string;
 
-    public disabled?: boolean;
+    disabled?: boolean;
 }

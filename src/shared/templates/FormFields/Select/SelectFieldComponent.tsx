@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState, FocusEvent } from "react";
+import React, { useMemo, useState, FocusEvent } from "react";
 import { FieldRenderProps } from "react-final-form";
 import { ActionMeta, ActionTypes, InputActionMeta } from "react-select/src/types";
 
@@ -15,7 +15,7 @@ interface ISelectFieldComponentProps extends ISelectProps {
 
 type Props = ISelectFieldComponentProps & FieldRenderProps<any, HTMLInputElement>;
 
-const SelectFieldComponent: FC<Props> = (props) => {
+const SelectFieldComponent = (props: Props) => {
     const {
         input: { name, onChange, onFocus, onBlur, value, ...restInput },
         sideOnChange,

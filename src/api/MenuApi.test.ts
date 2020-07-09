@@ -1,8 +1,8 @@
 import { expect, test } from "@jest/globals";
 import "isomorphic-fetch";
 
-import { Dish } from "@pos/Menu/models";
-import { configureMapper } from "@pos/config/mapper/configureMapper";
+import { Dish } from "@ws/Menu/models";
+import { configureMapper } from "@ws/config/mapper/configureMapper";
 import { ApiBaseMock } from "@utils/api/ApiBase.mock";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";

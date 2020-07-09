@@ -21,10 +21,7 @@ const useStyles = makeStyles({
 type Props = SingleValueProps<IFieldOption>;
 
 const DefaultSingleValue: FC<Props> = (props) => {
-    const {
-        children,
-        selectProps,
-    } = props;
+    const { children, selectProps } = props;
 
     const classes = useStyles();
     let valueClass = classes.singleValue;

@@ -22,7 +22,7 @@ export class FormProvider {
         this.submitOnClick = this.submitOnClick.bind(this);
     }
 
-    public createForm(submit: Submit) {
+    createForm(submit: Submit) {
         this.submit = submit;
         const formValidator = new FormValidator(this.validator, this.settings);
 
@@ -37,7 +37,7 @@ export class FormProvider {
         return FormContainer;
     }
 
-    public submitOnClick() {
+    submitOnClick() {
         const model: any = {
             ...this.formApi.getState().values,
         };

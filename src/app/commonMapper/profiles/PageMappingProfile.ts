@@ -7,7 +7,7 @@ import { IContentBlock, IMenuBlock, IndexPage, ISiteBlock, MenuBlock, Pages, Sit
 import { ContentBlock } from "../../models/IndexPage";
 
 export class PageMappingProfile extends MappingProfileBase implements IMappingProfile {
-    public get(): IMapFunction[] {
+    get(): IMapFunction[] {
         return [
             new MapFunction(
                 nameof<IPagesDto>(),

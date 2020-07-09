@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { IndicatorProps } from "react-select/src/components/indicators";
 
 import { IconButton, makeStyles } from "@material-ui/core";
@@ -14,7 +14,8 @@ const useStyles = makeStyles({
 
 type Props = IndicatorProps<IFieldOption>;
 
-const DefaultClearIndicator: FC<Props> = ({ clearValue }) => {
+const DefaultClearIndicator = (props: Props) => {
+    const { clearValue } = props;
     const classes = useStyles();
     return (
         <IconButton

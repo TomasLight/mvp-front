@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -40,7 +40,7 @@ interface ISetupPageCallProps {
 
 type Props = ISetupPageProps & ISetupPageCallProps;
 
-const SetupPage: FC<Props> = (props) => {
+const SetupPage = (props: Props) => {
     const { initialValues, next } = props;
     const classes = useStyles();
 

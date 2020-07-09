@@ -1,6 +1,6 @@
 import { ConnectedRouter } from "connected-react-router";
 import { History } from "history";
-import React, { FC, useMemo } from "react";
+import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
 import { configureApp } from "@config";
@@ -16,7 +16,7 @@ interface IAppProps {
 
 type Props = IAppProps;
 
-const App: FC<Props> = (props) => {
+const App = (props: Props) => {
     const { history } = props;
 
     const store = useMemo(() => configureApp(

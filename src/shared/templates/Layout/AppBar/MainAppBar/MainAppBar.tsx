@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { IconButton, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -58,7 +58,7 @@ interface IMainAppBarCallProps {
 
 type Props = IMainAppBarProps & IMainAppBarCallProps;
 
-const MainAppBar: FC<Props> = (props) => {
+const MainAppBar = (props: Props) => {
     const {
         open,
         title,

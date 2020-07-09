@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FC } from "react";
+import React from "react";
 
 import { CircularProgress, makeStyles } from "@material-ui/core/";
 
@@ -35,9 +35,9 @@ interface ILoaderBlockProps {
 
 type Props = ILoaderBlockProps;
 
-const LoaderBlock: FC<Props> = (props) => {
-    const classes = useStyles();
+const LoaderBlock = (props: Props) => {
     const { isLoading, className } = props;
+    const classes = useStyles();
 
     const rootClasses = clsx(
         classes.root,

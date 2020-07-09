@@ -6,7 +6,7 @@ export class UrlRegExp {
         this.url = url;
     }
 
-    public static build(envUrl: string) {
+    static build(envUrl: string) {
         const { url } = new UrlRegExp(envUrl).replaceVariables().escapeForwardSlashes();
 
         return new RegExp(url);

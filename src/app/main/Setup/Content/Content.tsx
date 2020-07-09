@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React from "react";
 
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
@@ -7,7 +7,7 @@ interface IContentProps {
 
 type Props = IContentProps & StyledComponentProps<ClassKey>;
 
-const Content: FC<Props> = (props) => {
+const Content = (props: Props) => {
     const { classes } = props;
 
     return (

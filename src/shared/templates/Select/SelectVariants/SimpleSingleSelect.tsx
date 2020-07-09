@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { StylesConfig } from "react-select";
 
 import { DefaultSelectContainer, SelectWrapper } from "@shared/organisms/Fields/Select";
@@ -17,7 +17,7 @@ import { ISingleSelectProps } from "./ISingleSelectProps";
 
 type Props = ISingleSelectProps;
 
-const SimpleSingleSelect: FC<Props> = (props) => {
+const SimpleSingleSelect = (props: Props) => {
     const { components, controlStyles, styles, ...rest } = props;
 
     const overriddenSelectComponentStyles: StylesConfig = {

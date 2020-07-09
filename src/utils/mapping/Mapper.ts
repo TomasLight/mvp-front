@@ -17,11 +17,11 @@ export class Mapper {
         );
     }
 
-    public static addProfiles(profiles: IMappingProfile[]) {
+    static addProfiles(profiles: IMappingProfile[]) {
         profiles.forEach((profile: IMappingProfile) => Mapper.addProfile(profile));
     }
 
-    public static addProfile(profile: IMappingProfile) {
+    static addProfile(profile: IMappingProfile) {
         profile.get().forEach((mapFunction: IMapFunction) => {
             const addedMapFunction = Mapper.findByKey(mapFunction.key);
             if (addedMapFunction) {
@@ -32,7 +32,7 @@ export class Mapper {
         });
     }
 
-    public static map<TDestination>(
+    static map<TDestination>(
         sourceType: string,
         destinationType: string,
         sourceModel: any,

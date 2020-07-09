@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FC } from "react";
+import React from "react";
 
 import {
     createStyles,
@@ -45,7 +45,7 @@ interface IRadioButtonFieldProps {
 
 type Props = IRadioButtonFieldProps & StyledComponentProps<RadioButtonFieldClassKey>;
 
-const RadioButtonField: FC<Props> = (props) => {
+const RadioButtonField = (props: Props) => {
     const {
         classes,
         disabled,

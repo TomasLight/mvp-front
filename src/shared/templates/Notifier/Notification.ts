@@ -9,9 +9,9 @@ export interface INotification {
 }
 
 export class Notification implements INotification {
-    public message: string | ReactNode;
-    public options?: OptionsObject;
-    public key?: string;
+    message: string | ReactNode;
+    options?: OptionsObject;
+    key?: string;
 
     constructor(messageOrApiResponse: string | ApiResponse, options: OptionsObject = {}) {
         this.options = options;
