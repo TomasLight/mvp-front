@@ -25,7 +25,7 @@ services:
       - monster
 
   api:
-    image: bizarre-monster
+    image: docker.pkg.github.com/bizarrelab/bizarre-monster/bizarre-monster:0.7.2
     container_name: monster-api
     ports:
       - 5001:5001
