@@ -25,11 +25,16 @@ services:
       - monster
 
   api:
-    # image: docker.pkg.github.com/bizarrelab/bizarre-monster/bizarre-monster:0.7.0
     image: bizarre-monster
     container_name: monster-api
+    ports:
+      - 5001:5001
     environment:
       ASPNETCORE_ENVIRONMENT: 'Development'
+      ASPNETCORE_URLS: 'https://+:5001'
+      ASPNETCORE_HTTPS_PORT: 5001
+      ASPNETCORE_Kestrel__Certificates__Default__Password: 'docker_password'
+      ASPNETCORE_Kestrel__Certificates__Default__Path: '/https/dev-cert.pfx'
       ConnectionStrings__Monster: 'Host=db; Username=postgres; Password=postgres'
       DELAY: 6000
     depends_on:
