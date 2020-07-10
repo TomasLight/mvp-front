@@ -1,5 +1,5 @@
 import { IMenuItemDto, IMenuDto, ICategoryDto } from "@api/models/menu/responses";
-import { Category, Dish, Menu } from "@pos/Menu/models";
+import { Category, Dish, Menu } from "@ws/Menu/models";
 import { urlWithIds } from "@utils";
 import { ApiBase } from "@utils/api/ApiBase";
 import { ApiResponse } from "@utils/api/ApiResponse";
@@ -12,7 +12,7 @@ export class MenuApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    public static async getMenu(menuId: string): Promise<ApiResponse<Menu>> {
+    static async getMenu(menuId: string): Promise<ApiResponse<Menu>> {
         const url = urlWithIds(process.env.API_GET_MENU, { menuId });
 
         const response: ApiResponse = await this.get<IMenuDto>(url);
@@ -26,7 +26,7 @@ export class MenuApi extends ApiBase {
         return response as ApiResponse<Menu>;
     }
 
-    public static async getCategories(menuId: string): Promise<ApiResponse<Category[]>> {
+    static async getCategories(menuId: string): Promise<ApiResponse<Category[]>> {
         const url = urlWithIds(process.env.API_GET_MENU_CATEGORIES, { menuId });
 
         const response: ApiResponse = await this.post<ICategoryDto[]>(url, { menuId });
@@ -40,7 +40,7 @@ export class MenuApi extends ApiBase {
         return response as ApiResponse<Category[]>;
     }
 
-    public static async getDishes(): Promise<ApiResponse<Dish[]>> {
+    static async getDishes(): Promise<ApiResponse<Dish[]>> {
         const response: ApiResponse = await this.get<IMenuItemDto[]>(process.env.API_GET_MENU_ITEMS);
         if (response.data) {
             response.data = response.data.map((dto: IMenuItemDto) => Mapper.map<Dish>(
@@ -52,7 +52,7 @@ export class MenuApi extends ApiBase {
         return response as ApiResponse<Dish[]>;
     }
 
-    public static async getMenuItem(menuItemId: string): Promise<ApiResponse<Dish>> {
+    static async getMenuItem(menuItemId: string): Promise<ApiResponse<Dish>> {
         const url = urlWithIds(process.env.API_GET_MENU_ITEM, { menuItemId });
 
         const response: ApiResponse = await this.get<IMenuItemDto>(url);

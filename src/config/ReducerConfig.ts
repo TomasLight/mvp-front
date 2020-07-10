@@ -13,7 +13,7 @@ export class ReducerConfig<TState = any> {
         this.stateReducers = stateReducers;
     }
 
-    public reducer(history: History): Reducer {
+    reducer(history: History): Reducer {
         return createReducers(() => ({
             router: connectRouter(history),
             appProvider: AppProviderReducer,

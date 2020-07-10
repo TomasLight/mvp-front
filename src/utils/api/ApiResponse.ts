@@ -1,9 +1,9 @@
 import { ApiResponseStatus } from "./ApiResponseStatus";
 
 export class ApiResponse<TResponseData = any> {
-    public statusCode: ApiResponseStatus;
-    public data: TResponseData;
-    public error: string;
+    statusCode: ApiResponseStatus;
+    data: TResponseData;
+    error: string;
 
     constructor() {
         this.statusCode = null;
@@ -11,18 +11,18 @@ export class ApiResponse<TResponseData = any> {
         this.error = "";
     }
 
-    public hasError() {
+    hasError() {
         return Boolean(this.error);
     }
 
-    public hasClientError() {
+    hasClientError() {
         return this.hasError()
             && this.statusCode >= ApiResponseStatus.BadRequest
             && this.statusCode < ApiResponseStatus.InternalServerError
             && !this.hasTimeoutError();
     }
 
-    public hasTimeoutError() {
+    hasTimeoutError() {
         return this.hasError()
             && this.statusCode === ApiResponseStatus.RequestTimeout;
     }

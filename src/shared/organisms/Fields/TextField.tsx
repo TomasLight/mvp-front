@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import {
     InputBaseComponentProps,
@@ -31,7 +31,7 @@ interface ITextFieldProps extends FieldBaseProps<FilledInputClassKey> {
 
 type Props = ITextFieldProps;
 
-const TextField: FC<Props> = (props) => {
+const TextField = (props: Props) => {
     const {
         id = Guid.generate(),
         value,

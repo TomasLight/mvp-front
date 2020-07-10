@@ -1,14 +1,5 @@
-import { ConnectedRouter } from "connected-react-router";
 import { History } from "history";
-import React, { FC, useMemo } from "react";
-import { Provider } from "react-redux";
-
-import { configureApp } from "@config";
-import { configureMapper, PosReducerConfig, RootSaga } from "@pos/config";
-import { AppProviderContainer } from "./AppProvider.container";
-import { PageComponentRouter } from "./routing";
-
-configureMapper();
+import React from "react";
 
 interface IAppProps {
     history: History;
@@ -16,23 +7,13 @@ interface IAppProps {
 
 type Props = IAppProps;
 
-const App: FC<Props> = (props) => {
+const App = (props: Props) => {
     const { history } = props;
 
-    const store = useMemo(() => configureApp(
-        history,
-        new PosReducerConfig(),
-        new RootSaga()
-    ), []);
-
     return (
-        <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <AppProviderContainer>
-                    <PageComponentRouter/>
-                </AppProviderContainer>
-            </ConnectedRouter>
-        </Provider>
+        <div>
+            workspace app
+        </div>
     );
 };
 

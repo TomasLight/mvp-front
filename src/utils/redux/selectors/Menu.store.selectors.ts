@@ -1,15 +1,15 @@
 import { select } from "redux-saga/effects";
 
-import { MenuStore } from "@pos/Menu/redux";
-import { State } from "@PosState";
+import { MenuStore } from "@ws/Menu/redux";
+import { State } from "@WsState";
 
 export class MenuSelectors {
-    public static* getStore() {
+    static* getStore() {
         const state: State = yield select();
         return state.menu;
     }
 
-    public static* getCategories() {
+    static* getCategories() {
         const store: MenuStore = yield MenuSelectors.getStore();
         return store.categories;
     }

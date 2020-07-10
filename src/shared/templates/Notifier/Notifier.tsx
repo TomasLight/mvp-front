@@ -1,5 +1,5 @@
 import { withSnackbar, WithSnackbarProps } from "notistack";
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { INotification } from "./Notification";
 
@@ -13,7 +13,7 @@ export interface INotifierCallProps extends WithSnackbarProps {
 
 type Props = INotifierProps & INotifierCallProps;
 
-const Notifier: FC<Props> = (props) => {
+const Notifier = (props: Props) => {
     const {
         notifications = [],
         enqueueSnackbar,

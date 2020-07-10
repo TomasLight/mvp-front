@@ -9,7 +9,7 @@ export class UserApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    public static async getAuthorizedUser(): Promise<ApiResponse<AuthorizedUser>> {
+    static async getAuthorizedUser(): Promise<ApiResponse<AuthorizedUser>> {
         const response = await this.get<IAuthorizedUserDto>(process.env.CHECK_USER_AUTHORIZATION_URL);
         if (response.data) {
             response.data = Mapper.map<AuthorizedUser>(

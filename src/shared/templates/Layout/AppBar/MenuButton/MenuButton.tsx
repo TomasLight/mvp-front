@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { IconButton, StyledComponentProps, withStyles } from "@material-ui/core";
 import { ChevronLeft, Menu } from "@material-ui/icons";
@@ -13,7 +13,7 @@ interface IMenuButtonCallProps {
 
 type Props = IMenuButtonProps & IMenuButtonCallProps & StyledComponentProps<MenuButtonClassKey>;
 
-const MenuButton: FC<Props> = (props) => {
+const MenuButton = (props: Props) => {
     const { classes, open, toggle } = props;
 
     return (

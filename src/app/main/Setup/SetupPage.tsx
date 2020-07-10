@@ -1,9 +1,9 @@
-import React, { FC, useMemo } from "react";
+import React, { useMemo } from "react";
 
-import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { FormProvider } from "@shared/organisms";
+import { Content } from "./Content";
 import { ISetupFormValues } from "./models";
 import { SetupFormContainer } from "./SetupForm";
 import { SetupValidator } from "./validation";
@@ -40,7 +40,7 @@ interface ISetupPageCallProps {
 
 type Props = ISetupPageProps & ISetupPageCallProps;
 
-const SetupPage: FC<Props> = (props) => {
+const SetupPage = (props: Props) => {
     const { initialValues, next } = props;
     const classes = useStyles();
 
@@ -54,11 +54,7 @@ const SetupPage: FC<Props> = (props) => {
                 </Form>
             </div>
 
-            <div className={classes.right}>
-                <p>
-                    images
-                </p>
-            </div>
+            <Content classes={{ root: classes.right }}/>
         </div>
     );
 };

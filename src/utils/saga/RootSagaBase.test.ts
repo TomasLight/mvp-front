@@ -6,13 +6,13 @@ import { WatchFunction } from "./WatchFunction";
 import { RootSagaBase } from "./RootSagaBase";
 
 class MockRootSaga extends RootSagaBase {
-    public watchFunctions: WatchFunction[];
+    watchFunctions: WatchFunction[];
 
-    public addWatcher(baseWatcher: IWatcher) {
+    addWatcher(baseWatcher: IWatcher) {
         super.addWatcher(baseWatcher);
     }
 
-    public addWatchers(baseWatchers: IWatcher[]) {
+    addWatchers(baseWatchers: IWatcher[]) {
         super.addWatchers(baseWatchers);
     }
 }

@@ -1,10 +1,10 @@
 export class AuthorizedUser {
-    public id: string;
-    public email: string;
-    public role: string;
-    public firstName: string;
-    public lastName: string;
-    public patronymic: string;
+    id: string;
+    email: string;
+    role: string;
+    firstName: string;
+    lastName: string;
+    patronymic: string;
 
     constructor(user: AuthorizedUser = null) {
         if (!user) {

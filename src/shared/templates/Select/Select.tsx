@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { SelectWrapperProps } from "@shared/organisms/Fields/Select";
 import { SimpleSingleSelect, SingleSelectWithIcon } from "./SelectVariants";
@@ -11,7 +11,7 @@ interface ISelectProps extends SelectWrapperProps {
 
 type Props = ISelectProps;
 
-const Select: FC<Props> = (props) => {
+const Select = (props: Props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {

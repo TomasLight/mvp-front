@@ -1,11 +1,7 @@
-import clsx from "clsx";
-import React, { FC } from "react";
+import React from "react";
 
 import { makeStyles, Button, Typography } from "@material-ui/core";
 
-import { FieldBaseProps } from "@shared/organisms/Fields/FieldBase";
-import { IFormFieldProps } from "@shared/templates/FormFields/IFormFieldProps";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { IconSelectFieldOption } from "@select/types";
 import { Translate } from "@utils";
 
@@ -80,7 +76,7 @@ interface ISetupFormCallProps {
 
 type Props = ISetupFormProps & ISetupFormCallProps;
 
-const SetupForm: FC<Props> = (props) => {
+const SetupForm = (props: Props) => {
     const { faviconOptions, onSubmit } = props;
     const classes = useStyles();
 

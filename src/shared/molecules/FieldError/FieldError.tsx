@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { FC } from "react";
+import React from "react";
 
 import {
     createStyles,
@@ -39,7 +39,7 @@ interface IFieldErrorProps {
 
 type Props = IFieldErrorProps & StyledComponentProps<FieldErrorClassKey>;
 
-const FieldError: FC<Props> = (props) => {
+const FieldError = (props: Props) => {
     const {
         classes,
         error,

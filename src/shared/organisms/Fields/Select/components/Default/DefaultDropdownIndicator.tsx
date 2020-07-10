@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { components } from "react-select";
 import { IndicatorProps } from "react-select/src/components/indicators";
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 type Props = IndicatorProps<IFieldOption>;
 
-const DefaultDropdownIndicator: FC<Props> = (props) => {
+const DefaultDropdownIndicator = (props: Props) => {
     const { selectProps: { menuIsOpen, isDisabled, readOnly }, isFocused } = props;
 
     const classes = useStyles();

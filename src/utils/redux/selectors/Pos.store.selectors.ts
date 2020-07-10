@@ -1,20 +1,20 @@
-import { PosStore } from "@pos/redux";
+import { PosStore } from "@ws/redux";
 import { select } from "redux-saga/effects";
 
-import { State } from "@PosState";
+import { State } from "@WsState";
 
 export class PosSelectors {
-    public static* getStore() {
+    static* getStore() {
         const state: State = yield select();
         return state.pos;
     }
 
-    public static* getPage() {
+    static* getPage() {
         const store: PosStore = yield PosSelectors.getStore();
         return store.page;
     }
 
-    public static* getMenuId() {
+    static* getMenuId() {
         const store: PosStore = yield PosSelectors.getStore();
         return store.page.blocks.menu.menuId;
     }

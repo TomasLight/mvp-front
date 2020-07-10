@@ -7,16 +7,16 @@ export class Guid {
         this.guid = uuidv4();
     }
 
-    public get get(): string {
+    get get(): string {
         return this.guid;
     }
 
-    public generate(): string {
+    generate(): string {
         this.guid = uuidv4();
         return this.guid;
     }
 
-    public static generate(): string {
+    static generate(): string {
         const guid = new Guid();
         return guid.generate();
     }

@@ -4,8 +4,8 @@ import { OptionValueType } from "../OptionValueType";
 export class SelectFieldOption<TOptionValue = OptionValueType>
     implements IFieldOption<TOptionValue, TOptionValue> {
 
-    public id: TOptionValue;
-    public title: string;
+    id: TOptionValue;
+    title: string;
 
     constructor(option?: { id: any; title: any }) {
         if (option === undefined) {
@@ -18,55 +18,55 @@ export class SelectFieldOption<TOptionValue = OptionValueType>
         }
     }
 
-    public emptySingleValue(): any {
+    emptySingleValue(): any {
         return "";
     }
 
-    public emptyMultiValue(): TOptionValue[] {
+    emptyMultiValue(): TOptionValue[] {
         return [];
     }
 
-    public emptyOption(): SelectFieldOption<TOptionValue> {
+    emptyOption(): SelectFieldOption<TOptionValue> {
         return new SelectFieldOption({
             id: this.emptySingleValue(),
             title: "",
         });
     }
 
-    public isEmptyOption(): boolean {
+    isEmptyOption(): boolean {
         return this.id === this.emptySingleValue();
     }
 
-    public isEquals(value: TOptionValue): boolean {
+    isEquals(value: TOptionValue): boolean {
         return this.id === value;
     }
 
-    public isNullOrEmptySingle(): boolean {
+    isNullOrEmptySingle(): boolean {
         return this.isNullOrEmptySingleValue(this.id);
     }
 
-    public isNullOrEmptySingleValue(value: any): boolean {
+    isNullOrEmptySingleValue(value: any): boolean {
         return value === null
             || value === undefined
             || value === this.emptySingleValue();
     }
 
-    public isNullOrEmptyMulti(): boolean {
+    isNullOrEmptyMulti(): boolean {
         return this.isNullOrEmptyMultiValue(this.id);
     }
 
-    public isNullOrEmptyMultiValue(value: any): boolean {
+    isNullOrEmptyMultiValue(value: any): boolean {
         return value === null
             || value === undefined
             || Array.isArray(value) && value.length === 0
             || value === this.emptySingleValue();
     }
 
-    public getValue(): TOptionValue {
+    getValue(): TOptionValue {
         return this.id;
     }
 
-    public setValue(value: TOptionValue): void {
+    setValue(value: TOptionValue): void {
         this.id = value;
         this.title = "";
     }

@@ -5,15 +5,15 @@ export class IconSelectFieldOption extends SelectFieldOption<number> {
         super(option);
     }
 
-    public emptySingleValue(): number {
+    emptySingleValue(): number {
         return 0;
     }
 
-    public emptyOption = (): IconSelectFieldOption => {
+    emptyOption = (): IconSelectFieldOption => {
         return new IconSelectFieldOption();
     };
 
-    public static create(): IconSelectFieldOption {
+    static create(): IconSelectFieldOption {
         return new IconSelectFieldOption();
     }
 }

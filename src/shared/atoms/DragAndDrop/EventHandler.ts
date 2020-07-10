@@ -8,8 +8,8 @@ export class EventHandler {
         this.counter = 0;
     }
 
-    public in = () => this.counter++;
-    public out = () => this.counter--;
-    public check = () => this.counter === 0;
-    public done = () => this.counter = 0;
+    in = () => this.counter++;
+    out = () => this.counter--;
+    check = () => this.counter === 0;
+    done = () => this.counter = 0;
 }

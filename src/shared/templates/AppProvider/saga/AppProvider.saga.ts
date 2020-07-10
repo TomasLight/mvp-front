@@ -1,4 +1,4 @@
-import { PosActions } from "@pos/redux";
+import { PosActions } from "@ws/redux";
 import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
@@ -15,7 +15,7 @@ export class AppProviderSaga extends SagaBase {
         yield put(AppProviderActions.updateStore(store));
     }
 
-    public static* initializeMainApp(action: AppAction) {
+    static* initializeMainApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
@@ -27,7 +27,7 @@ export class AppProviderSaga extends SagaBase {
         yield all(initializedActions);
     }
 
-    public static* initializePosApp(action: AppAction) {
+    static* initializePosApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
@@ -40,7 +40,7 @@ export class AppProviderSaga extends SagaBase {
         yield all(initializedActions);
     }
 
-    public static* initializedWorkspaceApp(action: AppAction) {
+    static* initializedWorkspaceApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
@@ -52,7 +52,7 @@ export class AppProviderSaga extends SagaBase {
         yield all(initializedActions);
     }
 
-    public static* getAuthorizedUser(action: AppAction) {
+    static* getAuthorizedUser(action: AppAction) {
         const response: ApiResponse<AuthorizedUser> = yield UserApi.getAuthorizedUser();
         if (response.hasError()) {
             AppProviderSaga.displayClientError(response);
@@ -65,7 +65,7 @@ export class AppProviderSaga extends SagaBase {
         }
     }
 
-    public static* incrementInitializedActions(action: AppAction) {
+    static* incrementInitializedActions(action: AppAction) {
         const store: AppProviderStore = yield AppProviderSelectors.getStore();
 
         const newAmount = store.initializedActionsAmount + 1;

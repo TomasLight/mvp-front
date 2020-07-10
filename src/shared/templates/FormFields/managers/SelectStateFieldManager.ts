@@ -10,7 +10,7 @@ export class SelectStateFieldManager {
         this.optionInstance = optionInstance;
     }
 
-    public isEmptySingleValue = (valueOrOption: IFieldOption<any, any> | any): boolean => {
+    isEmptySingleValue = (valueOrOption: IFieldOption<any, any> | any): boolean => {
         if (isFieldOption(valueOrOption)) {
             return valueOrOption.isNullOrEmptySingle();
         }
@@ -18,7 +18,7 @@ export class SelectStateFieldManager {
         return this.optionInstance.isNullOrEmptySingleValue(valueOrOption);
     };
 
-    public getDisplayedSingleValue = (options: IFieldOption<any, any>[], value: any)
+    getDisplayedSingleValue = (options: IFieldOption<any, any>[], value: any)
         : IFieldOption<any, any> => {
 
         if (this.isEmptySingleValue(value)) {
@@ -35,7 +35,7 @@ export class SelectStateFieldManager {
         return this.optionInstance.emptyOption();
     };
 
-    public getSelectedSingleOption = (
+    getSelectedSingleOption = (
         option: IFieldOption<any, any>,
         action: ActionMeta<any>
     ): IFieldOption<any, any> => {
@@ -52,7 +52,7 @@ export class SelectStateFieldManager {
         return selectedOption;
     };
 
-    public isSingleShrink = (meta: FieldMetaState<any>, value: IFieldOption<any, any>): boolean => {
+    isSingleShrink = (meta: FieldMetaState<any>, value: IFieldOption<any, any>): boolean => {
         return meta.active || meta.modified || !this.isEmptySingleValue(value);
     };
 }

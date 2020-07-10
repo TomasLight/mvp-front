@@ -6,7 +6,7 @@ import { MapFunction } from "@utils/mapping/MapFunction";
 import { MappingProfileBase } from "@utils/mapping/MappingProfileBase";
 
 export class UserMappingProfile extends MappingProfileBase implements IMappingProfile {
-    public get(): IMapFunction[] {
+    get(): IMapFunction[] {
         return [
             new MapFunction(
                 nameof<IAuthorizedUserDto>(),

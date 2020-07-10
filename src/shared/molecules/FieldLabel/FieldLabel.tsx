@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import {
     InputLabel,
@@ -16,7 +16,7 @@ interface IFieldLabelProps {
 
 type Props = IFieldLabelProps & StyledComponentProps<InputLabelClassKey>;
 
-const FieldLabel: FC<Props> = (props) => {
+const FieldLabel = (props: Props) => {
     const { label, ...rest } = props;
 
     if (!label) {

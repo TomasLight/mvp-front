@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { FieldRenderProps } from "react-final-form";
 
 import { FormControl, makeStyles, Typography } from "@material-ui/core";
@@ -20,7 +20,7 @@ interface IRadioButtonFieldComponentProps extends IRadioButtonFieldProps, IField
 
 type Props = IRadioButtonFieldComponentProps & FieldRenderProps<boolean, HTMLInputElement>;
 
-const RadioButtonFieldComponent: FC<Props> = (props) => {
+const RadioButtonFieldComponent = (props: Props) => {
     const {
         input: { onChange, value, ...restInput },
         sideOnChange,

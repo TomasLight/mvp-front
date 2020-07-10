@@ -5,7 +5,7 @@ import { IWatcher } from "./IWatcher";
 import { WatchFunction } from "./WatchFunction";
 
 export abstract class WatcherBase implements IWatcher {
-    public watchFunctions: WatchFunction[];
+    watchFunctions: WatchFunction[];
 
     protected constructor() {
         this.watchFunctions = [];

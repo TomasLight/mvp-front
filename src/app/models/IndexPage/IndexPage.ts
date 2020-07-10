@@ -4,9 +4,9 @@ import { MenuBlock } from "./MenuBlock";
 import { SiteBlock } from "./SiteBlock";
 
 export class IndexPage implements IPage {
-    public alias: string;
-    public layout: string;
-    public blocks: {
+    alias: string;
+    layout: string;
+    blocks: {
         site: SiteBlock,
         menu: MenuBlock,
         content: ContentBlock,

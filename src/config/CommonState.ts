@@ -5,7 +5,7 @@ import { AppProviderStore } from "@shared/templates/AppProvider/redux";
 import { ICommonState } from "@utils/redux";
 
 export class CommonState implements ICommonState {
-    public router: RouterState;
-    public appProvider: AppProviderStore;
-    public notifier: NotifierStore;
+    router: RouterState;
+    appProvider: AppProviderStore;
+    notifier: NotifierStore;
 }

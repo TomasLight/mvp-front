@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { Grid, makeStyles, Radio, RadioGroup as MuiRadioGroup, StyledComponentProps } from "@material-ui/core";
 import { RadioGroupProps } from "@material-ui/core/RadioGroup/RadioGroup";
@@ -26,7 +26,7 @@ interface IRadioGroupCallProps {
 
 type Props = IRadioGroupProps & IRadioGroupCallProps & StyledComponentProps<RadioButtonClassKey>;
 
-const RadioGroup: FC<Props> = (props) => {
+const RadioGroup = (props: Props) => {
     const {
         classes,
         className,

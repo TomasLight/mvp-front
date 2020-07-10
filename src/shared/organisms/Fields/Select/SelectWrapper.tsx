@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from "react";
+import React, { CSSProperties } from "react";
 import ReactSelect, { Styles, Props as SelectProps } from "react-select";
 import { SelectComponents } from "react-select/src/components";
 
@@ -19,7 +19,7 @@ interface ISelectWrapperProps<TOptions = any> extends SelectProps<TOptions>, Fie
 
 type Props = ISelectWrapperProps<IFieldOption>;
 
-const SelectWrapper: FC<Props> = (props) => {
+const SelectWrapper = (props: Props) => {
     const {
         id,
         input,

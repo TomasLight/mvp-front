@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import {FieldRenderProps } from "react-final-form";
 
 import { DragAndDropField, DragAndDropFieldProps } from "@shared/organisms/Fields";
@@ -9,7 +9,7 @@ interface IDragAndDropFieldComponentProps extends DragAndDropFieldProps {
 }
 type Props = IDragAndDropFieldComponentProps & FieldRenderProps<any, HTMLInputElement>;
 
-const DragAndDropFieldComponent: FC<Props> = (props) => {
+const DragAndDropFieldComponent = (props: Props) => {
     const {
         input: { name, onChange },
         sideOnChange,

@@ -1,6 +1,6 @@
 import { Classes } from "@utils";
 import clsx from "clsx";
-import React, { FC } from "react";
+import React  from "react";
 import { components } from "react-select";
 import { ControlProps as ControlComponentProps } from "react-select/src/components/Control";
 import { Props as SelectProps } from "react-select/src/Select";
@@ -60,7 +60,7 @@ interface IDefaultControlProps {
 
 type Props = IDefaultControlProps & ControlComponentProps<IFieldOption>;
 
-const DefaultControl: FC<Props> = (props) => {
+const DefaultControl = (props: Props) => {
     const {
         selectProps: {
             isFocused,

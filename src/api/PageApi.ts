@@ -9,7 +9,7 @@ export class PageApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    public static async getPages(): Promise<ApiResponse<Pages>> {
+    static async getPages(): Promise<ApiResponse<Pages>> {
         const response: ApiResponse = await this.get<IPagesDto>(process.env.API_GET_PAGES);
         if (response.data) {
             response.data = Mapper.map<Pages>(

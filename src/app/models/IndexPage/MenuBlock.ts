@@ -3,7 +3,7 @@ export interface IMenuBlock {
 }
 
 export class MenuBlock {
-    public menuId: string;
+    menuId: string;
 
     constructor(block: IMenuBlock = null) {
         if (!block) {

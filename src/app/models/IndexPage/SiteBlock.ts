@@ -9,13 +9,13 @@ export interface ISiteBlock {
 }
 
 export class SiteBlock {
-    public title: string;
-    public keywords: string;
-    public description: string;
-    public favicon: string;
-    public openGraphImageTitle: string;
-    public openGraphImageUrl: string;
-    public styleColor: string;
+    title: string;
+    keywords: string;
+    description: string;
+    favicon: string;
+    openGraphImageTitle: string;
+    openGraphImageUrl: string;
+    styleColor: string;
 
     constructor(block: ISiteBlock = null) {
         if (!block) {

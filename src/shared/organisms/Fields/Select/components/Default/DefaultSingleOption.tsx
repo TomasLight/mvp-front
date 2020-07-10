@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { components } from "react-select";
 import { OptionProps } from "react-select/src/components/Option";
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 type Props = OptionProps<IFieldOption>;
 
-const DefaultSingleOption: FC<Props> = (props) => {
+const DefaultSingleOption = (props: Props) => {
     const classes = useStyles();
 
     return (

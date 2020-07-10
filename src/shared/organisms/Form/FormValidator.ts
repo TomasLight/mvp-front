@@ -13,7 +13,7 @@ export class FormValidator {
         this.settings = settings;
     }
 
-    public validate(formApi: FormApi, values: any) {
+    validate(formApi: FormApi, values: any) {
         const {
             validateOnFieldsChange,
             resetValidationErrorOnActiveField,

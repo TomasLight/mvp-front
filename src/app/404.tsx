@@ -1,7 +1,7 @@
-import React, { FC } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 
-const NotFound: FC = () => {
+const NotFound = () => {
     const location = useLocation();
 
     return (
