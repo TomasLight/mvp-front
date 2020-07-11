@@ -1,4 +1,5 @@
 import { WorkspaceApi } from "@api/WorkspaceApi";
+import { setupSteps } from "@main/Setup/models";
 import { ISetupFormValues } from "@main/Setup/models/ISetupFormValues";
 import { WorkspaceSettings } from "@main/Setup/models/WorkspaceSettings";
 import { put } from "@redux-saga/core/effects";
@@ -8,6 +9,7 @@ import { SagaBase } from "@utils/saga/SagaBase";
 import { AppAction } from "app-redux-utils";
 
 import {
+    IGoToStepThreeData,
     IGoToStepTwoData,
     IOnChangeColorData,
     IOnChangeDomainData,
@@ -106,6 +108,13 @@ export class SetupSaga extends SagaBase {
 
         yield SetupSaga.updateStore({
             settingsAreSending: false,
+            setupStep: setupSteps.dataSettings,
+        });
+    }
+
+    static* goToStepThree(action: AppAction<IGoToStepThreeData>) {
+        yield SetupSaga.updateStore({
+            setupStep: setupSteps.contactSettings,
         });
     }
 }

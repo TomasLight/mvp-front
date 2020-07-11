@@ -15,6 +15,7 @@ import {
 
 const mapStateToProps = (state: State): ISetupPageProps => {
     return {
+        setupStep: state.setup.setupStep,
         initialValues: state.setup.initialValues,
     };
 };

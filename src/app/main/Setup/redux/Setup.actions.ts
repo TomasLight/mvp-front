@@ -9,6 +9,7 @@ import {
     ISetUserNameData,
     IGoToStepTwoData,
     IOnChangeColorData,
+    IGoToStepThreeData,
 } from "./Setup.actions.dataTypes";
 import { SetupStore } from "./Setup.store";
 
@@ -26,6 +27,7 @@ export class SetupActions {
     static readonly ON_CHANGE_COLOR = SetupActions.PREFIX + "ON_CHANGE_COLOR";
 
     static readonly GO_TO_STEP_TWO = SetupActions.PREFIX + "GO_TO_STEP_TWO";
+    static readonly GO_TO_STEP_THREE = SetupActions.PREFIX + "GO_TO_STEP_THREE";
 
     static updateStore = (partialStore: Partial<SetupStore>) =>
         createAction(SetupActions.UPDATE_STORE, partialStore);
@@ -54,4 +56,7 @@ export class SetupActions {
 
     static goToStepTwo = (data: IGoToStepTwoData) =>
         createAction(SetupActions.GO_TO_STEP_TWO, data);
+
+    static goToStepThree = (data: IGoToStepThreeData) =>
+        createAction(SetupActions.GO_TO_STEP_THREE, data);
 }

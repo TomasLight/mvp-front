@@ -95,7 +95,7 @@ export class SetupValidator extends BaseValidator implements IValidatorAsync<ISe
     }
 
     faviconIsValid(favicon: any): boolean {
-        return typeof favicon === "string" && favicon.length > 0;
+        return typeof favicon === "number";
     }
 
     openGraphImageIsValid(openGraphImage: any): boolean {

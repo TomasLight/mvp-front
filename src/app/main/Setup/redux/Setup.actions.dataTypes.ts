@@ -34,3 +34,6 @@ export interface IOnChangeColorData {
 export interface IGoToStepTwoData {
     formValues: ISetupFormValues;
 }
+
+export interface IGoToStepThreeData {
+}

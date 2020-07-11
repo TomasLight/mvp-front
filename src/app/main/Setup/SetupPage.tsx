@@ -1,13 +1,12 @@
-import { ArrowLeftIcon } from "@icons";
-import { IconButton } from "@material-ui/core";
 import React, { useMemo } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { IconButton, makeStyles } from "@material-ui/core";
 
+import { ArrowLeftIcon } from "@icons";
 import { FormProvider } from "@shared/organisms";
 import { ContentContainer } from "./Content";
-import { ISetupFormValues } from "./models";
-import { SetupFormContainer } from "./SetupForm";
+import { ISetupFormValues, setupSteps } from "./models";
+import { SetupSettingsFormContainer } from "./SetupSettingsForm";
 import { SetupValidator } from "./validation";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const formProvider = new FormProvider(new SetupValidator());
 
 interface ISetupPageProps {
+    setupStep: number;
     initialValues: Partial<ISetupFormValues>;
 }
 
@@ -44,26 +44,56 @@ interface ISetupPageCallProps {
 type Props = ISetupPageProps & ISetupPageCallProps;
 
 const SetupPage = (props: Props) => {
-    const { initialValues, redirectToBack, next } = props;
+    const { setupStep, initialValues, redirectToBack, next } = props;
     const classes = useStyles();
 
-    const Form = useMemo(() => formProvider.createForm(next), [next]);
+    const Form = useMemo(() => formProvider.createForm(next), [ next ]);
 
-    return (
+    const SettingsStep = () => (
         <div className={classes.root}>
             <div className={classes.left}>
                 <IconButton onClick={redirectToBack} color="secondary">
-                    <ArrowLeftIcon />
+                    <ArrowLeftIcon/>
                 </IconButton>
 
                 <Form initialValues={initialValues}>
-                    <SetupFormContainer onSubmit={formProvider.submitOnClick} />
+                    <SetupSettingsFormContainer onSubmit={formProvider.submitOnClick}/>
                 </Form>
             </div>
 
             <ContentContainer classes={{ root: classes.right }}/>
         </div>
     );
+
+    const DataStep = () => (
+        <div className={classes.root}>
+            <div className={classes.left}>
+                IIKO
+            </div>
+        </div>
+    );
+
+    const ContactStep = () => (
+        <div className={classes.root}>
+            <div className={classes.left}>
+                contacts
+            </div>
+        </div>
+    );
+
+    switch (setupStep) {
+        case setupSteps.siteSettings:
+            return <SettingsStep/>;
+
+        case setupSteps.dataSettings:
+            return <DataStep/>;
+
+        case setupSteps.contactSettings:
+            return <ContactStep/>;
+
+        default:
+            throw new Error(`Invalid setup step(${setupStep}) for ${nameof(SetupPage)}`);
+    }
 };
 
 export { SetupPage, ISetupPageProps, ISetupPageCallProps };

@@ -41,5 +41,9 @@ export class SetupWatcher extends WatcherBase {
             SetupActions.GO_TO_STEP_TWO,
             SetupSaga.goToStepTwo
         );
+        this.watchLatest(
+            SetupActions.GO_TO_STEP_THREE,
+            SetupSaga.goToStepThree
+        );
     }
 }

@@ -73,12 +73,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "SetupPage" });
 
-interface ISetupFormProps {
+interface ISetupSettingsFormProps {
     faviconOptions: IconSelectFieldOption[];
     colorOptions: ColorSelectFieldOption[];
 }
 
-interface ISetupFormCallProps {
+interface ISetupSettingsFormCallProps {
     onChangeSiteName: (siteName: string) => void;
     onChangeDomain: (domain: string) => void;
     onChangeFavicon: (faviconVariant: IconVariant) => void;
@@ -88,9 +88,9 @@ interface ISetupFormCallProps {
     onSubmit: () => void;
 }
 
-type Props = ISetupFormProps & ISetupFormCallProps;
+type Props = ISetupSettingsFormProps & ISetupSettingsFormCallProps;
 
-const SetupForm = (props: Props) => {
+const SetupSettingsForm = (props: Props) => {
     const {
         faviconOptions,
         colorOptions,
@@ -163,4 +163,4 @@ const SetupForm = (props: Props) => {
     );
 };
 
-export { SetupForm, ISetupFormProps, ISetupFormCallProps };
+export { SetupSettingsForm, ISetupSettingsFormProps, ISetupSettingsFormCallProps };
