@@ -12,6 +12,8 @@ export class SetupStore {
     openGraphImage: string;
     openGraphTitle: string;
 
+    color: string;
+
     constructor() {
         this.initialValues = {} as any;
 
@@ -22,5 +24,7 @@ export class SetupStore {
         this.userName = "Имя и Фамилия";
         this.openGraphImage = "";
         this.openGraphTitle = "";
+
+        this.color = "";
     }
 }

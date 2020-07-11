@@ -5,6 +5,8 @@ import { push } from "connected-react-router";
 
 import { State } from "@MainState";
 import { mainUrls } from "@main/routing";
+import { ISetupFormValues } from "@main/Setup/models";
+import { SetupActions } from "@main/Setup/redux";
 import {
     SetupPage,
     ISetupPageProps,
@@ -20,7 +22,7 @@ const mapStateToProps = (state: State): ISetupPageProps => {
 const mapDispatchToProps = (dispatch: Dispatch): ISetupPageCallProps => {
     return {
         redirectToBack: () => dispatch(push(mainUrls.hello)),
-        next: (formValues: any) => undefined,
+        next: (formValues: ISetupFormValues) => dispatch(SetupActions.goToStepTwo({ formValues })),
     };
 };
 

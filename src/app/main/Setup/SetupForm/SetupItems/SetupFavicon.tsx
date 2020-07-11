@@ -1,12 +1,12 @@
-import { IconVariant } from "@enums";
-import { IconSelectFieldOption } from "@select";
 import React from "react";
 
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
+import { IconVariant } from "@enums";
 import { ISetupFormValues } from "@main/Setup/models";
 import { DefaultFieldSubscription } from "@shared/organisms";
 import { SelectFormField } from "@shared/templates";
+import { IconSelectFieldOption } from "@select";
 import { Translate } from "@utils";
 
 import { renderFavicon } from "./renderFavicon";

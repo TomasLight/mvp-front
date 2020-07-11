@@ -1,4 +1,5 @@
 import { IconVariant } from "@enums";
+import { ISetupFormValues } from "@main/Setup/models";
 import { Dispatch } from "redux";
 
 export interface IOnChangeSiteNameData {
@@ -24,4 +25,12 @@ export interface IOnChangeOpenGraphImageData {
 
 export interface IOnChangeOpenGraphTitleData {
     title: string;
+}
+
+export interface IOnChangeColorData {
+    color: string;
+}
+
+export interface IGoToStepTwoData {
+    formValues: ISetupFormValues;
 }

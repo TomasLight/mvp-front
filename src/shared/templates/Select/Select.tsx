@@ -1,12 +1,17 @@
 import React from "react";
 
 import { SelectWrapperProps } from "@shared/organisms/Fields/Select";
-import { SimpleSingleSelect, SingleSelectWithIcon } from "./SelectVariants";
+import {
+    SimpleSingleSelect,
+    SingleColorSelect,
+    SingleSelectWithIcon,
+} from "./SelectVariants";
 
 interface ISelectProps extends SelectWrapperProps {
     variant?:
         | "single-simple"
-        | "single-with-icon";
+        | "single-with-icon"
+        | "single-color";
 }
 
 type Props = ISelectProps;
@@ -18,6 +23,11 @@ const Select = (props: Props) => {
         case "single-with-icon":
             return (
                 <SingleSelectWithIcon {...rest} />
+            );
+
+        case "single-color":
+            return (
+                <SingleColorSelect {...rest} />
             );
 
         case "single-simple":

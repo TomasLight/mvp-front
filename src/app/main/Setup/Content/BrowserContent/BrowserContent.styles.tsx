@@ -17,11 +17,11 @@ const styles = createStyles<ClassKey, {}>({
         background: "url(/images/browser-chrome-mac-small_002.png) no-repeat",
         width: 462,
         gridTemplateAreas: "\
-        '.' \
-        'browserHeader' \
-        '.' \
-        'siteUrl'",
-        gridTemplateRows: "15px 18px 16px 16px",
+        '.' 'browserHeader' \
+        '.' 'siteUrl'",
+        gridTemplateRows: "\
+            15px 18px \
+            16px 16px",
     },
     browserHeader: {
         gridArea: "browserHeader",

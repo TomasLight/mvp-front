@@ -7,6 +7,8 @@ import {
     IOnChangeOpenGraphImageData,
     IOnChangeOpenGraphTitleData,
     ISetUserNameData,
+    IGoToStepTwoData,
+    IOnChangeColorData,
 } from "./Setup.actions.dataTypes";
 import { SetupStore } from "./Setup.store";
 
@@ -21,6 +23,9 @@ export class SetupActions {
     static readonly ON_CHANGE_FAVICON = SetupActions.PREFIX + "ON_CHANGE_FAVICON";
     static readonly ON_CHANGE_OPEN_GRAPH_IMAGE = SetupActions.PREFIX + "ON_CHANGE_OPEN_GRAPH_IMAGE";
     static readonly ON_CHANGE_OPEN_GRAPH_TITLE = SetupActions.PREFIX + "ON_CHANGE_OPEN_GRAPH_TITLE";
+    static readonly ON_CHANGE_COLOR = SetupActions.PREFIX + "ON_CHANGE_COLOR";
+
+    static readonly GO_TO_STEP_TWO = SetupActions.PREFIX + "GO_TO_STEP_TWO";
 
     static updateStore = (partialStore: Partial<SetupStore>) =>
         createAction(SetupActions.UPDATE_STORE, partialStore);
@@ -42,4 +47,11 @@ export class SetupActions {
 
     static onChangeOpenGraphTitle = (data: IOnChangeOpenGraphTitleData) =>
         createAction(SetupActions.ON_CHANGE_OPEN_GRAPH_TITLE, data);
+
+    static onChangeColor = (data: IOnChangeColorData) =>
+        createAction(SetupActions.ON_CHANGE_COLOR, data);
+
+
+    static goToStepTwo = (data: IGoToStepTwoData) =>
+        createAction(SetupActions.GO_TO_STEP_TWO, data);
 }

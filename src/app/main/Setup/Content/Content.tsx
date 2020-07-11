@@ -1,6 +1,7 @@
 import { IconVariant } from "@enums";
 import { FavIcon } from "@icons";
 import { BrowserContent } from "@main/Setup/Content/BrowserContent";
+import { ColorContent } from "@main/Setup/Content/ColorContent";
 import { VkPostContent } from "@main/Setup/Content/VkPostContent";
 import clsx from "clsx";
 import React from "react";
@@ -14,6 +15,7 @@ interface IContentProps {
     userName: string;
     openGraphImage: string;
     openGraphTitle: string;
+    color: string;
 }
 
 type Props = IContentProps & StyledComponentProps<ClassKey>;
@@ -27,6 +29,7 @@ const Content = (props: Props) => {
         userName,
         openGraphImage,
         openGraphTitle,
+        color,
     } = props;
 
     return (
@@ -49,6 +52,14 @@ const Content = (props: Props) => {
                 title={openGraphTitle}
                 siteUrl={siteUrl}
             />
+
+            <ColorContent
+                classes={{
+                    root: clsx(classes.color, classes.shadow),
+                }}
+                siteName={siteName}
+                color={color}
+            />
         </div>
     );
 };
@@ -60,7 +71,7 @@ type ClassKey =
     | "shadow"
     | "browser"
     | "vk"
-    | "delivery"
+    | "color"
     ;
 
 const componentWithStyles = withStyles<ClassKey>((theme) => ({
@@ -118,7 +129,7 @@ const componentWithStyles = withStyles<ClassKey>((theme) => ({
     vk: {
         gridArea: "vk",
     },
-    delivery: {
+    color: {
         gridArea: "delivery",
     },
 }), { name: "Content" })(Content);

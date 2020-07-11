@@ -32,5 +32,14 @@ export class SetupWatcher extends WatcherBase {
             SetupActions.ON_CHANGE_OPEN_GRAPH_TITLE,
             SetupSaga.onChangeOpenGraphTitle
         );
+        this.watchLatest(
+            SetupActions.ON_CHANGE_COLOR,
+            SetupSaga.onChangeColor
+        );
+
+        this.watchLatest(
+            SetupActions.GO_TO_STEP_TWO,
+            SetupSaga.goToStepTwo
+        );
     }
 }

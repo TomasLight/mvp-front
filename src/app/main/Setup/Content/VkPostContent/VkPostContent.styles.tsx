@@ -22,7 +22,8 @@ const styles = createStyles<ClassKey, {}>({
             'image' '.' \
             'title' '.'\
             'siteUrl'",
-        gridTemplateRows: "23.5px \
+        gridTemplateRows: "\
+            23.5px \
             15px 140.5px \
             225px 10px\
             19px 8px\

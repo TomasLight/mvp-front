@@ -7,9 +7,9 @@ import {
     DefaultDropdownIndicator,
     DefaultPlaceholder,
     DefaultValueContainer,
-    SingleOptionWithIcon,
-    SingleValueWithIcon,
-    DefaultControl,
+    SingleColorOption,
+    SingleColorValue,
+    ColorControl,
     DefaultMenuList,
 } from "@shared/organisms/Fields/Select/components";
 
@@ -17,7 +17,7 @@ import { ISingleSelectProps } from "./ISingleSelectProps";
 
 type Props = ISingleSelectProps;
 
-const SingleSelectWithIcon = (props: Props) => {
+const SingleColorSelect = (props: Props) => {
     const { components, controlStyles, styles, ...rest } = props;
 
     const overriddenSelectComponentStyles: StylesConfig = {
@@ -35,12 +35,12 @@ const SingleSelectWithIcon = (props: Props) => {
                 DropdownIndicator: DefaultDropdownIndicator,
                 LoadingIndicator: null,
                 IndicatorSeparator: null,
-                Control: DefaultControl,
+                Control: ColorControl,
                 MenuList: DefaultMenuList,
-                Option: SingleOptionWithIcon,
+                Option: SingleColorOption,
                 Placeholder: DefaultPlaceholder,
                 SelectContainer: DefaultSelectContainer,
-                SingleValue: SingleValueWithIcon,
+                SingleValue: SingleColorValue,
                 ValueContainer: DefaultValueContainer,
                 ...components,
             }}
@@ -48,4 +48,4 @@ const SingleSelectWithIcon = (props: Props) => {
     );
 };
 
-export { SingleSelectWithIcon, Props as SingleSelectWithIconProps };
+export { SingleColorSelect, Props as SingleColorSelectProps };

@@ -1,6 +1,14 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { PaletteColor, PaletteColorOptions } from "@material-ui/core/styles/createPalette";
+import { Styles, StyleRules } from "@material-ui/styles/withStyles";
 import { overrideInput } from "@shared/theme/overrides/overrideInput";
+import { Theme } from "@material-ui/core";
+
+declare module "@material-ui/core" {
+    function createStyles<ClassKey extends string, Props extends {}>(
+        styles: Styles<Theme, Props, ClassKey>
+    ): StyleRules<Props, ClassKey>;
+}
 
 declare module "@material-ui/core/styles/createMuiTheme" {
     interface Theme {

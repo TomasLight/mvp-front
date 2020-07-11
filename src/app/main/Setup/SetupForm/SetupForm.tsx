@@ -3,10 +3,16 @@ import React from "react";
 import { makeStyles, Button, Typography } from "@material-ui/core";
 
 import { IconVariant } from "@enums";
-import { IconSelectFieldOption } from "@select/types";
+import { ColorSelectFieldOption, IconSelectFieldOption } from "@select/types";
 import { Translate } from "@utils";
 
-import { SetupDomain, SetupSiteName, SetupFavicon, SetupOpenGraph } from "./SetupItems";
+import {
+    SetupDomain,
+    SetupSiteName,
+    SetupFavicon,
+    SetupOpenGraph,
+    SetupColors,
+} from "./SetupItems";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface ISetupFormProps {
     faviconOptions: IconSelectFieldOption[];
+    colorOptions: ColorSelectFieldOption[];
 }
 
 interface ISetupFormCallProps {
@@ -77,6 +84,7 @@ interface ISetupFormCallProps {
     onChangeFavicon: (faviconVariant: IconVariant) => void;
     onChangeOpenGraphImage: (imageFile: File) => void;
     onChangeOpenGraphTitle: (title: string) => void;
+    onChangeColor: (color: string) => void;
     onSubmit: () => void;
 }
 
@@ -85,11 +93,14 @@ type Props = ISetupFormProps & ISetupFormCallProps;
 const SetupForm = (props: Props) => {
     const {
         faviconOptions,
+        colorOptions,
+
         onChangeSiteName,
         onChangeDomain,
         onChangeFavicon,
         onChangeOpenGraphImage,
         onChangeOpenGraphTitle,
+        onChangeColor,
         onSubmit,
     } = props;
     const classes = useStyles();
@@ -128,6 +139,15 @@ const SetupForm = (props: Props) => {
                 }}
                 onChangeImage={onChangeOpenGraphImage}
                 onChangeTitle={onChangeOpenGraphTitle}
+            />
+
+            <SetupColors
+                classes={{
+                    item: classes.colors,
+                    field: classes.field,
+                }}
+                colorOptions={colorOptions}
+                onChange={onChangeColor}
             />
 
             <div className={classes.stepper}>

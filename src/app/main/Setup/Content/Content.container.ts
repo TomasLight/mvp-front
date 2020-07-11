@@ -18,6 +18,7 @@ const mapStateToProps = (state: State): IContentProps => {
         userName: state.setup.userName,
         openGraphImage: state.setup.openGraphImage,
         openGraphTitle: state.setup.openGraphTitle,
+        color: state.setup.color,
     };
 };
 

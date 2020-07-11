@@ -1,10 +1,11 @@
 import { AppAction } from "app-redux-utils";
-import { put, takeLatest } from "@redux-saga/core/effects";
+import { put } from "@redux-saga/core/effects";
 
 import { SagaBase } from "@utils/saga/SagaBase";
-import { Dispatch } from "redux";
 
 import {
+    IGoToStepTwoData,
+    IOnChangeColorData,
     IOnChangeDomainData,
     IOnChangeFaviconData,
     IOnChangeOpenGraphImageData,
@@ -69,5 +70,17 @@ export class SetupSaga extends SagaBase {
         yield SetupSaga.updateStore({
             openGraphTitle: action.payload.title,
         });
+    }
+
+    static* onChangeColor(action: AppAction<IOnChangeColorData>) {
+        yield SetupSaga.updateStore({
+            color: action.payload.color,
+        });
+    }
+
+    static* goToStepTwo(action: AppAction<IGoToStepTwoData>) {
+        // yield SetupSaga.updateStore({
+        //
+        // });
     }
 }
