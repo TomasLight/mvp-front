@@ -10,7 +10,7 @@ type ClassKey =
     | "siteUrl"
     ;
 
-const styles = createStyles<ClassKey, {}>({
+const styles = createStyles<ClassKey, { image: string }>({
     root: {
         display: "grid",
         height: "100%",
@@ -44,6 +44,11 @@ const styles = createStyles<ClassKey, {}>({
         borderTopRightRadius: 4,
         maxWidth: "calc(100% - 40px)", // width - margins
         height: "100%",
+
+        overflow: "hidden",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundImage: props => `url(${props.image})`,
     },
     title: {
         gridArea: "title",

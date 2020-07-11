@@ -40,7 +40,6 @@ const withClasses = withStyles<ClassKey>((theme) => ({
     field: {},
     imageField: {
         gridArea: "imageField",
-        height: 48,
     },
     titleField: {
         gridArea: "titleField",

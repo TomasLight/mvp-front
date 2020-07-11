@@ -17,7 +17,6 @@ const VkPostContent = (props: Props) => {
     const {
         classes,
         userName,
-        image,
         title,
         siteUrl,
     } = props;
@@ -28,7 +27,7 @@ const VkPostContent = (props: Props) => {
                 {userName}
             </Typography>
 
-            <img className={classes.image} src={image}/>
+            <div className={classes.image} />
 
             <Typography className={classes.title} noWrap>
                 {title}

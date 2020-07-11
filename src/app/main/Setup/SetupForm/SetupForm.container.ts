@@ -1,3 +1,4 @@
+import { colorsDictionary } from "@main/Setup/models";
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -24,14 +25,14 @@ const mapStateToProps = (state: CommonState): ISetupFormProps => {
             new IconSelectFieldOption({ id: IconVariant.PizzaSlice, title: "" }),
         ],
         colorOptions: [
-            new ColorSelectFieldOption({ id: "color-1", color: "#ED6E33" }),
-            new ColorSelectFieldOption({ id: "color-2", color: "#1EB980" }),
-            new ColorSelectFieldOption({ id: "color-3", color: "#045D56" }),
-            new ColorSelectFieldOption({ id: "color-4", color: "#5D1049" }),
-            new ColorSelectFieldOption({ id: "color-5", color: "#03A9F4" }),
-            new ColorSelectFieldOption({ id: "color-6", color: "#01579B" }),
-            new ColorSelectFieldOption({ id: "color-7", color: "#43A047" }),
-            new ColorSelectFieldOption({ id: "color-8", color: "#2979FF" }),
+            new ColorSelectFieldOption({ id: "color-1", color: colorsDictionary["1"] }),
+            new ColorSelectFieldOption({ id: "color-2", color: colorsDictionary["2"] }),
+            new ColorSelectFieldOption({ id: "color-3", color: colorsDictionary["3"] }),
+            new ColorSelectFieldOption({ id: "color-4", color: colorsDictionary["4"] }),
+            new ColorSelectFieldOption({ id: "color-5", color: colorsDictionary["5"] }),
+            new ColorSelectFieldOption({ id: "color-6", color: colorsDictionary["6"] }),
+            new ColorSelectFieldOption({ id: "color-7", color: colorsDictionary["7"] }),
+            new ColorSelectFieldOption({ id: "color-8", color: colorsDictionary["8"] }),
         ],
     };
 };

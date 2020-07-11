@@ -3,7 +3,7 @@ export interface ISetupFormValues {
     domain: string;
     favicon: number;
 
-    openGraphImage: string;
+    openGraphImage: FileList;
     openGraphTitle: string;
 
     primaryColor: string;

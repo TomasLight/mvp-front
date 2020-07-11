@@ -1,7 +1,11 @@
-import { AppAction } from "app-redux-utils";
+import { WorkspaceApi } from "@api/WorkspaceApi";
+import { ISetupFormValues } from "@main/Setup/models/ISetupFormValues";
+import { WorkspaceSettings } from "@main/Setup/models/WorkspaceSettings";
 import { put } from "@redux-saga/core/effects";
+import { ApiResponse, Mapper } from "@utils";
 
 import { SagaBase } from "@utils/saga/SagaBase";
+import { AppAction } from "app-redux-utils";
 
 import {
     IGoToStepTwoData,
@@ -79,8 +83,29 @@ export class SetupSaga extends SagaBase {
     }
 
     static* goToStepTwo(action: AppAction<IGoToStepTwoData>) {
-        // yield SetupSaga.updateStore({
-        //
-        // });
+        const { formValues } = action.payload;
+
+        const settings = Mapper.map<WorkspaceSettings>(
+            nameof<ISetupFormValues>(),
+            nameof<WorkspaceSettings>(),
+            formValues
+        );
+
+        yield SetupSaga.updateStore({
+            settingsAreSending: true,
+        });
+
+        const response: ApiResponse = yield WorkspaceApi.sendSettings(settings);
+        if (response.hasError()) {
+            yield SetupSaga.updateStore({
+                settingsAreSending: false,
+            });
+            yield SagaBase.displayClientError(response);
+            return;
+        }
+
+        yield SetupSaga.updateStore({
+            settingsAreSending: false,
+        });
     }
 }

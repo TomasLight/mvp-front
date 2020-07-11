@@ -1,5 +1,5 @@
 import { IconVariant } from "@enums";
-import { ISetupFormValues } from "@main/Setup/models";
+import { colorsDictionary, ISetupFormValues } from "@main/Setup/models";
 
 export class SetupStore {
     initialValues: ISetupFormValues;
@@ -14,8 +14,14 @@ export class SetupStore {
 
     color: string;
 
+    settingsAreSending: boolean;
+
     constructor() {
-        this.initialValues = {} as any;
+        const initialColor = colorsDictionary["1"];
+
+        this.initialValues = {
+            primaryColor: initialColor,
+        } as any;
 
         this.faviconVariant = IconVariant.NA;
         this.siteName = "";
@@ -25,6 +31,8 @@ export class SetupStore {
         this.openGraphImage = "";
         this.openGraphTitle = "";
 
-        this.color = "";
+        this.color = initialColor;
+
+        this.settingsAreSending = false;
     }
 }

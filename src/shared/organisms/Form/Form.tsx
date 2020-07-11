@@ -9,7 +9,7 @@ interface IFormOwnProps {
     setFormApi: (api: FormApi) => void;
     submit: Submit;
     mutators?: FormMutators;
-    validate?: (formValues: any) => any;
+    validateAsync?: (formValues: any) => any;
 }
 
 interface IFormProps {
