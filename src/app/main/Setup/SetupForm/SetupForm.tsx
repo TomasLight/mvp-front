@@ -2,6 +2,7 @@ import React from "react";
 
 import { makeStyles, Button, Typography } from "@material-ui/core";
 
+import { IconVariant } from "@enums";
 import { IconSelectFieldOption } from "@select/types";
 import { Translate } from "@utils";
 
@@ -71,13 +72,26 @@ interface ISetupFormProps {
 }
 
 interface ISetupFormCallProps {
+    onChangeSiteName: (siteName: string) => void;
+    onChangeDomain: (domain: string) => void;
+    onChangeFavicon: (faviconVariant: IconVariant) => void;
+    onChangeOpenGraphImage: (imageFile: File) => void;
+    onChangeOpenGraphTitle: (title: string) => void;
     onSubmit: () => void;
 }
 
 type Props = ISetupFormProps & ISetupFormCallProps;
 
 const SetupForm = (props: Props) => {
-    const { faviconOptions, onSubmit } = props;
+    const {
+        faviconOptions,
+        onChangeSiteName,
+        onChangeDomain,
+        onChangeFavicon,
+        onChangeOpenGraphImage,
+        onChangeOpenGraphTitle,
+        onSubmit,
+    } = props;
     const classes = useStyles();
 
     return (
@@ -87,6 +101,7 @@ const SetupForm = (props: Props) => {
                     item: classes.siteName,
                     field: classes.field,
                 }}
+                onChange={onChangeSiteName}
             />
 
             <SetupDomain
@@ -94,6 +109,7 @@ const SetupForm = (props: Props) => {
                     item: classes.domain,
                     field: classes.field,
                 }}
+                onChange={onChangeDomain}
             />
 
             <SetupFavicon
@@ -102,6 +118,7 @@ const SetupForm = (props: Props) => {
                     field: classes.field,
                 }}
                 faviconOptions={faviconOptions}
+                onChange={onChangeFavicon}
             />
 
             <SetupOpenGraph
@@ -109,6 +126,8 @@ const SetupForm = (props: Props) => {
                     item: classes.openGraph,
                     field: classes.field,
                 }}
+                onChangeImage={onChangeOpenGraphImage}
+                onChangeTitle={onChangeOpenGraphTitle}
             />
 
             <div className={classes.stepper}>

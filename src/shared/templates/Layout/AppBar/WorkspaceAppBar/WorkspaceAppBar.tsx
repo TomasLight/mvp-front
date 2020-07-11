@@ -23,18 +23,18 @@ const useStyles = makeStyles({
     },
 }, { name: "PosAppBar" });
 
-interface IPosAppBarProps {
+interface IWorkspaceAppBarProps {
     open: boolean;
     title: string;
 }
 
-interface IPosAppBarCallProps {
+interface IWorkspaceAppBarCallProps {
     toggle: () => void;
 }
 
-type Props = IPosAppBarProps & IPosAppBarCallProps;
+type Props = IWorkspaceAppBarProps & IWorkspaceAppBarCallProps;
 
-const PosAppBar = (props: Props) => {
+const WorkspaceAppBar = (props: Props) => {
     const {
         open,
         title,
@@ -56,4 +56,4 @@ const PosAppBar = (props: Props) => {
     );
 };
 
-export { PosAppBar, IPosAppBarProps, IPosAppBarCallProps };
+export { WorkspaceAppBar, IWorkspaceAppBarProps, IWorkspaceAppBarCallProps };

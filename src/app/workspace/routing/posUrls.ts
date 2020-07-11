@@ -1,3 +1,3 @@
 export const posUrls = {
-    menu: "/pos/menu",
+    menu: "/workspace/menu",
 };

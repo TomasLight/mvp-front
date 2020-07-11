@@ -11,7 +11,9 @@ declare module "@material-ui/core/styles/createMuiTheme" {
             secondary: string,
             tertiary: string,
         };
+        payed: PaletteColor;
         disabled: PaletteColor;
+        bizarre: string;
     }
 
     // allow configuration using `createMuiTheme`
@@ -23,7 +25,9 @@ declare module "@material-ui/core/styles/createMuiTheme" {
             secondary: string,
             tertiary: string,
         };
+        payed?: PaletteColor;
         disabled?: PaletteColorOptions;
+        bizarre?: string;
     }
 }
 
@@ -31,8 +35,7 @@ function createTheme(primaryColor: string = "#ED6E33") {
     return createMuiTheme({
         palette: {
             primary: {
-                // main: primaryColor,
-                main: "#ED6E33",
+                main: primaryColor,
                 contrastText: "#FFF",
             },
             secondary: {
@@ -51,10 +54,16 @@ function createTheme(primaryColor: string = "#ED6E33") {
             secondary: "#000",
             tertiary: "#757575",
         },
+        // @ts-ignore
+        payed: {
+            main: "#6FCF97",
+            contrastText: "#fff",
+        },
         disabled: {
             main: "#e7e5e5",
             contrastText: "#b0b0b0",
         },
+        bizarre: "#FFC043",
         overrides: {
             ...overrideInput(),
         },

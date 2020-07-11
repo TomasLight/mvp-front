@@ -1,25 +1,25 @@
-import { IconVariant } from "@enums";
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { push } from "connected-react-router";
 
-import { CommonState } from "@config";
+import { State } from "@MainState";
+import { mainUrls } from "@main/routing";
 import {
     SetupPage,
     ISetupPageProps,
     ISetupPageCallProps,
 } from "./SetupPage";
 
-const mapStateToProps = (state: CommonState): ISetupPageProps => {
+const mapStateToProps = (state: State): ISetupPageProps => {
     return {
-        initialValues: {
-            favicon: IconVariant.Coffee,
-        },
+        initialValues: state.setup.initialValues,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): ISetupPageCallProps => {
     return {
+        redirectToBack: () => dispatch(push(mainUrls.hello)),
         next: (formValues: any) => undefined,
     };
 };

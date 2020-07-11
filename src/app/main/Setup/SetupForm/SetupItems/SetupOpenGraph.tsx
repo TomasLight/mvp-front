@@ -10,10 +10,19 @@ import { Translate } from "@utils";
 
 import { ClassKey, withClasses } from "./SetupOpenGraph.classes";
 
-type Props = StyledComponentProps<ClassKey>;
+interface ISetupOpenGraphCallProps {
+    onChangeImage: (file: File) => void;
+    onChangeTitle: (title: string) => void;
+}
+
+type Props = ISetupOpenGraphCallProps & StyledComponentProps<ClassKey>;
 
 const SetupOpenGraph = (props: Props) => {
-    const { classes } = props;
+    const {
+        classes,
+        onChangeImage,
+        onChangeTitle,
+    } = props;
 
     const chooseFile = (fileList: FileList) => {
         if (!fileList || !fileList.length) {
@@ -24,6 +33,8 @@ const SetupOpenGraph = (props: Props) => {
         if (!file.name) {
             return;
         }
+
+        onChangeImage(file);
     };
 
     return (
@@ -40,12 +51,12 @@ const SetupOpenGraph = (props: Props) => {
                 name={nameof<ISetupFormValues>(o => o.openGraphImage)}
                 subscription={DefaultFieldSubscription}
                 required
-                onDrop={chooseFile}
                 classes={{
                     root: {
                         root: clsx(classes.field, classes.imageField),
                     },
                 }}
+                sideOnChange={chooseFile}
             />
 
             <Typography className={clsx(classes.helpText, classes.imageHelpArea)}>
@@ -66,6 +77,7 @@ const SetupOpenGraph = (props: Props) => {
                         root: clsx(classes.field, classes.titleField),
                     },
                 }}
+                sideOnChange={onChangeTitle}
             />
         </div>
     );

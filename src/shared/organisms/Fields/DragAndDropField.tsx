@@ -53,13 +53,12 @@ const DragAndDrop = withStyles<DragAndDropClassKey>((theme) => ({
 }))(DragAndDropAtom);
 
 interface IDragAndDropFieldProps extends FieldBaseProps<DragAndDropClassKey>,
-    IDragAndDropProps,
-    IDragAndDropCallProps {
+    IDragAndDropProps {
 
     innerText?: string;
 }
 
-type Props = IDragAndDropFieldProps;
+type Props = IDragAndDropFieldProps & IDragAndDropCallProps;
 
 const DragAndDropField = (props: Props) => {
     const {
@@ -92,4 +91,4 @@ const DragAndDropField = (props: Props) => {
     );
 };
 
-export { DragAndDropField, Props as DragAndDropFieldProps };
+export { DragAndDropField, Props as DragAndDropFieldProps, IDragAndDropFieldProps };

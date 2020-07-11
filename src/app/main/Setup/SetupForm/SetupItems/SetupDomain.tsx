@@ -10,10 +10,15 @@ import { Translate } from "@utils";
 import { SetupItem } from "./SetupItem";
 
 type ClassKey = "item" | "field" | "adornment";
-type Props = StyledComponentProps<ClassKey>;
+
+interface ISetupDomainCallProps {
+    onChange: (domain: string) => void;
+}
+
+type Props = ISetupDomainCallProps & StyledComponentProps<ClassKey>;
 
 const SetupDomain = (props: Props) => {
-    const { classes } = props;
+    const { classes, onChange } = props;
 
     return (
         <SetupItem
@@ -38,6 +43,7 @@ const SetupDomain = (props: Props) => {
                         root: classes.field,
                     },
                 }}
+                sideOnChange={onChange}
             />
         </SetupItem>
     );

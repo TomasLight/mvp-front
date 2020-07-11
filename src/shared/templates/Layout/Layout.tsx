@@ -77,6 +77,7 @@ const Layout: FC<Props> = (props) => {
             />
 
             <Drawer
+                variant={variant}
                 menuItems={menuItems}
                 redirect={redirect}
                 open={open}

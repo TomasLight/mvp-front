@@ -1,4 +1,4 @@
-import { renderFavicon } from "@main/Setup/SetupForm/renderFavicon";
+import { IconVariant } from "@enums";
 import { IconSelectFieldOption } from "@select";
 import React from "react";
 
@@ -9,18 +9,25 @@ import { DefaultFieldSubscription } from "@shared/organisms";
 import { SelectFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
+import { renderFavicon } from "./renderFavicon";
 import { SetupItem } from "./SetupItem";
 
 type ClassKey = "item" | "field";
 
-interface ISetupFaviconProps extends StyledComponentProps<ClassKey> {
+interface ISetupFaviconProps {
     faviconOptions: IconSelectFieldOption[];
 }
 
-type Props = ISetupFaviconProps;
+interface ISetupDomainCallProps {
+    onChange: (faviconVariant: IconVariant) => void;
+}
+
+type Props = ISetupFaviconProps
+    & ISetupDomainCallProps
+    & StyledComponentProps<ClassKey>;
 
 const SetupFavicon = (props: Props) => {
-    const { classes, faviconOptions } = props;
+    const { classes, faviconOptions, onChange } = props;
 
     return (
         <SetupItem
@@ -40,6 +47,7 @@ const SetupFavicon = (props: Props) => {
                         root: classes.field,
                     },
                 }}
+                sideOnChange={onChange}
             />
         </SetupItem>
     );

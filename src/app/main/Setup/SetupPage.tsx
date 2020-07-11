@@ -1,9 +1,11 @@
+import { ArrowLeftIcon } from "@icons";
+import { IconButton } from "@material-ui/core";
 import React, { useMemo } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
 import { FormProvider } from "@shared/organisms";
-import { Content } from "./Content";
+import { ContentContainer } from "./Content";
 import { ISetupFormValues } from "./models";
 import { SetupFormContainer } from "./SetupForm";
 import { SetupValidator } from "./validation";
@@ -17,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
     },
     left: {
         gridArea: "left",
+        display: "grid",
+        gridGap: 10,
+        justifyItems: "start",
         background: theme.palette.background.paper,
-        padding: "60px 32px 60px 22px",
+        padding: "12px 32px 60px 22px",
     },
     right: {
         gridArea: "right",
-        display: "grid",
-        alignItems: "center",
-        justifyItems: "center",
     },
 }), { name: "SetupPage" });
 
@@ -35,13 +37,14 @@ interface ISetupPageProps {
 }
 
 interface ISetupPageCallProps {
+    redirectToBack: () => void;
     next: (formValues: any) => void;
 }
 
 type Props = ISetupPageProps & ISetupPageCallProps;
 
 const SetupPage = (props: Props) => {
-    const { initialValues, next } = props;
+    const { initialValues, redirectToBack, next } = props;
     const classes = useStyles();
 
     const Form = useMemo(() => formProvider.createForm(next), [next]);
@@ -49,12 +52,16 @@ const SetupPage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
+                <IconButton onClick={redirectToBack} color="secondary">
+                    <ArrowLeftIcon />
+                </IconButton>
+
                 <Form initialValues={initialValues}>
                     <SetupFormContainer onSubmit={formProvider.submitOnClick} />
                 </Form>
             </div>
 
-            <Content classes={{ root: classes.right }}/>
+            <ContentContainer classes={{ root: classes.right }}/>
         </div>
     );
 };

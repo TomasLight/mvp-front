@@ -1,2 +1,2 @@
-export * from "./Pos.actions";
-export * from "./Pos.store";
+export * from "./Workspace.actions";
+export * from "./Workspace.store";

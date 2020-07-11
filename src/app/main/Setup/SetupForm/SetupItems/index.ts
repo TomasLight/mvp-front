@@ -1,3 +1,4 @@
+export * from "./renderFavicon";
 export * from "./SetupDomain";
 export * from "./SetupFavicon";
 export * from "./SetupItem";

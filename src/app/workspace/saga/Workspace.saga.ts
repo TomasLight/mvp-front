@@ -1,28 +1,26 @@
-import { Notification, NotifierActions } from "@shared/templates";
-import { Translate } from "@utils";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { PageApi } from "@api";
-import { ApiResponse } from "@utils/api/ApiResponse";
-import { SagaBase } from "@utils/saga/SagaBase";
+import { Notification, NotifierActions } from "@shared/templates";
+import { Translate, ApiResponse, SagaBase } from "@utils";
 import { Pages } from "../../models";
 
-import { PosActions, PosStore } from "../redux";
+import { WorkspaceActions, WorkspaceStore } from "../redux";
 
-export class PosSaga extends SagaBase {
-    private static* updateStore(partialStore: Partial<PosStore>) {
-        yield put(PosActions.updateStore(partialStore));
+export class WorkspaceSaga extends SagaBase {
+    private static* updateStore(partialStore: Partial<WorkspaceStore>) {
+        yield put(WorkspaceActions.updateStore(partialStore));
     }
 
     static* loadPage(action: AppAction) {
-        yield PosSaga.updateStore({
+        yield WorkspaceSaga.updateStore({
             pageIsLoading: true,
         });
 
         const response: ApiResponse<Pages> = yield PageApi.getPages();
         if (response.hasError()) {
-            yield PosSaga.updateStore({
+            yield WorkspaceSaga.updateStore({
                 pageIsLoading: false,
             });
             yield SagaBase.displayClientError(response);
@@ -38,14 +36,14 @@ export class PosSaga extends SagaBase {
             yield put(NotifierActions.enqueueSnackbar(notification));
         }
 
-        yield PosSaga.updateStore({
+        yield WorkspaceSaga.updateStore({
             pageIsLoading: false,
             page: pages.index,
         });
 
         const site = pages.index.blocks.site;
-        PosSaga.updateSiteTitle(site.title);
-        PosSaga.updateSiteFavicon(site.favicon);
+        WorkspaceSaga.updateSiteTitle(site.title);
+        WorkspaceSaga.updateSiteFavicon(site.favicon);
     }
 
     private static updateSiteTitle(title: string) {

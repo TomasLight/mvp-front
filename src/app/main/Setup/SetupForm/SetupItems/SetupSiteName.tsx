@@ -10,10 +10,15 @@ import { Translate } from "@utils";
 import { SetupItem } from "./SetupItem";
 
 type ClassKey = "item" | "field";
-type Props = StyledComponentProps<ClassKey>;
+
+interface ISetupSiteNameCallProps {
+    onChange: (siteName: string) => void;
+}
+
+type Props = ISetupSiteNameCallProps & StyledComponentProps<ClassKey>;
 
 const SetupSiteName = (props: Props) => {
-    const { classes } = props;
+    const { classes, onChange } = props;
 
     return (
         <SetupItem
@@ -34,6 +39,7 @@ const SetupSiteName = (props: Props) => {
                         root: classes.field,
                     },
                 }}
+                sideOnChange={onChange}
             />
         </SetupItem>
     );

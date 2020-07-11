@@ -1,7 +1,7 @@
 import { MenuStore } from "@ws/Menu/redux";
-import { PosStore } from "@ws/redux";
+import { WorkspaceStore } from "@ws/redux";
 
 export class State {
-    pos: PosStore;
+    pos: WorkspaceStore;
     menu: MenuStore;
 }

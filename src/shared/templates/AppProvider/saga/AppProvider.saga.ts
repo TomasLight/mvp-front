@@ -1,4 +1,5 @@
-import { PosActions } from "@ws/redux";
+import { SetupActions } from "@main/Setup/redux";
+import { WorkspaceActions } from "@ws/redux";
 import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
@@ -31,7 +32,7 @@ export class AppProviderSaga extends SagaBase {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
-            put(PosActions.loadPage()(callbackAction)),
+            put(WorkspaceActions.loadPage()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({
@@ -63,6 +64,11 @@ export class AppProviderSaga extends SagaBase {
             const currentUrl = window.location.href;
             window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
         }
+
+        const { firstName, lastName } = response.data;
+
+        const userName = `${firstName} ${lastName}`;
+        yield put(SetupActions.setUserName({ userName }));
     }
 
     static* incrementInitializedActions(action: AppAction) {

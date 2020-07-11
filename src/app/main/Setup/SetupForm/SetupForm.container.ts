@@ -4,8 +4,8 @@ import { Dispatch } from "redux";
 
 import { CommonState } from "@config";
 import { IconVariant } from "@enums";
+import { SetupActions } from "@main/Setup/redux";
 import { IconSelectFieldOption } from "@select/types";
-
 import {
     SetupForm,
     ISetupFormProps,
@@ -28,6 +28,16 @@ const mapStateToProps = (state: CommonState): ISetupFormProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): ISetupFormCallProps => {
     return {
+        onChangeSiteName: (siteName: string) => dispatch(SetupActions.onChangeSiteName({ siteName })),
+        onChangeDomain: (domain: string) => dispatch(SetupActions.onChangeDomain({ domain })),
+        onChangeFavicon: (faviconVariant: IconVariant) =>
+            dispatch(SetupActions.onChangeFavicon({ faviconVariant })),
+
+        onChangeOpenGraphImage: (imageFile: File) =>
+            dispatch(SetupActions.onChangeOpenGraphImage({ imageFile, dispatch })),
+
+        onChangeOpenGraphTitle: (title: string) =>
+            dispatch(SetupActions.onChangeOpenGraphTitle({ title })),
         onSubmit: () => ownProps.onSubmit(),
     };
 };

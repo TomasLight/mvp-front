@@ -1,6 +1,6 @@
 import { IndexPage } from "../../models/IndexPage";
 
-export class PosStore {
+export class WorkspaceStore {
     page: IndexPage;
     pageIsLoading: boolean;
 

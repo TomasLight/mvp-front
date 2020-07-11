@@ -2,7 +2,7 @@ import React from "react";
 
 import { Variant } from "../variant";
 import { MainAppBar } from "./MainAppBar";
-import { PosAppBar } from "./PosAppBar";
+import { WorkspaceAppBar } from "./WorkspaceAppBar";
 
 interface IAppBarProps {
     open: boolean;
@@ -22,13 +22,14 @@ const AppBar = (props: Props) => {
 
     switch (variant) {
         case Variant.Main:
-            return (
-                <MainAppBar {...rest}/>
-            );
+            return null;
+            // return (
+            //     <MainAppBar {...rest}/>
+            // );
 
         case Variant.Pos:
             return (
-                <PosAppBar {...rest}/>
+                <WorkspaceAppBar {...rest}/>
             );
 
         default:
