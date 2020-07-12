@@ -1,6 +1,7 @@
 import { IconVariant } from "@enums";
 import { ISetupFormValues, setupSteps } from "@main/Setup/models";
 import { ColorSelectFieldOption, IconSelectFieldOption } from "@select";
+import { faviconTags, FavIconVariant } from "@shared/molecules";
 import { brandColors } from "@shared/theme";
 
 export class SetupStore {
@@ -29,12 +30,7 @@ export class SetupStore {
             primaryColor: initialColor,
         } as any;
 
-        this.faviconOptions = [
-            this.addIcon(IconVariant.Coffee),
-            this.addIcon(IconVariant.PepperHot),
-            this.addIcon(IconVariant.PizzaSlice),
-        ];
-
+        this.faviconOptions = this.makeFaviconOptions();
         this.colorOptions = this.makeColorOptions();
 
         this.faviconVariant = IconVariant.NA;
@@ -50,8 +46,19 @@ export class SetupStore {
         this.settingsAreSending = false;
     }
 
-    private addIcon(id: IconVariant) {
-        return new IconSelectFieldOption({ id, title: "" });
+    private makeFaviconOptions() {
+        const keys = Object.keys(FavIconVariant);
+        const faviconOptions: IconSelectFieldOption[] = keys.map(key => {
+            const favicon = FavIconVariant[key];
+            const searchTags = faviconTags.get(favicon);
+            return new IconSelectFieldOption({
+                id: favicon,
+                title: "",
+                searchTags,
+            });
+        });
+
+        return faviconOptions;
     }
 
     private makeColorOptions() {

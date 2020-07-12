@@ -14,9 +14,9 @@ const ArrowLeft = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(ArrowLeft);
-export { componentWIthStyles as ArrowLeft };
+export { componentWithStyles as ArrowLeft };

@@ -14,9 +14,9 @@ const Cart = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(Cart);
-export { componentWIthStyles as Cart };
+export { componentWithStyles as Cart };
