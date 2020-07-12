@@ -1,4 +1,6 @@
-const categories = [
+import { ICategoryDto } from "@api/models/menu/responses";
+
+const categories: ICategoryDto[] = [
     {
         id: "a7ca93f1-969d-4961-b7be-824d2010a2f2",
         menuId: "ac7f7cd5-76f7-4d63-a301-096e226ffe04",

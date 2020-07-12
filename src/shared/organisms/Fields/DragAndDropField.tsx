@@ -46,6 +46,10 @@ const DragAndDrop = withStyles<DragAndDropClassKey>((theme) => ({
         },
     },
     idle: {},
+    error: {
+        backgroundColor: "#FBEFEE",
+        borderColor: "#ECACA5",
+    },
     dragging: {
         backgroundColor: "#F0FAF3",
         borderColor: "#9EE2B8",
@@ -81,7 +85,7 @@ const DragAndDropField = (props: Props) => {
             htmlFor={id}
             {...rest}
         >
-            <DragAndDrop id={id} name={name} onDrop={handleOnDrop}>
+            <DragAndDrop id={id} name={name} onDrop={handleOnDrop} error={rest.error}>
                 <FileImageIcon/>
                 <Typography>
                     {fileName || innerText}

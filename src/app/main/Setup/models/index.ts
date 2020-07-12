@@ -1,2 +1,3 @@
 export * from "./setupSteps";
-export * from "./ISetupFormValues";
+export * from "./ISiteSettingsFormValues";
+export * from "./WorkspaceSiteSettings";

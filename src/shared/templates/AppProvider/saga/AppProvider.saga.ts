@@ -1,13 +1,13 @@
-import { SetupActions } from "@main/Setup/redux";
-import { WorkspaceActions } from "@ws/redux";
 import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
 import { UserApi } from "@api";
+import { SetupActions } from "@main/Setup/redux";
 import { AuthorizedUser } from "@models";
 import { AppProviderSelectors } from "@selectors";
 import { ApiResponse } from "@utils";
 import { SagaBase } from "@utils/saga";
+import { PageActions } from "../../../../app/redux";
 
 import { AppProviderActions, AppProviderStore } from "../redux";
 
@@ -20,6 +20,7 @@ export class AppProviderSaga extends SagaBase {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
+            put(PageActions.loadPage()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({
@@ -32,7 +33,6 @@ export class AppProviderSaga extends SagaBase {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
-            put(WorkspaceActions.loadPage()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({
@@ -45,6 +45,7 @@ export class AppProviderSaga extends SagaBase {
         const callbackAction = AppProviderActions.incrementInitializedActions;
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUser()(callbackAction)),
+            put(PageActions.loadPage()(callbackAction)),
         ];
 
         yield AppProviderSaga.updateStore({

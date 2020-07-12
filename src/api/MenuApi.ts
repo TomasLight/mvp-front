@@ -31,7 +31,7 @@ export class MenuApi extends ApiBase {
 
         const response: ApiResponse = await this.post<ICategoryDto[]>(url, { menuId });
         if (response.data) {
-            response.data = response.data.map((dto: ICategoryDto) => Mapper.map<Dish>(
+            response.data = response.data.map((dto: ICategoryDto) => Mapper.map<Category>(
                 nameof<ICategoryDto>(),
                 nameof<Category>(),
                 dto

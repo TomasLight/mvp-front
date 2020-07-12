@@ -14,6 +14,8 @@ const presets = [
 ];
 
 const alias = {
+    "@app": "./src/app",
+
     "@main": "./src/app/main",
     "@MainState": "./src/app/main/config/redux/State.ts",
 

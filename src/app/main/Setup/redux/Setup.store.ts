@@ -1,5 +1,5 @@
 import { IconVariant } from "@enums";
-import { ISetupFormValues, setupSteps } from "@main/Setup/models";
+import { ISiteSettingsFormValues, setupSteps } from "@main/Setup/models";
 import { ColorSelectFieldOption, IconSelectFieldOption } from "@select";
 import { faviconTags, FavIconVariant } from "@shared/molecules";
 import { brandColors } from "@shared/theme";
@@ -7,7 +7,7 @@ import { brandColors } from "@shared/theme";
 export class SetupStore {
     setupStep: number;
 
-    initialValues: ISetupFormValues;
+    initialValues: ISiteSettingsFormValues;
     faviconOptions: IconSelectFieldOption[];
     colorOptions: ColorSelectFieldOption[];
 

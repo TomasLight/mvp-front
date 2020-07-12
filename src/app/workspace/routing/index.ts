@@ -1,2 +1,2 @@
-export * from "./posUrls";
+export * from "./workspaceUrls";
 export * from "./PageComponentRouter";

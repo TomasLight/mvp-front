@@ -1,1 +1,1 @@
-export * from "./SetupValidator";
+export * from "./SiteSettingsValidator";

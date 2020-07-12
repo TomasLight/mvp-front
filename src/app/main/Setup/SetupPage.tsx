@@ -4,10 +4,11 @@ import { IconButton, makeStyles } from "@material-ui/core";
 
 import { ArrowLeftIcon } from "@icons";
 import { FormProvider } from "@shared/organisms";
-import { ContentContainer } from "./Content";
-import { ISetupFormValues, setupSteps } from "./models";
-import { SetupSettingsFormContainer } from "./SetupSettingsForm";
-import { SetupValidator } from "./validation";
+import { SitePreviewContainer } from "./SitePreview";
+import { ISiteSettingsFormValues, setupSteps } from "./models";
+import { DataSettingsFormContainer } from "./DataSettingsForm";
+import { SiteSettingsFormContainer } from "./SiteSettingsForm";
+import { SiteSettingsValidator } from "./validation";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,25 +30,37 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "SetupPage" });
 
-const formProvider = new FormProvider(new SetupValidator());
+const siteFormProvider = new FormProvider(
+    new SiteSettingsValidator(),
+    { resetValidationErrorOnActiveField: true }
+);
+const dataFormProvider = new FormProvider();
 
 interface ISetupPageProps {
     setupStep: number;
-    initialValues: Partial<ISetupFormValues>;
+    initialValues: Partial<ISiteSettingsFormValues>;
 }
 
 interface ISetupPageCallProps {
     redirectToBack: () => void;
-    next: (formValues: any) => void;
+    goToStepTwo: (formValues: ISiteSettingsFormValues) => void;
+    goToStepThree: (formValues: any) => void;
 }
 
 type Props = ISetupPageProps & ISetupPageCallProps;
 
 const SetupPage = (props: Props) => {
-    const { setupStep, initialValues, redirectToBack, next } = props;
+    const {
+        setupStep,
+        initialValues,
+        redirectToBack,
+        goToStepTwo,
+        goToStepThree,
+    } = props;
     const classes = useStyles();
 
-    const Form = useMemo(() => formProvider.createForm(next), [ next ]);
+    const SiteForm = useMemo(() => siteFormProvider.createForm(goToStepTwo), [ goToStepTwo ]);
+    const DataForm = useMemo(() => dataFormProvider.createForm(goToStepThree), [ goToStepThree ]);
 
     const SettingsStep = () => (
         <div className={classes.root}>
@@ -56,27 +69,21 @@ const SetupPage = (props: Props) => {
                     <ArrowLeftIcon/>
                 </IconButton>
 
-                <Form initialValues={initialValues}>
-                    <SetupSettingsFormContainer onSubmit={formProvider.submitOnClick}/>
-                </Form>
+                <SiteForm initialValues={initialValues}>
+                    <SiteSettingsFormContainer onSubmit={siteFormProvider.submitOnClick}/>
+                </SiteForm>
             </div>
 
-            <ContentContainer classes={{ root: classes.right }}/>
+            <SitePreviewContainer classes={{ root: classes.right }}/>
         </div>
     );
 
     const DataStep = () => (
         <div className={classes.root}>
             <div className={classes.left}>
-                IIKO
-            </div>
-        </div>
-    );
-
-    const ContactStep = () => (
-        <div className={classes.root}>
-            <div className={classes.left}>
-                contacts
+                <DataForm>
+                    <DataSettingsFormContainer onSubmit={dataFormProvider.submitOnClick}/>
+                </DataForm>
             </div>
         </div>
     );
@@ -88,11 +95,8 @@ const SetupPage = (props: Props) => {
         case setupSteps.dataSettings:
             return <DataStep/>;
 
-        case setupSteps.contactSettings:
-            return <ContactStep/>;
-
         default:
-            throw new Error(`Invalid setup step(${setupStep}) for ${nameof(SetupPage)}`);
+            return null;
     }
 };
 

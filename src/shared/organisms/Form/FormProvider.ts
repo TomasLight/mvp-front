@@ -23,9 +23,12 @@ export class FormProvider {
     private formApi: FormApi;
     private formProps: FormPropsContainer;
 
-    constructor(validator: IValidator<any> | IValidatorAsync<any>, settings: FormSettings = {}) {
+    constructor(validator: IValidator<any> | IValidatorAsync<any> = null, settings: FormSettings = {}) {
         this.validator = validator;
-        if (isValidator(validator)) {
+        if (!validator) {
+            this.validateAsync = (model: any) => Promise.resolve(new ModelState());
+        }
+        else if (isValidator(validator)) {
             this.validateAsync = (model: any) => Promise.resolve(validator.validate(model));
         }
         else if (isValidatorAsync(validator)) {
@@ -38,14 +41,20 @@ export class FormProvider {
 
     createForm(submit: Submit) {
         this.submit = submit;
-        const formValidator = new FormValidator(this.validator, this.settings);
 
         this.formProps = new FormPropsContainer(
             this.handleFormSubmit.bind(this),
             this.setFormApi.bind(this)
         );
         this.formProps.addMutator("setErrors", setErrors);
-        this.formProps.validateAsync = (values: any) => formValidator.validate(this.formApi, values);
+
+        if (this.validator) {
+            const formValidator = new FormValidator(this.validator, this.settings);
+            this.formProps.validateAsync = (values: any) => formValidator.validate(this.formApi, values);
+        }
+        else {
+            this.formProps.validateAsync = (values: any) => this.validateAsync(values);
+        }
 
         const FormContainer: ComponentType<IFormProps> = connect(() => this.formProps.build())(Form);
         return FormContainer;

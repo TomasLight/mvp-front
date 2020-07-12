@@ -13,45 +13,45 @@ export class WorkspaceSaga extends SagaBase {
         yield put(WorkspaceActions.updateStore(partialStore));
     }
 
-    static* loadPage(action: AppAction) {
-        yield WorkspaceSaga.updateStore({
-            pageIsLoading: true,
-        });
-
-        const response: ApiResponse<Pages> = yield PageApi.getPages();
-        if (response.hasError()) {
-            yield WorkspaceSaga.updateStore({
-                pageIsLoading: false,
-            });
-            yield SagaBase.displayClientError(response);
-            return;
-        }
-
-        const pages = response.data;
-        if (!pages.index) {
-            const notification = new Notification(
-                Translate.getString("Информация о текущей страница не получена"),
-                { variant: "error" }
-            );
-            yield put(NotifierActions.enqueueSnackbar(notification));
-        }
-
-        yield WorkspaceSaga.updateStore({
-            pageIsLoading: false,
-            page: pages.index,
-        });
-
-        const site = pages.index.blocks.site;
-        WorkspaceSaga.updateSiteTitle(site.title);
-        WorkspaceSaga.updateSiteFavicon(site.favicon);
-    }
-
-    private static updateSiteTitle(title: string) {
-        document.title = title;
-    }
-
-    private static updateSiteFavicon(faviconUrl: string) {
-        const link: HTMLLinkElement = document.getElementById("favicon") as HTMLLinkElement;
-        link.href = faviconUrl;
-    }
+    // static* loadPage(action: AppAction) {
+    //     yield WorkspaceSaga.updateStore({
+    //         pageIsLoading: true,
+    //     });
+    //
+    //     const response: ApiResponse<Pages> = yield PageApi.getPages();
+    //     if (response.hasError()) {
+    //         yield WorkspaceSaga.updateStore({
+    //             pageIsLoading: false,
+    //         });
+    //         yield SagaBase.displayClientError(response);
+    //         return;
+    //     }
+    //
+    //     const pages = response.data;
+    //     if (!pages.index) {
+    //         const notification = new Notification(
+    //             Translate.getString("Информация о текущей страница не получена"),
+    //             { variant: "error" }
+    //         );
+    //         yield put(NotifierActions.enqueueSnackbar(notification));
+    //     }
+    //
+    //     yield WorkspaceSaga.updateStore({
+    //         pageIsLoading: false,
+    //         page: pages.index,
+    //     });
+    //
+    //     const site = pages.index.blocks.site;
+    //     WorkspaceSaga.updateSiteTitle(site.title);
+    //     WorkspaceSaga.updateSiteFavicon(site.favicon);
+    // }
+    //
+    // private static updateSiteTitle(title: string) {
+    //     document.title = title;
+    // }
+    //
+    // private static updateSiteFavicon(faviconUrl: string) {
+    //     const link: HTMLLinkElement = document.getElementById("favicon") as HTMLLinkElement;
+    //     link.href = faviconUrl;
+    // }
 }

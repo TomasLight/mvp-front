@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { State } from "@WsState";
 import { Translate } from "@utils/translates";
 import { Layout, ILayoutProps, ILayoutCallProps, Variant } from "@shared/templates/Layout";
-import { posUrls } from "@ws/routing";
+import { workspaceUrls } from "@ws/routing";
 
 const mapStateToProps = (state: State): Partial<ILayoutProps> => ({
     title: Translate.getString("Кофейня Вкусник"),
@@ -14,7 +14,7 @@ const mapStateToProps = (state: State): Partial<ILayoutProps> => ({
     menuItems: [
         {
             title: Translate.getString("Menu"),
-            url: posUrls.menu,
+            url: workspaceUrls.menu,
         },
     ],
     variant: Variant.Main,

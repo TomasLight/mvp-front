@@ -53,7 +53,6 @@ export class SetupActions {
     static onChangeColor = (data: IOnChangeColorData) =>
         createAction(SetupActions.ON_CHANGE_COLOR, data);
 
-
     static goToStepTwo = (data: IGoToStepTwoData) =>
         createAction(SetupActions.GO_TO_STEP_TWO, data);
 

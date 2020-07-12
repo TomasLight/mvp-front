@@ -5,7 +5,7 @@ import { LayoutContainer } from "@ws/Layout";
 import { NotifierContainer } from "@shared/templates/Notifier";
 import { MenuPageContainer } from "@ws/Menu";
 
-import { posUrls } from "./posUrls";
+import { workspaceUrls } from "./workspaceUrls";
 
 const PageComponentRouter = () => {
     return (
@@ -13,7 +13,7 @@ const PageComponentRouter = () => {
             <Switch>
                 <Route
                     exact
-                    path={posUrls.menu}
+                    path={workspaceUrls.menu}
                     component={MenuPageContainer}
                 />
             </Switch>

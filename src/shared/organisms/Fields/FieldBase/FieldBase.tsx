@@ -11,7 +11,7 @@ import {
 } from "@shared/molecules";
 import { Guid } from "@utils";
 
-import { RootClassKey, FieldBaseClasses } from "./FieldBaseClasses";
+import { RootClassKey, FieldBaseClasses } from "./FieldBase.classes";
 import { IFieldBaseComponentProps } from "./IFieldBaseComponentProps";
 import { getHelperTextId } from "./getHelperTextId";
 import { getLabelTextId } from "./getLabelTextId";

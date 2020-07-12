@@ -1,5 +1,5 @@
 export * from "./FieldBase";
-export * from "./FieldBaseClasses";
+export * from "./FieldBase.classes";
 export * from "./IFieldBaseComponentProps";
 export * from "./getHelperTextId";
 export * from "./getLabelTextId";

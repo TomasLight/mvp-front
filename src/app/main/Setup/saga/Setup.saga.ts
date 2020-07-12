@@ -1,12 +1,14 @@
+import { mainUrls } from "@main/routing";
+import { AppAction } from "app-redux-utils";
+import { put } from "@redux-saga/core/effects";
+
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { setupSteps } from "@main/Setup/models";
-import { ISetupFormValues } from "@main/Setup/models/ISetupFormValues";
-import { WorkspaceSettings } from "@main/Setup/models/WorkspaceSettings";
-import { put } from "@redux-saga/core/effects";
+import { ISiteSettingsFormValues } from "@main/Setup/models/ISiteSettingsFormValues";
+import { WorkspaceSiteSettings } from "@main/Setup/models/WorkspaceSiteSettings";
 import { ApiResponse, Mapper } from "@utils";
-
 import { SagaBase } from "@utils/saga/SagaBase";
-import { AppAction } from "app-redux-utils";
+import { push } from "connected-react-router";
 
 import {
     IGoToStepThreeData,
@@ -87,9 +89,9 @@ export class SetupSaga extends SagaBase {
     static* goToStepTwo(action: AppAction<IGoToStepTwoData>) {
         const { formValues } = action.payload;
 
-        const settings = Mapper.map<WorkspaceSettings>(
-            nameof<ISetupFormValues>(),
-            nameof<WorkspaceSettings>(),
+        const settings = Mapper.map<WorkspaceSiteSettings>(
+            nameof<ISiteSettingsFormValues>(),
+            nameof<WorkspaceSiteSettings>(),
             formValues
         );
 
@@ -97,7 +99,7 @@ export class SetupSaga extends SagaBase {
             settingsAreSending: true,
         });
 
-        const response: ApiResponse = yield WorkspaceApi.sendSettings(settings);
+        const response: ApiResponse = yield WorkspaceApi.sendSiteSettings(settings);
         if (response.hasError()) {
             yield SetupSaga.updateStore({
                 settingsAreSending: false,
@@ -116,5 +118,7 @@ export class SetupSaga extends SagaBase {
         yield SetupSaga.updateStore({
             setupStep: setupSteps.contactSettings,
         });
+
+        yield put(push(mainUrls.content));
     }
 }

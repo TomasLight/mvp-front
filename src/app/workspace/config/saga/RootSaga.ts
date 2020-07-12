@@ -1,3 +1,4 @@
+import { PageWatcher } from "@app/saga";
 import { MenuWatcher } from "@ws/Menu/saga";
 import { WorkspaceWatcher } from "@ws/saga";
 import { AppProviderWatcher } from "@shared/templates/AppProvider/saga";
@@ -11,6 +12,7 @@ export class RootSaga extends RootSagaBase {
             new AppProviderWatcher(),
             new WorkspaceWatcher(),
             new MenuWatcher(),
+            new PageWatcher(),
         ]);
     }
 }
