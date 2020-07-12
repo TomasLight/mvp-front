@@ -1,3 +1,5 @@
 export const mainUrls = {
-    setup: "/",
+    hello: "/",
+    setup: "/main/setup",
+    content: "/main/setup/content",
 };

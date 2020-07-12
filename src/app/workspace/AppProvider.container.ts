@@ -14,13 +14,13 @@ import {
 const mapStateToProps = (state: CommonState & State): IAppProviderProps => {
     return {
         appIsInitialized: state.appProvider.initialized,
-        themeSettings: state.pos.page.blocks.site.styleColor,
+        themeSettings: state.page.indexPage.blocks.site.styleColor,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IAppProviderCallProps => {
     return {
-        initialize: () => dispatch(AppProviderActions.initializedPosApp()),
+        initialize: () => dispatch(AppProviderActions.initializedWorkspaceApp()),
     };
 };
 

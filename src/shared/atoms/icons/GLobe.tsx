@@ -19,9 +19,9 @@ const Globe = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(Globe);
-export { componentWIthStyles as Globe };
+export { componentWithStyles as Globe };

@@ -7,14 +7,18 @@ export class SelectFieldOption<TOptionValue = OptionValueType>
     id: TOptionValue;
     title: string;
 
-    constructor(option?: { id: any; title: any }) {
+    private readonly searchTags: string[];
+
+    constructor(option?: { id: any; title: any, searchTags?: string[] }) {
         if (option === undefined) {
             this.id = this.emptySingleValue();
             this.title = "";
+            this.searchTags = [];
         }
         else {
             this.id = option.id;
             this.title = option.title;
+            this.searchTags = option.searchTags || [];
         }
     }
 
@@ -69,5 +73,9 @@ export class SelectFieldOption<TOptionValue = OptionValueType>
     setValue(value: TOptionValue): void {
         this.id = value;
         this.title = "";
+    }
+
+    getSearchTags(): string[] {
+        return this.searchTags;
     }
 }

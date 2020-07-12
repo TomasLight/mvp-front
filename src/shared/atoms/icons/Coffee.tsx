@@ -14,9 +14,9 @@ const Coffee = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(Coffee);
-export { componentWIthStyles as Coffee };
+export { componentWithStyles as Coffee };

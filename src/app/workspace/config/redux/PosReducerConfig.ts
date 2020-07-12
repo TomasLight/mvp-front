@@ -1,13 +1,15 @@
 import { ReducerConfig } from "@config";
 import { MenuReducer } from "@ws/Menu/redux";
-import { PosReducer } from "@ws/redux/Pos.reducer";
+import { WorkspaceReducer } from "@ws/redux/Workspace.reducer";
 import { State } from "@WsState";
+import { PageReducer } from "@app/redux";
 
 export class PosReducerConfig extends ReducerConfig<State> {
     constructor() {
         super({
-            pos: PosReducer,
+            workspace: WorkspaceReducer,
             menu: MenuReducer,
+            page: PageReducer,
         });
     }
 }

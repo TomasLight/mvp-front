@@ -1,19 +1,31 @@
 import { FormApi } from "final-form";
-import { IValidator } from "model-state-validation";
+import {
+    IValidator,
+    IValidatorAsync,
+    isValidator,
+    isValidatorAsync,
+    ModelState,
+} from "model-state-validation";
 
 import { FormSettings } from "./FormSettings";
 
 export class FormValidator {
-    private readonly validator: IValidator<any>;
+    private readonly validateAsync: (model: any) => Promise<ModelState>;
     private readonly settings: FormSettings;
     private lastActiveFieldName: string | undefined;
 
-    constructor(validator: IValidator<any>, settings: FormSettings) {
-        this.validator = validator;
+    constructor(validator: IValidator<any> | IValidatorAsync<any>, settings: FormSettings) {
         this.settings = settings;
+
+        if (isValidator(validator)) {
+            this.validateAsync = (model: any) => Promise.resolve(validator.validate(model));
+        }
+        else if (isValidatorAsync(validator)) {
+            this.validateAsync = (model: any) => validator.validateAsync(model);
+        }
     }
 
-    validate(formApi: FormApi, values: any) {
+    validate(formApi: FormApi, values: any): Promise<any> {
         const {
             validateOnFieldsChange,
             resetValidationErrorOnActiveField,
@@ -22,7 +34,7 @@ export class FormValidator {
         } = this.settings;
 
         if (!formApi) {
-            return true;
+            return Promise.resolve(true);
         }
 
         if (validateOnFieldsChange) {
@@ -42,14 +54,15 @@ export class FormValidator {
             return this.resetValidationErrorOnActiveField(errors, active);
         }
 
-        return formApi.getState().errors;
+        return Promise.resolve(formApi.getState().errors);
     }
 
-    private validateOnFieldsChange(formApi: FormApi, values: any) {
+    private async validateOnFieldsChange(formApi: FormApi, values: any) {
         const { active } = formApi.getState();
         const { resetValidationErrorOnActiveField } = this.settings;
 
-        let validationErrors = this.validator.validate(values).getErrors();
+        const validationResult = await this.validateAsync(values);
+        let validationErrors = validationResult.getErrors();
 
         if (resetValidationErrorOnActiveField) {
             validationErrors = this.resetValidationErrorOnActiveField(validationErrors, active);
@@ -59,7 +72,7 @@ export class FormValidator {
         return validationErrors;
     }
 
-    private validateOnFieldsBlur(formApi: FormApi, values: any) {
+    private async validateOnFieldsBlur(formApi: FormApi, values: any) {
         const { active, errors } = formApi.getState();
         const { resetValidationErrorOnActiveField } = this.settings;
 
@@ -67,7 +80,8 @@ export class FormValidator {
 
         const isOnBlur = this.lastActiveFieldName !== undefined && active === undefined;
         if (isOnBlur) {
-            const newErrors = this.validator.validate(values).getErrors();
+            const validationResult = await this.validateAsync(values);
+            const newErrors = validationResult.getErrors();
 
             // correct error for blurred field
             validationErrors[this.lastActiveFieldName] = newErrors[this.lastActiveFieldName];
@@ -80,7 +94,7 @@ export class FormValidator {
         return validationErrors;
     }
 
-    private validateSpecifiedFieldsOnBlur(formApi: FormApi, values: any) {
+    private async validateSpecifiedFieldsOnBlur(formApi: FormApi, values: any) {
         const { active, errors } = formApi.getState();
         const {
             resetValidationErrorOnActiveField,
@@ -93,7 +107,8 @@ export class FormValidator {
         if (isOnBlur && validateSpecifiedFieldsOnBlur &&
             validateSpecifiedFieldsOnBlur.some((fieldName: string) => fieldName === this.lastActiveFieldName)
         ) {
-            const newErrors = this.validator.validate(values).getErrors();
+            const validationResult = await this.validateAsync(values);
+            const newErrors = validationResult.getErrors();
 
             // correct error for blurred field
             validationErrors[this.lastActiveFieldName] = newErrors[this.lastActiveFieldName];

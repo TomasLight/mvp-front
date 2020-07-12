@@ -26,10 +26,12 @@ const pages: IPagesDto = {
             {
                 type: "content",
                 props: {
-                    firstPhotoUrl: null,
-                    firstText: "Шаурма First Text",
+                    firstPhotoUrl: "/images/image_001.png",
+                    // firstText: "Шаурма First Text",
+                    firstText: "🍰 Вкусный кофе и булочки!",
                     phone: "004",
-                    address: "СПБ",
+                    // address: "СПБ",
+                    address: "Кузнецовская 15",
                     deliveryTime: "40 минут",
                     deliveryMapUrl: null,
                 },

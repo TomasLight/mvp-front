@@ -1,7 +1,9 @@
 import { MenuStore } from "@ws/Menu/redux";
-import { PosStore } from "@ws/redux";
+import { WorkspaceStore } from "@ws/redux";
+import { PageStore } from "@app/redux";
 
 export class State {
-    pos: PosStore;
+    workspace: WorkspaceStore;
     menu: MenuStore;
+    page: PageStore;
 }

@@ -1,4 +1,4 @@
-import { FieldBaseClasses } from "@shared/organisms/Fields/FieldBase/FieldBaseClasses";
+import { FieldBaseClasses } from "@shared/organisms/Fields/FieldBase/FieldBase.classes";
 
 export function correctClasses(classes?: FieldBaseClasses) {
     setClassIfNeeded(classes, "root");

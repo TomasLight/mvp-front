@@ -17,7 +17,7 @@ export abstract class ApiBase {
         if (url.startsWith("http")) {
             return url;
         }
-        return `${process.env.API_BASE_URL}/${url}`;
+        return `${process.env.API_BASE_URL}${url}`;
     }
 
     protected static async get<TResponseData = any>(url: string): Promise<ApiResponse<TResponseData>> {

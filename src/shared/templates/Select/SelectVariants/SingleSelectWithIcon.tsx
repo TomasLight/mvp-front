@@ -9,7 +9,8 @@ import {
     DefaultValueContainer,
     SingleOptionWithIcon,
     SingleValueWithIcon,
-    DefaultControl, DefaultMenuList
+    DefaultControl,
+    DefaultMenuList,
 } from "@shared/organisms/Fields/Select/components";
 
 import { ISingleSelectProps } from "./ISingleSelectProps";

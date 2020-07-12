@@ -14,9 +14,9 @@ const ChevronDown = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(ChevronDown);
-export { componentWIthStyles as ChevronDown };
+export { componentWithStyles as ChevronDown };

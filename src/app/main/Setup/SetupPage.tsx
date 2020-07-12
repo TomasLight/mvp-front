@@ -1,12 +1,14 @@
 import React, { useMemo } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { IconButton, makeStyles } from "@material-ui/core";
 
+import { ArrowLeftIcon } from "@icons";
 import { FormProvider } from "@shared/organisms";
-import { Content } from "./Content";
-import { ISetupFormValues } from "./models";
-import { SetupFormContainer } from "./SetupForm";
-import { SetupValidator } from "./validation";
+import { SitePreviewContainer } from "./SitePreview";
+import { ISiteSettingsFormValues, setupSteps } from "./models";
+import { DataSettingsFormContainer } from "./DataSettingsForm";
+import { SiteSettingsFormContainer } from "./SiteSettingsForm";
+import { SiteSettingsValidator } from "./validation";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,46 +19,85 @@ const useStyles = makeStyles((theme) => ({
     },
     left: {
         gridArea: "left",
+        display: "grid",
+        gridGap: 10,
+        justifyItems: "start",
         background: theme.palette.background.paper,
-        padding: "60px 32px 60px 22px",
+        padding: "12px 32px 60px 22px",
     },
     right: {
         gridArea: "right",
-        display: "grid",
-        alignItems: "center",
-        justifyItems: "center",
     },
 }), { name: "SetupPage" });
 
-const formProvider = new FormProvider(new SetupValidator());
+const siteFormProvider = new FormProvider(
+    new SiteSettingsValidator(),
+    { resetValidationErrorOnActiveField: true }
+);
+const dataFormProvider = new FormProvider();
 
 interface ISetupPageProps {
-    initialValues: Partial<ISetupFormValues>;
+    setupStep: number;
+    initialValues: Partial<ISiteSettingsFormValues>;
 }
 
 interface ISetupPageCallProps {
-    next: (formValues: any) => void;
+    redirectToBack: () => void;
+    goToStepTwo: (formValues: ISiteSettingsFormValues) => void;
+    goToStepThree: (formValues: any) => void;
 }
 
 type Props = ISetupPageProps & ISetupPageCallProps;
 
 const SetupPage = (props: Props) => {
-    const { initialValues, next } = props;
+    const {
+        setupStep,
+        initialValues,
+        redirectToBack,
+        goToStepTwo,
+        goToStepThree,
+    } = props;
     const classes = useStyles();
 
-    const Form = useMemo(() => formProvider.createForm(next), [next]);
+    const SiteForm = useMemo(() => siteFormProvider.createForm(goToStepTwo), [ goToStepTwo ]);
+    const DataForm = useMemo(() => dataFormProvider.createForm(goToStepThree), [ goToStepThree ]);
 
-    return (
+    const SettingsStep = () => (
         <div className={classes.root}>
             <div className={classes.left}>
-                <Form initialValues={initialValues}>
-                    <SetupFormContainer onSubmit={formProvider.submitOnClick} />
-                </Form>
+                <IconButton onClick={redirectToBack} color="secondary">
+                    <ArrowLeftIcon/>
+                </IconButton>
+
+                <SiteForm initialValues={initialValues}>
+                    <SiteSettingsFormContainer onSubmit={siteFormProvider.submitOnClick}/>
+                </SiteForm>
             </div>
 
-            <Content classes={{ root: classes.right }}/>
+            <SitePreviewContainer classes={{ root: classes.right }}/>
         </div>
     );
+
+    const DataStep = () => (
+        <div className={classes.root}>
+            <div className={classes.left}>
+                <DataForm>
+                    <DataSettingsFormContainer onSubmit={dataFormProvider.submitOnClick}/>
+                </DataForm>
+            </div>
+        </div>
+    );
+
+    switch (setupStep) {
+        case setupSteps.siteSettings:
+            return <SettingsStep/>;
+
+        case setupSteps.dataSettings:
+            return <DataStep/>;
+
+        default:
+            return null;
+    }
 };
 
 export { SetupPage, ISetupPageProps, ISetupPageCallProps };

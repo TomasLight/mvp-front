@@ -10,7 +10,7 @@ class FormPropsContainer implements IFormPropsContainer {
     submit: Submit;
     mutators: FormMutators;
     submitAnyway: boolean;
-    validate: (formValues: any) => any;
+    validateAsync: (formValues: any) => Promise<any>;
 
     constructor(submit: Submit, setFormApi: (api: FormApi) => void) {
         this.submit = submit;
@@ -19,7 +19,7 @@ class FormPropsContainer implements IFormPropsContainer {
             setErrors,
         };
         this.submitAnyway = false;
-        this.validate = () => undefined;
+        this.validateAsync = () => Promise.resolve();
     }
 
     addMutator = (key: string, mutator: Mutator) => {
@@ -35,7 +35,7 @@ class FormPropsContainer implements IFormPropsContainer {
             setFormApi: this.setFormApi,
             mutators: this.mutators,
             submitAnyway: this.submitAnyway,
-            validate: this.validate,
+            validate: this.validateAsync,
         };
     }
 }

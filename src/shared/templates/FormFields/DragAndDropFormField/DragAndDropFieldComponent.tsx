@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import {FieldRenderProps } from "react-final-form";
 
-import { DragAndDropField, DragAndDropFieldProps } from "@shared/organisms/Fields";
+import { DragAndDropField, IDragAndDropFieldProps } from "@shared/organisms/Fields";
 import { FormFieldManager } from "../managers";
 
-interface IDragAndDropFieldComponentProps extends DragAndDropFieldProps {
+interface IDragAndDropFieldComponentProps extends IDragAndDropFieldProps {
     sideOnChange?: (fileList: FileList) => void;
 }
 type Props = IDragAndDropFieldComponentProps & FieldRenderProps<any, HTMLInputElement>;

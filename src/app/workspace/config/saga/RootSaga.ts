@@ -1,5 +1,6 @@
+import { PageWatcher } from "@app/saga";
 import { MenuWatcher } from "@ws/Menu/saga";
-import { PosWatcher } from "@ws/saga";
+import { WorkspaceWatcher } from "@ws/saga";
 import { AppProviderWatcher } from "@shared/templates/AppProvider/saga";
 import { RootSagaBase } from "@utils/saga";
 
@@ -9,8 +10,9 @@ export class RootSaga extends RootSagaBase {
 
         this.addWatchers([
             new AppProviderWatcher(),
-            new PosWatcher(),
+            new WorkspaceWatcher(),
             new MenuWatcher(),
+            new PageWatcher(),
         ]);
     }
 }

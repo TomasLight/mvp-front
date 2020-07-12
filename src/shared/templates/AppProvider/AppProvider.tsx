@@ -35,7 +35,12 @@ const AppProvider: FC<Props> = (props) => {
         initialize();
     }, []);
 
-    const theme = useMemo(() => createTheme(themeSettings), [ themeSettings ]);
+    const theme = useMemo(() => {
+        if (themeSettings) {
+            return createTheme(themeSettings);
+        }
+        return createTheme();
+    }, [ themeSettings ]);
 
     if (!appIsInitialized) {
         return (

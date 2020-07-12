@@ -14,9 +14,9 @@ const FileImage = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(FileImage);
-export { componentWIthStyles as FileImage };
+export { componentWithStyles as FileImage };

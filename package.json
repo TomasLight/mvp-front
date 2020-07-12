@@ -23,7 +23,7 @@
     "dotenv": "8.2.0",
     "final-form": "4.20.1",
     "final-form-set-errors-mutator": "1.0.2",
-    "model-state-validation": "0.9.0",
+    "model-state-validation": "1.0.3",
     "notistack": "0.9.17",
     "react": "16.13.1",
     "react-dom": "16.13.1",

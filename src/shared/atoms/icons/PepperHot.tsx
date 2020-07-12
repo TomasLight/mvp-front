@@ -22,9 +22,9 @@ const PepperHot = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(PepperHot);
-export { componentWIthStyles as PepperHot };
+export { componentWithStyles as PepperHot };

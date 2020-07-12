@@ -43,6 +43,7 @@ const AppRouter = (props: Props) => {
                     exact
                     path={appUrls.root}
                     render={() => <MainApp history={history} />}
+                    // render={() => <WorkspaceApp history={history} />}
                 />
                 <Route path="*">
                     <NotFound />

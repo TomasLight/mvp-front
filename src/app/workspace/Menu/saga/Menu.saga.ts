@@ -1,8 +1,8 @@
-import { MenuSelectors, PosSelectors } from "@selectors";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { MenuApi } from "@api";
+import { MenuSelectors, PageSelectors } from "@selectors";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { SagaBase } from "@utils/saga/SagaBase";
 
@@ -54,7 +54,7 @@ export class MenuSaga extends SagaBase {
             categoriesAreLoading: true,
         });
 
-        const menuId = yield PosSelectors.getMenuId();
+        const menuId = yield PageSelectors.getMenuId();
         const response: ApiResponse<Category[]> = yield MenuApi.getCategories(menuId);
         if (response.hasError()) {
             yield MenuSaga.updateStore({

@@ -22,9 +22,9 @@ const PizzaSlice = (props: Props) => (
     </SvgIcon>
 );
 
-const componentWIthStyles = withStyles({
+const componentWithStyles = withStyles({
     root: {
         width: "auto",
     },
 })(PizzaSlice);
-export { componentWIthStyles as PizzaSlice };
+export { componentWithStyles as PizzaSlice };

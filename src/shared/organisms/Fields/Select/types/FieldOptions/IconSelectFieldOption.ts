@@ -1,10 +1,6 @@
 import { SelectFieldOption } from "./SelectFieldOption";
 
 export class IconSelectFieldOption extends SelectFieldOption<number> {
-    constructor(option?: { id: any; title: any }) {
-        super(option);
-    }
-
     emptySingleValue(): number {
         return 0;
     }

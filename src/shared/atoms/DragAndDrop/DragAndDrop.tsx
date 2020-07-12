@@ -9,6 +9,7 @@ import { EventHandler } from "./EventHandler";
 interface IDragAndDropProps {
     id?: string;
     name?: string;
+    error?: boolean;
 }
 
 interface IDragAndDropCallProps {
@@ -26,6 +27,7 @@ const DragAndDrop: FC<Props> = (props) => {
         children,
         id = Guid.generate(),
         name,
+        error,
         ...rest
     } = props;
 
@@ -107,6 +109,7 @@ const DragAndDrop: FC<Props> = (props) => {
             ref={ref}
             className={clsx(classes.root, {
                 [classes.idle]: !dragging,
+                [classes.error]: error,
                 [classes.dragging]: dragging,
             })}
             onClick={handleOnClick}
@@ -127,12 +130,14 @@ const DragAndDrop: FC<Props> = (props) => {
 type ClassKey =
     | "root"
     | "idle"
+    | "error"
     | "dragging"
     ;
 
 const componentWithStyles = withStyles<ClassKey>({
     root: {},
     idle: {},
+    error: {},
     dragging: {},
 }, { name: "DragAndDrop" })(DragAndDrop);
 
