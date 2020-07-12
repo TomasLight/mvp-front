@@ -2,6 +2,7 @@ import React, { CSSProperties } from "react";
 import ReactSelect, { Styles, Props as SelectProps } from "react-select";
 import { SelectComponents } from "react-select/src/components";
 
+import { filterOptions } from "./utils";
 import { IFieldOption } from "./types";
 import { FieldBaseProps } from "../FieldBase";
 
@@ -66,6 +67,7 @@ const SelectWrapper = (props: Props) => {
             isClearable={false}
             inputId={id}
             htmlFor={id}
+            filterOption={filterOptions}
 
             {...input}
             {...rest}

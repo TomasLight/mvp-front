@@ -31,6 +31,8 @@ const styles = createStyles<ClassKey, { color: string }>((theme) => ({
         fontWeight: "bold",
         fontSize: 24,
         lineHeight: "28px",
+        textAlign: "center",
+        padding: "0 20px",
     },
     button: {
         gridArea: "button",

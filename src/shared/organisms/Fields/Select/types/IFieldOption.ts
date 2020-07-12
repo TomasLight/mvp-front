@@ -19,4 +19,6 @@ export interface IFieldOption<TOptionValue = OptionValueType, TInnerValue = Opti
     isEquals(value: TInnerValue): boolean;
     getValue(): TInnerValue;
     setValue(value: TInnerValue): void;
+
+    getSearchTags(): string[];
 }

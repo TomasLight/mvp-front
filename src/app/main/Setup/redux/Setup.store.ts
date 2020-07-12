@@ -1,6 +1,7 @@
 import { IconVariant } from "@enums";
-import { colorsDictionary, ISetupFormValues, setupSteps } from "@main/Setup/models";
+import { ISetupFormValues, setupSteps } from "@main/Setup/models";
 import { ColorSelectFieldOption, IconSelectFieldOption } from "@select";
+import { brandColors } from "@shared/theme";
 
 export class SetupStore {
     setupStep: number;
@@ -22,7 +23,7 @@ export class SetupStore {
     constructor() {
         this.setupStep = setupSteps.siteSettings;
 
-        const initialColor = colorsDictionary["1"];
+        const initialColor = brandColors.get(8).color;
 
         this.initialValues = {
             primaryColor: initialColor,
@@ -34,16 +35,7 @@ export class SetupStore {
             this.addIcon(IconVariant.PizzaSlice),
         ];
 
-        this.colorOptions = [
-            this.addColor(1),
-            this.addColor(2),
-            this.addColor(3),
-            this.addColor(4),
-            this.addColor(5),
-            this.addColor(6),
-            this.addColor(7),
-            this.addColor(8),
-        ];
+        this.colorOptions = this.makeColorOptions();
 
         this.faviconVariant = IconVariant.NA;
         this.siteName = "";
@@ -62,10 +54,17 @@ export class SetupStore {
         return new IconSelectFieldOption({ id, title: "" });
     }
 
-    private addColor(i: number) {
-        return new ColorSelectFieldOption({
-            id: `color-${i}`,
-            color: colorsDictionary[i],
+    private makeColorOptions() {
+        const colorOptions: ColorSelectFieldOption[] = [];
+
+        brandColors.forEach((brandColor, id) => {
+            colorOptions.push(new ColorSelectFieldOption({
+                id: `color-${id}`,
+                color: brandColor.color,
+                searchTags: brandColor.searchTags,
+            }));
         });
+
+        return colorOptions;
     }
 }

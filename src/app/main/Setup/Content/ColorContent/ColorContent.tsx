@@ -17,7 +17,7 @@ const ColorContent = (props: Props) => {
 
     return (
         <div className={classes.root}>
-            <Typography className={classes.siteName} noWrap>
+            <Typography className={classes.siteName}>
                 {siteName}
             </Typography>
 

@@ -3,10 +3,11 @@ import { SelectFieldOption } from "./SelectFieldOption";
 export class ColorSelectFieldOption extends SelectFieldOption<string> {
     public color: string;
 
-    constructor(option?: { id: any; color: string }) {
+    constructor(option?: { id: any; color: string, searchTags?: string[] }) {
         super({
             id: option.id,
             title: "",
+            searchTags: option.searchTags,
         });
         this.color = option.color;
     }
