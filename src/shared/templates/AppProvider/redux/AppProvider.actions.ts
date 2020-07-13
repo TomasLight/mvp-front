@@ -1,3 +1,4 @@
+import { IGetAuthorizedUserData } from "@shared/templates";
 import { createAction, createActionWithCallback } from "app-redux-utils";
 
 import { AppProviderStore } from "./AppProvider.store";
@@ -24,5 +25,8 @@ export class AppProviderActions {
     static initializedPosApp = () => createAction(AppProviderActions.INITIALIZE_POS_APP);
     static initializedWorkspaceApp = () => createAction(AppProviderActions.INITIALIZE_WORKSPACE_APP);
 
-    static getAuthorizedUser = () => createActionWithCallback(AppProviderActions.GET_AUTHORIZED_USER);
+    static getAuthorizedUser = (data: IGetAuthorizedUserData) =>
+        createAction(AppProviderActions.GET_AUTHORIZED_USER, data);
+    static getAuthorizedUserWithCallback = () =>
+        createActionWithCallback(AppProviderActions.GET_AUTHORIZED_USER);
 }

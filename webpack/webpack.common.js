@@ -3,6 +3,7 @@ import { DefinePlugin } from "webpack";
 import dotenv from "dotenv";
 import { merge } from "webpack-merge";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+// import HtmlWebpackPlugin from "html-webpack-plugin";
 
 import { tsRule } from "./rules/ts-rule";
 import { imgRule } from "./rules/img-rule";
@@ -37,8 +38,12 @@ const commonWebpackConfig = merge(
             // increase build performance
             new ForkTsCheckerWebpackPlugin(),
             new DefinePlugin({
-                'process.env': JSON.stringify(dotenv.config({path: paths.env}).parsed),
+                "process.env": JSON.stringify(dotenv.config({path: paths.env}).parsed),
             }),
+            // new HtmlWebpackPlugin({
+            //     template: paths.output + "/src/public/index.template.html",
+            //     inject: "body"
+            // })
         ],
     },
     tsRule(),

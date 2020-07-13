@@ -1,10 +1,7 @@
 export interface IWorkspaceSiteSettingsDto {
-    siteName: string;
-    domain: string;
-    favicon: number;
-
-    openGraphImage: ArrayBuffer;
-    openGraphTitle: string;
-
+    name: string;
+    faviconUrl: number;
+    opengraphImageUrl: ArrayBuffer;
+    opengraphImageTitle: string;
     color: string;
 }

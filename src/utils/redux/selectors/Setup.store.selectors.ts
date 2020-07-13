@@ -13,4 +13,9 @@ export class SetupSelectors {
         const store: SetupStore = yield SetupSelectors.getStore();
         return store.siteUrl;
     }
+
+    static* getLandingConfigId() {
+        const store: SetupStore = yield SetupSelectors.getStore();
+        return store.landingConfigId;
+    }
 }

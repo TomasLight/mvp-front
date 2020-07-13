@@ -5,7 +5,7 @@ import { put } from "@redux-saga/core/effects";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { setupSteps } from "@main/Setup/models";
 import { ISiteSettingsFormValues } from "@main/Setup/models/ISiteSettingsFormValues";
-import { WorkspaceSiteSettings } from "@main/Setup/models/WorkspaceSiteSettings";
+import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
 import { ApiResponse, Mapper } from "@utils";
 import { SagaBase } from "@utils/saga/SagaBase";
 import { push } from "connected-react-router";
@@ -46,7 +46,7 @@ export class SetupSaga extends SagaBase {
 
         let url = "";
         if (domain) {
-            url = `${domain}.bizarre.ru`;
+            url = `${domain}.${process.env.MAIN_DOMAIN}`;
         }
 
         yield SetupSaga.updateStore({
@@ -99,7 +99,7 @@ export class SetupSaga extends SagaBase {
             settingsAreSending: true,
         });
 
-        const response: ApiResponse = yield WorkspaceApi.sendSiteSettings(settings);
+        const response: ApiResponse = yield WorkspaceApi.create(settings);
         if (response.hasError()) {
             yield SetupSaga.updateStore({
                 settingsAreSending: false,
@@ -109,6 +109,7 @@ export class SetupSaga extends SagaBase {
         }
 
         yield SetupSaga.updateStore({
+            landingConfigId: response.data,
             settingsAreSending: false,
             setupStep: setupSteps.dataSettings,
         });

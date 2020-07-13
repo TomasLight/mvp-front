@@ -18,3 +18,4 @@ const App = (props: Props) => {
 };
 
 export { App };
+export default App;

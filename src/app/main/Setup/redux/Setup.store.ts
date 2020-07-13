@@ -20,6 +20,7 @@ export class SetupStore {
     color: string;
 
     settingsAreSending: boolean;
+    landingConfigId: string;
 
     constructor() {
         this.setupStep = setupSteps.siteSettings;
@@ -44,6 +45,7 @@ export class SetupStore {
         this.color = initialColor;
 
         this.settingsAreSending = false;
+        this.landingConfigId = "";
     }
 
     private makeFaviconOptions() {

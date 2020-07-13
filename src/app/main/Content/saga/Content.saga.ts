@@ -1,5 +1,6 @@
 import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
-import { IContactSettingsFormValues, WorkspaceContentSettings } from "@main/Content/models";
+import { WorkspaceContentSettings } from "@app/models";
+import { IContactSettingsFormValues } from "@main/Content/models";
 import { SetupSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { AppAction } from "app-redux-utils";
@@ -11,7 +12,6 @@ import { SagaBase } from "@utils/saga/SagaBase";
 
 import { categories } from "@api/mock/menu/categories";
 import { menuItems } from "@api/mock/menu/menuItems";
-import { push } from "connected-react-router";
 
 import {
     ISubmitData,
@@ -114,7 +114,8 @@ export class ContentSaga extends SagaBase {
             contentIsSaving: true,
         });
 
-        const response: ApiResponse = yield WorkspaceApi.sendContentSettings(settings);
+        const landingConfigId: string = yield SetupSelectors.getLandingConfigId();
+        const response: ApiResponse = yield WorkspaceApi.updateContentSettings(landingConfigId, settings);
         if (response.hasError()) {
             yield ContentSaga.updateStore({
                 contentIsSaving: false,
@@ -136,9 +137,8 @@ export class ContentSaga extends SagaBase {
     }
 
     static* redirectToSite(action: AppAction) {
-        const siteUrl = yield SetupSelectors.getSiteUrl();
+        const siteUrl: string = yield SetupSelectors.getSiteUrl();
 
         window.location.href = siteUrl;
-        // yield put(push(siteUrl));
     }
 }

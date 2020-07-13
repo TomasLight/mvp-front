@@ -9,6 +9,7 @@ export abstract class ApiBase {
         return process.env.MOCK_API === "true";
     }
 
+    // @ts-ignore
     protected static mockApi<TResponseData>(url, method, data?): TResponseData {
         throw new Error (`Not implemented ${nameof(ApiBase.mockApi)}`);
     }
@@ -53,6 +54,17 @@ export abstract class ApiBase {
         return this.createResponse<TResponseData>(response);
     }
 
+    protected static async patch<TResponseData = any>(url: string, dto: any): Promise<ApiResponse<TResponseData>> {
+        if (this.useMockApi()) {
+            return this.createMockResponse<TResponseData>(url, "PUT", dto);
+        }
+
+        const builder = new RequestInitBuilder("PATCH").appendJson(dto);
+        const response: Response = await fetch(this.url(url), builder.build());
+
+        return this.createResponse<TResponseData>(response);
+    }
+
     protected static async delete<TResponseData = any>(url: string, dto?: any): Promise<ApiResponse<TResponseData>> {
         if (this.useMockApi()) {
             return this.createMockResponse<TResponseData>(url, "DELETE", dto);
@@ -72,16 +84,14 @@ export abstract class ApiBase {
         apiResponse.statusCode = response.status;
 
         if (response.ok) {
-            const data: TResponseData = await response.json();
-            apiResponse.data = data;
+            apiResponse.data = await response.json();
         }
         else if (this.isApiError(response)) {
             const apiError: IApiError = await response.json();
             apiResponse.error = ErrorBuilder.getErrorMessage(apiError);
         }
         else {
-            const errorMessage: string = await response.text();
-            apiResponse.error = errorMessage;
+            apiResponse.error = await response.text();
         }
 
         return apiResponse;
