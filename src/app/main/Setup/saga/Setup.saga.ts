@@ -1,12 +1,12 @@
 import { mainUrls } from "@main/routing";
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { setupSteps } from "@main/Setup/models";
 import { ISiteSettingsFormValues } from "@main/Setup/models/ISiteSettingsFormValues";
 import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
-import { ApiResponse, Mapper } from "@utils";
+import { ApiResponse, FileHelper, Mapper } from "@utils";
 import { SagaBase } from "@utils/saga/SagaBase";
 import { push } from "connected-react-router";
 
@@ -63,15 +63,20 @@ export class SetupSaga extends SagaBase {
     static* onChangeOpenGraphImage(action: AppAction<IOnChangeOpenGraphImageData>) {
         const { imageFile, dispatch } = action.payload;
 
-        if (FileReader && imageFile) {
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
-                dispatch(SetupActions.updateStore({
-                    openGraphImage: fileReader.result as string,
-                }));
-            };
-            fileReader.readAsDataURL(imageFile);
+        let openGraphImage = "";
+        if (imageFile) {
+            openGraphImage = yield call(FileHelper.toBase64, imageFile);
+            // const fileReader = new FileReader();
+            // fileReader.onload = () => {
+            //     dispatch(SetupActions.updateStore({
+            //         openGraphImage: fileReader.result as string,
+            //     }));
+            // };
+            // fileReader.readAsDataURL(imageFile);
         }
+        dispatch(SetupActions.updateStore({
+            openGraphImage,
+        }));
     }
 
     static* onChangeOpenGraphTitle(action: AppAction<IOnChangeOpenGraphTitleData>) {

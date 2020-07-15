@@ -3,8 +3,8 @@ import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
 import { MapFunction } from "@utils/mapping/MapFunction";
 import { MappingProfileBase } from "@utils/mapping/MappingProfileBase";
-import { IContentBlock, IMenuBlock, IndexPage, ISiteBlock, MenuBlock, Pages, SiteBlock } from "../../models";
-import { ContentBlock } from "../../models/IndexPage";
+import { IContentBlock, IMenuBlock, IndexPage, ISiteBlock, MenuBlock, Pages, SiteBlock } from "@ws/models";
+import { ContentBlock } from "../../workspace/models/IndexPage";
 
 export class PageMappingProfile extends MappingProfileBase implements IMappingProfile {
     get(): IMapFunction[] {

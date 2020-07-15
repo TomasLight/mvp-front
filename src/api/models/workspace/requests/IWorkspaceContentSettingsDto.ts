@@ -1,5 +1,5 @@
 export interface IWorkspaceContentSettingsDto {
-    firstPhotoUrl: ArrayBuffer;
+    firstPhoto: string;
     firstText: string;
     phone: string;
     address: string;

@@ -1,11 +1,11 @@
-// import { IndexPage } from "../../models/IndexPage";
+import { IndexPage } from "../models/IndexPage";
 
 export class WorkspaceStore {
-    // page: IndexPage;
-    // pageIsLoading: boolean;
+    indexPage: IndexPage;
+    indexPageIsLoading: boolean;
 
     constructor() {
-        // this.page = new IndexPage();
-        // this.pageIsLoading = false;
+        this.indexPage = new IndexPage();
+        this.indexPageIsLoading = false;
     }
 }

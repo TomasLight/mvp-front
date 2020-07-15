@@ -7,7 +7,8 @@ import {
 } from "./PageComponentRouter";
 
 const mapStateToProps = (state: State): IPageComponentRouterProps => ({
-    hasWorkspaces: !!state.page.indexPage.blocks.site.title,
+    // hasWorkspaces: !!state.page.indexPage.blocks.site.title,
+    settingsMode: state.main.settingsMode,
 });
 
 const PageComponentRouterContainer = connect(

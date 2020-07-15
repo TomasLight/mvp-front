@@ -62,14 +62,10 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
                 name: settings.siteName,
                 faviconUrl: settings.favicon,
                 opengraphImageTitle: settings.openGraphTitle,
-                opengraphImageUrl: null,
+                opengraphImage: null,
                 color: settings.primaryColor,
             },
         };
-
-        settings.openGraphImage.arrayBuffer().then((buffer: ArrayBuffer) => {
-            dto.siteConfig.opengraphImageUrl = buffer;
-        });
 
         return dto;
     }
@@ -79,17 +75,13 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): IWorkspaceContentSettingsDto {
 
         const dto: IWorkspaceContentSettingsDto = {
-            firstPhotoUrl: null,
+            firstPhoto: settings.photo as any,
             firstText: settings.firstBlockText,
             phone: settings.phone,
             address: settings.address,
             deliveryTime: settings.deliveryTime,
             deliveryMapUrl: settings.deliveryLocationLink,
         };
-
-        settings.photo.arrayBuffer().then((buffer: ArrayBuffer) => {
-            dto.firstPhotoUrl = buffer;
-        });
 
         return dto;
     }

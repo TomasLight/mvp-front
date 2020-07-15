@@ -1,6 +1,6 @@
 import { ModelState, IValidatorAsync, Errors } from "model-state-validation";
 
-import { BaseValidator, Translate } from "@utils";
+import { BaseValidator, FileHelper, Translate } from "@utils";
 import { ISiteSettingsFormValues } from "../models";
 
 export class SiteSettingsValidator
@@ -113,41 +113,11 @@ export class SiteSettingsValidator
         // const obj = { flag: true };
         // const image = new Image();
         //
-        // const fileReader = new FileReader();
-        // fileReader.onload = () => {
-        //     image.onload = () => {
-        //         obj.flag = false;
-        //     };
+        // image.src = await FileHelper.toBase64(files[0]);
         //
-        //     image.src = fileReader.result as string;
-        // };
-        //
-        // fileReader.readAsDataURL(files[0]);
-        //
-        // const sizes = await this.loopImageResolution(image, obj);
-        //
-        // return sizes.height <= this.imageSizes.height
-        //     && sizes.width <= this.imageSizes.width;
+        // return image.height <= this.imageSizes.height
+        //     && image.width <= this.imageSizes.width;
     }
-
-    // async loopImageResolution(image: HTMLImageElement, obj: { flag: boolean }) {
-    //     const waitPromise = new Promise((resolve) => {
-    //         setTimeout(() => {
-    //             resolve();
-    //         }, 200);
-    //     });
-    //
-    //     await waitPromise;
-    //
-    //     if (obj.flag) {
-    //         return await this.loopImageResolution(image, obj);
-    //     }
-    //
-    //     return {
-    //         height: image.height,
-    //         width: image.width,
-    //     };
-    // }
 
     openGraphTitleIsValid(openGraphTitle: any): boolean {
         return typeof openGraphTitle === "string" && openGraphTitle.length > 0;

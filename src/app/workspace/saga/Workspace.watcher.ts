@@ -7,9 +7,9 @@ export class WorkspaceWatcher extends WatcherBase {
     constructor() {
         super();
 
-        // this.watchLatest(
-        //     WorkspaceActions.LOAD_PAGE,
-        //     WorkspaceSaga.loadPage
-        // );
+        this.watchLatest(
+            WorkspaceActions.LOAD_PAGE,
+            WorkspaceSaga.loadPage
+        );
     }
 }

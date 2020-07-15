@@ -40,7 +40,7 @@ export class Mapper {
     ): TDestination {
         const mapFunction: IMapFunction = Mapper.find(sourceType, destinationType);
         if (!mapFunction) {
-            throw Error(`A mapping for types not registered (sourceType: ${mapFunction.key.sourceType}, destinationType: ${mapFunction.key.destinationType})`);
+            throw Error(`A mapping for types not registered (sourceType: ${sourceType}, destinationType: ${destinationType})`);
         }
         return mapFunction.map(sourceModel, destinationModel);
     }

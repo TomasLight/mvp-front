@@ -3,11 +3,12 @@ import { all, put } from "@redux-saga/core/effects";
 
 import { UserApi } from "@api";
 import { SetupActions } from "@main/Setup/redux";
+import { MainActions } from "@main/redux";
 import { AuthorizedUser } from "@models";
 import { AppProviderSelectors } from "@selectors";
+import { WorkspaceActions } from "@ws/redux";
 import { ApiResponse, ApiResponseStatus } from "@utils";
 import { SagaBase } from "@utils/saga";
-import { PageActions } from "@app/redux";
 
 import { AppProviderActions, AppProviderStore, IGetAuthorizedUserData } from "../redux";
 
@@ -18,7 +19,7 @@ export class AppProviderSaga extends SagaBase {
 
     static* initializeMainApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
-        const loadPageActionCallback = () => PageActions.loadPage()(callbackAction);
+        const loadPageActionCallback = () => MainActions.loadWorkspaces()(callbackAction);
 
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUserWithCallback()(loadPageActionCallback)),
@@ -44,7 +45,7 @@ export class AppProviderSaga extends SagaBase {
 
     static* initializedWorkspaceApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
-        const loadPageActionCallback = () => PageActions.loadPage()(callbackAction);
+        const loadPageActionCallback = () => WorkspaceActions.loadPage()(callbackAction);
 
         const initializedActions = [
             put(AppProviderActions.getAuthorizedUserWithCallback()(loadPageActionCallback)),

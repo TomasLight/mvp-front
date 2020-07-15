@@ -1,4 +1,5 @@
 export * from "./api";
+export * from "./file";
 export * from "./mapping";
 export * from "./redux";
 export * from "./saga";

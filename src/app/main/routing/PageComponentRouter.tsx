@@ -11,16 +11,19 @@ import { ContentPageContainer } from "../Content";
 import { mainUrls } from "./mainUrls";
 
 interface IPageComponentRouterProps {
-    hasWorkspaces: boolean;
+    settingsMode: "create" | "update";
 }
 
 type Props = IPageComponentRouterProps & RouteComponentProps;
 
 const PageComponentRouter = (props: Props) => {
-    const { hasWorkspaces, location } = props;
+    const { /*hasWorkspaces,*/ settingsMode, location } = props;
 
-    if (hasWorkspaces && location.pathname === mainUrls.hello) {
-        return <Redirect push to={workspaceUrls.menu}/>;
+    // if (hasWorkspaces && location.pathname === mainUrls.hello) {
+    //     return <Redirect push to={workspaceUrls.menu}/>;
+    // }
+    if (location.pathname === mainUrls.hello) {
+        return <Redirect push to={mainUrls.setup}/>;
     }
 
     return (

@@ -5,6 +5,7 @@ import { faviconTags, FavIconVariant } from "@shared/molecules";
 import { brandColors } from "@shared/theme";
 
 export class SetupStore {
+    workspacesAreLoading: boolean;
     setupStep: number;
 
     initialValues: ISiteSettingsFormValues;
@@ -23,6 +24,7 @@ export class SetupStore {
     landingConfigId: string;
 
     constructor() {
+        this.workspacesAreLoading = false;
         this.setupStep = setupSteps.siteSettings;
 
         const initialColor = brandColors.get(8).color;

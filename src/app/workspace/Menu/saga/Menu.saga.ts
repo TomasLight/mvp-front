@@ -2,7 +2,7 @@ import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { MenuApi } from "@api";
-import { MenuSelectors, PageSelectors } from "@selectors";
+import { MenuSelectors, WorkspaceSelectors } from "@selectors";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { SagaBase } from "@utils/saga/SagaBase";
 
@@ -24,27 +24,6 @@ export class MenuSaga extends SagaBase {
     }
 
     static* loadMenu(action: AppAction) {
-        // now we no need menu information
-
-        // yield MenuSaga.updateStore({
-        //     menuIsLoading: true,
-        // });
-        //
-        // const menuId = yield PosSelectors.getMenuId();
-        // const response: ApiResponse<Menu> = yield MenuApi.getMenu(menuId);
-        // if (response.hasError()) {
-        //     yield MenuSaga.updateStore({
-        //         menuIsLoading: false,
-        //     });
-        //     yield SagaBase.displayClientError(response);
-        //     return;
-        // }
-        //
-        // yield MenuSaga.updateStore({
-        //     menuIsLoading: false,
-        //     menu: response.data,
-        // });
-
         yield put(MenuActions.loadCategories());
         yield put(MenuActions.loadDishes());
     }
@@ -54,7 +33,7 @@ export class MenuSaga extends SagaBase {
             categoriesAreLoading: true,
         });
 
-        const menuId = yield PageSelectors.getMenuId();
+        const menuId = yield WorkspaceSelectors.getMenuId();
         const response: ApiResponse<Category[]> = yield MenuApi.getCategories(menuId);
         if (response.hasError()) {
             yield MenuSaga.updateStore({

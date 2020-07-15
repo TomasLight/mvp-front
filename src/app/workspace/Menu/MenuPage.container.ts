@@ -7,12 +7,12 @@ import { MenuActions} from "./redux";
 import { MenuPage, IMenuPageProps, IMenuPageCallProps } from "./MenuPage";
 
 const mapStateToProps = (state: State): IMenuPageProps => ({
-    firstPhotoUrl: state.page.indexPage.blocks.content.firstPhotoUrl,
-    firstText: state.page.indexPage.blocks.content.firstText,
-    phone: state.page.indexPage.blocks.content.phone,
-    address: state.page.indexPage.blocks.content.address,
-    deliveryTime: state.page.indexPage.blocks.content.deliveryTime,
-    deliveryMapUrl: state.page.indexPage.blocks.content.deliveryMapUrl,
+    firstPhotoUrl: state.workspace.indexPage.blocks.content.firstPhotoUrl,
+    firstText: state.workspace.indexPage.blocks.content.firstText,
+    phone: state.workspace.indexPage.blocks.content.phone,
+    address: state.workspace.indexPage.blocks.content.address,
+    deliveryTime: state.workspace.indexPage.blocks.content.deliveryTime,
+    deliveryMapUrl: state.workspace.indexPage.blocks.content.deliveryMapUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IMenuPageCallProps => ({
