@@ -1,4 +1,4 @@
-import { put, takeEvery, takeLatest, throttle } from "@redux-saga/core/effects";
+import { all, put, takeEvery, takeLatest, throttle } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
 
 import { IWatcher } from "./IWatcher";
@@ -15,8 +15,10 @@ export abstract class WatcherBase implements IWatcher {
         return function* (action: AppAction) {
             yield saga(action);
 
-            if (typeof action.callbackAction === "function") {
-                yield put(action.callbackAction());
+            if (!action.stopPropagation) {
+                const actions = action.getActions();
+                const putActionEffects = actions.map(action => put(action()));
+                yield all(putActionEffects);
             }
         };
     }
