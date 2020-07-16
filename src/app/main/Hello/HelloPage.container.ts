@@ -11,7 +11,7 @@ import {
 
 const mapDispatchToProps = (dispatch: Dispatch): IHelloPageCallProps => {
     return {
-        redirectToSetupPage: () => dispatch(push(mainUrls.setup)),
+        redirectToSetupPage: () => dispatch(push(mainUrls.siteSettings)),
     };
 };
 

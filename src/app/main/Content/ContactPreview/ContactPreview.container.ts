@@ -13,7 +13,7 @@ import {
 } from "./ContactPreview";
 
 const mapStateToProps = (state: State): IContactPreviewProps => ({
-    primaryColor: state.setup.color,
+    primaryColor: state.site.color,
     photo: state.content.photo,
     firstBlockText: state.content.text,
     phone: state.content.phone,

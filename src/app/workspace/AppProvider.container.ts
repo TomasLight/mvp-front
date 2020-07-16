@@ -14,7 +14,7 @@ import {
 const mapStateToProps = (state: CommonState & State): IAppProviderProps => {
     return {
         appIsInitialized: state.appProvider.initialized,
-        themeSettings: state.page.indexPage.blocks.site.styleColor,
+        themeSettings: state.workspace.indexPage.blocks.site.styleColor,
     };
 };
 

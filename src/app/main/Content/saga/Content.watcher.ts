@@ -8,6 +8,10 @@ export class ContentWatcher extends WatcherBase {
         super();
 
         this.watchLatest(
+            ContentActions.LOAD_DATA,
+            ContentSaga.loadData
+        );
+        this.watchLatest(
             ContentActions.LOAD_FAKE_MENU,
             ContentSaga.loadFakeMenu
         );
@@ -38,8 +42,8 @@ export class ContentWatcher extends WatcherBase {
         );
 
         this.watchLatest(
-            ContentActions.SUBMIT,
-            ContentSaga.submit
+            ContentActions.SUBMIT_SETTINGS,
+            ContentSaga.submitSettings
         );
         this.watchLatest(
             ContentActions.CLOSE_PUBLISH_DIALOG,

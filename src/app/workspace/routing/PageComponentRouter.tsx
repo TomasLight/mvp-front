@@ -1,5 +1,6 @@
+import { NotFound } from "@app/404";
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
 import { LayoutContainer } from "@ws/Layout";
 import { NotifierContainer } from "@shared/templates/Notifier";
@@ -7,7 +8,15 @@ import { MenuPageContainer } from "@ws/Menu";
 
 import { workspaceUrls } from "./workspaceUrls";
 
-const PageComponentRouter = () => {
+type Props = RouteComponentProps;
+
+const PageComponentRouter = (props: Props) => {
+    const { location} = props;
+
+    if (location.pathname === workspaceUrls.workspace) {
+        return <Redirect push to={workspaceUrls.menu}/>;
+    }
+
     return (
         <LayoutContainer>
             <Switch>
@@ -16,6 +25,10 @@ const PageComponentRouter = () => {
                     path={workspaceUrls.menu}
                     component={MenuPageContainer}
                 />
+
+                <Route path="*">
+                    <NotFound />
+                </Route>
             </Switch>
 
             <NotifierContainer/>
@@ -23,4 +36,5 @@ const PageComponentRouter = () => {
     );
 };
 
-export { PageComponentRouter };
+const componentWithRouter = withRouter(PageComponentRouter);
+export { componentWithRouter as PageComponentRouter };

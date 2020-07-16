@@ -1,6 +1,6 @@
 import { IPagesDto } from "@api/models/page/responses";
 import { ApiBase, ApiResponse, Mapper } from "@utils";
-import { Pages } from "../app/models";
+import { Pages } from "@ws/models";
 
 import { mockApi } from "./mock/page";
 

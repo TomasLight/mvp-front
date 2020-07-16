@@ -2,14 +2,15 @@ import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
 import { UserApi } from "@api";
-import { SetupActions } from "@main/Setup/redux";
+import { SiteActions } from "@main/Site/redux";
+import { MainActions } from "@main/redux";
 import { AuthorizedUser } from "@models";
 import { AppProviderSelectors } from "@selectors";
-import { ApiResponse } from "@utils";
+import { WorkspaceActions } from "@ws/redux";
+import { ApiResponse, ApiResponseStatus } from "@utils";
 import { SagaBase } from "@utils/saga";
-import { PageActions } from "../../../../app/redux";
 
-import { AppProviderActions, AppProviderStore } from "../redux";
+import { AppProviderActions, AppProviderStore, IGetAuthorizedUserData } from "../redux";
 
 export class AppProviderSaga extends SagaBase {
     private static* updateStore(store: Partial<AppProviderStore>) {
@@ -18,34 +19,41 @@ export class AppProviderSaga extends SagaBase {
 
     static* initializeMainApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
-        const initializedActions = [
-            put(AppProviderActions.getAuthorizedUser()(callbackAction)),
-            put(PageActions.loadPage()(callbackAction)),
-        ];
+
+        const landingAction = MainActions.loadLandingConfig();
+        landingAction.callbackAction = callbackAction;
+
+        const workspaceAction = MainActions.loadWorkspaces();
+        workspaceAction.callbackAction = callbackAction;
+
+        const initializedAction = AppProviderActions.getAuthorizedUser();
+        initializedAction.actions.push(landingAction);
+        initializedAction.actions.push(workspaceAction);
 
         yield AppProviderSaga.updateStore({
-            targetActionsAmount: initializedActions.length,
+            targetActionsAmount: initializedAction.actions.length,
         });
-        yield all(initializedActions);
+        yield put(initializedAction);
     }
 
     static* initializePosApp(action: AppAction) {
-        const callbackAction = AppProviderActions.incrementInitializedActions;
-        const initializedActions = [
-            put(AppProviderActions.getAuthorizedUser()(callbackAction)),
-        ];
-
-        yield AppProviderSaga.updateStore({
-            targetActionsAmount: initializedActions.length,
-        });
-        yield all(initializedActions);
+        // const callbackAction = AppProviderActions.incrementInitializedActions;
+        // const initializedActions = [
+        //     put(AppProviderActions.getAuthorizedUserWithCallback()(callbackAction)),
+        // ];
+        //
+        // yield AppProviderSaga.updateStore({
+        //     targetActionsAmount: initializedActions.length,
+        // });
+        // yield all(initializedActions);
     }
 
     static* initializedWorkspaceApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
+        const loadPageActionCallback = () => WorkspaceActions.loadPage()(callbackAction);
+
         const initializedActions = [
-            put(AppProviderActions.getAuthorizedUser()(callbackAction)),
-            put(PageActions.loadPage()(callbackAction)),
+            put(AppProviderActions.getAuthorizedUserWithCallback()(loadPageActionCallback)),
         ];
 
         yield AppProviderSaga.updateStore({
@@ -54,22 +62,25 @@ export class AppProviderSaga extends SagaBase {
         yield all(initializedActions);
     }
 
-    static* getAuthorizedUser(action: AppAction) {
+    static* getAuthorizedUser(action: AppAction<IGetAuthorizedUserData>) {
         const response: ApiResponse<AuthorizedUser> = yield UserApi.getAuthorizedUser();
-        if (response.hasError()) {
-            AppProviderSaga.displayClientError(response);
+        if (response.statusCode === ApiResponseStatus.Unauthorized) {
+            action.stop();
+            const currentUrl = window.location.href;
+            window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
             return;
         }
 
-        if (!response.data || !response.data.id) {
-            const currentUrl = window.location.href;
-            window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
+        if (response.hasError()) {
+            action.stop();
+            AppProviderSaga.displayClientError(response);
+            return;
         }
 
         const { firstName, lastName } = response.data;
 
         const userName = `${firstName} ${lastName}`;
-        yield put(SetupActions.setUserName({ userName }));
+        yield put(SiteActions.setUserName({ userName }));
     }
 
     static* incrementInitializedActions(action: AppAction) {

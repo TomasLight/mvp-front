@@ -1,4 +1,6 @@
 import { SizeType } from "@enums";
+import { ApiResponseStatus } from "@utils/api";
+import { apiResponseStatusDictionary } from "@utils/translates/apiResponseStatusDictionary";
 
 export class Translate {
     static getString(key: string, options?: any) {
@@ -13,6 +15,7 @@ export class Translate {
 
     private static dictionary = new Map<string, (options: any) => string>([
         [ "size", Translate.getSizeText ],
+        [ "api", Translate.getApiText ],
     ]);
 
     private static getSizeText(options: { size: number, sizeType: SizeType }): string {
@@ -32,5 +35,14 @@ export class Translate {
             default:
                 throw new Error(`Translate.getString - Invalid key for SizeType: ${options.sizeType}`);
         }
+    }
+
+    private static getApiText(options: { code: ApiResponseStatus }): string {
+        const text = apiResponseStatusDictionary[options.code];
+        if (text) {
+            return text;
+        }
+
+        throw new Error(`Translate.getString - Not registered status code ${options.code} for api`);
     }
 }

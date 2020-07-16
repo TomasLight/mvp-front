@@ -1,9 +1,11 @@
-import { PageStore } from "@app/redux";
 import { ContentStore } from "@main/Content/redux";
-import { SetupStore } from "@main/Setup/redux";
+import { DataStore } from "@main/Data/redux";
+import { MainStore } from "@main/redux";
+import { SiteStore } from "@main/Site/redux";
 
 export class State {
-    setup: SetupStore;
+    main: MainStore;
+    site: SiteStore;
+    data: DataStore;
     content: ContentStore;
-    page: PageStore;
 }

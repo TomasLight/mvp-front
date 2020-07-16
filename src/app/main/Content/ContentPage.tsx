@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import {
     Button,
@@ -49,6 +49,7 @@ interface ISetupPageProps {
 }
 
 interface ISetupPageCallProps {
+    loadData: () => void;
     submit: (formValues: IContactSettingsFormValues) => void;
     closePublishDialog: () => void;
     redirectToSite: () => void;
@@ -61,13 +62,18 @@ const ContentPage = (props: Props) => {
         initialValues,
         showPublishDialog,
         siteUrl,
+        loadData,
         submit,
         closePublishDialog,
         redirectToSite,
     } = props;
-    const classes = useStyles();
 
+    const classes = useStyles();
     const ContactForm = useMemo(() => formProvider.createForm(submit), [ submit ]);
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     return (
         <div className={classes.root}>

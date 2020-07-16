@@ -24,5 +24,8 @@ export class AppProviderActions {
     static initializedPosApp = () => createAction(AppProviderActions.INITIALIZE_POS_APP);
     static initializedWorkspaceApp = () => createAction(AppProviderActions.INITIALIZE_WORKSPACE_APP);
 
-    static getAuthorizedUser = () => createActionWithCallback(AppProviderActions.GET_AUTHORIZED_USER);
+    static getAuthorizedUser = () =>
+        createAction(AppProviderActions.GET_AUTHORIZED_USER);
+    static getAuthorizedUserWithCallback = () =>
+        createActionWithCallback(AppProviderActions.GET_AUTHORIZED_USER);
 }

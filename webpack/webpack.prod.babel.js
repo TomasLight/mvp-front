@@ -12,6 +12,11 @@ const prodWebpackConfig = merge(common, {
             contextRegExp: /moment$/,
         })
     ],
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+        },
+    },
 });
 
 module.exports = prodWebpackConfig;

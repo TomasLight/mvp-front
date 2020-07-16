@@ -4,7 +4,7 @@ import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
 import { configureApp } from "@config";
-import { configureMapper, PosReducerConfig, RootSaga } from "@ws/config";
+import { configureMapper, WorkspaceReducerConfig, RootSaga } from "@ws/config";
 import { AppProviderContainer } from "./AppProvider.container";
 import { PageComponentRouter } from "./routing";
 
@@ -21,7 +21,7 @@ const App = (props: Props) => {
 
     const store = useMemo(() => configureApp(
         history,
-        new PosReducerConfig(),
+        new WorkspaceReducerConfig(),
         new RootSaga()
     ), []);
 
@@ -37,3 +37,4 @@ const App = (props: Props) => {
 };
 
 export { App };
+export default App;

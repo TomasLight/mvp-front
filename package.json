@@ -5,16 +5,18 @@
   "scripts": {
     "dev": "set NODE_OPTIONS=--max_old_space_size=2560 && webpack --inspect -d --config webpack/webpack.dev.babel.js --color --progress",
     "prod": "webpack -p --config webpack/webpack.prod.babel.js --color --progress",
+    "analyze": "webpack -p --config webpack/webpack.analyze.babel.js --color --progress",
     "watch": "npm run dev -- --watch",
     "test": "jest"
   },
   "author": "bizarre",
   "dependencies": {
+    "@loadable/component": "^5.13.1",
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
     "@types/react-select": "3.0.14",
     "@types/react-virtualized": "9.21.10",
-    "app-redux-utils": "1.0.2",
+    "app-redux-utils": "1.1.1",
     "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-polyfill": "6.26.0",
     "clean-webpack-plugin": "3.0.0",
@@ -66,6 +68,7 @@
     "enzyme-adapter-react-16": "1.15.2",
     "enzyme-to-json": "3.5.0",
     "fork-ts-checker-webpack-plugin": "5.0.6",
+    "html-webpack-plugin": "^4.3.0",
     "isomorphic-fetch": "2.2.1",
     "jest": "26.1.0",
     "jsdom": "16.2.2",
@@ -78,6 +81,7 @@
     "typescript-tslint-plugin": "0.5.5",
     "url-loader": "4.1.0",
     "webpack": "4.43.0",
+    "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0",
     "webpack-merge": "5.0.4"

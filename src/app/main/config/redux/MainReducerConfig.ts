@@ -1,15 +1,17 @@
-import { PageReducer } from "@app/redux";
 import { ReducerConfig } from "@config";
 import { ContentReducer } from "@main/Content/redux";
-import { SetupReducer } from "@main/Setup/redux";
+import { DataReducer } from "@main/Data/redux";
+import { MainReducer } from "@main/redux";
+import { SiteReducer } from "@main/Site/redux";
 import { State } from "@MainState";
 
 export class MainReducerConfig extends ReducerConfig<State> {
     constructor() {
         super({
-            setup: SetupReducer,
+            main: MainReducer,
+            site: SiteReducer,
+            data: DataReducer,
             content: ContentReducer,
-            page: PageReducer,
         });
     }
 }

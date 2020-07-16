@@ -36,6 +36,7 @@ export interface IFieldBaseProps<ClassKey extends string = string> extends IFiel
     error?: boolean;
     required?: boolean;
     disabled?: boolean;
+    readonly?: boolean;
     isLoading?: boolean;
 
     classes?: FieldBaseClasses<ClassKey>;
@@ -54,11 +55,12 @@ const FieldBase: FC<Props> = (props) => {
         customEndAdornment,
 
         disabled = false,
+        readonly = false,
         error = false,
         required = false,
         isLoading = false,
 
-        classes,
+        classes = {},
         LabelProps,
         ErrorProps,
         LoadingIndicatorProps,

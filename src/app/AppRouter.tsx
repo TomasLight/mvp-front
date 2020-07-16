@@ -1,7 +1,17 @@
 import { History } from "history";
 import React from "react";
-import { Route, Switch, Router } from "react-router-dom";
+import {
+    Route,
+    Switch,
+    Router,
+    Redirect,
+    withRouter,
+} from "react-router-dom";
+// import loadable from "@loadable/component";
 
+// const MainApp = loadable(() => import(/* webpackChunkName: "MainApp" */ "@main/App"));
+// const PosApp = loadable(() => import(/* webpackChunkName: "PosApp" */ "@pos/App"));
+// const WorkspaceApp = loadable(() => import(/* webpackChunkName: "WsApp" */ "@ws/App"));
 import { App as MainApp } from "@main/App";
 import { App as PosApp } from "@ws/App";
 import { App as WorkspaceApp } from "@ws/App";
@@ -28,29 +38,33 @@ const AppRouter = (props: Props) => {
             <Switch>
                 <Route
                     path={appUrls.main}
-                    render={() => <MainApp history={history} />}
+                    render={() => <MainApp history={history}/>}
                 />
                 <Route
                     path={appUrls.pos}
-                    render={() => <PosApp history={history} />}
+                    render={() => <PosApp history={history}/>}
                 />
                 <Route
                     path={appUrls.workspace}
-                    render={() => <WorkspaceApp history={history} />}
+                    render={() => <WorkspaceApp history={history}/>}
                 />
 
-                <Route
-                    exact
-                    path={appUrls.root}
-                    render={() => <MainApp history={history} />}
-                    // render={() => <WorkspaceApp history={history} />}
-                />
                 <Route path="*">
-                    <NotFound />
+                    <DefaultRouteResolver/>
                 </Route>
             </Switch>
         </Router>
     );
 };
+
+const DefaultRouteResolver = withRouter(({ location }) => {
+    if (location.pathname === appUrls.root) {
+        return <Redirect push to={appUrls.workspace}/>;
+    }
+
+    return (
+        <NotFound/>
+    );
+});
 
 export { AppRouter };

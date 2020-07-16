@@ -1,5 +1,6 @@
 export const mainUrls = {
-    hello: "/",
-    setup: "/main/setup",
-    content: "/main/setup/content",
+    main: "/main",
+    siteSettings: "/main/site",
+    dataSettings: "/main/data",
+    contentSettings: "/main/content",
 };

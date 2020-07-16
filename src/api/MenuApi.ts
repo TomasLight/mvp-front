@@ -1,4 +1,4 @@
-import { IMenuItemDto, IMenuDto, ICategoryDto } from "@api/models/menu/responses";
+import { IMenuItemDto, IMenuDto } from "@api/models/menu/responses";
 import { Category, Dish, Menu } from "@ws/Menu/models";
 import { urlWithIds } from "@utils";
 import { ApiBase } from "@utils/api/ApiBase";
@@ -27,16 +27,12 @@ export class MenuApi extends ApiBase {
     }
 
     static async getCategories(menuId: string): Promise<ApiResponse<Category[]>> {
-        const url = urlWithIds(process.env.API_GET_MENU_CATEGORIES, { menuId });
-
-        const response: ApiResponse = await this.post<ICategoryDto[]>(url, { menuId });
+        const response: ApiResponse = await this.getMenu(menuId);
         if (response.data) {
-            response.data = response.data.map((dto: ICategoryDto) => Mapper.map<Category>(
-                nameof<ICategoryDto>(),
-                nameof<Category>(),
-                dto
-            ));
+            const menu: Menu = response.data;
+            response.data = menu.categories;
         }
+
         return response as ApiResponse<Category[]>;
     }
 

@@ -1,47 +1,52 @@
+import { NotFound } from "@app/404";
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
 import { LayoutContainer } from "@main/Layout";
 import { NotifierContainer } from "@shared/templates/Notifier";
-import { workspaceUrls } from "@ws/routing";
 import { HelloPageContainer } from "../Hello";
-import { SetupPageContainer } from "../Setup";
+import { SitePageContainer } from "../Site";
+import { DataPageContainer } from "@main/Data";
 import { ContentPageContainer } from "../Content";
 
 import { mainUrls } from "./mainUrls";
 
-interface IPageComponentRouterProps {
-    hasWorkspaces: boolean;
-}
-
-type Props = IPageComponentRouterProps & RouteComponentProps;
+type Props = RouteComponentProps;
 
 const PageComponentRouter = (props: Props) => {
-    const { hasWorkspaces, location } = props;
+    const { location } = props;
 
-    if (hasWorkspaces && location.pathname === mainUrls.hello) {
-        return <Redirect push to={workspaceUrls.menu}/>;
+    if (location.pathname === mainUrls.main) {
+        return <Redirect push to={mainUrls.siteSettings}/>;
     }
 
     return (
         <LayoutContainer>
             <Switch>
-                <Route
+                {/*<Route
                     exact
-                    path={mainUrls.hello}
+                    path={mainUrls.root}
                     component={HelloPageContainer}
-                    // component={ContentPageContainer}
+                />*/}
+                <Route
+                    exact
+                    path={mainUrls.siteSettings}
+                    component={SitePageContainer}
                 />
                 <Route
                     exact
-                    path={mainUrls.setup}
-                    component={SetupPageContainer}
+                    path={mainUrls.dataSettings}
+                    component={DataPageContainer}
                 />
                 <Route
                     exact
-                    path={mainUrls.content}
+                    path={mainUrls.contentSettings}
                     component={ContentPageContainer}
                 />
+
+                <Route path="*">
+                    <NotFound />
+                </Route>
             </Switch>
 
             <NotifierContainer/>
@@ -50,4 +55,4 @@ const PageComponentRouter = (props: Props) => {
 };
 
 const componentWithRouter = withRouter(PageComponentRouter);
-export { componentWithRouter as PageComponentRouter, IPageComponentRouterProps };
+export { componentWithRouter as PageComponentRouter };

@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Drawer as MuiDrawer, List, ListItem, ListItemText } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Drawer as MuiDrawer, List, ListItem, ListItemText, makeStyles } from "@material-ui/core";
 
 import { SideBarItem } from "../../models";
 

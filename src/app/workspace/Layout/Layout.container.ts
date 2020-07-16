@@ -13,7 +13,7 @@ const mapStateToProps = (state: State): Partial<ILayoutProps> => ({
     menuItems: [
         {
             title: Translate.getString("Main"),
-            url: mainUrls.setup,
+            url: mainUrls.siteSettings,
         },
     ],
     variant: Variant.Pos,

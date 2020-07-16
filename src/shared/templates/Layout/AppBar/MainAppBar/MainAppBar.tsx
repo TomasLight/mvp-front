@@ -1,7 +1,6 @@
 import React from "react";
 
-import { IconButton, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { IconButton, Toolbar, Typography, makeStyles } from "@material-ui/core";
 import { Lock } from "@material-ui/icons";
 
 import { AppBar } from "@shared/atoms/AppBar";

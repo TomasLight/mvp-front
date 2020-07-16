@@ -1,17 +1,17 @@
-import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
-import { IContactSettingsFormValues, WorkspaceContentSettings } from "@main/Content/models";
-import { SetupSelectors } from "@selectors";
-import { Cart, Category, Dish } from "@ws/Menu/models";
+import { FavIconUrlResolver } from "@shared/molecules";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
-import { WorkspaceApi } from "@api/WorkspaceApi";
-import { ApiResponse, Mapper } from "@utils";
-import { SagaBase } from "@utils/saga/SagaBase";
-
+import { WorkspaceApi } from "@api";
+import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
+import { LandingConfig, WorkspaceContentSettings } from "@app/models";
 import { categories } from "@api/mock/menu/categories";
 import { menuItems } from "@api/mock/menu/menuItems";
-import { push } from "connected-react-router";
+
+import { IContactSettingsFormValues } from "@main/Content/models";
+import { MainSelectors, SetupSelectors } from "@selectors";
+import { Cart, Category, Dish } from "@ws/Menu/models";
+import { ApiResponse, Mapper, SagaBase } from "@utils";
 
 import {
     ISubmitData,
@@ -28,6 +28,33 @@ import {
 export class ContentSaga extends SagaBase {
     private static* updateStore(partialStore: Partial<ContentStore>) {
         yield put(ContentActions.updateStore(partialStore));
+    }
+
+    static* loadData(action: AppAction) {
+        const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
+        if (settingsMode === "create") {
+            return;
+        }
+
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        const contentConfig = landingConfig.contentConfig;
+
+        yield ContentSaga.updateStore({
+            initialValues: {
+                photo: null,
+                firstBlockText: contentConfig.firstText,
+                phone: contentConfig.phone,
+                address: contentConfig.address,
+                deliveryTime: contentConfig.deliveryTime,
+                deliveryLocationLink: contentConfig.deliveryMapUrl,
+            },
+            photo: contentConfig.firstPhotoUrl,
+            text: contentConfig.firstText,
+            phone: contentConfig.phone,
+            address: contentConfig.address,
+            time: contentConfig.deliveryTime,
+            link: contentConfig.deliveryMapUrl,
+        });
     }
 
     static* loadFakeMenu(action: AppAction) {
@@ -101,7 +128,7 @@ export class ContentSaga extends SagaBase {
         }
     }
 
-    static* submit(action: AppAction<ISubmitData>) {
+    static* submitSettings(action: AppAction<ISubmitData>) {
         const { formValues } = action.payload;
 
         const settings = Mapper.map<WorkspaceContentSettings>(
@@ -114,7 +141,14 @@ export class ContentSaga extends SagaBase {
             contentIsSaving: true,
         });
 
-        const response: ApiResponse = yield WorkspaceApi.sendContentSettings(settings);
+        const workspaceId: string = yield MainSelectors.getWorkspaceId();
+        const landingConfigId: string = yield MainSelectors.getLandingConfigId();
+
+        const response: ApiResponse = yield WorkspaceApi.updateContentSettings(
+            workspaceId,
+            landingConfigId,
+            settings
+        );
         if (response.hasError()) {
             yield ContentSaga.updateStore({
                 contentIsSaving: false,
@@ -136,9 +170,8 @@ export class ContentSaga extends SagaBase {
     }
 
     static* redirectToSite(action: AppAction) {
-        const siteUrl = yield SetupSelectors.getSiteUrl();
+        const siteUrl: string = yield SetupSelectors.getSiteUrl();
 
         window.location.href = siteUrl;
-        // yield put(push(siteUrl));
     }
 }
