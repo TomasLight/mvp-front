@@ -1,9 +1,10 @@
+import { FavIconUrlResolver } from "@shared/molecules";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { WorkspaceApi } from "@api";
 import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
-import { WorkspaceContentSettings } from "@app/models";
+import { LandingConfig, WorkspaceContentSettings } from "@app/models";
 import { categories } from "@api/mock/menu/categories";
 import { menuItems } from "@api/mock/menu/menuItems";
 
@@ -27,6 +28,33 @@ import {
 export class ContentSaga extends SagaBase {
     private static* updateStore(partialStore: Partial<ContentStore>) {
         yield put(ContentActions.updateStore(partialStore));
+    }
+
+    static* loadData(action: AppAction) {
+        const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
+        if (settingsMode === "create") {
+            return;
+        }
+
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        const contentConfig = landingConfig.contentConfig;
+
+        yield ContentSaga.updateStore({
+            initialValues: {
+                photo: null,
+                firstBlockText: contentConfig.firstText,
+                phone: contentConfig.phone,
+                address: contentConfig.address,
+                deliveryTime: contentConfig.deliveryTime,
+                deliveryLocationLink: contentConfig.deliveryMapUrl,
+            },
+            photo: contentConfig.firstPhotoUrl,
+            text: contentConfig.firstText,
+            phone: contentConfig.phone,
+            address: contentConfig.address,
+            time: contentConfig.deliveryTime,
+            link: contentConfig.deliveryMapUrl,
+        });
     }
 
     static* loadFakeMenu(action: AppAction) {

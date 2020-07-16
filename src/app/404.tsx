@@ -1,17 +1,29 @@
+import { Typography, makeStyles } from "@material-ui/core";
 import React from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
+
+const useStyles = makeStyles({
+    root: {
+        height: "100%",
+        width: "100%",
+        display: "grid",
+        alignItems: "center",
+        justifyItems: "center",
+    },
+});
 
 const NotFound = () => {
-    const location = useLocation();
-
+    // const location = useLocation();
+    const classes = useStyles();
     return (
-        <div>
-            <h1>
+        <div className={classes.root}>
+            <Typography variant="h1">
                 404 - Page not found
-            </h1>
-            <h3>
+            </Typography>
+
+            {/*<Typography variant="h3">
                 <code>{location.pathname}</code>
-            </h3>
+            </Typography>*/}
         </div>
     );
 };

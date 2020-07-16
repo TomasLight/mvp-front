@@ -1,3 +1,4 @@
+import { NotFound } from "@app/404";
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
@@ -15,18 +16,18 @@ type Props = RouteComponentProps;
 const PageComponentRouter = (props: Props) => {
     const { location } = props;
 
-    if (location.pathname === mainUrls.root) {
+    if (location.pathname === mainUrls.main) {
         return <Redirect push to={mainUrls.siteSettings}/>;
     }
 
     return (
         <LayoutContainer>
             <Switch>
-                <Route
+                {/*<Route
                     exact
                     path={mainUrls.root}
                     component={HelloPageContainer}
-                />
+                />*/}
                 <Route
                     exact
                     path={mainUrls.siteSettings}
@@ -42,6 +43,10 @@ const PageComponentRouter = (props: Props) => {
                     path={mainUrls.contentSettings}
                     component={ContentPageContainer}
                 />
+
+                <Route path="*">
+                    <NotFound />
+                </Route>
             </Switch>
 
             <NotifierContainer/>

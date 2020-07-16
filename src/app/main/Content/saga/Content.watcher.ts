@@ -8,6 +8,10 @@ export class ContentWatcher extends WatcherBase {
         super();
 
         this.watchLatest(
+            ContentActions.LOAD_DATA,
+            ContentSaga.loadData
+        );
+        this.watchLatest(
             ContentActions.LOAD_FAKE_MENU,
             ContentSaga.loadFakeMenu
         );

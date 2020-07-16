@@ -1,10 +1,9 @@
 import { AppAction } from "app-redux-utils";
-import { all, call, put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 import { push } from "connected-react-router";
 
 import { MainActions } from "@main/redux";
 import { FavIconUrlResolver } from "@shared/molecules";
-import { ILandingConfig } from "@api/models/workspace/responses";
 import { mainUrls } from "@main/routing";
 import { MainSelectors } from "@selectors";
 import { WorkspaceApi } from "@api";
@@ -42,16 +41,18 @@ export class SiteSaga extends SagaBase {
             return;
         }
 
-        const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfig();
-        if (response.hasError()) {
-            yield SiteSaga.updateStore({
-                settingsAreSending: false,
-            });
-            yield SagaBase.displayClientError(response);
-            return;
-        }
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        // const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfig();
+        // if (response.hasError()) {
+        //     yield SiteSaga.updateStore({
+        //         settingsAreSending: false,
+        //     });
+        //     yield SagaBase.displayClientError(response);
+        //     return;
+        // }
 
-        const siteConfig = response.data.siteConfig;
+        // const siteConfig = response.data.siteConfig;
+        const siteConfig = landingConfig.siteConfig;
 
         const faviconVariant = FavIconUrlResolver.getVariant(siteConfig.faviconUrl);
         yield SiteSaga.updateStore({
@@ -71,12 +72,12 @@ export class SiteSaga extends SagaBase {
             color: siteConfig.color,
         });
 
-        const workspaceId = response.data.workspaceId;
-        const landingConfigId = response.data.id;
-        yield all([
-            put(MainActions.setWorkspaceId({ workspaceId })),
-            put(MainActions.setLandingConfigId({ landingConfigId })),
-        ]);
+        // const workspaceId = response.data.workspaceId;
+        // const landingConfigId = response.data.id;
+        // yield all([
+        //     put(MainActions.setWorkspaceId({ workspaceId })),
+        //     put(MainActions.setLandingConfigId({ landingConfigId })),
+        // ]);
     }
 
     static* onChangeSiteName(action: AppAction<IOnChangeSiteNameData>) {
@@ -154,24 +155,7 @@ export class SiteSaga extends SagaBase {
         }
 
         const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
-        // const landingResponse: ApiResponse<ILandingConfig> = yield WorkspaceApi.getLandingConfig();
-        // if (landingResponse.hasError()) {
-        //     yield SiteSaga.updateStore({
-        //         settingsAreSending: false,
-        //     });
-        //     yield SagaBase.displayClientError(landingResponse);
-        //     return;
-        // }
-        // const workspaceId = landingResponse.data.workspaceId;
-        // const landingConfigId = landingResponse.data.id;
-        // yield all([
-        //     put(MainActions.setWorkspaceId({ workspaceId })),
-        //     put(MainActions.setLandingConfigId({ landingConfigId })),
-        // ]);
-
         const response: ApiResponse = yield WorkspaceApi.updateSiteSettings(
-            // workspaceId,
-            // landingConfigId,
             landingConfig.workspaceId,
             landingConfig.id,
             settings

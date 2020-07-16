@@ -21,6 +21,7 @@ const mapStateToProps = (state: State): ISetupPageProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch): ISetupPageCallProps => {
     return {
+        loadData: () => dispatch(ContentActions.loadData()),
         submit: (formValues: IContactSettingsFormValues) =>
             dispatch(ContentActions.submitSettings({ formValues })),
         closePublishDialog: () => dispatch(ContentActions.closePublishDialog()),

@@ -29,7 +29,7 @@ function mockApi(url: string, method: ApiMethod, data) {
             },
             "iikoConfig": {},
             "contentConfig": {
-                "firstPhotoUrl": null,
+                "firstPhotoUrl": "/images/image_001.png",
                 "firstText": "Шаурма First Text",
                 "phone": "004",
                 "address": "СПБ",

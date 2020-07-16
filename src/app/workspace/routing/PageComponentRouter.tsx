@@ -1,3 +1,4 @@
+import { NotFound } from "@app/404";
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
@@ -24,6 +25,10 @@ const PageComponentRouter = (props: Props) => {
                     path={workspaceUrls.menu}
                     component={MenuPageContainer}
                 />
+
+                <Route path="*">
+                    <NotFound />
+                </Route>
             </Switch>
 
             <NotifierContainer/>

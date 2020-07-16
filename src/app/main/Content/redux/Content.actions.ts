@@ -15,6 +15,7 @@ export class ContentActions {
     static readonly PREFIX = "CONTENT_";
     static readonly UPDATE_STORE = ContentActions.PREFIX + "UPDATE_STORE";
 
+    static readonly LOAD_DATA = ContentActions.PREFIX + "LOAD_DATA";
     static readonly LOAD_FAKE_MENU = ContentActions.PREFIX + "LOAD_FAKE_MENU";
 
     static readonly ON_CHANGE_ADDRESS = ContentActions.PREFIX + "ON_CHANGE_ADDRESS";
@@ -31,6 +32,7 @@ export class ContentActions {
     static updateStore = (partialStore: Partial<ContentStore>) =>
         createAction(ContentActions.UPDATE_STORE, partialStore);
 
+    static loadData = () => createAction(ContentActions.LOAD_DATA);
     static loadFakeMenu = () => createAction(ContentActions.LOAD_FAKE_MENU);
 
     static onChangeAddress = (data: IOnChangeAddressData) =>
