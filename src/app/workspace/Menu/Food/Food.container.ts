@@ -9,8 +9,13 @@ import { MenuActions } from "../redux";
 import { Food, FoodClassKey, IFoodCallProps, IFoodProps } from "./Food";
 
 const mapStateToProps = (state: State): IFoodProps => {
+    let dishes = [];
+    if (state.menu.selectedCategory) {
+        dishes = state.menu.dishes.filter(dish => state.menu.selectedCategory.contains(dish.id));
+    }
+
     return {
-        dishes: state.menu.dishes.filter(dish => state.menu.selectedCategory.contains(dish.id)),
+        dishes,
         cart: state.menu.cart,
     };
 };

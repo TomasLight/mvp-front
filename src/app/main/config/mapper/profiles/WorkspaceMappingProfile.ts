@@ -1,8 +1,10 @@
-import { IWorkspaceContentSettingsDto, IWorkspaceSettingsDto } from "@api/models/workspace/requests";
-import { WorkspaceContentSettings } from "@app/models";
+import { INewWorkspaceDto, IWorkspaceContentSettingsDto, IWorkspaceSettingsDto } from "@api/models/workspace/requests";
+import { WorkspaceContentSettings, WorkspaceDataSettings } from "@app/models";
 import { IContactSettingsFormValues } from "@main/Content/models";
-import { ISiteSettingsFormValues } from "@main/Setup/models";
+import { IDataSettingsFormValues } from "@main/Data/models";
+import { ISiteSettingsFormValues } from "@main/Site/models";
 import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
+import { FavIconUrlResolver } from "@shared/molecules";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
 import { MapFunction } from "@utils/mapping/MapFunction";
@@ -15,6 +17,11 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<ISiteSettingsFormValues>(),
                 nameof<WorkspaceSiteSettings>(),
                 WorkSpaceMappingProfile.mapWorkspaceSettingsToWorkspaceSettings
+            ),
+            new MapFunction(
+                nameof<IDataSettingsFormValues>(),
+                nameof<WorkspaceDataSettings>(),
+                WorkSpaceMappingProfile.mapIDataSettingsFormValuesToWorkspaceDataSettings
             ),
             new MapFunction(
                 nameof<IContactSettingsFormValues>(),
@@ -31,6 +38,11 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<IWorkspaceContentSettingsDto>(),
                 WorkSpaceMappingProfile.mapWorkspaceContentSettingsToIWorkspaceContentSettingsDto
             ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<INewWorkspaceDto>(),
+                WorkSpaceMappingProfile.mapWorkspaceSiteSettingsToINewWorkspaceDto
+            ),
         ];
     }
 
@@ -39,7 +51,17 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): WorkspaceSiteSettings {
 
         const settings = MappingProfileBase.autoMap(dto, new WorkspaceSiteSettings());
-        settings.openGraphImage = dto.openGraphImage.item(0);
+        if (dto.openGraphImage) {
+            settings.openGraphImage = dto.openGraphImage.item(0);
+        }
+        return settings;
+    }
+
+    private static mapIDataSettingsFormValuesToWorkspaceDataSettings(
+        dto: IDataSettingsFormValues
+    ): WorkspaceDataSettings {
+
+        const settings = MappingProfileBase.autoMap(dto, new WorkspaceDataSettings());
         return settings;
     }
 
@@ -48,7 +70,9 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): WorkspaceContentSettings {
 
         const settings = MappingProfileBase.autoMap(dto, new WorkspaceContentSettings());
-        settings.photo = dto.photo.item(0);
+        if (dto.photo) {
+            settings.photo = dto.photo.item(0);
+        }
         return settings;
     }
 
@@ -60,9 +84,9 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
             domain: settings.domain,
             siteConfig: {
                 name: settings.siteName,
-                faviconUrl: settings.favicon,
+                faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
                 opengraphImageTitle: settings.openGraphTitle,
-                opengraphImage: null,
+                opengraphImageUrl: null,
                 color: settings.primaryColor,
             },
         };
@@ -75,12 +99,24 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): IWorkspaceContentSettingsDto {
 
         const dto: IWorkspaceContentSettingsDto = {
-            firstPhoto: settings.photo as any,
+            firstPhoto: null,
             firstText: settings.firstBlockText,
             phone: settings.phone,
             address: settings.address,
             deliveryTime: settings.deliveryTime,
             deliveryMapUrl: settings.deliveryLocationLink,
+        };
+
+        return dto;
+    }
+
+    private static mapWorkspaceSiteSettingsToINewWorkspaceDto(
+        settings: WorkspaceSiteSettings
+    ): INewWorkspaceDto {
+
+        const dto: INewWorkspaceDto = {
+            domain: settings.domain,
+            name: settings.siteName,
         };
 
         return dto;

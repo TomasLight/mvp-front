@@ -5,7 +5,7 @@ import { IUserWorkspaceDto } from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { ApiResponse, ApiResponseStatus, SagaBase } from "@utils";
 
-import { MainActions, MainStore, } from "../redux";
+import { ISetLandingConfigIdData, ISetWorkspaceIdData, MainActions, MainStore, } from "../redux";
 
 export class MainSaga extends SagaBase {
     private static* updateStore(partialStore: Partial<MainStore>) {
@@ -34,6 +34,18 @@ export class MainSaga extends SagaBase {
         yield MainSaga.updateStore({
             workspacesAreLoading: false,
             settingsMode,
+        });
+    }
+
+    static* setWorkspaceId(action: AppAction<ISetWorkspaceIdData>) {
+        yield MainSaga.updateStore({
+            workspaceId: action.payload.workspaceId,
+        });
+    }
+
+    static* setLandingConfigId(action: AppAction<ISetLandingConfigIdData>) {
+        yield MainSaga.updateStore({
+            landingConfigId: action.payload.landingConfigId,
         });
     }
 }

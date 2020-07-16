@@ -1,9 +1,9 @@
-import { SideBarItem } from "@shared/templates/Layout/models";
 import clsx from "clsx";
 import React, { FC } from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core";
 
+import { SideBarItem } from "@shared/templates/Layout/models";
 import { AppBar } from "./AppBar";
 import { Drawer } from "./Drawer";
 import { Variant } from "./variant";

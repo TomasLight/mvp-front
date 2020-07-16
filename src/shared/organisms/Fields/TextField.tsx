@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 
 import {
@@ -5,20 +6,36 @@ import {
     FilledInput,
     FilledInputProps,
     FilledInputClassKey,
-    withStyles,
+    makeStyles,
 } from "@material-ui/core";
 
-import { Classes, Guid } from "@utils";
+import { Guid } from "@utils";
 import { FieldBase, FieldBaseProps, getHelperTextId } from "./FieldBase";
 
-const Input = withStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         borderRadius: theme.borderRadius,
         borderTopLeftRadius: theme.borderRadius,
         borderTopRightRadius: theme.borderRadius,
         width: "100%",
     },
-}))(FilledInput);
+    readonly: {
+        "&:hover": {
+            backgroundColor: "#F3F3F5",
+            borderColor: "#F3F3F5",
+            color: "#757575",
+        },
+        "&$readonlyFocused": {
+            backgroundColor: "#F3F3F5",
+            borderColor: "#F3F3F5",
+            color: "#757575",
+        },
+    },
+    readonlyFocused: {},
+    inputReadonly: {
+        cursor: "auto",
+    },
+}), { name: "TextField" });
 
 interface ITextFieldProps extends FieldBaseProps<FilledInputClassKey> {
     id?: string;
@@ -38,6 +55,7 @@ const TextField = (props: Props) => {
         onChange,
 
         required = false,
+        readonly = false,
 
         inputProps,
         InputProps = {},
@@ -46,14 +64,16 @@ const TextField = (props: Props) => {
     } = props;
 
     const helperTextId = getHelperTextId(id);
+    const classes = useStyles();
 
     return (
         <FieldBase
             required={required}
+            readonly={readonly}
             htmlFor={id}
             {...rest}
         >
-            <Input
+            <FilledInput
                 value={value}
                 aria-describedby={helperTextId}
                 id={id}
@@ -63,7 +83,28 @@ const TextField = (props: Props) => {
                 {...InputProps}
                 onChange={onChange}
                 disableUnderline
-                classes={rest.classes.input}
+                classes={{
+                    ...rest.classes.input,
+                    root: clsx(
+                        classes.root, {
+                            [classes.readonly]: readonly,
+                        },
+                        rest.classes.input ? rest.classes.input.root : ""
+                    ),
+                    focused: clsx(
+                        {
+                            [classes.readonlyFocused]: readonly,
+                        },
+                        rest.classes.input ? rest.classes.input.focused : ""
+                    ),
+                    input: clsx(
+                        {
+                            [classes.inputReadonly]: readonly,
+                        },
+                        rest.classes.input ? rest.classes.input.input : ""
+                    ),
+                }}
+                readOnly={readonly}
             />
         </FieldBase>
     );

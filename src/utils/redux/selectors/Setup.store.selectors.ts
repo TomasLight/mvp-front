@@ -1,21 +1,16 @@
 import { select } from "redux-saga/effects";
 
-import { SetupStore } from "@main/Setup/redux";
+import { SiteStore } from "@main/Site/redux";
 import { State } from "@MainState";
 
 export class SetupSelectors {
     static* getStore() {
         const state: State = yield select();
-        return state.setup;
+        return state.site;
     }
 
     static* getSiteUrl() {
-        const store: SetupStore = yield SetupSelectors.getStore();
+        const store: SiteStore = yield SetupSelectors.getStore();
         return store.siteUrl;
-    }
-
-    static* getLandingConfigId() {
-        const store: SetupStore = yield SetupSelectors.getStore();
-        return store.landingConfigId;
     }
 }

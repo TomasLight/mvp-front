@@ -1,7 +1,7 @@
 export interface IWorkspaceSiteSettingsDto {
     name: string;
-    faviconUrl: number;
-    opengraphImage: string;
+    faviconUrl: string;
+    opengraphImageUrl: string;
     opengraphImageTitle: string;
     color: string;
 }

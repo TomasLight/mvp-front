@@ -6,7 +6,7 @@ import { MenuSelectors, WorkspaceSelectors } from "@selectors";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { SagaBase } from "@utils/saga/SagaBase";
 
-import { Cart, Category, Dish, Menu } from "../models";
+import { Cart, Category, Dish } from "../models";
 import {
     MenuActions,
     MenuStoreSelector,

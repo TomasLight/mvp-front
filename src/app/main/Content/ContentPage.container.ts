@@ -15,14 +15,14 @@ const mapStateToProps = (state: State): ISetupPageProps => {
     return {
         initialValues: state.content.initialValues,
         showPublishDialog: state.content.showPublishDialog,
-        siteUrl: state.setup.siteUrl,
+        siteUrl: state.site.siteUrl,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): ISetupPageCallProps => {
     return {
         submit: (formValues: IContactSettingsFormValues) =>
-            dispatch(ContentActions.submit({ formValues })),
+            dispatch(ContentActions.submitSettings({ formValues })),
         closePublishDialog: () => dispatch(ContentActions.closePublishDialog()),
         redirectToSite: () => dispatch(ContentActions.redirectToSite()),
     };

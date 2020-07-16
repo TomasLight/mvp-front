@@ -1,9 +1,11 @@
 import { ContentStore } from "@main/Content/redux";
+import { DataStore } from "@main/Data/redux";
 import { MainStore } from "@main/redux";
-import { SetupStore } from "@main/Setup/redux";
+import { SiteStore } from "@main/Site/redux";
 
 export class State {
     main: MainStore;
-    setup: SetupStore;
+    site: SiteStore;
+    data: DataStore;
     content: ContentStore;
 }

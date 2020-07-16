@@ -1,17 +1,16 @@
-import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
-import { WorkspaceContentSettings } from "@app/models";
-import { IContactSettingsFormValues } from "@main/Content/models";
-import { SetupSelectors } from "@selectors";
-import { Cart, Category, Dish } from "@ws/Menu/models";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
-import { WorkspaceApi } from "@api/WorkspaceApi";
-import { ApiResponse, Mapper } from "@utils";
-import { SagaBase } from "@utils/saga/SagaBase";
-
+import { WorkspaceApi } from "@api";
+import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
+import { WorkspaceContentSettings } from "@app/models";
 import { categories } from "@api/mock/menu/categories";
 import { menuItems } from "@api/mock/menu/menuItems";
+
+import { IContactSettingsFormValues } from "@main/Content/models";
+import { MainSelectors, SetupSelectors } from "@selectors";
+import { Cart, Category, Dish } from "@ws/Menu/models";
+import { ApiResponse, Mapper, SagaBase } from "@utils";
 
 import {
     ISubmitData,
@@ -101,7 +100,7 @@ export class ContentSaga extends SagaBase {
         }
     }
 
-    static* submit(action: AppAction<ISubmitData>) {
+    static* submitSettings(action: AppAction<ISubmitData>) {
         const { formValues } = action.payload;
 
         const settings = Mapper.map<WorkspaceContentSettings>(
@@ -114,8 +113,14 @@ export class ContentSaga extends SagaBase {
             contentIsSaving: true,
         });
 
-        const landingConfigId: string = yield SetupSelectors.getLandingConfigId();
-        const response: ApiResponse = yield WorkspaceApi.updateContentSettings(landingConfigId, settings);
+        const workspaceId: string = yield MainSelectors.getWorkspaceId();
+        const landingConfigId: string = yield MainSelectors.getLandingConfigId();
+
+        const response: ApiResponse = yield WorkspaceApi.updateContentSettings(
+            workspaceId,
+            landingConfigId,
+            settings
+        );
         if (response.hasError()) {
             yield ContentSaga.updateStore({
                 contentIsSaving: false,

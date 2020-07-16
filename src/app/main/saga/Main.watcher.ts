@@ -11,5 +11,13 @@ export class MainWatcher extends WatcherBase {
             MainActions.LOAD_WORKSPACES,
             MainSaga.loadWorkspaces
         );
+        this.watchLatest(
+            MainActions.SET_WORKSPACE_ID,
+            MainSaga.setWorkspaceId
+        );
+        this.watchLatest(
+            MainActions.SET_LANDING_CONFIG_ID,
+            MainSaga.setLandingConfigId
+        );
     }
 }

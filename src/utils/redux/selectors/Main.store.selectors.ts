@@ -13,4 +13,14 @@ export class MainSelectors {
         const store: MainStore = yield MainSelectors.getStore();
         return store.settingsMode;
     }
+
+    static* getWorkspaceId() {
+        const store: MainStore = yield MainSelectors.getStore();
+        return store.workspaceId;
+    }
+
+    static* getLandingConfigId() {
+        const store: MainStore = yield MainSelectors.getStore();
+        return store.landingConfigId;
+    }
 }

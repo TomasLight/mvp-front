@@ -1,8 +1,7 @@
 import clsx from "clsx";
 import React, { FC } from "react";
 
-import { AppBar as MuiAppBar } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { AppBar as MuiAppBar, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {

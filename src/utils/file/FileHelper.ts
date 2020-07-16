@@ -28,4 +28,8 @@ export class FileHelper {
             await FileHelper.waitingLoop(obj);
         }
     }
+
+    public static clearBase64(base64: string): string {
+        return base64;
+    }
 }

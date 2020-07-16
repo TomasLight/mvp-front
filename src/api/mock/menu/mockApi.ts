@@ -2,15 +2,10 @@ import { IMenuItemDto } from "@api/models/menu/responses";
 import { ApiMethod } from "@utils";
 import { UrlRegExp } from "@utils/api/UrlRegExp";
 
-import { categories } from "./categories";
 import { menuItems } from "./menuItems";
 import { menu } from "./menu";
 
 function mockApi(url: string, method: ApiMethod, data) {
-    if (UrlRegExp.build(process.env.API_GET_MENU_CATEGORIES).test(url) && method === "POST") {
-        return categories;
-    }
-
     if (UrlRegExp.build(process.env.API_GET_MENU).test(url)) {
         return menu;
     }

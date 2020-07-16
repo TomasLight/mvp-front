@@ -1,3 +1,4 @@
+import { Translate } from "@utils/translates";
 import { ApiResponseStatus } from "./ApiResponseStatus";
 
 export class ApiResponse<TResponseData = any> {
@@ -8,16 +9,27 @@ export class ApiResponse<TResponseData = any> {
     constructor() {
         this.statusCode = null;
         this.data = null;
-        this.error = "";
+
+        Object.defineProperty(this, nameof<ApiResponse>(o => o.error), {
+            set(value: any) {
+                this["_error"] = value;
+            },
+            get(): any {
+                let error = this["_error"];
+                if (!error && this.hasError()) {
+                    error = Translate.getString("api", { code: this.statusCode });
+                }
+                return error;
+            },
+        });
     }
 
     hasError() {
-        return Boolean(this.error);
+        return this.statusCode >= ApiResponseStatus.BadRequest;
     }
 
     hasClientError() {
         return this.hasError()
-            && this.statusCode >= ApiResponseStatus.BadRequest
             && this.statusCode < ApiResponseStatus.InternalServerError
             && !this.hasTimeoutError();
     }

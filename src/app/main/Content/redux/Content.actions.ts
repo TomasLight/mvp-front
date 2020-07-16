@@ -24,7 +24,7 @@ export class ContentActions {
     static readonly ON_CHANGE_PHONE = ContentActions.PREFIX + "ON_CHANGE_PHONE";
     static readonly ON_CHANGE_PHOTO = ContentActions.PREFIX + "ON_CHANGE_PHOTO";
 
-    static readonly SUBMIT = ContentActions.PREFIX + "ON_CHANGE_SITE_NAME";
+    static readonly SUBMIT_SETTINGS = ContentActions.PREFIX + "SUBMIT_SETTINGS";
     static readonly CLOSE_PUBLISH_DIALOG = ContentActions.PREFIX + "CLOSE_PUBLISH_DIALOG";
     static readonly REDIRECT_TO_SITE = ContentActions.PREFIX + "REDIRECT_TO_SITE";
 
@@ -51,8 +51,8 @@ export class ContentActions {
     static onChangePhoto = (data: IOnChangePhotoData) =>
         createAction(ContentActions.ON_CHANGE_PHOTO, data);
 
-    static submit = (data: ISubmitData) =>
-        createAction(ContentActions.SUBMIT, data);
+    static submitSettings = (data: ISubmitData) =>
+        createAction(ContentActions.SUBMIT_SETTINGS, data);
 
     static closePublishDialog = () => createAction(ContentActions.CLOSE_PUBLISH_DIALOG);
     static redirectToSite = () => createAction(ContentActions.REDIRECT_TO_SITE);

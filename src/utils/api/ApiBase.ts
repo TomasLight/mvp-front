@@ -56,7 +56,7 @@ export abstract class ApiBase {
 
     protected static async patch<TResponseData = any>(url: string, dto: any): Promise<ApiResponse<TResponseData>> {
         if (this.useMockApi()) {
-            return this.createMockResponse<TResponseData>(url, "PUT", dto);
+            return this.createMockResponse<TResponseData>(url, "PATCH", dto);
         }
 
         const builder = new RequestInitBuilder("PATCH").appendJson(dto);

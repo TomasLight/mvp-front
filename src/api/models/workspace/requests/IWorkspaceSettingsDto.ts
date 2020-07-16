@@ -1,3 +1,4 @@
+import { IWorkspaceDataSettingsDto } from "@api/models/workspace/requests/IWorkspaceDataSettingsDto";
 import { IWorkspaceContentSettingsDto } from "./IWorkspaceContentSettingsDto";
 import { IWorkspaceSiteSettingsDto } from "./IWorkspaceSiteSettingsDto";
 
@@ -6,6 +7,6 @@ export interface IWorkspaceSettingsDto {
     menuId?: string;
 
     siteConfig: IWorkspaceSiteSettingsDto;
-    iikoConfig?: any;
+    iikoConfig?: IWorkspaceDataSettingsDto;
     contentConfig?: IWorkspaceContentSettingsDto;
 }

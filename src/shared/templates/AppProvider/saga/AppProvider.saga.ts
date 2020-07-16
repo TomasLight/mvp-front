@@ -2,7 +2,7 @@ import { AppAction } from "app-redux-utils";
 import { all, put } from "@redux-saga/core/effects";
 
 import { UserApi } from "@api";
-import { SetupActions } from "@main/Setup/redux";
+import { SiteActions } from "@main/Site/redux";
 import { MainActions } from "@main/redux";
 import { AuthorizedUser } from "@models";
 import { AppProviderSelectors } from "@selectors";
@@ -75,7 +75,7 @@ export class AppProviderSaga extends SagaBase {
         const { firstName, lastName } = response.data;
 
         const userName = `${firstName} ${lastName}`;
-        yield put(SetupActions.setUserName({ userName }));
+        yield put(SiteActions.setUserName({ userName }));
     }
 
     static* incrementInitializedActions(action: AppAction) {

@@ -38,8 +38,8 @@ export class ContentWatcher extends WatcherBase {
         );
 
         this.watchLatest(
-            ContentActions.SUBMIT,
-            ContentSaga.submit
+            ContentActions.SUBMIT_SETTINGS,
+            ContentSaga.submitSettings
         );
         this.watchLatest(
             ContentActions.CLOSE_PUBLISH_DIALOG,
