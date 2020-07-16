@@ -30,6 +30,6 @@ export class FileHelper {
     }
 
     public static clearBase64(base64: string): string {
-        return base64;
+        return base64.substr(base64.indexOf(",") + 1);
     }
 }

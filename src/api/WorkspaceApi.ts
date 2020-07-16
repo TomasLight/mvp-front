@@ -73,7 +73,8 @@ export class WorkspaceApi extends ApiBase {
             { workspaceId, landingConfigId }
         );
         if (settings.openGraphImage) {
-            dto.siteConfig.opengraphImageUrl = await FileHelper.toBase64(settings.openGraphImage);
+            const base64 = await FileHelper.toBase64(settings.openGraphImage);
+            dto.siteConfig.opengraphImageUrl = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse = await this.patch(url, dto);
@@ -94,7 +95,8 @@ export class WorkspaceApi extends ApiBase {
         );
 
         if (settings.archive) {
-            dto.archive = await FileHelper.toBase64(settings.archive);
+            const base64 = await FileHelper.toBase64(settings.archive);
+            dto.archive = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse = await this.patch(url, dto);
@@ -118,7 +120,8 @@ export class WorkspaceApi extends ApiBase {
             { workspaceId, landingConfigId }
         );
         if (settings.photo) {
-            dto.firstPhoto = await FileHelper.toBase64(settings.photo);
+            const base64 = await FileHelper.toBase64(settings.photo);
+            dto.firstPhoto = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse<IWorkspaceAddressDto> = await this.patch(url, dto);
