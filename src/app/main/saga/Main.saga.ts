@@ -1,6 +1,8 @@
+import { MainSelectors } from "@selectors";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
+import { LandingConfig } from "@app/models";
 import { IUserWorkspaceDto } from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { ApiResponse, ApiResponseStatus, SagaBase } from "@utils";
@@ -37,15 +39,41 @@ export class MainSaga extends SagaBase {
         });
     }
 
-    static* setWorkspaceId(action: AppAction<ISetWorkspaceIdData>) {
+    static* loadLandingConfig(action: AppAction) {
         yield MainSaga.updateStore({
-            workspaceId: action.payload.workspaceId,
+            landingConfigIsLoading: true,
+        });
+
+        const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfig();
+        if (response.hasError()) {
+            yield MainSaga.updateStore({
+                landingConfigIsLoading: false,
+            });
+            yield SagaBase.displayClientError(response);
+            return;
+        }
+
+        yield MainSaga.updateStore({
+            landingConfig: response.data,
+            landingConfigIsLoading: false,
+        });
+    }
+
+    static* setWorkspaceId(action: AppAction<ISetWorkspaceIdData>) {
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        landingConfig.workspaceId = action.payload.workspaceId;
+
+        yield MainSaga.updateStore({
+            landingConfig,
         });
     }
 
     static* setLandingConfigId(action: AppAction<ISetLandingConfigIdData>) {
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        landingConfig.id = action.payload.landingConfigId;
+
         yield MainSaga.updateStore({
-            landingConfigId: action.payload.landingConfigId,
+            landingConfig,
         });
     }
 }

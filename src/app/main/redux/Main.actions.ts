@@ -7,6 +7,7 @@ export class MainActions {
     static readonly PREFIX = "MAIN_";
     static readonly UPDATE_STORE = MainActions.PREFIX + "UPDATE_STORE";
 
+    static readonly LOAD_LANDING_CONFIG = MainActions.PREFIX + "LOAD_LANDING_CONFIG";
     static readonly LOAD_WORKSPACES = MainActions.PREFIX + "LOAD_WORKSPACES";
     static readonly SET_WORKSPACE_ID = MainActions.PREFIX + "SET_WORKSPACE_ID";
     static readonly SET_LANDING_CONFIG_ID = MainActions.PREFIX + "SET_LANDING_CONFIG_ID";
@@ -14,7 +15,8 @@ export class MainActions {
     static updateStore = (partialStore: Partial<MainStore>) =>
         createAction(MainActions.UPDATE_STORE, partialStore);
 
-    static loadWorkspaces = () => createActionWithCallback(MainActions.LOAD_WORKSPACES);
+    static loadLandingConfig = () => createAction(MainActions.LOAD_LANDING_CONFIG);
+    static loadWorkspaces = () => createAction(MainActions.LOAD_WORKSPACES);
 
     static setWorkspaceId = (data: ISetWorkspaceIdData) =>
         createAction(MainActions.SET_WORKSPACE_ID, data);

@@ -8,6 +8,10 @@ export class MainWatcher extends WatcherBase {
         super();
 
         this.watchLatest(
+            MainActions.LOAD_LANDING_CONFIG,
+            MainSaga.loadLandingConfig
+        );
+        this.watchLatest(
             MainActions.LOAD_WORKSPACES,
             MainSaga.loadWorkspaces
         );

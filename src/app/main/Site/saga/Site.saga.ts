@@ -153,24 +153,27 @@ export class SiteSaga extends SagaBase {
             }
         }
 
-        const landingResponse: ApiResponse<ILandingConfig> = yield WorkspaceApi.getLandingConfig();
-        if (landingResponse.hasError()) {
-            yield SiteSaga.updateStore({
-                settingsAreSending: false,
-            });
-            yield SagaBase.displayClientError(landingResponse);
-            return;
-        }
-        const workspaceId = landingResponse.data.workspaceId;
-        const landingConfigId = landingResponse.data.id;
-        yield all([
-            put(MainActions.setWorkspaceId({ workspaceId })),
-            put(MainActions.setLandingConfigId({ landingConfigId })),
-        ]);
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        // const landingResponse: ApiResponse<ILandingConfig> = yield WorkspaceApi.getLandingConfig();
+        // if (landingResponse.hasError()) {
+        //     yield SiteSaga.updateStore({
+        //         settingsAreSending: false,
+        //     });
+        //     yield SagaBase.displayClientError(landingResponse);
+        //     return;
+        // }
+        // const workspaceId = landingResponse.data.workspaceId;
+        // const landingConfigId = landingResponse.data.id;
+        // yield all([
+        //     put(MainActions.setWorkspaceId({ workspaceId })),
+        //     put(MainActions.setLandingConfigId({ landingConfigId })),
+        // ]);
 
         const response: ApiResponse = yield WorkspaceApi.updateSiteSettings(
-            workspaceId,
-            landingConfigId,
+            // workspaceId,
+            // landingConfigId,
+            landingConfig.workspaceId,
+            landingConfig.id,
             settings
         );
         if (response.hasError()) {
@@ -184,6 +187,8 @@ export class SiteSaga extends SagaBase {
         yield SiteSaga.updateStore({
             settingsAreSending: false,
         });
+
+        yield put(MainActions.loadLandingConfig());
 
         yield put(push(mainUrls.dataSettings));
     }

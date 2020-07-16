@@ -1,5 +1,6 @@
 import { select } from "redux-saga/effects";
 
+import { LandingConfig } from "@app/models";
 import { State } from "@MainState";
 import { MainStore } from "@main/redux";
 
@@ -14,13 +15,18 @@ export class MainSelectors {
         return store.settingsMode;
     }
 
-    static* getWorkspaceId() {
+    static* getLandingConfig() {
         const store: MainStore = yield MainSelectors.getStore();
-        return store.workspaceId;
+        return store.landingConfig;
+    }
+
+    static* getWorkspaceId() {
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        return landingConfig.workspaceId;
     }
 
     static* getLandingConfigId() {
-        const store: MainStore = yield MainSelectors.getStore();
-        return store.landingConfigId;
+        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
+        return landingConfig.id;
     }
 }

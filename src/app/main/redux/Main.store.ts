@@ -1,13 +1,16 @@
+import { LandingConfig } from "@app/models";
+
 export class MainStore {
     workspacesAreLoading: boolean;
     settingsMode: "create" | "update";
-    workspaceId: string;
-    landingConfigId: string;
+
+    landingConfig: LandingConfig;
+    landingConfigIsLoading: boolean;
 
     constructor() {
         this.workspacesAreLoading = false;
         this.settingsMode = "update";
-        this.workspaceId = "";
-        this.landingConfigId = "";
+        this.landingConfig = new LandingConfig();
+        this.landingConfigIsLoading = false;
     }
 }

@@ -62,6 +62,9 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): WorkspaceDataSettings {
 
         const settings = MappingProfileBase.autoMap(dto, new WorkspaceDataSettings());
+        if (dto.archive) {
+            settings.archive = dto.archive.item(0);
+        }
         return settings;
     }
 

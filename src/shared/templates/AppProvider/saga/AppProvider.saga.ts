@@ -19,16 +19,21 @@ export class AppProviderSaga extends SagaBase {
 
     static* initializeMainApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
-        const loadPageActionCallback = () => MainActions.loadWorkspaces()(callbackAction);
 
-        const initializedActions = [
-            put(AppProviderActions.getAuthorizedUserWithCallback()(loadPageActionCallback)),
-        ];
+        const landingAction = MainActions.loadLandingConfig();
+        landingAction.callbackAction = callbackAction;
+
+        const workspaceAction = MainActions.loadWorkspaces();
+        workspaceAction.callbackAction = callbackAction;
+
+        const initializedAction = AppProviderActions.getAuthorizedUser();
+        initializedAction.actions.push(landingAction);
+        initializedAction.actions.push(workspaceAction);
 
         yield AppProviderSaga.updateStore({
-            targetActionsAmount: initializedActions.length,
+            targetActionsAmount: initializedAction.actions.length,
         });
-        yield all(initializedActions);
+        yield put(initializedAction);
     }
 
     static* initializePosApp(action: AppAction) {
