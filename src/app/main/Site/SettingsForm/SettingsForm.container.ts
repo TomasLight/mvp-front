@@ -6,22 +6,22 @@ import { State } from "@MainState";
 import { IconVariant } from "@enums";
 import { SiteActions } from "@main/Site/redux";
 import {
-    SiteSettingsForm,
-    ISiteSettingsFormProps,
-    ISiteSettingsFormCallProps
-} from "./SiteSettingsForm";
+    SettingsForm,
+    ISettingsFormProps,
+    ISettingsFormCallProps
+} from "./SettingsForm";
 
 interface OwnProps {
     onSubmit: () => void;
 }
 
-const mapStateToProps = (state: State): ISiteSettingsFormProps => ({
+const mapStateToProps = (state: State): ISettingsFormProps => ({
     faviconOptions: state.site.faviconOptions,
     colorOptions: state.site.colorOptions,
     domainIsReadonly: state.main.settingsMode === "update",
 });
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): ISiteSettingsFormCallProps => ({
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): ISettingsFormCallProps => ({
     onChangeSiteName: (siteName: string) => dispatch(SiteActions.onChangeSiteName({ siteName })),
     onChangeDomain: (domain: string) => dispatch(SiteActions.onChangeDomain({ domain })),
     onChangeFavicon: (faviconVariant: IconVariant) =>
@@ -38,9 +38,9 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): ISiteSettin
     onSubmit: () => ownProps.onSubmit(),
 });
 
-const SiteSettingsFormContainer: ComponentType<OwnProps> = connect(
+const SettingsFormContainer: ComponentType<OwnProps> = connect(
     mapStateToProps,
     mapDispatchToProps
-)(SiteSettingsForm);
+)(SettingsForm);
 
-export { SiteSettingsFormContainer };
+export { SettingsFormContainer };

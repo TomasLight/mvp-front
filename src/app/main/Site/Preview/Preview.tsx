@@ -4,12 +4,12 @@ import React from "react";
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
 import { IconVariant } from "@enums";
-import { BrowserPreview } from "@main/Site/SitePreview/BrowserPreview";
-import { ColorPreview } from "@main/Site/SitePreview/ColorPreview";
-import { VkPostPreview } from "@main/Site/SitePreview/VkPostPreview";
-import { styles, ClassKey } from "./SitePreview.styles";
+import { BrowserPreview } from "@main/Site/Preview/BrowserPreview";
+import { ColorPreview } from "@main/Site/Preview/ColorPreview";
+import { VkPostPreview } from "@main/Site/Preview/VkPostPreview";
+import { styles, ClassKey } from "./Preview.styles";
 
-interface ISitePreviewProps {
+interface IPreviewProps {
     faviconVariant: IconVariant;
     siteName: string;
     siteUrl: string;
@@ -19,9 +19,9 @@ interface ISitePreviewProps {
     color: string;
 }
 
-type Props = ISitePreviewProps & StyledComponentProps<ClassKey>;
+type Props = IPreviewProps & StyledComponentProps<ClassKey>;
 
-const SitePreview = (props: Props) => {
+const Preview = (props: Props) => {
     const {
         classes,
         faviconVariant,
@@ -67,6 +67,6 @@ const SitePreview = (props: Props) => {
 
 const componentWithStyles = withStyles<ClassKey>(
     styles,
-    { name: "SitePreview" }
-)(SitePreview);
-export { componentWithStyles as Content, ISitePreviewProps };
+    { name: "Preview" }
+)(Preview);
+export { componentWithStyles as Preview, IPreviewProps };

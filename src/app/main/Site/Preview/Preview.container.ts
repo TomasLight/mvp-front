@@ -5,12 +5,12 @@ import { StyledComponentProps } from "@material-ui/core";
 
 import { State } from "@MainState";
 import {
-    Content,
-    ISitePreviewProps,
-} from "./SitePreview";
-import { ClassKey } from "./SitePreview.styles";
+    Preview,
+    IPreviewProps,
+} from "./Preview";
+import { ClassKey } from "./Preview.styles";
 
-const mapStateToProps = (state: State): ISitePreviewProps => {
+const mapStateToProps = (state: State): IPreviewProps => {
     return {
         faviconVariant: state.site.faviconVariant,
         siteName: state.site.siteName,
@@ -22,8 +22,8 @@ const mapStateToProps = (state: State): ISitePreviewProps => {
     };
 };
 
-const SitePreviewContainer: ComponentType<StyledComponentProps<ClassKey>> = connect(
+const PreviewContainer: ComponentType<StyledComponentProps<ClassKey>> = connect(
     mapStateToProps
-)(Content);
+)(Preview);
 
-export { SitePreviewContainer };
+export { PreviewContainer };

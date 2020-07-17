@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo } from "react";
 
-import { IconButton, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
-import { ArrowLeftIcon } from "@icons";
 import { FormProvider } from "@shared/organisms";
-import { SitePreviewContainer } from "./SitePreview";
+import { PreviewContainer } from "./Preview";
 import { ISiteSettingsFormValues } from "./models";
-import { SiteSettingsFormContainer } from "./SiteSettingsForm";
+import { SettingsFormContainer } from "./SettingsForm";
 import { SiteSettingsValidator } from "./validation";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "SetupPage" });
 
-const siteFormProvider = new FormProvider(
+const formProvider = new FormProvider(
     new SiteSettingsValidator(),
     { resetValidationErrorOnActiveField: true }
 );
@@ -53,7 +52,7 @@ const SitePage = (props: Props) => {
     } = props;
 
     const classes = useStyles();
-    const SiteForm = useMemo(() => siteFormProvider.createForm(submitSettings), [ submitSettings ]);
+    const Form = useMemo(() => formProvider.createForm(submitSettings), [ submitSettings ]);
 
     useEffect(() => {
         loadData();
@@ -62,12 +61,12 @@ const SitePage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <SiteForm initialValues={initialValues}>
-                    <SiteSettingsFormContainer onSubmit={siteFormProvider.submitOnClick}/>
-                </SiteForm>
+                <Form initialValues={initialValues}>
+                    <SettingsFormContainer onSubmit={formProvider.submitOnClick}/>
+                </Form>
             </div>
 
-            <SitePreviewContainer classes={{ root: classes.right }}/>
+            <PreviewContainer classes={{ root: classes.right }}/>
         </div>
     );
 };
