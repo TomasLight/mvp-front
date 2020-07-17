@@ -84,6 +84,8 @@ export class FavIconUrlResolver {
 
             // api response
             case null:
+            // for new workspace
+            case "":
                 return null;
 
             default:
