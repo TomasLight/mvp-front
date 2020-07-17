@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
         gridArea: "name",
         fontSize: 14,
         lineHeight: "16px",
+        backgroundColor: theme.palette.background.default,
+        borderRadius: theme.borderRadius,
+        padding: "10px 8px",
     },
     lock: {
         gridArea: "lock",
