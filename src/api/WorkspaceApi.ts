@@ -2,7 +2,7 @@ import {
     INewWorkspaceDto,
     IWorkspaceContentSettingsDto,
     IWorkspaceDataSettingsDto,
-    IWorkspaceSettingsDto
+    IWorkspaceSettingsDto, IWorkspaceSiteSettingsDto
 } from "@api/models/workspace/requests";
 import { ILandingConfig, IUserWorkspaceDto, IWorkspaceAddressDto } from "@api/models/workspace/responses";
 import {
@@ -62,9 +62,14 @@ export class WorkspaceApi extends ApiBase {
         landingConfigId: string,
         settings: WorkspaceSiteSettings
     ): Promise<ApiResponse> {
-        const dto = Mapper.map<IWorkspaceSettingsDto>(
+        // const dto = Mapper.map<IWorkspaceSettingsDto>(
+        //     nameof<WorkspaceSiteSettings>(),
+        //     nameof<IWorkspaceSettingsDto>(),
+        //     settings
+        // );
+        const dto = Mapper.map<IWorkspaceSiteSettingsDto>(
             nameof<WorkspaceSiteSettings>(),
-            nameof<IWorkspaceSettingsDto>(),
+            nameof<IWorkspaceSiteSettingsDto>(),
             settings
         );
 
@@ -74,7 +79,8 @@ export class WorkspaceApi extends ApiBase {
         );
         if (settings.openGraphImage) {
             const base64 = await FileHelper.toBase64(settings.openGraphImage);
-            dto.siteConfig.opengraphImageUrl = FileHelper.clearBase64(base64);
+            // dto.siteConfig.opengraphImageUrl = FileHelper.clearBase64(base64);
+            dto.opengraphImageUrl = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse = await this.patch(url, dto);
@@ -121,7 +127,7 @@ export class WorkspaceApi extends ApiBase {
         );
         if (settings.photo) {
             const base64 = await FileHelper.toBase64(settings.photo);
-            dto.firstPhoto = FileHelper.clearBase64(base64);
+            dto.firstPhotoUrl = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse<IWorkspaceAddressDto> = await this.patch(url, dto);

@@ -21,7 +21,9 @@ const Drawer = (props: Props) => {
 
     switch (variant) {
         case Variant.Main:
-            return null;
+            return (
+                <WorkspaceDrawer {...rest}/>
+            );
 
         case Variant.Workspace:
             return (

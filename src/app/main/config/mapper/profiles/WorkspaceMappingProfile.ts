@@ -1,4 +1,9 @@
-import { INewWorkspaceDto, IWorkspaceContentSettingsDto, IWorkspaceSettingsDto } from "@api/models/workspace/requests";
+import {
+    INewWorkspaceDto,
+    IWorkspaceContentSettingsDto,
+    IWorkspaceSettingsDto,
+    IWorkspaceSiteSettingsDto
+} from "@api/models/workspace/requests";
 import { WorkspaceContentSettings, WorkspaceDataSettings } from "@app/models";
 import { IContactSettingsFormValues } from "@main/Content/models";
 import { IDataSettingsFormValues } from "@main/Data/models";
@@ -27,6 +32,11 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<IContactSettingsFormValues>(),
                 nameof<WorkspaceContentSettings>(),
                 WorkSpaceMappingProfile.mapIContactSettingsFormValuesToWorkspaceContentSettings
+            ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<IWorkspaceSiteSettingsDto>(),
+                WorkSpaceMappingProfile.mapWorkspaceSettingsToIWorkspaceSiteSettingsDto
             ),
             new MapFunction(
                 nameof<WorkspaceSiteSettings>(),
@@ -79,19 +89,29 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
         return settings;
     }
 
+    private static mapWorkspaceSettingsToIWorkspaceSiteSettingsDto(
+        settings: WorkspaceSiteSettings
+    ): IWorkspaceSiteSettingsDto {
+
+        const dto: IWorkspaceSiteSettingsDto = {
+            name: settings.siteName,
+            faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
+            opengraphImageTitle: settings.openGraphTitle,
+            opengraphImageUrl: null,
+            color: settings.primaryColor,
+        };
+
+        return dto;
+    }
+
     private static mapWorkspaceSettingsToIWorkspaceSettingsDto(
         settings: WorkspaceSiteSettings
     ): IWorkspaceSettingsDto {
 
+        const siteConfig = WorkSpaceMappingProfile.mapWorkspaceSettingsToIWorkspaceSiteSettingsDto(settings);
         const dto: IWorkspaceSettingsDto = {
             domain: settings.domain,
-            siteConfig: {
-                name: settings.siteName,
-                faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
-                opengraphImageTitle: settings.openGraphTitle,
-                opengraphImageUrl: null,
-                color: settings.primaryColor,
-            },
+            siteConfig,
         };
 
         return dto;
@@ -102,7 +122,7 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): IWorkspaceContentSettingsDto {
 
         const dto: IWorkspaceContentSettingsDto = {
-            firstPhoto: null,
+            firstPhotoUrl: null,
             firstText: settings.firstBlockText,
             phone: settings.phone,
             address: settings.address,

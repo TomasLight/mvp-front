@@ -50,13 +50,7 @@ export class ContactSettingsValidator
             );
         }
 
-        if (!this.photoIsValid(model.photo)) {
-            modelState.addError(
-                nameof<IContactSettingsFormValues>((o) => o.photo),
-                Translate.getString("Обязательное поле.")
-            );
-        }
-        else if (!this.photoSizeIsValid(model.photo)) {
+        if (model.photo && !this.photoSizeIsValid(model.photo)) {
             modelState.addError(
                 nameof<IContactSettingsFormValues>((o) => o.photo),
                 Translate.getString("Изображение весит больше 1 MB")
@@ -83,11 +77,8 @@ export class ContactSettingsValidator
     }
 
     deliveryLocationLinkIsValid(deliveryLocationLink: any): boolean {
-        return typeof deliveryLocationLink === "string" && deliveryLocationLink.length > 0;
-    }
-
-    photoIsValid(files: any): boolean {
-        return !!files;
+        return !deliveryLocationLink
+            || typeof deliveryLocationLink === "string" && deliveryLocationLink.length > 0;
     }
 
     photoSizeIsValid(files: FileList): boolean {
