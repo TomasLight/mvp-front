@@ -2,27 +2,29 @@ import React from "react";
 
 import { makeStyles, Button, Typography } from "@material-ui/core";
 
+import { SiteItem } from "@main/Site/SettingsForm/SiteItems";
 import { IDataSettingsFormValues } from "@main/Data/models";
 import { DefaultFieldSubscription } from "@shared/organisms";
-import { DragAndDropFormField } from "@shared/templates";
+import { DragAndDropFormField, TextFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "grid",
         gridTemplateAreas: "\
-            '.' 'title' '.' \
+            'item' \
             'stepper'",
         gridTemplateRows: "\
-            58px auto 1fr \
+            1fr \
             auto",
         height: "100%",
+        alignItems: "center",
     },
-    title: {
-        gridArea: "title",
-        fontWeight: "bold",
-        fontSize: 20,
-        lineHeight: "23px",
+    item: {
+        gridArea: "item",
+    },
+    field: {
+        gridArea: "field",
     },
     stepper: {
         gridArea: "stepper",
@@ -64,11 +66,22 @@ const DataSettingsForm = (props: Props) => {
 
     return (
         <div className={classes.root}>
-            <DragAndDropFormField
-                name={nameof<IDataSettingsFormValues>(o => o.archive)}
-                subscription={DefaultFieldSubscription}
-                required
-            />
+            <SiteItem
+                className={classes.item}
+                label={Translate.getString("Меню заведения")}
+                help={Translate.getString("Выгрузка вашего каталога в виде .zip архива")}
+            >
+                <DragAndDropFormField
+                    name={nameof<IDataSettingsFormValues>(o => o.archive)}
+                    subscription={DefaultFieldSubscription}
+                    required
+                    classes={{
+                        root: {
+                            root: classes.field,
+                        },
+                    }}
+                />
+            </SiteItem>
 
             <div className={classes.stepper}>
                 <Typography variant={"body1"} className={classes.stepperLabel}>

@@ -1,7 +1,7 @@
+import { Variant } from "@shared/templates";
 import React from "react";
 
-import { IconButton, Toolbar, Typography, makeStyles } from "@material-ui/core";
-import { Lock } from "@material-ui/icons";
+import { Toolbar, Typography, makeStyles } from "@material-ui/core";
 
 import { AppBar } from "@shared/atoms/AppBar";
 import { MenuButton } from "../MenuButton";
@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     toolbar: {
         display: "grid",
         gridAutoFlow: "column",
-        gridTemplateAreas: "'menu . title . name . lock'",
-        gridTemplateColumns: "36px 6px auto 1fr auto 20px 20px",
+        gridTemplateAreas: "'menu . title . name'",
+        gridTemplateColumns: "36px 6px auto 1fr auto",
         paddingLeft: 22,
         paddingRight: 22,
     },
@@ -49,6 +49,7 @@ interface IMainAppBarProps {
     open: boolean;
     title: string;
     name: string;
+    variant: Variant;
 }
 
 interface IMainAppBarCallProps {
@@ -59,6 +60,7 @@ type Props = IMainAppBarProps & IMainAppBarCallProps;
 
 const MainAppBar = (props: Props) => {
     const {
+        variant,
         open,
         title,
         name,
@@ -70,11 +72,13 @@ const MainAppBar = (props: Props) => {
     return (
         <AppBar open={open} className={classes.root} elevation={0}>
             <Toolbar className={classes.toolbar}>
-                <MenuButton
-                    open={open}
-                    toggle={toggle}
-                    classes={{ root: classes.menu }}
-                />
+                {variant === Variant.MainEdit && (
+                    <MenuButton
+                        open={open}
+                        toggle={toggle}
+                        classes={{ root: classes.menu }}
+                    />
+                )}
 
                 <Typography
                     variant="h6"
@@ -91,13 +95,6 @@ const MainAppBar = (props: Props) => {
                 >
                     {name}
                 </Typography>
-
-                <IconButton
-                    color="inherit"
-                    className={classes.lock}
-                >
-                    <Lock/>
-                </IconButton>
             </Toolbar>
         </AppBar>
     );

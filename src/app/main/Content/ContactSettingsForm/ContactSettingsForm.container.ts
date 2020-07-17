@@ -4,6 +4,7 @@ import { Dispatch } from "redux";
 
 import { State } from "@MainState";
 import { ContentActions } from "@main/Content/redux";
+import { Translate } from "@utils";
 import {
     ContactSettingsForm,
     IContactSettingsFormProps,
@@ -15,6 +16,9 @@ interface OwnProps {
 }
 
 const mapStateToProps = (state: State): IContactSettingsFormProps => ({
+    buttonText: state.main.settingsMode === "create"
+        ? Translate.getString("Опубликовать сайт")
+        :  Translate.getString("Сохранить"),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContactSettingsFormCallProps => ({

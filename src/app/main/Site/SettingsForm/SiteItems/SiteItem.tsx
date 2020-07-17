@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }), { name: "SetupPage" });
 
 interface ISiteItemProps {
-    className: string;
+    className?: string;
     label: string;
     help: string;
 }

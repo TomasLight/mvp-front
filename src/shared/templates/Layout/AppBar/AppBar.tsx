@@ -21,10 +21,10 @@ const AppBar = (props: Props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {
-        case Variant.Main:
-            // return null;
+        case Variant.MainNew:
+        case Variant.MainEdit:
             return (
-                <MainAppBar {...rest}/>
+                <MainAppBar variant={variant} {...rest}/>
             );
 
         case Variant.Workspace:

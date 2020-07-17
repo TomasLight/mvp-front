@@ -156,10 +156,15 @@ export class ContentSaga extends SagaBase {
             return;
         }
 
-        yield ContentSaga.updateStore({
+        const partialStore: Partial<ContentStore> = {
             contentIsSaving: false,
-            showPublishDialog: true,
-        });
+        };
+        const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
+        if (settingsMode === "create") {
+            partialStore.showPublishDialog = true;
+        }
+
+        yield ContentSaga.updateStore(partialStore);
     }
 
     static* closePublishDialog(action: AppAction) {

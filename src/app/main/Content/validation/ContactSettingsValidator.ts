@@ -65,7 +65,8 @@ export class ContactSettingsValidator
     }
 
     phoneIsValid(phone: any): boolean {
-        return typeof phone === "string" && phone.length > 0;
+        return !phone
+            || typeof phone === "string" && phone.length > 0;
     }
 
     addressIsValid(address: any): boolean {
@@ -73,7 +74,8 @@ export class ContactSettingsValidator
     }
 
     deliveryTimeIsValid(deliveryTime: any): boolean {
-        return typeof deliveryTime === "string" && deliveryTime.length > 0;
+        return !deliveryTime
+            || typeof deliveryTime === "string" && deliveryTime.length > 0;
     }
 
     deliveryLocationLinkIsValid(deliveryLocationLink: any): boolean {

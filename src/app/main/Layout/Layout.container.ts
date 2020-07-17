@@ -31,7 +31,9 @@ const mapStateToProps = (state: CommonState & State): Partial<ILayoutProps> => (
             url: workspaceUrls.menu,
         },
     ],
-    variant: Variant.Main,
+    variant: state.main.settingsMode === "create"
+        ? Variant.MainNew
+        : Variant.MainEdit,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): ILayoutCallProps => ({

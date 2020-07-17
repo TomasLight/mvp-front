@@ -1,8 +1,9 @@
 import { Enum } from "@enums";
 
 export const Variant = Object.freeze({
-    Main: 0,
-    Workspace: 1,
+    MainNew: 0,
+    MainEdit: 1,
+    Workspace: 2,
 });
 
 export type Variant = Enum<typeof Variant>;
