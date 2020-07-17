@@ -3,13 +3,12 @@ import { put } from "@redux-saga/core/effects";
 
 import { MenuApi } from "@api";
 import { MenuSelectors, WorkspaceSelectors } from "@selectors";
-import { ApiResponse } from "@utils/api/ApiResponse";
-import { SagaBase } from "@utils/saga/SagaBase";
+import { ApiResponse } from "@utils/api";
+import { SagaBase } from "@config/saga";
 
 import { Cart, Category, Dish } from "../models";
 import {
     MenuActions,
-    MenuStoreSelector,
     MenuStore,
     IAddDishToCartData,
     IChangeSelectedCategoryData,
@@ -96,7 +95,7 @@ export class MenuSaga extends SagaBase {
     }
 
     private static* preloadDish(dishId: string) {
-        const dish: Dish = yield MenuStoreSelector.getDishById(dishId);
+        const dish: Dish = yield MenuSelectors.getDishById(dishId);
         if (dish) {
             yield MenuSaga.updateStore({
                 openedDish: dish,
@@ -105,7 +104,7 @@ export class MenuSaga extends SagaBase {
     }
 
     private static* updateDishInStore(changedDish: Dish) {
-        const storedDish: Dish[] = yield MenuStoreSelector.filterDishes(changedDish.id);
+        const storedDish: Dish[] = yield MenuSelectors.filterDishes(changedDish.id);
         storedDish.push(changedDish);
 
         yield MenuSaga.updateStore({
@@ -122,7 +121,7 @@ export class MenuSaga extends SagaBase {
     static* addDishToCart(action: AppAction<IAddDishToCartData>) {
         const { dishId, size } = action.payload;
 
-        const cart: Cart = yield MenuStoreSelector.cart();
+        const cart: Cart = yield MenuSelectors.cart();
         cart.add(dishId, size);
 
         yield MenuSaga.updateStore({
@@ -133,7 +132,7 @@ export class MenuSaga extends SagaBase {
     static* increaseDishAmountInCart(action: AppAction<IIncreaseDishAmountInCartData>) {
         const { dishId, size } = action.payload;
 
-        const cart: Cart = yield MenuStoreSelector.cart();
+        const cart: Cart = yield MenuSelectors.cart();
         cart.adjust({
             id: dishId,
             size,
@@ -148,7 +147,7 @@ export class MenuSaga extends SagaBase {
     static* decreaseDishAmountInCart(action: AppAction<IDecreaseDishAmountInCartData>) {
         const { dishId, size } = action.payload;
 
-        const cart: Cart = yield MenuStoreSelector.cart();
+        const cart: Cart = yield MenuSelectors.cart();
         cart.reduce({
             id: dishId,
             size,

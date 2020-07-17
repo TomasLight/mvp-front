@@ -2,8 +2,9 @@ import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { PageApi } from "@api";
-import { Notification, NotifierActions } from "@shared/templates";
-import { Translate, ApiResponse, SagaBase } from "@utils";
+import { Notification, NotifierActions } from "@app/Notifier";
+import { SagaBase } from "@config/saga";
+import { Translate, ApiResponse } from "@utils";
 import { Pages } from "../models";
 
 import { WorkspaceActions, WorkspaceStore } from "../redux";

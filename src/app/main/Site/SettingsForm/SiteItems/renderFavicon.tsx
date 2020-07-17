@@ -1,8 +1,7 @@
 import React from "react";
 
 import { IconSelectFieldOption } from "@select/types";
-import { FavIcon } from "@icons";
-import { FavIconVariant } from "@shared/molecules";
+import { FavIcon, FavIconVariant } from "@shared/molecules/FavIcon";
 
 const renderFavicon = (option: IconSelectFieldOption): React.ReactElement => {
     const iconVariant: FavIconVariant = option.getValue();

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     [Variant.Main]: {
         padding: 0,
     },
-    [Variant.Pos]: {
+    [Variant.Workspace]: {
         padding: "20px 50px",
     },
 }));

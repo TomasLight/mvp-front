@@ -22,12 +22,12 @@ const AppBar = (props: Props) => {
 
     switch (variant) {
         case Variant.Main:
-            return null;
-            // return (
-            //     <MainAppBar {...rest}/>
-            // );
+            // return null;
+            return (
+                <MainAppBar {...rest}/>
+            );
 
-        case Variant.Pos:
+        case Variant.Workspace:
             return (
                 <WorkspaceAppBar {...rest}/>
             );

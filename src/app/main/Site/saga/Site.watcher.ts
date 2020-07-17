@@ -1,16 +1,12 @@
-import { WatcherBase } from "@utils/saga/WatcherBase";
+import { Watcher } from "app-saga-utils";
 
 import { SiteActions } from "../redux";
 import { SiteSaga } from "./Site.saga";
 
-export class SiteWatcher extends WatcherBase {
+export class SiteWatcher extends Watcher {
     constructor() {
         super();
 
-        this.watchLatest(
-            SiteActions.SET_USER_NAME,
-            SiteSaga.setUserName
-        );
         this.watchLatest(
             SiteActions.LOAD_DATA,
             SiteSaga.loadData

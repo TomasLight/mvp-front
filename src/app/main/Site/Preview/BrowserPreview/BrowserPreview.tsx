@@ -3,7 +3,7 @@ import React from "react";
 import { StyledComponentProps, Typography, withStyles } from "@material-ui/core";
 
 import { IconVariant } from "@enums";
-import { FavIcon } from "@icons";
+import { FavIcon } from "@shared/molecules/FavIcon";
 import { styles, ClassKey } from "./BrowserPreview.styles";
 
 interface IBrowserPreviewProps {

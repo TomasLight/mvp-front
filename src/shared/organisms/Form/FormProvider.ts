@@ -10,7 +10,9 @@ import {
     ModelState,
 } from "model-state-validation";
 
-import { Form, FormPropsContainer, FormValidator, IFormProps } from "@shared/organisms";
+import { Form, IFormProps } from "./Form";
+import { FormValidator} from "./FormValidator";
+import { FormPropsContainer } from "./Props/FormPropsContainer";
 import { FormSettings } from "@shared/organisms/Form/FormSettings";
 import { Submit } from "@shared/organisms/Form/Submit";
 

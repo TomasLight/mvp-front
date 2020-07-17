@@ -1,4 +1,4 @@
-import { FavIconVariant } from "@shared/molecules";
+import { FavIconVariant } from "./FavIconVariant";
 
 export class FavIconUrlResolver {
     static getUrl(variant: FavIconVariant): string {

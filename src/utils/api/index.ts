@@ -1,4 +1,3 @@
-export * from "./ApiBase.mock";
 export * from "./ApiBase";
 export * from "./ApiMethod";
 export * from "./ApiResponse";

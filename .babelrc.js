@@ -15,6 +15,12 @@ const presets = [
 
 const alias = {
     "@app": "./src/app",
+    "@CommonState": "./src/app/config/redux/CommonState",
+    "@config": "./src/app/config",
+    "@enums": "./src/enums/index.ts",
+    "@icons": "./src/shared/atoms/icons",
+    "@selectors": "./src/app/config/redux/selectors/index.ts",
+    "@shared": "./src/shared",
 
     "@main": "./src/app/main",
     "@MainState": "./src/app/main/config/redux/State.ts",
@@ -25,16 +31,10 @@ const alias = {
     "@ws": "./src/app/workspace",
     "@WsState": "./src/app/workspace/config/redux/State.ts",
 
+
     "@api": "./src/api",
-    "@config": "./src/config/index.ts",
-    "@enums": "./src/enums/index.ts",
-    "@models": "./src/models/index.ts",
-    "@selectors": "./src/utils/redux/selectors/index.ts",
-
-    "@shared": "./src/shared",
-    "@icons": "./src/shared/atoms/icons",
+    "@models": "./src/app/models",
     "@select": "./src/shared/organisms/Fields/Select",
-
     "@utils": "./src/utils"
 };
 

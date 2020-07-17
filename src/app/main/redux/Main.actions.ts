@@ -1,6 +1,9 @@
-import { ISetLandingConfigIdData, ISetWorkspaceIdData } from "./Main.actions.dataTypes";
-import { createAction, createActionWithCallback } from "app-redux-utils";
+import { createAction } from "app-redux-utils";
 
+import {
+    ISetLandingConfigIdData,
+    ISetWorkspaceIdData,
+} from "./Main.actions.dataTypes";
 import { MainStore } from "./Main.store";
 
 export class MainActions {

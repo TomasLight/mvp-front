@@ -1,4 +1,4 @@
-import { Translate } from "@utils/translates";
+import { Translate } from "../translates";
 import { ApiResponseStatus } from "./ApiResponseStatus";
 
 export class ApiResponse<TResponseData = any> {

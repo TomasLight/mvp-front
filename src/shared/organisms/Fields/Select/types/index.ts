@@ -1,5 +1,5 @@
 export * from "./FieldOptions";
-export * from "./FieldOptionEnum";
+export * from "./FieldOptionVariant";
 export * from "./IFieldOption";
 export * from "./IOption";
 export * from "./isFieldOption";

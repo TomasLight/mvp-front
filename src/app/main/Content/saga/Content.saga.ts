@@ -11,7 +11,8 @@ import { menuItems } from "@api/mock/menu/menuItems";
 import { IContactSettingsFormValues } from "@main/Content/models";
 import { MainSelectors, SetupSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
-import { ApiResponse, Mapper, SagaBase } from "@utils";
+import { SagaBase } from "@config/saga";
+import { ApiResponse, Mapper } from "@utils";
 
 import {
     ISubmitData,

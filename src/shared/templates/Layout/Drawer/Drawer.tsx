@@ -23,7 +23,7 @@ const Drawer = (props: Props) => {
         case Variant.Main:
             return null;
 
-        case Variant.Pos:
+        case Variant.Workspace:
             return (
                 <WorkspaceDrawer {...rest}/>
             );

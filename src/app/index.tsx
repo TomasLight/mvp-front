@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { AppRouter } from "./AppRouter";
-import { configureMapper } from "./commonMapper";
+import { configureMapper } from "./config/mapper";
 
 const rootElement = document.getElementById("root");
 const history: History = createBrowserHistory();
