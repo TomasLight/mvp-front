@@ -45,17 +45,30 @@ services:
       - monster
 
   nginx:
-    image: nginx:1.18.0
+    build:
+      context: .
+      dockerfile: docker-staging.dockerfile
     container_name: mvp-nginx
     ports:
       - 80:80
       - 443:443
     depends_on:
       - api
-    volumes:
-      - ./public:/www
-      - ./nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
-      - ./nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
-      - ./nginx-dev.conf:/etc/nginx/nginx.conf
     networks:
       - monster
+
+  # nginx:
+  #   image: nginx:1.18.0
+  #   container_name: mvp-nginx
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   depends_on:
+  #     - api
+  #   volumes:
+  #     - ./public:/www
+  #     - ./nginx-selfsigned.crt:/etc/nginx/certs/nginx-selfsigned.crt
+  #     - ./nginx-selfsigned.key:/etc/nginx/certs/nginx-selfsigned.key
+  #     - ./nginx-dev.conf:/etc/nginx/nginx.conf
+  #   networks:
+  #     - monster
