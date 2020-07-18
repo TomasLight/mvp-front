@@ -42,18 +42,19 @@ export class AppProviderSaga extends SagaBase {
         //     put(AppProviderActions.getAuthorizedUserWithCallback()(callbackAction)),
         // ];
         //
-        // yield AppProviderSaga.updateStore({
-        //     targetActionsAmount: initializedActions.length,
-        // });
+        yield AppProviderSaga.updateStore({
+            initialized: true,
+            // targetActionsAmount: initializedActions.length,
+        });
         // yield all(initializedActions);
     }
 
     static* initializedWorkspaceApp(action: AppAction) {
         const callbackAction = AppProviderActions.incrementInitializedActions;
-        const loadPageActionCallback = () => WorkspaceActions.loadPage()(callbackAction);
+        const loadWorkspacesActionCallback = () => WorkspaceActions.loadWorkspaces()(callbackAction);
 
         const initializedActions = [
-            put(AppProviderActions.getAuthorizedUserWithCallback()(loadPageActionCallback)),
+            put(AppProviderActions.getAuthorizedUserWithCallback()(loadWorkspacesActionCallback)),
         ];
 
         yield AppProviderSaga.updateStore({
@@ -64,15 +65,15 @@ export class AppProviderSaga extends SagaBase {
 
     static* getAuthorizedUser(action: AppAction<IGetAuthorizedUserData>) {
         const response: ApiResponse<AuthorizedUser> = yield UserApi.getAuthorizedUser();
-        if (response.statusCode === ApiResponseStatus.Unauthorized) {
-            action.stop();
-            const currentUrl = window.location.href;
-            window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
-            return;
-        }
-
         if (response.hasError()) {
             action.stop();
+
+            if (response.statusCode === ApiResponseStatus.Unauthorized) {
+                const currentUrl = window.location.href;
+                window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
+                return;
+            }
+
             AppProviderSaga.displayClientError(response);
             return;
         }

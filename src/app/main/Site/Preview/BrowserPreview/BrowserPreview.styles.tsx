@@ -13,15 +13,17 @@ type ClassKey =
 const styles = createStyles<ClassKey, {}>({
     root: {
         display: "grid",
-        height: "100%",
-        background: "url(/images/browser-chrome-mac-small_002.png) no-repeat",
+        height: 404,
         width: 462,
+        background: "url(/images/browser-chrome-mac-small_002.png) no-repeat",
         gridTemplateAreas: "\
         '.' 'browserHeader' \
-        '.' 'siteUrl'",
+        '.' 'siteUrl'\
+        '.'",
         gridTemplateRows: "\
             15px 18px \
-            16px 16px",
+            16px 16px \
+            1fr",
     },
     browserHeader: {
         gridArea: "browserHeader",

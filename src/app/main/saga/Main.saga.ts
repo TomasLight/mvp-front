@@ -2,8 +2,7 @@ import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { MainSelectors } from "@selectors";
-import { LandingConfig } from "@app/models";
-import { IUserWorkspaceDto } from "@api/models/workspace/responses";
+import { LandingConfig, UserWorkspace } from "@app/models";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { SagaBase } from "@config/saga";
 import { ApiResponse, ApiResponseStatus } from "@utils";
@@ -20,7 +19,7 @@ export class MainSaga extends SagaBase {
             workspacesAreLoading: true,
         });
 
-        const response: ApiResponse<IUserWorkspaceDto[]> = yield WorkspaceApi.get();
+        const response: ApiResponse<UserWorkspace[]> = yield WorkspaceApi.getWorkspaces();
         if (response.hasError()) {
             yield MainSaga.updateStore({
                 workspacesAreLoading: false,
@@ -54,10 +53,20 @@ export class MainSaga extends SagaBase {
             return;
         }
 
-        yield MainSaga.updateStore({
-            landingConfig: response.data,
+        const partialStore: Partial<MainStore> = {
             landingConfigIsLoading: false,
-        });
+        };
+
+        const hasNoLandingConfig = !response.data;
+        if (hasNoLandingConfig) {
+            partialStore.hasWorkspace = false;
+        }
+        else {
+            partialStore.hasWorkspace = true;
+            partialStore.landingConfig = response.data;
+        }
+
+        yield MainSaga.updateStore(partialStore);
     }
 
     static* setWorkspaceId(action: AppAction<ISetWorkspaceIdData>) {

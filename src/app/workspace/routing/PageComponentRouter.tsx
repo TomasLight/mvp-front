@@ -1,17 +1,26 @@
-import { NotFound } from "@app/404";
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
+import { NotFound } from "@app/404";
+import { mainUrls } from "@main/routing/mainUrls";
 import { LayoutContainer } from "@ws/Layout";
 import { NotifierContainer } from "@app/Notifier";
 import { MenuPageContainer } from "@ws/Menu";
 
 import { workspaceUrls } from "./workspaceUrls";
 
-type Props = RouteComponentProps;
+interface IPageComponentRouterProps {
+    hasWorkspace: boolean;
+}
+
+type Props = IPageComponentRouterProps & RouteComponentProps;
 
 const PageComponentRouter = (props: Props) => {
-    const { location} = props;
+    const { location, hasWorkspace } = props;
+
+    if (!hasWorkspace) {
+        return <Redirect push to={mainUrls.siteSettings}/>;
+    }
 
     if (location.pathname === workspaceUrls.workspace) {
         return <Redirect push to={workspaceUrls.menu}/>;
@@ -37,4 +46,4 @@ const PageComponentRouter = (props: Props) => {
 };
 
 const componentWithRouter = withRouter(PageComponentRouter);
-export { componentWithRouter as PageComponentRouter };
+export { componentWithRouter as PageComponentRouter, IPageComponentRouterProps };

@@ -4,10 +4,13 @@ import { createStyles } from "@material-ui/core";
 
 type ClassKey =
     | "root"
+
     | "settings"
+    | "settingsIcon"
+    | "settingsTitle"
+    | "browser"
 
     | "shadow"
-    | "browser"
     | "vk"
     | "color"
     ;
@@ -18,28 +21,44 @@ const styles = createStyles<ClassKey, {}>((theme) => ({
         gridTemplateAreas: "\
             '.' \
             'settings' '.' \
-            'browser' '.' \
             'vk' '.' \
-            'delivery'",
+            'color' '.'",
         gridTemplateRows: "\
-            50px \
-            80px 55px \
-            404px 124px\
-            517px 100px\
-            240px",
+            68px \
+            540px 124px \
+            520px 80px \
+            240px auto",
         height: "100%",
         alignItems: "center",
         justifyItems: "center",
     },
+
     settings: {
         gridArea: "settings",
+        textAlign: "center",
+        height: "100%",
+        display: "grid",
+        gridTemplateAreas: "'icon' '.' 'title' '.' 'browser'",
+        gridTemplateRows: "auto 10px auto 36px auto 22px",
+        justifyItems: "center",
+    },
+    settingsIcon: {
+        gridArea: "icon",
+        fontSize: 40,
+    },
+    settingsTitle: {
+        gridArea: "title",
+        fontWeight: "bold",
+        fontSize: 24,
+        lineHeight: "28px",
+        color: "#000",
+    },
+    browser: {
+        gridArea: "browser",
     },
 
     shadow: {
         boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.12), -20px 20px 40px rgba(0, 0, 0, 0.12), 20px 20px 40px rgba(0, 0, 0, 0.12)",
-    },
-    browser: {
-        gridArea: "browser",
     },
     browserHeader: {
         gridArea: "browserHeader",
@@ -68,7 +87,7 @@ const styles = createStyles<ClassKey, {}>((theme) => ({
         gridArea: "vk",
     },
     color: {
-        gridArea: "delivery",
+        gridArea: "color",
     },
 }));
 

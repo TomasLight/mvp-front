@@ -8,6 +8,10 @@ export class WorkspaceWatcher extends Watcher {
         super();
 
         this.watchLatest(
+            WorkspaceActions.LOAD_WORKSPACES,
+            WorkspaceSaga.loadWorkspaces
+        );
+        this.watchLatest(
             WorkspaceActions.LOAD_PAGE,
             WorkspaceSaga.loadPage
         );

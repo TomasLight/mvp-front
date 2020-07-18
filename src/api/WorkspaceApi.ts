@@ -2,7 +2,7 @@ import {
     INewWorkspaceDto,
     IWorkspaceContentSettingsDto,
     IWorkspaceDataSettingsDto,
-    IWorkspaceSettingsDto, IWorkspaceSiteSettingsDto
+    IWorkspaceSiteSettingsDto
 } from "@api/models/workspace/requests";
 import { ILandingConfig, IUserWorkspaceDto, IWorkspaceAddressDto } from "@api/models/workspace/responses";
 import {
@@ -21,8 +21,8 @@ export class WorkspaceApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    static async get(): Promise<ApiResponse> {
-        const response: ApiResponse<IUserWorkspaceDto[]> = await super.get(process.env.API_GET_WORKSPACES);
+    static async getWorkspaces(): Promise<ApiResponse<UserWorkspace[]>> {
+        const response: ApiResponse = await super.get(process.env.API_GET_WORKSPACES);
         if (response.data) {
             response.data = response.data.map((dto: IUserWorkspaceDto) => Mapper.map<UserWorkspace>(
                 nameof<IUserWorkspaceDto>(),
@@ -44,7 +44,7 @@ export class WorkspaceApi extends ApiBase {
     }
 
     static async getLandingConfig(): Promise<ApiResponse<LandingConfig>> {
-        const response: ApiResponse = await super.get(process.env.API_GET_LANDING_CONFIG);
+        const response: ApiResponse = await this.get(process.env.API_GET_LANDING_CONFIG);
         if (response.data) {
             const dtoConfig: ILandingConfig = response.data;
             response.data = Mapper.map<LandingConfig>(

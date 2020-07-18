@@ -84,7 +84,9 @@ export abstract class ApiBase {
         apiResponse.statusCode = response.status;
 
         if (response.ok) {
-            apiResponse.data = await response.json();
+            if (response.status !== ApiResponseStatus.NoContent) {
+                apiResponse.data = await response.json();
+            }
         }
         else if (this.isApiError(response)) {
             const apiError: IApiError = await response.json();
