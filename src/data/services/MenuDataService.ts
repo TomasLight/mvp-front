@@ -1,7 +1,7 @@
 import { MenuApi, WorkspaceApi } from "@api";
+import { IMenuDto, IMenuItemDto } from "@api/models/menu/responses";
 import { DataFailed } from "@data";
-import { LandingConfig } from "@models";
-import { ApiResponse, ApiResponseStatus } from "@utils";
+import { ApiResponseStatus, Mapper } from "@utils";
 import { Category, Dish, Menu } from "@ws/Menu/models";
 import { ActionProcessing } from "../ActionProcessing";
 import { DataServiceBase } from "../DataServiceBase";
@@ -44,12 +44,18 @@ export class MenuDataService extends DataServiceBase {
             return this._dishes;
         }
 
-        const response: ApiResponse<Dish[]> = await MenuApi.getDishes();
+        const response = await MenuApi.getDishesAsync();
         if (response.hasError()) {
             return this.failed(response);
         }
 
-        this._dishes = response.data;
+
+        this._dishes = response.data.map((dto: IMenuItemDto) => Mapper.map<Dish>(
+            nameof<IMenuItemDto>(),
+            nameof<Dish>(),
+            dto
+        ));
+
         setTimeout(() => {
             this._dishes = null;
         }, MenuDataService.STORAGE_MILLISECONDS);
@@ -73,7 +79,7 @@ export class MenuDataService extends DataServiceBase {
             return this._menu;
         }
 
-        const landingConfigResponse: ApiResponse<LandingConfig> = await WorkspaceApi.getLandingConfig();
+        const landingConfigResponse = await WorkspaceApi.getLandingConfigAsync();
         if (landingConfigResponse.hasError()) {
             if (landingConfigResponse.statusCode === ApiResponseStatus.Forbidden) {
                 return new DataFailed({
@@ -84,7 +90,7 @@ export class MenuDataService extends DataServiceBase {
             return this.failed(landingConfigResponse);
         }
 
-        const response: ApiResponse<Menu> = await MenuApi.getMenu(landingConfigResponse.data.menuId);
+        const response = await MenuApi.getMenuAsync(landingConfigResponse.data.menuId);
         if (response.hasError()) {
             if (response.statusCode === ApiResponseStatus.Forbidden) {
                 return new DataFailed({
@@ -95,7 +101,12 @@ export class MenuDataService extends DataServiceBase {
             return this.failed(response);
         }
 
-        this._menu = response.data;
+        this._menu = Mapper.map<Menu>(
+            nameof<IMenuDto>(),
+            nameof<Menu>(),
+            response.data
+        );
+
         setTimeout(() => {
             this._menu = null;
         }, MenuDataService.STORAGE_MILLISECONDS);

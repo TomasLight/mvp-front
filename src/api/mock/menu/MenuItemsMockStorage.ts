@@ -12,7 +12,7 @@ export class MenuItemsMockStorage {
                 Guid.generate(),
             ],
             name: "Шаурмяха (в защитном лаваше)",
-            image: "/images/shaurma_001.jpg",
+            imageUrl: "/images/shaurma_001.jpg",
             description: "Готовится по класеке",
             price: 200,
         },

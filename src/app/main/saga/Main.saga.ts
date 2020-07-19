@@ -45,7 +45,7 @@ export class MainSaga extends SagaBase {
             landingConfigIsLoading: true,
         });
 
-        const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfig();
+        const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfigAsync();
         if (response.hasError()) {
             yield MainSaga.updateStore({
                 landingConfigIsLoading: false,

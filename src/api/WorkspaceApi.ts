@@ -4,17 +4,12 @@ import {
     IWorkspaceDataSettingsDto,
     IWorkspaceSiteSettingsDto
 } from "@api/models/workspace/requests";
-import { ILandingConfigDto, IUserWorkspaceDto, IWorkspaceAddressDto } from "@api/models/workspace/responses";
-import { ICreatedWorkspaceDto } from "@api/models/workspace/responses/ICreatedWorkspaceDto";
 import {
-    LandingConfig,
-    UserWorkspace,
-    WorkspaceContentSettings,
-    WorkspaceDataSettings,
-    WorkspaceSiteSettings
-} from "@app/models";
-import { CreatedWorkspace } from "@models/wokrspaces/CreatedWorkspace";
-import { ApiBase, ApiResponse, FileHelper, Mapper, urlWithIds } from "@utils";
+    ILandingConfigDto,
+    IUserWorkspaceDto,
+    ICreatedWorkspaceDto,
+} from "@api/models/workspace/responses";
+import { ApiBase, ApiResponse, urlWithIds } from "@utils/api";
 
 import { mockApi } from "./mock/workspace";
 
@@ -23,117 +18,54 @@ export class WorkspaceApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    static async getWorkspaces(): Promise<ApiResponse<UserWorkspace[]>> {
-        const response: ApiResponse = await super.get(process.env.API_GET_WORKSPACES);
-        if (response.data) {
-            response.data = response.data.map((dto: IUserWorkspaceDto) => Mapper.map<UserWorkspace>(
-                nameof<IUserWorkspaceDto>(),
-                nameof<UserWorkspace>(),
-                dto
-            ));
-        }
-        return response;
+    static getWorkspacesAsync(): Promise<ApiResponse<IUserWorkspaceDto[]>> {
+        return this.get(process.env.API_GET_WORKSPACES);
     }
 
-    static async create(settings: WorkspaceSiteSettings): Promise<ApiResponse<CreatedWorkspace>> {
-        const dto = Mapper.map<INewWorkspaceDto>(
-            nameof<WorkspaceSiteSettings>(),
-            nameof<INewWorkspaceDto>(),
-            settings
-        );
-        const response: ApiResponse = await this.post(process.env.API_CREATE_WORKSPACE, dto);
-
-        const { name, domainName } = response.data as ICreatedWorkspaceDto;
-        const workspace = new CreatedWorkspace();
-        workspace.domain = domainName;
-        workspace.name = name;
-
-        response.data = workspace;
-        return response;
+    static getLandingConfigAsync(): Promise<ApiResponse<ILandingConfigDto>> {
+        return this.get(process.env.API_GET_LANDING_CONFIG);
     }
 
-    static async getLandingConfig(): Promise<ApiResponse<LandingConfig>> {
-        const response: ApiResponse = await this.get(process.env.API_GET_LANDING_CONFIG);
-        if (response.data) {
-            const dtoConfig: ILandingConfigDto = response.data;
-            response.data = Mapper.map<LandingConfig>(
-                nameof<ILandingConfigDto>(),
-                nameof<LandingConfig>(),
-                dtoConfig
-            );
-        }
-
-        return response;
+    static async createAsync(dto: INewWorkspaceDto): Promise<ApiResponse<ICreatedWorkspaceDto>> {
+        return this.post(process.env.API_CREATE_WORKSPACE, dto);
     }
 
-    static async updateSiteSettings(
+    static updateSiteSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        settings: WorkspaceSiteSettings
+        dto: IWorkspaceSiteSettingsDto
     ): Promise<ApiResponse> {
-        const dto = Mapper.map<IWorkspaceSiteSettingsDto>(
-            nameof<WorkspaceSiteSettings>(),
-            nameof<IWorkspaceSiteSettingsDto>(),
-            settings
-        );
 
         const url = urlWithIds(
             process.env.API_PATCH_WORKSPACE_SITE_SETTINGS,
             { workspaceId, landingConfigId }
         );
-        if (settings.openGraphImage) {
-            const base64 = await FileHelper.toBase64(settings.openGraphImage);
-            dto.opengraphImageUrl = FileHelper.clearBase64(base64);
-        }
-
-        const response: ApiResponse = await this.patch(url, dto);
-        return response;
+        return this.patch(url, dto);
     }
 
-    static async updateDataSettings(
+    static async updateDataSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        settings: WorkspaceDataSettings
+        dto: IWorkspaceDataSettingsDto
     ): Promise<ApiResponse> {
 
-        // @ts-ignore
-        const dto: IWorkspaceDataSettingsDto = {};
         const url = urlWithIds(
             process.env.API_PATCH_WORKSPACE_DATA_SETTINGS,
             { workspaceId, landingConfigId }
         );
-
-        if (settings.archive) {
-            const base64 = await FileHelper.toBase64(settings.archive);
-            dto.archive = FileHelper.clearBase64(base64);
-        }
-
-        const response: ApiResponse = await this.patch(url, dto);
-        return response;
+        return this.patch(url, dto);
     }
 
-    static async updateContentSettings(
+    static async updateContentSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        settings: WorkspaceContentSettings
+        dto: IWorkspaceContentSettingsDto
     ): Promise<ApiResponse> {
-
-        const dto = Mapper.map<IWorkspaceContentSettingsDto>(
-            nameof<WorkspaceContentSettings>(),
-            nameof<IWorkspaceContentSettingsDto>(),
-            settings
-        );
 
         const url = urlWithIds(
             process.env.API_PATCH_WORKSPACE_CONTENT_SETTINGS,
             { workspaceId, landingConfigId }
         );
-        if (settings.photo) {
-            const base64 = await FileHelper.toBase64(settings.photo);
-            dto.firstPhotoUrl = FileHelper.clearBase64(base64);
-        }
-
-        const response: ApiResponse<IWorkspaceAddressDto> = await this.patch(url, dto);
-        return response;
+        return this.patch(url, dto);
     }
 }

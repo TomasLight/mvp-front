@@ -1,5 +1,6 @@
 const {pathsToModuleNameMapper} = require("ts-jest/utils");
 const {compilerOptions} = require("./tsconfig");
+const extractEnvironmentVariables = require("./tests/extractEnvironmentVariables");
 
 /** @type {import("@jest/types").Config.InitialOptions} */
 const config = {
@@ -20,7 +21,8 @@ const config = {
         "<rootDir>/(node_modules)/"
     ],
     testMatch: [
-        "<rootDir>/**/*.test.ts(x)",
+        "<rootDir>/**/*.test.ts",
+        "<rootDir>/**/*.test.tsx",
     ],
     snapshotSerializers: [
         "enzyme-to-json/serializer",
@@ -31,3 +33,5 @@ const config = {
 };
 
 module.exports = config;
+
+process.env = Object.assign(process.env, extractEnvironmentVariables());

@@ -1,14 +1,20 @@
+import {
+    INewWorkspaceDto,
+    IWorkspaceContentSettingsDto,
+    IWorkspaceDataSettingsDto,
+    IWorkspaceSiteSettingsDto
+} from "@api/models/workspace/requests";
+import { ILandingConfigDto, IUserWorkspaceDto } from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import {
-    ContentConfig, DataConfig,
+    ContentConfig,
     LandingConfig,
     SiteConfig,
     UserWorkspace, WorkspaceContentSettings,
     WorkspaceDataSettings,
     WorkspaceSiteSettings
 } from "@models";
-import { CreatedWorkspace } from "@models/wokrspaces/CreatedWorkspace";
-import { ApiResponseStatus } from "@utils";
+import { ApiResponseStatus, FileHelper, Mapper } from "@utils";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { ActionProcessing } from "../ActionProcessing";
 import { DataFailed } from "../DataFailed";
@@ -62,7 +68,7 @@ export class WorkspaceDataService extends DataServiceBase {
     }
 
     async listAsync(): Data<UserWorkspace[]> {
-        const workspacesResponse = await WorkspaceApi.getWorkspaces();
+        const workspacesResponse = await WorkspaceApi.getWorkspacesAsync();
         if (workspacesResponse.hasError()) {
             if (workspacesResponse.statusCode === ApiResponseStatus.Forbidden) {
                 return new DataFailed({
@@ -73,7 +79,12 @@ export class WorkspaceDataService extends DataServiceBase {
             return this.failed(workspacesResponse);
         }
 
-        this._workspaces = workspacesResponse.data;
+        this._workspaces = workspacesResponse.data.map((dto: IUserWorkspaceDto) => Mapper.map<UserWorkspace>(
+            nameof<IUserWorkspaceDto>(),
+            nameof<UserWorkspace>(),
+            dto
+        ));
+
         setTimeout(() => {
             this._workspaces = null;
         }, WorkspaceDataService.STORAGE_MILLISECONDS);
@@ -101,21 +112,26 @@ export class WorkspaceDataService extends DataServiceBase {
     }
 
     async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
-        const createdWorkspaceResponse: ApiResponse<CreatedWorkspace> = await WorkspaceApi.create(settings);
+        const dto = Mapper.map<INewWorkspaceDto>(
+            nameof<WorkspaceSiteSettings>(),
+            nameof<INewWorkspaceDto>(),
+            settings
+        );
 
+        const createdWorkspaceResponse = await WorkspaceApi.createAsync(dto);
         if (createdWorkspaceResponse.hasError()) {
             return this.failed(createdWorkspaceResponse);
         }
 
-        const { name, domain } = createdWorkspaceResponse.data;
+        const { name, domainName } = createdWorkspaceResponse.data;
 
-        const workspace = await this.getByDomainAsync(domain);
+        const workspace = await this.getByDomainAsync(domainName);
         if (workspace instanceof DataFailed) {
             return workspace;
         }
 
         this._workspaces.push({
-            domainName: domain,
+            domainName: domainName,
             id: workspace.id,
             name,
             role: workspace.role,
@@ -130,10 +146,20 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const response: ApiResponse = await WorkspaceApi.updateSiteSettings(
+        const dto = Mapper.map<IWorkspaceSiteSettingsDto>(
+            nameof<WorkspaceSiteSettings>(),
+            nameof<IWorkspaceSiteSettingsDto>(),
+            settings
+        );
+        if (settings.openGraphImage) {
+            const base64 = await FileHelper.toBase64(settings.openGraphImage);
+            dto.opengraphImageUrl = FileHelper.clearBase64(base64);
+        }
+
+        const response: ApiResponse = await WorkspaceApi.updateSiteSettingsAsync(
             landingConfig.workspaceId,
             landingConfig.id,
-            settings
+            dto
         );
         if (response.hasError()) {
             return this.failed(response);
@@ -149,10 +175,18 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const response: ApiResponse = await WorkspaceApi.updateDataSettings(
+        const dto: IWorkspaceDataSettingsDto = {
+            archive: "",
+        };
+        if (settings.archive) {
+            const base64 = await FileHelper.toBase64(settings.archive);
+            dto.archive = FileHelper.clearBase64(base64);
+        }
+
+        const response: ApiResponse = await WorkspaceApi.updateDataSettingsAsync(
             landingConfig.workspaceId,
             landingConfig.id,
-            settings
+            dto
         );
         if (response.hasError()) {
             return this.failed(response);
@@ -167,10 +201,20 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const response: ApiResponse = await WorkspaceApi.updateContentSettings(
+        const dto = Mapper.map<IWorkspaceContentSettingsDto>(
+            nameof<WorkspaceContentSettings>(),
+            nameof<IWorkspaceContentSettingsDto>(),
+            settings
+        );
+        if (settings.photo) {
+            const base64 = await FileHelper.toBase64(settings.photo);
+            dto.firstPhotoUrl = FileHelper.clearBase64(base64);
+        }
+
+        const response: ApiResponse = await WorkspaceApi.updateContentSettingsAsync(
             landingConfig.workspaceId,
             landingConfig.id,
-            settings
+            dto
         );
         if (response.hasError()) {
             return this.failed(response);
@@ -185,7 +229,7 @@ export class WorkspaceDataService extends DataServiceBase {
             return this._landingConfig;
         }
 
-        const response: ApiResponse<LandingConfig> = await WorkspaceApi.getLandingConfig();
+        const response = await WorkspaceApi.getLandingConfigAsync();
         if (response.hasError()) {
             if (response.statusCode === ApiResponseStatus.Forbidden) {
                 return new DataFailed({
@@ -196,12 +240,17 @@ export class WorkspaceDataService extends DataServiceBase {
             return this.failed(response);
         }
 
-        this._landingConfig = response.data;
-        if (!this._landingConfig) {
+        if (!response.data) {
             return new DataFailed({
                 actionProcessing: new ActionProcessing("redirect"),
             });
         }
+
+        this._landingConfig = Mapper.map<LandingConfig>(
+            nameof<ILandingConfigDto>(),
+            nameof<LandingConfig>(),
+            response.data
+        );
 
         setTimeout(() => {
             this._landingConfig = null;

@@ -1,6 +1,4 @@
-import { AuthorizedUser } from "@models";
-import { ApiBase, ApiResponse, Mapper } from "@utils";
-
+import { ApiBase, ApiResponse } from "@utils/api";
 import { IAuthorizedUserDto } from "./models/user/responses";
 import { mockApi } from "./mock/user";
 
@@ -9,15 +7,7 @@ export class UserApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    static async getAuthorizedUser(): Promise<ApiResponse<AuthorizedUser>> {
-        const response = await this.get<IAuthorizedUserDto>(process.env.API_GET_AUTHORIZED_USER_URL);
-        if (response.data) {
-            response.data = Mapper.map<AuthorizedUser>(
-                nameof<IAuthorizedUserDto>(),
-                nameof<AuthorizedUser>(),
-                response.data
-            );
-        }
-        return response as ApiResponse<AuthorizedUser>;
+    static getAuthorizedUserAsync(): Promise<ApiResponse<IAuthorizedUserDto>> {
+        return this.get<IAuthorizedUserDto>(process.env.API_GET_AUTHORIZED_USER_URL);
     }
 }

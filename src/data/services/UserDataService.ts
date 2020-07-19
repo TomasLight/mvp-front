@@ -1,7 +1,8 @@
 import { UserApi } from "@api";
+import { IAuthorizedUserDto } from "@api/models/user/responses";
 import { DataFailed } from "@data";
 import { AuthorizedUser } from "@models";
-import { ApiResponse, ApiResponseStatus } from "@utils";
+import { ApiResponseStatus, Mapper } from "@utils";
 import { ActionProcessing } from "../ActionProcessing";
 import { DataServiceBase } from "../DataServiceBase";
 
@@ -20,7 +21,7 @@ export class UserDataService extends DataServiceBase {
             return this._authorizedUser;
         }
 
-        const response: ApiResponse<AuthorizedUser> = await UserApi.getAuthorizedUser();
+        const response = await UserApi.getAuthorizedUserAsync();
         if (response.hasError()) {
             if (response.statusCode === ApiResponseStatus.Unauthorized) {
                 return new DataFailed({
@@ -31,7 +32,12 @@ export class UserDataService extends DataServiceBase {
             return this.failed(response);
         }
 
-        this._authorizedUser = response.data;
+        this._authorizedUser = Mapper.map<AuthorizedUser>(
+            nameof<IAuthorizedUserDto>(),
+            nameof<AuthorizedUser>(),
+            response.data
+        );
+
         return this._authorizedUser;
     }
 }
