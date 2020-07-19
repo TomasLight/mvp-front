@@ -1,13 +1,12 @@
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 import { push } from "connected-react-router";
 
-import { WorkspaceDataSettings } from "@app/models";
+import { DataFailed, DataService } from "@data";
+import { DataConfig, WorkspaceDataSettings } from "@app/models";
 import { IDataSettingsFormValues } from "@main/Data/models";
-import { MainSelectors } from "@selectors";
 import { mainUrls } from "@main/routing";
-import { WorkspaceApi } from "@api/WorkspaceApi";
-import { ApiResponse, Mapper } from "@utils";
+import { Mapper } from "@utils";
 import { SagaBase } from "@config/saga";
 
 import {
@@ -34,19 +33,12 @@ export class DataSaga extends SagaBase {
             settingsAreSending: true,
         });
 
-        const workspaceId: string = yield MainSelectors.getWorkspaceId();
-        const landingConfigId: string = yield MainSelectors.getLandingConfigId();
-
-        const response: ApiResponse = yield WorkspaceApi.updateDataSettings(
-            workspaceId,
-            landingConfigId,
-            settings
-        );
-        if (response.hasError()) {
+        const siteConfig: DataFailed | DataConfig = yield call(DataService.workspace.updateDataAsync, settings);
+        if (siteConfig instanceof DataFailed) {
             yield DataSaga.updateStore({
                 settingsAreSending: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(siteConfig);
             return;
         }
 

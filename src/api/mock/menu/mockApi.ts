@@ -7,9 +7,9 @@ function mockApi(url: string, method: ApiMethod, data) {
         return MockStorage.menu.get();
     }
 
-    if (UrlRegExp.build(process.env.API_GET_MENU_ITEM).test(url)) {
-        return MockStorage.menuItems.getById(data);
-    }
+    // if (UrlRegExp.build(process.env.API_GET_MENU_ITEM).test(url)) {
+    //     return MockStorage.menuItems.getById(data);
+    // }
 
     if (UrlRegExp.build(process.env.API_GET_MENU_ITEMS).test(url)) {
         return MockStorage.menuItems.list();

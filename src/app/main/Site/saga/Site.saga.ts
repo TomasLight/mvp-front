@@ -1,25 +1,25 @@
-import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
+import { AppAction } from "app-redux-utils";
 import { push } from "connected-react-router";
 
-import { MainActions } from "@main/redux";
-import { FavIconUrlResolver } from "@shared/molecules";
-import { mainUrls } from "@main/routing";
-import { MainSelectors } from "@selectors";
-import { WorkspaceApi } from "@api";
-import { ISiteSettingsFormValues } from "@main/Site/models";
-import { LandingConfig, WorkspaceSiteSettings } from "@app/models/wokrspaces";
+import { LandingConfig, SiteConfig, UserWorkspace, WorkspaceSiteSettings } from "@app/models/wokrspaces";
 import { SagaBase } from "@config/saga";
-import { ApiResponse, FileHelper, Mapper } from "@utils";
+import { DataFailed, DataService } from "@data";
+import { MainActions } from "@main/redux";
+import { mainUrls } from "@main/routing";
+import { ISiteSettingsFormValues } from "@main/Site/models";
+import { MainSelectors } from "@selectors";
+import { FavIconUrlResolver } from "@shared/molecules";
+import { FileHelper, Mapper } from "@utils";
 
 import {
-    ISubmitSettingsData,
     IOnChangeColorData,
     IOnChangeDomainData,
     IOnChangeFaviconData,
     IOnChangeOpenGraphImageData,
     IOnChangeOpenGraphTitleData,
     IOnChangeSiteNameData,
+    ISubmitSettingsData,
     SiteActions,
     SiteStore,
 } from "../redux";
@@ -36,16 +36,6 @@ export class SiteSaga extends SagaBase {
         }
 
         const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
-        // const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfig();
-        // if (response.hasError()) {
-        //     yield SiteSaga.updateStore({
-        //         settingsAreSending: false,
-        //     });
-        //     yield SagaBase.displayClientError(response);
-        //     return;
-        // }
-
-        // const siteConfig = response.data.siteConfig;
         const siteConfig = landingConfig.siteConfig;
 
         const faviconVariant = FavIconUrlResolver.getVariant(siteConfig.faviconUrl);
@@ -65,13 +55,6 @@ export class SiteSaga extends SagaBase {
             openGraphTitle: siteConfig.openGraphTitle,
             color: siteConfig.color,
         });
-
-        // const workspaceId = response.data.workspaceId;
-        // const landingConfigId = response.data.id;
-        // yield all([
-        //     put(MainActions.setWorkspaceId({ workspaceId })),
-        //     put(MainActions.setLandingConfigId({ landingConfigId })),
-        // ]);
     }
 
     static* onChangeSiteName(action: AppAction<IOnChangeSiteNameData>) {
@@ -138,27 +121,22 @@ export class SiteSaga extends SagaBase {
 
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
-            const creatingResponse: ApiResponse = yield WorkspaceApi.create(settings);
-            if (creatingResponse.hasError()) {
+            const workspace: DataFailed | UserWorkspace = yield call(DataService.workspace.createAsync, settings);
+            if (workspace instanceof DataFailed) {
                 yield SiteSaga.updateStore({
                     settingsAreSending: false,
                 });
-                yield SagaBase.displayClientError(creatingResponse);
+                yield SagaBase.displayClientError(workspace);
                 return;
             }
         }
 
-        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
-        const response: ApiResponse = yield WorkspaceApi.updateSiteSettings(
-            landingConfig.workspaceId,
-            landingConfig.id,
-            settings
-        );
-        if (response.hasError()) {
+        const siteConfig: DataFailed | SiteConfig = yield call(DataService.workspace.updateSiteAsync, settings);
+        if (siteConfig instanceof DataFailed) {
             yield SiteSaga.updateStore({
                 settingsAreSending: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(siteConfig);
             return;
         }
 

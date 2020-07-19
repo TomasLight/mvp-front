@@ -4,7 +4,8 @@ import {
     IWorkspaceDataSettingsDto,
     IWorkspaceSiteSettingsDto
 } from "@api/models/workspace/requests";
-import { ILandingConfig, IUserWorkspaceDto, IWorkspaceAddressDto } from "@api/models/workspace/responses";
+import { ILandingConfigDto, IUserWorkspaceDto, IWorkspaceAddressDto } from "@api/models/workspace/responses";
+import { ICreatedWorkspaceDto } from "@api/models/workspace/responses/ICreatedWorkspaceDto";
 import {
     LandingConfig,
     UserWorkspace,
@@ -12,6 +13,7 @@ import {
     WorkspaceDataSettings,
     WorkspaceSiteSettings
 } from "@app/models";
+import { CreatedWorkspace } from "@models/wokrspaces/CreatedWorkspace";
 import { ApiBase, ApiResponse, FileHelper, Mapper, urlWithIds } from "@utils";
 
 import { mockApi } from "./mock/workspace";
@@ -33,22 +35,29 @@ export class WorkspaceApi extends ApiBase {
         return response;
     }
 
-    static async create(settings: WorkspaceSiteSettings): Promise<ApiResponse<string>> {
+    static async create(settings: WorkspaceSiteSettings): Promise<ApiResponse<CreatedWorkspace>> {
         const dto = Mapper.map<INewWorkspaceDto>(
             nameof<WorkspaceSiteSettings>(),
             nameof<INewWorkspaceDto>(),
             settings
         );
-        const response: ApiResponse<string> = await this.post(process.env.API_CREATE_WORKSPACE, dto);
+        const response: ApiResponse = await this.post(process.env.API_CREATE_WORKSPACE, dto);
+
+        const { name, domainName } = response.data as ICreatedWorkspaceDto;
+        const workspace = new CreatedWorkspace();
+        workspace.domain = domainName;
+        workspace.name = name;
+
+        response.data = workspace;
         return response;
     }
 
     static async getLandingConfig(): Promise<ApiResponse<LandingConfig>> {
         const response: ApiResponse = await this.get(process.env.API_GET_LANDING_CONFIG);
         if (response.data) {
-            const dtoConfig: ILandingConfig = response.data;
+            const dtoConfig: ILandingConfigDto = response.data;
             response.data = Mapper.map<LandingConfig>(
-                nameof<ILandingConfig>(),
+                nameof<ILandingConfigDto>(),
                 nameof<LandingConfig>(),
                 dtoConfig
             );
@@ -62,11 +71,6 @@ export class WorkspaceApi extends ApiBase {
         landingConfigId: string,
         settings: WorkspaceSiteSettings
     ): Promise<ApiResponse> {
-        // const dto = Mapper.map<IWorkspaceSettingsDto>(
-        //     nameof<WorkspaceSiteSettings>(),
-        //     nameof<IWorkspaceSettingsDto>(),
-        //     settings
-        // );
         const dto = Mapper.map<IWorkspaceSiteSettingsDto>(
             nameof<WorkspaceSiteSettings>(),
             nameof<IWorkspaceSiteSettingsDto>(),
@@ -79,7 +83,6 @@ export class WorkspaceApi extends ApiBase {
         );
         if (settings.openGraphImage) {
             const base64 = await FileHelper.toBase64(settings.openGraphImage);
-            // dto.siteConfig.opengraphImageUrl = FileHelper.clearBase64(base64);
             dto.opengraphImageUrl = FileHelper.clearBase64(base64);
         }
 

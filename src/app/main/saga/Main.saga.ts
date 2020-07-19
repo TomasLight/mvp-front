@@ -1,11 +1,12 @@
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 
+import { DataFailed, DataService } from "@data";
 import { MainSelectors } from "@selectors";
 import { LandingConfig, UserWorkspace } from "@app/models";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { SagaBase } from "@config/saga";
-import { ApiResponse, ApiResponseStatus } from "@utils";
+import { ApiResponse } from "@utils";
 
 import { ISetLandingConfigIdData, ISetWorkspaceIdData, MainActions, MainStore, } from "../redux";
 
@@ -19,17 +20,17 @@ export class MainSaga extends SagaBase {
             workspacesAreLoading: true,
         });
 
-        const response: ApiResponse<UserWorkspace[]> = yield WorkspaceApi.getWorkspaces();
-        if (response.hasError()) {
+        const workspaces: DataFailed | UserWorkspace[] = yield call(DataService.workspace.listAsync);
+        if (workspaces instanceof DataFailed && !workspaces.actionProcessing.isRedirect()) {
             yield MainSaga.updateStore({
                 workspacesAreLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(workspaces);
             return;
         }
 
         let settingsMode: "create" | "update" = "update";
-        if (response.statusCode === ApiResponseStatus.Forbidden) {
+        if (workspaces instanceof DataFailed || workspaces.length === 0) {
             settingsMode = "create";
         }
 

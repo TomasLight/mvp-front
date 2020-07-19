@@ -17,6 +17,7 @@ const alias = {
     "@app": "./src/app",
     "@CommonState": "./src/app/config/redux/CommonState",
     "@config": "./src/app/config",
+    "@data": "./src/data/index.ts",
     "@enums": "./src/enums/index.ts",
     "@icons": "./src/shared/atoms/icons",
     "@selectors": "./src/app/config/redux/selectors/index.ts",

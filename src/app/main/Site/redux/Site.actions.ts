@@ -51,7 +51,4 @@ export class SiteActions {
 
     static submitSettings = (data: ISubmitSettingsData) =>
         createAction(SiteActions.SUBMIT_SETTINGS, data);
-
-    // static goToStepThree = (data: IGoToStepThreeData) =>
-    //     createAction(SiteActions.GO_TO_STEP_THREE, data);
 }

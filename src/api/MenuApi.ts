@@ -47,18 +47,4 @@ export class MenuApi extends ApiBase {
         }
         return response as ApiResponse<Dish[]>;
     }
-
-    static async getMenuItem(menuItemId: string): Promise<ApiResponse<Dish>> {
-        const url = urlWithIds(process.env.API_GET_MENU_ITEM, { menuItemId });
-
-        const response: ApiResponse = await this.get<IMenuItemDto>(url);
-        if (response.data) {
-            response.data = Mapper.map<Dish>(
-                nameof<IMenuItemDto>(),
-                nameof<Dish>(),
-                response.data
-            );
-        }
-        return response as ApiResponse<Dish>;
-    }
 }

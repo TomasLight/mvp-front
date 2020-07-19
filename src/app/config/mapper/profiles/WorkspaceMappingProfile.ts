@@ -3,7 +3,7 @@ import {
     IWorkspaceDataSettingsDto,
     IWorkspaceSiteSettingsDto
 } from "@api/models/workspace/requests";
-import { IUserWorkspaceDto, ILandingConfig } from "@api/models/workspace/responses";
+import { IUserWorkspaceDto, ILandingConfigDto } from "@api/models/workspace/responses";
 import { ContentConfig, DataConfig, LandingConfig, SiteConfig, UserWorkspace } from "@app/models";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
@@ -19,7 +19,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 WorkspaceMappingProfile.mapIUserWorkspaceDtoToUserWorkspace
             ),
             new MapFunction(
-                nameof<ILandingConfig>(),
+                nameof<ILandingConfigDto>(),
                 nameof<LandingConfig>(),
                 WorkspaceMappingProfile.mapILandingConfigToLandingConfig
             ),
@@ -46,7 +46,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         return user;
     }
 
-    private static mapILandingConfigToLandingConfig(dto: ILandingConfig): LandingConfig {
+    private static mapILandingConfigToLandingConfig(dto: ILandingConfigDto): LandingConfig {
         const config = new LandingConfig();
 
         config.id = dto.id;

@@ -5,12 +5,12 @@ import {
     IWorkspaceDataSettingsDto,
     IWorkspaceSiteSettingsDto
 } from "@api/models/workspace/requests";
-import { ILandingConfig } from "@api/models/workspace/responses";
+import { ILandingConfigDto } from "@api/models/workspace/responses";
 import { brandColors } from "@shared/theme";
 import { Guid } from "@utils";
 
 export class LandingConfigMockStorage {
-    static landingConfig: ILandingConfig = {
+    static landingConfig: ILandingConfigDto = {
         "id": Guid.generate(),
         "workspaceId": WorkspaceMockStorage.workspaces[0].id,
         "menuId": Guid.generate(),

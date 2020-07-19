@@ -1,11 +1,15 @@
-import { IndexPage } from "../models/IndexPage";
+import { ContentConfig, SiteConfig } from "@models";
 
 export class WorkspaceStore {
-    indexPage: IndexPage;
-    indexPageIsLoading: boolean;
+    dataIsLoading: boolean;
+    site: SiteConfig;
+    content: ContentConfig;
+    menuId: string;
 
     constructor() {
-        this.indexPage = new IndexPage();
-        this.indexPageIsLoading = false;
+        this.dataIsLoading = false;
+        this.site = new SiteConfig();
+        this.content = new ContentConfig();
+        this.menuId = "";
     }
 }
