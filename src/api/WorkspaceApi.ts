@@ -11,13 +11,7 @@ import {
 } from "@api/models/workspace/responses";
 import { ApiBase, ApiResponse, urlWithIds } from "@utils/api";
 
-import { mockApi } from "./mock/workspace";
-
 export class WorkspaceApi extends ApiBase {
-    protected static mockApi<TResponseData>(url, method, data?): TResponseData {
-        return mockApi(url, method, data) as any;
-    }
-
     static getWorkspacesAsync(): Promise<ApiResponse<IUserWorkspaceResponseDto[]>> {
         return this.get(process.env.API_GET_WORKSPACES);
     }

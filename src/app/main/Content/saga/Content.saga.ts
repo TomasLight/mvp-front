@@ -1,7 +1,6 @@
 import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
-import { MockStorage } from "@api/mock/MockStorage";
 import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
 import { ContentConfig, LandingConfig, WorkspaceContentSettings } from "@app/models";
 import { DataFailed, DataService } from "@data";
@@ -10,6 +9,7 @@ import { MainSelectors, SetupSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
 import { Mapper } from "@utils";
+import { FakeMenuDataService } from "../../../../data/fakeServices/FakeMenuDataService";
 
 import {
     ISubmitData,
@@ -67,17 +67,9 @@ export class ContentSaga extends SagaBase {
             fakeMenuIsLoading: true,
         });
 
-        const fakeCategories = MockStorage.menu.get().categories.map((dto: ICategoryDto) => Mapper.map<Category>(
-            nameof<ICategoryDto>(),
-            nameof<Category>(),
-            dto
-        ));
-
-        const fakeDishes = MockStorage.menuItems.list().map((dto: IMenuItemDto) => Mapper.map<Dish>(
-            nameof<IMenuItemDto>(),
-            nameof<Dish>(),
-            dto
-        ));
+        const fakeDataService = new FakeMenuDataService();
+        const fakeCategories = yield call(fakeDataService.categoriesAsync);
+        const fakeDishes = yield call(fakeDataService.dishesAsync);
 
         yield ContentSaga.updateStore({
             fakeMenu: {
