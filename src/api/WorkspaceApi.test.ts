@@ -1,9 +1,13 @@
+import {
+    ICreatedMenuCategoriesDto,
+    ICreatedWorkspaceDataSettingsDto
+} from "@api/models/workspace/responses/ICreatedWorkspaceDataSettingsDto";
 import frisby, { Joi } from "frisby";
 
 import {
     IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsDto,
-    IWorkspaceSiteSettingsDto
+    IWorkspaceDataSettingsUpdatedDto,
+    IWorkspaceSiteSettingsUpdatedDto
 } from "@api/models/workspace/requests";
 import { ILandingConfigDto, IUserWorkspaceDto } from "@api/models/workspace/responses";
 import { ApiTest } from "@api/ApiTest";
@@ -29,19 +33,19 @@ describe("get wokrspaces", () => {
 });
 
 const SiteConfigSchema = Joi.object({
-    [nameof<IWorkspaceSiteSettingsDto>(o => o.name)]: Joi.string().required(),
-    [nameof<IWorkspaceSiteSettingsDto>(o => o.faviconUrl)]: Joi.string().allow(null),
-    [nameof<IWorkspaceSiteSettingsDto>(o => o.opengraphImageUrl)]: Joi.string().allow(null),
-    [nameof<IWorkspaceSiteSettingsDto>(o => o.opengraphImageTitle)]: Joi.string().allow(null),
-    [nameof<IWorkspaceSiteSettingsDto>(o => o.color)]: Joi.string().required(),
+    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.name)]: Joi.string().required(),
+    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.faviconUrl)]: Joi.string().allow(null),
+    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImage)]: Joi.string().allow(null),
+    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImageTitle)]: Joi.string().allow(null),
+    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.color)]: Joi.string().required(),
 });
 
 const IikoConfigSchema = Joi.object({
-    [nameof<IWorkspaceDataSettingsDto>(o => o.archive)]: Joi.string().optional(),
+    [nameof<IWorkspaceDataSettingsUpdatedDto>(o => o.archive)]: Joi.string().optional(),
 });
 
 const ContentConfigSchema = Joi.object({
-    [nameof<IWorkspaceContentSettingsDto>(o => o.firstPhotoUrl)]: Joi.string().allow(null),
+    [nameof<IWorkspaceContentSettingsDto>(o => o.firstPhoto)]: Joi.string().allow(null),
     [nameof<IWorkspaceContentSettingsDto>(o => o.firstText)]: Joi.string().required(),
     [nameof<IWorkspaceContentSettingsDto>(o => o.phone)]: Joi.string().required(),
     [nameof<IWorkspaceContentSettingsDto>(o => o.address)]: Joi.string().required(),
@@ -69,116 +73,208 @@ describe("get landing config", () => {
     });
 });
 
+class ConfigLoader {
+    private landing: ILandingConfigDto;
+    private loading: boolean;
+
+    async loadLanding(): Promise<ILandingConfigDto> {
+        const url = ApiTest.tenantUrl(process.env.API_GET_LANDING_CONFIG);
+        this.loading = true;
+
+        frisby
+            .fetch(url, ApiTest.options("GET", true, true))
+            .expect("status", ApiResponseStatus.Ok)
+            .then((response) => {
+                this.loading = false;
+                this.landing = response.json;
+            });
+
+        await this.waitingLoop();
+        return this.landing;
+    }
+
+    async updateSiteConfig(dto: IWorkspaceSiteSettingsUpdatedDto): Promise<void> {
+        const url = urlWithIds(
+            process.env.API_PATCH_WORKSPACE_SITE_SETTINGS,
+            {
+                workspaceId: this.landing.workspaceId,
+                landingConfigId: this.landing.id,
+            }
+        );
+        const requestUrl = ApiTest.tenantUrl(url);
+
+        const options: RequestInit = ApiTest.options("PATCH", true, true);
+        options.body = JSON.stringify(dto);
+
+        this.loading = true;
+
+        frisby
+            .fetch(requestUrl, options)
+            .expect("status", ApiResponseStatus.NoContent)
+            .then(response => {
+                this.loading = false;
+            })
+        ;
+
+        await this.waitingLoop();
+    }
+
+    async updateContentConfig(dto: IWorkspaceContentSettingsDto): Promise<void> {
+        const url = urlWithIds(
+            process.env.API_PATCH_WORKSPACE_CONTENT_SETTINGS,
+            {
+                workspaceId: this.landing.workspaceId,
+                landingConfigId: this.landing.id,
+            }
+        );
+        const requestUrl = ApiTest.tenantUrl(url);
+
+        const options: RequestInit = ApiTest.options("PATCH", true, true);
+        options.body = JSON.stringify(dto);
+
+        this.loading = true;
+
+        frisby
+            .fetch(requestUrl, options)
+            .expect("status", ApiResponseStatus.NoContent)
+            .then(response => {
+                this.loading = false;
+            })
+        ;
+
+        await this.waitingLoop();
+    }
+
+    private async waitingLoop() {
+        const waitPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 100);
+        });
+
+        await waitPromise;
+
+        if (this.loading) {
+            await this.waitingLoop();
+        }
+    }
+}
+
 describe("update site config", () => {
     test("validate dto", async done => {
-        const original: { landingConfig: ILandingConfigDto } = {
-            landingConfig: null,
-        };
-        const updated: { landingConfig: ILandingConfigDto } = {
-            landingConfig: null,
-        };
+        const loader = new ConfigLoader();
+        const originalLanding = await loader.loadLanding();
 
-        const loadLanding = (callback: (dto: ILandingConfigDto) => void) => {
-            const url = ApiTest.tenantUrl(process.env.API_GET_LANDING_CONFIG);
-            frisby
-                .fetch(url, ApiTest.options("GET", true, true))
-                .expect("status", ApiResponseStatus.Ok)
-                .then(response => {
-                    callback(response.json);
-                });
+        const originalConfig: IWorkspaceSiteSettingsUpdatedDto = {
+            name: originalLanding.siteConfig.name,
+            color: originalLanding.siteConfig.color,
+            faviconUrl: originalLanding.siteConfig.faviconUrl,
+            opengraphImage: "",
+            opengraphImageTitle: originalLanding.siteConfig.opengraphImageTitle,
         };
 
-        const updateConfig = (dto: IWorkspaceSiteSettingsDto, callback: () => void) => {
-            const url = urlWithIds(
-                process.env.API_PATCH_WORKSPACE_SITE_SETTINGS,
-                {
-                    workspaceId: original.landingConfig.workspaceId,
-                    landingConfigId: original.landingConfig.id,
-                }
-            );
-            const requestUrl = ApiTest.tenantUrl(url);
-
-            const options: RequestInit = ApiTest.options("POST", true, true);
-            options.body = JSON.stringify(dto);
-
-            frisby
-                .fetch(requestUrl, options)
-                .expect("status", ApiResponseStatus.NoContent)
-                .then(response => {
-                    callback();
-                })
-            ;
-        };
-
-        const newConfig: IWorkspaceSiteSettingsDto = {
+        const newConfig: IWorkspaceSiteSettingsUpdatedDto = {
             name: "api test",
             color: "#000",
             faviconUrl: "/images/favicons/avocado.svg",
-            opengraphImageUrl: TestsFileHelper.getImageBase64ForTests(),
-            // opengraphImageUrl: "",
+            // opengraphImage: TestsFileHelper.getImageBase64ForTests(),
+            opengraphImage: "",
             opengraphImageTitle: "vk post",
         };
-        console.log(newConfig.opengraphImageUrl);
 
-        loadLanding(originalLanding => {
-            original.landingConfig = originalLanding;
+        await loader.updateSiteConfig(newConfig);
+        const updatedLanding = await loader.loadLanding();
 
-            updateConfig(newConfig, () => {
-                loadLanding(updatedLanding => {
-                    updated.landingConfig = updatedLanding;
-                    const updatedConfig = updatedLanding.siteConfig;
+        expect(updatedLanding.siteConfig.name).toBe(newConfig.name);
+        expect(updatedLanding.siteConfig.opengraphImageTitle).toBe(newConfig.opengraphImageTitle);
+        // expect(updatedLanding.siteConfig.opengraphImageUrl).toBe(newConfig.opengraphImage);
+        expect(updatedLanding.siteConfig.faviconUrl).toBe(newConfig.faviconUrl);
+        expect(updatedLanding.siteConfig.color).toBe(newConfig.color);
 
-                    expect(updatedLanding.id).toBe(original.landingConfig.id);
-                    expect(updatedLanding.workspaceId).toBe(original.landingConfig.workspaceId);
-                    expect(updatedLanding.menuId).toBe(original.landingConfig.menuId);
+        await loader.updateSiteConfig(originalConfig);
 
-                    expect(updatedConfig.name).toBe(newConfig.name);
-                    expect(updatedConfig.opengraphImageTitle).toBe(newConfig.opengraphImageTitle);
-                    expect(updatedConfig.opengraphImageUrl).toBe(newConfig.opengraphImageUrl);
-                    expect(updatedConfig.faviconUrl).toBe(newConfig.faviconUrl);
-                    expect(updatedConfig.color).toBe(newConfig.color);
+        done();
+    });
+});
 
-                    updateConfig(original.landingConfig.siteConfig, () => {
-                        done();
-                    });
-                });
-            });
-        });
+const MenuCategorySchema = Joi.object({
+    [nameof<ICreatedMenuCategoriesDto>(o => o.id)]: Joi.string().required(),
+    [nameof<ICreatedMenuCategoriesDto>(o => o.menuId)]: Joi.string().required(),
+    [nameof<ICreatedMenuCategoriesDto>(o => o.items)]: Joi.array().required(),
+    [nameof<ICreatedMenuCategoriesDto>(o => o.created)]: Joi.string().required(),
+    [nameof<ICreatedMenuCategoriesDto>(o => o.name)]: Joi.string().required(),
+});
 
-        // frisby
-        //     .fetch(getLandingConfigUrl, ApiTest.options("GET", true, true))
-        //     .expect("status", ApiResponseStatus.Ok)
-        //     .then(LandingConfigResponse => {
-        //         original.landingConfig = LandingConfigResponse.json;
-        //
-        //         const url = urlWithIds(
-        //             process.env.API_PATCH_WORKSPACE_SITE_SETTINGS,
-        //             {
-        //                 workspaceId: original.landingConfig.workspaceId,
-        //                 landingConfigId: original.landingConfig.id,
-        //             }
-        //         );
-        //         const requestUrl = ApiTest.tenantUrl(url);
-        //
-        //         const newConfig: IWorkspaceSiteSettingsDto = {
-        //             name: "api test",
-        //             color: "#000",
-        //             faviconUrl: "/images/favicons/avocado.svg",
-        //             opengraphImageUrl: TestsFileHelper.getImageBase64ForTests(),
-        //             opengraphImageTitle: "vk post",
-        //         };
-        //
-        //         const options: RequestInit = ApiTest.options("POST", true, true);
-        //         options.body = JSON.stringify(newConfig);
-        //
-        //         frisby
-        //             .fetch(requestUrl, options)
-        //             .expect("status", ApiResponseStatus.NoContent)
-        //             .then(updatedSiteConfigResponse => {
-        //
-        //             })
-        //             .done(done)
-        //         ;
-        //     });
+describe("update data config", () => {
+    test("validate dto", async done => {
+        const landing = await new ConfigLoader().loadLanding();
+
+        const url = urlWithIds(
+            process.env.API_PATCH_WORKSPACE_DATA_SETTINGS,
+            {
+                workspaceId: landing.workspaceId,
+                landingConfigId: landing.id,
+            }
+        );
+        const requestUrl = ApiTest.tenantUrl(url);
+        const options: RequestInit = ApiTest.options("POST", true, true);
+
+        const newConfig: IWorkspaceDataSettingsUpdatedDto = {
+            archive: TestsFileHelper.getDataConfigBase64ForTests(),
+        };
+        options.body = JSON.stringify(newConfig);
+
+        frisby
+            .fetch(requestUrl, options)
+            .expect("status", ApiResponseStatus.Created)
+            .expect("jsonTypes", Joi.object({
+                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.id)]: Joi.string().required(),
+                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.workspaceId)]: Joi.string().required(),
+                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.restaurants)]: Joi.array().required(),
+                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.created)]: Joi.string().required(),
+                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.categories)]: Joi.array().items(MenuCategorySchema).required(),
+                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.name)]: Joi.string().required(),
+            }).required())
+            .done(done)
+        ;
+    });
+});
+
+describe("update content config", () => {
+    test("validate dto", async done => {
+        const loader = new ConfigLoader();
+        const originalLanding = await loader.loadLanding();
+
+        const originalConfig: IWorkspaceContentSettingsDto = {
+            firstPhoto: "",
+            firstText: originalLanding.contentConfig.firstText,
+            phone: originalLanding.contentConfig.phone,
+            address: originalLanding.contentConfig.address,
+            deliveryTime: originalLanding.contentConfig.deliveryTime,
+            deliveryMapUrl: originalLanding.contentConfig.deliveryMapUrl,
+        };
+
+        const newConfig: IWorkspaceContentSettingsDto = {
+            firstPhoto: "",
+            firstText: "test first text",
+            phone: "123 123 7",
+            address: "qwerty address",
+            deliveryTime: "some time",
+            deliveryMapUrl: "some map url",
+        };
+
+        await loader.updateContentConfig(newConfig);
+        const updatedLanding = await loader.loadLanding();
+
+        // expect(updatedLanding.contentConfig.firstPhotoUrl).toBe(newConfig.firstPhoto);
+        expect(updatedLanding.contentConfig.firstText).toBe(newConfig.firstText);
+        expect(updatedLanding.contentConfig.phone).toBe(newConfig.phone);
+        expect(updatedLanding.contentConfig.address).toBe(newConfig.address);
+        expect(updatedLanding.contentConfig.deliveryTime).toBe(newConfig.deliveryTime);
+        expect(updatedLanding.contentConfig.deliveryMapUrl).toBe(newConfig.deliveryMapUrl);
+
+        await loader.updateContentConfig(originalConfig);
+
+        done();
     });
 });

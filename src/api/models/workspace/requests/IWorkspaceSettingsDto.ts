@@ -1,12 +1,12 @@
-import { IWorkspaceDataSettingsDto } from "@api/models/workspace/requests/IWorkspaceDataSettingsDto";
+import { IWorkspaceDataSettingsUpdatedDto } from "@api/models/workspace/requests/IWorkspaceDataSettingsUpdatedDto";
 import { IWorkspaceContentSettingsDto } from "./IWorkspaceContentSettingsDto";
-import { IWorkspaceSiteSettingsDto } from "./IWorkspaceSiteSettingsDto";
+import { IWorkspaceSiteSettingsUpdatedDto } from "./IWorkspaceSiteSettingsUpdatedDto";
 
 export interface IWorkspaceSettingsDto {
     domain: string;
     menuId?: string;
 
-    siteConfig: IWorkspaceSiteSettingsDto;
-    iikoConfig?: IWorkspaceDataSettingsDto;
+    siteConfig: IWorkspaceSiteSettingsUpdatedDto;
+    iikoConfig?: IWorkspaceDataSettingsUpdatedDto;
     contentConfig?: IWorkspaceContentSettingsDto;
 }

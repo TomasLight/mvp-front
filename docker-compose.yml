@@ -27,7 +27,7 @@ services:
       - monster
 
   api:
-    image: docker.pkg.github.com/bizarrelab/bizarre-monster/bizarre-monster:0.10.0
+    image: docker.pkg.github.com/bizarrelab/bizarre-monster/bizarre-monster:0.11.0
     container_name: mvp-api
     ports:
       - 5001:5001

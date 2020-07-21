@@ -7,8 +7,7 @@
     "prod": "webpack -p --config webpack/webpack.prod.babel.js --color --progress",
     "analyze": "webpack -p --config webpack/webpack.analyze.babel.js --color --progress",
     "watch": "npm run dev -- --watch",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "test": "jest"
   },
   "author": "bizarre",
   "dependencies": {

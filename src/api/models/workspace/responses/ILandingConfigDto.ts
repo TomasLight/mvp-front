@@ -1,6 +1,6 @@
-import { IWorkspaceContentSettingsDto } from "@api/models/workspace/requests/IWorkspaceContentSettingsDto";
-import { IWorkspaceDataSettingsDto } from "@api/models/workspace/requests/IWorkspaceDataSettingsDto";
-import { IWorkspaceSiteSettingsDto } from "@api/models/workspace/requests/IWorkspaceSiteSettingsDto";
+import { IWorkspaceSiteSettingsDto } from "./IWorkspaceSiteSettingsDto";
+import { IWorkspaceDataSettingsDto } from "./IWorkspaceDataSettingsDto";
+import { IWorkspaceContentSettingsDto } from "./IWorkspaceContentSettingsDto";
 
 export interface ILandingConfigDto {
     id: string;

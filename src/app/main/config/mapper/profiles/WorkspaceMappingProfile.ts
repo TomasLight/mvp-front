@@ -2,7 +2,7 @@ import {
     INewWorkspaceDto,
     IWorkspaceContentSettingsDto,
     IWorkspaceSettingsDto,
-    IWorkspaceSiteSettingsDto
+    IWorkspaceSiteSettingsUpdatedDto
 } from "@api/models/workspace/requests";
 import { WorkspaceContentSettings, WorkspaceDataSettings } from "@app/models";
 import { IContactSettingsFormValues } from "@main/Content/models";
@@ -35,7 +35,7 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
             ),
             new MapFunction(
                 nameof<WorkspaceSiteSettings>(),
-                nameof<IWorkspaceSiteSettingsDto>(),
+                nameof<IWorkspaceSiteSettingsUpdatedDto>(),
                 WorkSpaceMappingProfile.mapWorkspaceSettingsToIWorkspaceSiteSettingsDto
             ),
             new MapFunction(
@@ -91,13 +91,13 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
 
     private static mapWorkspaceSettingsToIWorkspaceSiteSettingsDto(
         settings: WorkspaceSiteSettings
-    ): IWorkspaceSiteSettingsDto {
+    ): IWorkspaceSiteSettingsUpdatedDto {
 
-        const dto: IWorkspaceSiteSettingsDto = {
+        const dto: IWorkspaceSiteSettingsUpdatedDto = {
             name: settings.siteName,
             faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
             opengraphImageTitle: settings.openGraphTitle,
-            opengraphImageUrl: null,
+            opengraphImage: null,
             color: settings.primaryColor,
         };
 
@@ -122,7 +122,7 @@ export class WorkSpaceMappingProfile extends MappingProfileBase implements IMapp
     ): IWorkspaceContentSettingsDto {
 
         const dto: IWorkspaceContentSettingsDto = {
-            firstPhotoUrl: null,
+            firstPhoto: null,
             firstText: settings.firstBlockText,
             phone: settings.phone,
             address: settings.address,

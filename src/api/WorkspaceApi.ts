@@ -1,8 +1,8 @@
 import {
     INewWorkspaceDto,
     IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsDto,
-    IWorkspaceSiteSettingsDto
+    IWorkspaceDataSettingsUpdatedDto,
+    IWorkspaceSiteSettingsUpdatedDto
 } from "@api/models/workspace/requests";
 import {
     ILandingConfigDto,
@@ -33,7 +33,7 @@ export class WorkspaceApi extends ApiBase {
     static updateSiteSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        dto: IWorkspaceSiteSettingsDto
+        dto: IWorkspaceSiteSettingsUpdatedDto
     ): Promise<ApiResponse> {
 
         const url = urlWithIds(
@@ -46,7 +46,7 @@ export class WorkspaceApi extends ApiBase {
     static async updateDataSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        dto: IWorkspaceDataSettingsDto
+        dto: IWorkspaceDataSettingsUpdatedDto
     ): Promise<ApiResponse> {
 
         const url = urlWithIds(

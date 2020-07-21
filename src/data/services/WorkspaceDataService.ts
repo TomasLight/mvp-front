@@ -1,8 +1,8 @@
 import {
     INewWorkspaceDto,
     IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsDto,
-    IWorkspaceSiteSettingsDto
+    IWorkspaceDataSettingsUpdatedDto,
+    IWorkspaceSiteSettingsUpdatedDto
 } from "@api/models/workspace/requests";
 import { ILandingConfigDto, IUserWorkspaceDto } from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
@@ -146,14 +146,14 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const dto = Mapper.map<IWorkspaceSiteSettingsDto>(
+        const dto = Mapper.map<IWorkspaceSiteSettingsUpdatedDto>(
             nameof<WorkspaceSiteSettings>(),
-            nameof<IWorkspaceSiteSettingsDto>(),
+            nameof<IWorkspaceSiteSettingsUpdatedDto>(),
             settings
         );
         if (settings.openGraphImage) {
             const base64 = await FileHelper.toBase64(settings.openGraphImage);
-            dto.opengraphImageUrl = FileHelper.clearBase64(base64);
+            dto.opengraphImage = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse = await WorkspaceApi.updateSiteSettingsAsync(
@@ -175,7 +175,7 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const dto: IWorkspaceDataSettingsDto = {
+        const dto: IWorkspaceDataSettingsUpdatedDto = {
             archive: "",
         };
         if (settings.archive) {
@@ -208,7 +208,7 @@ export class WorkspaceDataService extends DataServiceBase {
         );
         if (settings.photo) {
             const base64 = await FileHelper.toBase64(settings.photo);
-            dto.firstPhotoUrl = FileHelper.clearBase64(base64);
+            dto.firstPhoto = FileHelper.clearBase64(base64);
         }
 
         const response: ApiResponse = await WorkspaceApi.updateContentSettingsAsync(

@@ -13,7 +13,7 @@ test("env api urls", () => {
     expect(process.env.API_CREATE_WORKSPACE).toBe("/workspace");
     expect(process.env.API_GET_LANDING_CONFIG).toBe("/landingconfig");
     expect(process.env.API_PATCH_WORKSPACE_SITE_SETTINGS).toBe("/w-{workspaceId}/landingconfigs/{landingConfigId}/site");
-    expect(process.env.API_PATCH_WORKSPACE_DATA_SETTINGS).toBe("​/w-{workspaceId}​/landingconfigs​/{landingConfigId}​/iiko");
+    expect(process.env.API_PATCH_WORKSPACE_DATA_SETTINGS).toBe("/w-{workspaceId}/landingconfigs/{landingConfigId}/excelimport");
     expect(process.env.API_PATCH_WORKSPACE_CONTENT_SETTINGS).toBe("/w-{workspaceId}/landingconfigs/{landingConfigId}/content");
 
     expect(process.env.API_GET_PAGES).toBe("/pages");

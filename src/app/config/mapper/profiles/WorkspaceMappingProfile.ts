@@ -1,7 +1,7 @@
 import {
     IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsDto,
-    IWorkspaceSiteSettingsDto
+    IWorkspaceDataSettingsUpdatedDto,
+    IWorkspaceSiteSettingsUpdatedDto
 } from "@api/models/workspace/requests";
 import { IUserWorkspaceDto, ILandingConfigDto } from "@api/models/workspace/responses";
 import { ContentConfig, DataConfig, LandingConfig, SiteConfig, UserWorkspace } from "@app/models";
@@ -24,12 +24,12 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 WorkspaceMappingProfile.mapILandingConfigToLandingConfig
             ),
             new MapFunction(
-                nameof<IWorkspaceSiteSettingsDto>(),
+                nameof<IWorkspaceSiteSettingsUpdatedDto>(),
                 nameof<SiteConfig>(),
                 WorkspaceMappingProfile.mapIWorkspaceSiteSettingsDtoToSiteConfig
             ),
             new MapFunction(
-                nameof<IWorkspaceDataSettingsDto>(),
+                nameof<IWorkspaceDataSettingsUpdatedDto>(),
                 nameof<DataConfig>(),
                 WorkspaceMappingProfile.mapIWorkspaceDataSettingsDtoToDataConfig
             ),
@@ -65,18 +65,18 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         return config;
     }
 
-    private static mapIWorkspaceSiteSettingsDtoToSiteConfig(dto: IWorkspaceSiteSettingsDto): SiteConfig {
+    private static mapIWorkspaceSiteSettingsDtoToSiteConfig(dto: IWorkspaceSiteSettingsUpdatedDto): SiteConfig {
         const config = MappingProfileBase.autoMap(dto, new SiteConfig());
 
-        delete config[nameof<IWorkspaceSiteSettingsDto>(o => o.opengraphImageUrl)];
-        delete config[nameof<IWorkspaceSiteSettingsDto>(o => o.opengraphImageTitle)];
+        delete config[nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImage)];
+        delete config[nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImageTitle)];
 
-        config.openGraphImageUrl = dto.opengraphImageUrl;
+        config.openGraphImageUrl = dto.opengraphImage;
         config.openGraphTitle = dto.opengraphImageTitle;
         return config;
     }
 
-    private static mapIWorkspaceDataSettingsDtoToDataConfig(dto: IWorkspaceDataSettingsDto): DataConfig {
+    private static mapIWorkspaceDataSettingsDtoToDataConfig(dto: IWorkspaceDataSettingsUpdatedDto): DataConfig {
         const config = MappingProfileBase.autoMap(dto, new DataConfig());
         return config;
     }

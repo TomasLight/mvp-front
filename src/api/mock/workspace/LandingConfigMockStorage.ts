@@ -2,8 +2,8 @@ import { PageMockStorage } from "@api/mock/page/PageMockStorage";
 import { WorkspaceMockStorage } from "@api/mock/workspace/WorkspaceMockStorage";
 import {
     IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsDto,
-    IWorkspaceSiteSettingsDto
+    IWorkspaceDataSettingsUpdatedDto,
+    IWorkspaceSiteSettingsUpdatedDto
 } from "@api/models/workspace/requests";
 import { ILandingConfigDto } from "@api/models/workspace/responses";
 import { brandColors } from "@shared/theme";
@@ -38,7 +38,7 @@ export class LandingConfigMockStorage {
         return LandingConfigMockStorage.landingConfig;
     }
 
-    static updateSite(site: IWorkspaceSiteSettingsDto) {
+    static updateSite(site: IWorkspaceSiteSettingsUpdatedDto) {
         const siteBlock = PageMockStorage.pages.index.blocks.find(block => block.type === "site");
 
         if (site.name) {
@@ -49,8 +49,8 @@ export class LandingConfigMockStorage {
             LandingConfigMockStorage.landingConfig.siteConfig.faviconUrl = site.faviconUrl;
             siteBlock.props["favicon"] = site.name;
         }
-        if (site.opengraphImageUrl) {
-            LandingConfigMockStorage.landingConfig.siteConfig.opengraphImageUrl = site.opengraphImageUrl;
+        if (site.opengraphImage) {
+            LandingConfigMockStorage.landingConfig.siteConfig.opengraphImageUrl = site.opengraphImage;
             siteBlock.props["opengraphImageUrl"] = site.name;
         }
         if (site.opengraphImageTitle) {
@@ -63,7 +63,7 @@ export class LandingConfigMockStorage {
         }
     }
 
-    static updateData(data: IWorkspaceDataSettingsDto) {
+    static updateData(data: IWorkspaceDataSettingsUpdatedDto) {
         if (data.archive) {
             LandingConfigMockStorage.landingConfig.iikoConfig.archive = data.archive;
         }
@@ -72,9 +72,9 @@ export class LandingConfigMockStorage {
     static updateContent(content: IWorkspaceContentSettingsDto) {
         const contentBlock = PageMockStorage.pages.index.blocks.find(block => block.type === "content");
 
-        if (content.firstPhotoUrl) {
-            LandingConfigMockStorage.landingConfig.contentConfig.firstPhotoUrl = content.firstPhotoUrl;
-            contentBlock.props["firstPhotoUrl"] = content.firstPhotoUrl;
+        if (content.firstPhoto) {
+            LandingConfigMockStorage.landingConfig.contentConfig.firstPhotoUrl = content.firstPhoto;
+            contentBlock.props["firstPhotoUrl"] = content.firstPhoto;
         }
         if (content.firstText) {
             LandingConfigMockStorage.landingConfig.contentConfig.firstText = content.firstText;
