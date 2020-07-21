@@ -1,4 +1,4 @@
-import { FavIconVariant } from "@shared/molecules";
+import { FavIconVariant } from "./FavIconVariant";
 
 export class FavIconUrlResolver {
     static getUrl(variant: FavIconVariant): string {
@@ -84,6 +84,8 @@ export class FavIconUrlResolver {
 
             // api response
             case null:
+            // for new workspace
+            case "":
                 return null;
 
             default:

@@ -21,13 +21,13 @@ const AppBar = (props: Props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {
-        case Variant.Main:
-            return null;
-            // return (
-            //     <MainAppBar {...rest}/>
-            // );
+        case Variant.MainNew:
+        case Variant.MainEdit:
+            return (
+                <MainAppBar variant={variant} {...rest}/>
+            );
 
-        case Variant.Pos:
+        case Variant.Workspace:
             return (
                 <WorkspaceAppBar {...rest}/>
             );

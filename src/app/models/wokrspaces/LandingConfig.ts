@@ -1,4 +1,6 @@
-import { ContentConfig, DataConfig, SiteConfig } from "@app/models";
+import { ContentConfig } from "./ContentConfig";
+import { DataConfig } from "./DataConfig";
+import { SiteConfig } from "./SiteConfig";
 
 interface ILandingConfig {
     id: string;

@@ -1,9 +1,9 @@
-import { WatcherBase } from "@utils/saga/WatcherBase";
+import { Watcher } from "app-saga-utils";
 
 import { WorkspaceActions } from "../redux";
 import { WorkspaceSaga } from "./Workspace.saga";
 
-export class WorkspaceWatcher extends WatcherBase {
+export class WorkspaceWatcher extends Watcher {
     constructor() {
         super();
 

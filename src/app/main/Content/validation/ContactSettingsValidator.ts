@@ -50,13 +50,7 @@ export class ContactSettingsValidator
             );
         }
 
-        if (!this.photoIsValid(model.photo)) {
-            modelState.addError(
-                nameof<IContactSettingsFormValues>((o) => o.photo),
-                Translate.getString("Обязательное поле.")
-            );
-        }
-        else if (!this.photoSizeIsValid(model.photo)) {
+        if (model.photo && !this.photoSizeIsValid(model.photo)) {
             modelState.addError(
                 nameof<IContactSettingsFormValues>((o) => o.photo),
                 Translate.getString("Изображение весит больше 1 MB")
@@ -71,7 +65,8 @@ export class ContactSettingsValidator
     }
 
     phoneIsValid(phone: any): boolean {
-        return typeof phone === "string" && phone.length > 0;
+        return !phone
+            || typeof phone === "string" && phone.length > 0;
     }
 
     addressIsValid(address: any): boolean {
@@ -79,15 +74,13 @@ export class ContactSettingsValidator
     }
 
     deliveryTimeIsValid(deliveryTime: any): boolean {
-        return typeof deliveryTime === "string" && deliveryTime.length > 0;
+        return !deliveryTime
+            || typeof deliveryTime === "string" && deliveryTime.length > 0;
     }
 
     deliveryLocationLinkIsValid(deliveryLocationLink: any): boolean {
-        return typeof deliveryLocationLink === "string" && deliveryLocationLink.length > 0;
-    }
-
-    photoIsValid(files: any): boolean {
-        return !!files;
+        return !deliveryLocationLink
+            || typeof deliveryLocationLink === "string" && deliveryLocationLink.length > 0;
     }
 
     photoSizeIsValid(files: FileList): boolean {

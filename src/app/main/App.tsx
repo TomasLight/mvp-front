@@ -3,7 +3,7 @@ import { History } from "history";
 import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
-import { configureApp } from "@config";
+import { configureApp } from "@config/configureApp";
 import { configureMapper, MainReducerConfig, RootSaga } from "@main/config";
 import { AppProviderContainer } from "./AppProvider.container";
 import { PageComponentRouter } from "./routing";

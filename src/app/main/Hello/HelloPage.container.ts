@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { push } from "connected-react-router";
 
-import { mainUrls } from "@main/routing";
+import { mainUrls } from "@main/routing/mainUrls";
 import {
     HelloPage,
     IHelloPageCallProps,

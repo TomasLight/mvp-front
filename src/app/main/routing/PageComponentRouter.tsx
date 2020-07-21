@@ -3,7 +3,7 @@ import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
 import { LayoutContainer } from "@main/Layout";
-import { NotifierContainer } from "@shared/templates/Notifier";
+import { NotifierContainer } from "@app/Notifier";
 import { HelloPageContainer } from "../Hello";
 import { SitePageContainer } from "../Site";
 import { DataPageContainer } from "@main/Data";

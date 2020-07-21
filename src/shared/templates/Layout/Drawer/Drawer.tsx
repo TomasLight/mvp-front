@@ -20,10 +20,15 @@ const Drawer = (props: Props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {
-        case Variant.Main:
+        case Variant.MainNew:
             return null;
 
-        case Variant.Pos:
+        case Variant.MainEdit:
+            return (
+                <WorkspaceDrawer {...rest}/>
+            );
+
+        case Variant.Workspace:
             return (
                 <WorkspaceDrawer {...rest}/>
             );

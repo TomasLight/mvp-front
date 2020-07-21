@@ -10,7 +10,7 @@ export class UserApi extends ApiBase {
     }
 
     static async getAuthorizedUser(): Promise<ApiResponse<AuthorizedUser>> {
-        const response = await this.get<IAuthorizedUserDto>(process.env.CHECK_USER_AUTHORIZATION_URL);
+        const response = await this.get<IAuthorizedUserDto>(process.env.API_GET_AUTHORIZED_USER_URL);
         if (response.data) {
             response.data = Mapper.map<AuthorizedUser>(
                 nameof<IAuthorizedUserDto>(),

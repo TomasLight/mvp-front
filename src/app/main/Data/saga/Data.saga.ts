@@ -8,7 +8,7 @@ import { MainSelectors } from "@selectors";
 import { mainUrls } from "@main/routing";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { ApiResponse, Mapper } from "@utils";
-import { SagaBase } from "@utils/saga/SagaBase";
+import { SagaBase } from "@config/saga";
 
 import {
     ISubmitSettingsData,

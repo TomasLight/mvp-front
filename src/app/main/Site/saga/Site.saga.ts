@@ -9,7 +9,8 @@ import { MainSelectors } from "@selectors";
 import { WorkspaceApi } from "@api";
 import { ISiteSettingsFormValues } from "@main/Site/models";
 import { LandingConfig, WorkspaceSiteSettings } from "@app/models/wokrspaces";
-import { ApiResponse, FileHelper, Mapper, SagaBase } from "@utils";
+import { SagaBase } from "@config/saga";
+import { ApiResponse, FileHelper, Mapper } from "@utils";
 
 import {
     ISubmitSettingsData,
@@ -19,7 +20,6 @@ import {
     IOnChangeOpenGraphImageData,
     IOnChangeOpenGraphTitleData,
     IOnChangeSiteNameData,
-    ISetUserNameData,
     SiteActions,
     SiteStore,
 } from "../redux";
@@ -27,12 +27,6 @@ import {
 export class SiteSaga extends SagaBase {
     private static* updateStore(partialStore: Partial<SiteStore>) {
         yield put(SiteActions.updateStore(partialStore));
-    }
-
-    static* setUserName(action: AppAction<ISetUserNameData>) {
-        yield SiteSaga.updateStore({
-            userName: action.payload.userName,
-        });
     }
 
     static* loadData(action: AppAction) {

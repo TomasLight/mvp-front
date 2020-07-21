@@ -1,9 +1,9 @@
-import { WatcherBase } from "@utils/saga/WatcherBase";
+import { Watcher } from "app-saga-utils";
 
 import { DataActions } from "../redux";
 import { DataSaga } from "./Data.saga";
 
-export class DataWatcher extends WatcherBase {
+export class DataWatcher extends Watcher {
     constructor() {
         super();
 

@@ -6,10 +6,6 @@ export interface IOnChangeSiteNameData {
     siteName: string;
 }
 
-export interface ISetUserNameData {
-    userName: string;
-}
-
 export interface IOnChangeDomainData {
     domain: string;
 }

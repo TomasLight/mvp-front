@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React, { FC, ReactNode } from "react";
 
-import { FormControl, makeStyles, withStyles } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 
 import { EndAdornment } from "@shared/atoms";
 import {
@@ -17,7 +17,7 @@ import { getHelperTextId } from "./getHelperTextId";
 import { getLabelTextId } from "./getLabelTextId";
 import { correctClasses } from "./correctClasses";
 
-const useStyles = makeStyles<RootClassKey>({
+const useStyles = makeStyles<Theme, RootClassKey>({
     root: {
         display: "grid",
         gridAutoFlow: "row",

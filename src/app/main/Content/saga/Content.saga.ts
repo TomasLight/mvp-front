@@ -1,17 +1,16 @@
-import { FavIconUrlResolver } from "@shared/molecules";
 import { AppAction } from "app-redux-utils";
 import { put } from "@redux-saga/core/effects";
 
 import { WorkspaceApi } from "@api";
+import { MockStorage } from "@api/mock/MockStorage";
 import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
 import { LandingConfig, WorkspaceContentSettings } from "@app/models";
-import { categories } from "@api/mock/menu/categories";
-import { menuItems } from "@api/mock/menu/menuItems";
 
 import { IContactSettingsFormValues } from "@main/Content/models";
 import { MainSelectors, SetupSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
-import { ApiResponse, Mapper, SagaBase } from "@utils";
+import { SagaBase } from "@config/saga";
+import { ApiResponse, Mapper } from "@utils";
 
 import {
     ISubmitData,
@@ -62,13 +61,13 @@ export class ContentSaga extends SagaBase {
             fakeMenuIsLoading: true,
         });
 
-        const fakeCategories = categories.map((dto: ICategoryDto) => Mapper.map<Category>(
+        const fakeCategories = MockStorage.menu.get().categories.map((dto: ICategoryDto) => Mapper.map<Category>(
             nameof<ICategoryDto>(),
             nameof<Category>(),
             dto
         ));
 
-        const fakeDishes = menuItems.map((dto: IMenuItemDto) => Mapper.map<Dish>(
+        const fakeDishes = MockStorage.menuItems.list().map((dto: IMenuItemDto) => Mapper.map<Dish>(
             nameof<IMenuItemDto>(),
             nameof<Dish>(),
             dto
@@ -157,10 +156,15 @@ export class ContentSaga extends SagaBase {
             return;
         }
 
-        yield ContentSaga.updateStore({
+        const partialStore: Partial<ContentStore> = {
             contentIsSaving: false,
-            showPublishDialog: true,
-        });
+        };
+        const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
+        if (settingsMode === "create") {
+            partialStore.showPublishDialog = true;
+        }
+
+        yield ContentSaga.updateStore(partialStore);
     }
 
     static* closePublishDialog(action: AppAction) {

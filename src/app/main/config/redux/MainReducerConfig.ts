@@ -1,4 +1,4 @@
-import { ReducerConfig } from "@config";
+import { ReducerConfig } from "@config/redux";
 import { ContentReducer } from "@main/Content/redux";
 import { DataReducer } from "@main/Data/redux";
 import { MainReducer } from "@main/redux";

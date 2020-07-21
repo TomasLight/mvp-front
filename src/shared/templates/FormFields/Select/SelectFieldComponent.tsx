@@ -2,13 +2,13 @@ import React, { useMemo, useState, FocusEvent } from "react";
 import { FieldRenderProps } from "react-final-form";
 import { ActionMeta, ActionTypes, InputActionMeta } from "react-select/src/types";
 
-import { IFieldOption, FieldOptionEnum } from "@select/types";
-import { Select, ISelectProps } from "@shared/templates";
+import { IFieldOption, FieldOptionVariant } from "@select/types";
+import { Select, ISelectProps } from "@shared/templates/Select";
 import { FieldOptionsFactory } from "./Factories";
 import { FormFieldManager, SelectStateFieldManager } from "../managers";
 
 interface ISelectFieldComponentProps extends ISelectProps {
-    optionType?: FieldOptionEnum;
+    optionType?: FieldOptionVariant;
     sideOnChange?: (value: any, actionType?: ActionTypes) => void;
     clearOnBlur?: boolean;
 }
@@ -21,7 +21,7 @@ const SelectFieldComponent = (props: Props) => {
         sideOnChange,
         options,
         meta,
-        optionType = FieldOptionEnum.SelectFieldOption,
+        optionType = FieldOptionVariant.SelectFieldOption,
         onInputChange,
         clearOnBlur = false,
         helperText,

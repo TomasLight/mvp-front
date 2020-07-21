@@ -19,6 +19,12 @@
         "baseUrl": "./src/",
         "paths": {
             "@app/*": ["app/*"],
+            "@CommonState": ["app/config/redux/CommonState.ts"],
+            "@config/*": ["app/config/*"],
+            "@enums": ["enums/index.ts"],
+            "@icons": ["shared/atoms/icons/index.ts"],
+            "@selectors": ["app/config/redux/selectors/index.ts"],
+            "@shared/*": ["shared/*"],
 
             "@main/*": ["app/main/*"],
             "@MainState": ["app/main/config/redux/State.ts"],
@@ -29,20 +35,14 @@
             "@ws/*": ["app/workspace/*"],
             "@WsState": ["app/workspace/config/redux/State.ts"],
 
-
             "@api": ["api/index.ts"],
             "@api/*": ["api/*"],
 
-            "@config": ["config/index.ts"],
-            "@enums": ["enums/index.ts"],
-            "@models": ["models/index.ts"],
-            "@selectors": ["utils/redux/selectors/index.ts"],
-            "@shared/*": ["shared/*"],
+            "@models": ["app/models/index.ts"],
+            "@models/*": ["app/models/*"],
 
             "@select": ["shared/organisms/Fields/Select/index.ts"],
             "@select/*": ["shared/organisms/Fields/Select/*"],
-
-            "@icons": ["shared/atoms/icons/index.ts"],
 
             "@utils": ["utils/index.ts"],
             "@utils/*": ["utils/*"]

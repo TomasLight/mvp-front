@@ -1,5 +1,5 @@
 export interface IWorkspaceContentSettingsDto {
-    firstPhoto: string;
+    firstPhotoUrl: string;
     firstText: string;
     phone: string;
     address: string;

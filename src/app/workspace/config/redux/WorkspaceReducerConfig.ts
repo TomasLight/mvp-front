@@ -1,4 +1,4 @@
-import { ReducerConfig } from "@config";
+import { ReducerConfig } from "@app/config";
 import { MenuReducer } from "@ws/Menu/redux";
 import { WorkspaceReducer } from "@ws/redux/Workspace.reducer";
 import { State } from "@WsState";

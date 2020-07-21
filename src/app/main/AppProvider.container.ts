@@ -2,13 +2,13 @@ import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { CommonState } from "@config";
+import { CommonState } from "@CommonState";
 import {
     AppProvider,
     IAppProviderCallProps,
     IAppProviderProps,
     AppProviderActions,
-} from "@shared/templates/AppProvider";
+} from "@app/AppProvider";
 
 const mapStateToProps = (state: CommonState): IAppProviderProps => {
     return {

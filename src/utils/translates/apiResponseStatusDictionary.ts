@@ -1,6 +1,6 @@
-import { ApiResponseStatus } from "@utils";
+import { ApiResponseStatus } from "../api/ApiResponseStatus";
 
-export const apiResponseStatusDictionary = {
+export const apiResponseStatusDictionary = Object.freeze({
     [ApiResponseStatus.BadRequest]: "Неправильный запрос",
     [ApiResponseStatus.Unauthorized]: "Не авторизован",
     [ApiResponseStatus.Forbidden]: "Доступ запрещен",
@@ -11,4 +11,4 @@ export const apiResponseStatusDictionary = {
     [ApiResponseStatus.InternalServerError]: "Ошибка сервера",
     [ApiResponseStatus.BadGateway]: "Проблемы с доступом к Джой казино?))))",
     [ApiResponseStatus.ServiceUnavailable]: "Сервис временно не доступен",
-};
+});

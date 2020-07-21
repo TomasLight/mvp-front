@@ -1,9 +1,9 @@
-import { WatcherBase } from "@utils/saga/WatcherBase";
+import { Watcher } from "app-saga-utils";
 
 import { MenuActions } from "../redux";
 import { MenuSaga } from "./Menu.saga";
 
-export class MenuWatcher extends WatcherBase {
+export class MenuWatcher extends Watcher {
     constructor() {
         super();
 

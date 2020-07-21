@@ -1,4 +1,4 @@
-import { IFieldOption } from "@select";
+import { IFieldOption } from "../types";
 
 type SelectOption = {
     data: IFieldOption;

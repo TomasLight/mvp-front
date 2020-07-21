@@ -1,4 +1,4 @@
-import { ApiResponseStatus } from "@utils/api/ApiResponseStatus";
+import { ApiResponseStatus } from "./ApiResponseStatus";
 import { ApiResponse } from "./ApiResponse";
 import { ErrorBuilder } from "./ErrorBuilder";
 import { IApiError } from "./IApiError";

@@ -6,7 +6,6 @@ import {
     IOnChangeFaviconData,
     IOnChangeOpenGraphImageData,
     IOnChangeOpenGraphTitleData,
-    ISetUserNameData,
     ISubmitSettingsData,
     IOnChangeColorData,
 } from "./Site.actions.dataTypes";
@@ -16,7 +15,6 @@ export class SiteActions {
     static readonly PREFIX = "SETUP_";
     static readonly UPDATE_STORE = SiteActions.PREFIX + "UPDATE_STORE";
 
-    static readonly SET_USER_NAME = SiteActions.PREFIX + "SET_USER_NAME";
     static readonly LOAD_DATA = SiteActions.PREFIX + "LOAD_DATA";
 
     static readonly ON_CHANGE_SITE_NAME = SiteActions.PREFIX + "ON_CHANGE_SITE_NAME";
@@ -30,9 +28,6 @@ export class SiteActions {
 
     static updateStore = (partialStore: Partial<SiteStore>) =>
         createAction(SiteActions.UPDATE_STORE, partialStore);
-
-    static setUserName = (data: ISetUserNameData) =>
-        createAction(SiteActions.SET_USER_NAME, data);
 
     static loadData = () => createAction(SiteActions.LOAD_DATA);
 

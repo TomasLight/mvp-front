@@ -1,6 +1,6 @@
 import { SizeType } from "@enums";
-import { ApiResponseStatus } from "@utils/api";
-import { apiResponseStatusDictionary } from "@utils/translates/apiResponseStatusDictionary";
+import { ApiResponseStatus } from "../api/ApiResponseStatus";
+import { apiResponseStatusDictionary } from "./apiResponseStatusDictionary";
 
 export class Translate {
     static getString(key: string, options?: any) {

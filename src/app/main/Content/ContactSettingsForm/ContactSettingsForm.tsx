@@ -26,8 +26,21 @@ const useStyles = makeStyles((theme) => ({
             'address' \
             'time' \
             'link' \
+            '.' \
             'button'",
+        gridTemplateRows: "\
+            auto \
+            auto \
+            auto \
+            auto \
+            auto \
+            auto \
+            auto \
+            auto \
+            1fr \
+            auto",
         gridGap: 20,
+        height: "100%",
     },
     field: {
         width: "100%",
@@ -73,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
 }), { name: "SiteSettingsForm" });
 
 interface IContactSettingsFormProps {
+    buttonText: string;
 }
 
 interface IContactSettingsFormCallProps {
@@ -89,6 +103,7 @@ type Props = IContactSettingsFormProps & IContactSettingsFormCallProps;
 
 const ContactSettingsForm = (props: Props) => {
     const {
+        buttonText,
         onChangeAddress,
         onChangeDeliveryLocationLink,
         onChangeDeliveryTime,
@@ -150,7 +165,7 @@ const ContactSettingsForm = (props: Props) => {
             />
 
             <Button onClick={onSubmit} variant="contained" className={classes.button}>
-                {Translate.getString("Опубликовать сайт")}
+                {buttonText}
             </Button>
         </div>
     );
