@@ -27,21 +27,36 @@ export class MenuMappingProfile extends MappingProfileBase implements IMappingPr
     }
 
     private static mapICategoryDtoToCategory(dto: ICategoryDto): Category {
-        const category = MappingProfileBase.autoMap(dto, new Category());
+        const category = new Category();
+        category.id = dto.id;
+        category.name = dto.name;
+        category.menuId = dto.menuId;
         category.dishIds = dto.items;
+        category.created = dto.created;
         return category;
     }
 
     private static mapIMenuDtoToMenu(dto: IMenuDto): Menu {
-        const menu = MappingProfileBase.autoMap(dto, new Menu());
+        const menu = new Menu();
+        menu.id = dto.id;
+        menu.workspaceId = dto.workspaceId;
+        menu.restaurants = dto.restaurants;
+        menu.created = dto.created;
         menu.categories = dto.categories.map(MenuMappingProfile.mapICategoryDtoToCategory);
+        menu.name = dto.name;
         return menu;
     }
 
     private static mapIDishDtoToDish(dto: IMenuItemDto): Dish {
-        const dish = MappingProfileBase.autoMap(dto, new Dish());
+        const dish = new Dish();
+        dish.id = dto.id;
         dish.title = dto.name;
+        dish.description = dto.description;
+        dish.image = dto.imageUrl;
+        dish.price = dto.price;
         dish.productIds = dto.products;
+        dish.workspaceId = dto.workspaceId;
+        dish.created = dto.created;
         return dish;
     }
 }

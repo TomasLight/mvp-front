@@ -40,6 +40,7 @@ const styles = createStyles<ClassKey, {}>({
         gridArea: "siteName",
         fontSize: 11,
         lineHeight: "13px",
+        textAlign: "left",
     },
     siteUrl: {
         gridArea: "siteUrl",

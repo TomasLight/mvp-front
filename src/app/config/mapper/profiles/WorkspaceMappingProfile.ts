@@ -1,10 +1,24 @@
 import {
-    IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsUpdatedDto,
-    IWorkspaceSiteSettingsUpdatedDto
+    INewWorkspaceRequestDto,
+    IWorkspaceSettingsRequestDto,
+    ISiteSettingsUpdatedRequestDto, IContentSettingsRequestDto
 } from "@api/models/workspace/requests";
-import { IUserWorkspaceDto, ILandingConfigDto } from "@api/models/workspace/responses";
-import { ContentConfig, DataConfig, LandingConfig, SiteConfig, UserWorkspace } from "@app/models";
+import { ILandingConfigDto, IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
+import { IContentSettingsResponseDto } from "@api/models/workspace/responses/IContentSettingsResponseDto";
+import { ISiteSettingsResponseDto } from "@api/models/workspace/responses/ISiteSettingsResponseDto";
+import {
+    ContentConfig,
+    LandingConfig,
+    SiteConfig,
+    UserWorkspace,
+    WorkspaceContentSettings,
+    WorkspaceDataSettings
+} from "@app/models";
+import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
+import { IContactSettingsFormValues } from "@main/Content/models";
+import { IDataSettingsFormValues } from "@main/Data/models";
+import { ISiteSettingsFormValues } from "@main/Site/models";
+import { FavIconUrlResolver } from "@shared/molecules";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
 import { MapFunction } from "@utils/mapping/MapFunction";
@@ -14,39 +28,73 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
     get(): IMapFunction[] {
         return [
             new MapFunction(
-                nameof<IUserWorkspaceDto>(),
+                nameof<IUserWorkspaceResponseDto>(),
                 nameof<UserWorkspace>(),
-                WorkspaceMappingProfile.mapIUserWorkspaceDtoToUserWorkspace
+                WorkspaceMappingProfile.map_IUserWorkspaceResponseDto__UserWorkspace
             ),
             new MapFunction(
                 nameof<ILandingConfigDto>(),
                 nameof<LandingConfig>(),
-                WorkspaceMappingProfile.mapILandingConfigToLandingConfig
+                WorkspaceMappingProfile.map_ILandingConfigDto__LandingConfig
             ),
             new MapFunction(
-                nameof<IWorkspaceSiteSettingsUpdatedDto>(),
+                nameof<ISiteSettingsUpdatedRequestDto>(),
                 nameof<SiteConfig>(),
-                WorkspaceMappingProfile.mapIWorkspaceSiteSettingsDtoToSiteConfig
+                WorkspaceMappingProfile.map_ISiteSettingsUpdatedRequest__ToSiteConfig
             ),
             new MapFunction(
-                nameof<IWorkspaceDataSettingsUpdatedDto>(),
-                nameof<DataConfig>(),
-                WorkspaceMappingProfile.mapIWorkspaceDataSettingsDtoToDataConfig
-            ),
-            new MapFunction(
-                nameof<IWorkspaceContentSettingsDto>(),
+                nameof<IContentSettingsResponseDto>(),
                 nameof<ContentConfig>(),
-                WorkspaceMappingProfile.mapIWorkspaceContentSettingsDtoToContentConfig
+                WorkspaceMappingProfile.map_IWorkspaceContentSettingsResponseDto__ContentConfig
+            ),
+            new MapFunction(
+                nameof<ISiteSettingsFormValues>(),
+                nameof<WorkspaceSiteSettings>(),
+                WorkspaceMappingProfile.map_ISiteSettingsFormValues__WorkspaceSiteSettings
+            ),
+            new MapFunction(
+                nameof<IDataSettingsFormValues>(),
+                nameof<WorkspaceDataSettings>(),
+                WorkspaceMappingProfile.map_IDataSettingsFormValues__WorkspaceDataSettings
+            ),
+            new MapFunction(
+                nameof<IContactSettingsFormValues>(),
+                nameof<WorkspaceContentSettings>(),
+                WorkspaceMappingProfile.map_IContactSettingsFormValues__WorkspaceContentSettings
+            ),
+            new MapFunction(
+                nameof<WorkspaceContentSettings>(),
+                nameof<IContentSettingsRequestDto>(),
+                WorkspaceMappingProfile.map_WorkspaceContentSettings__IContentSettingsRequestDto
+            ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<ISiteSettingsUpdatedRequestDto>(),
+                WorkspaceMappingProfile.map_WorkspaceSiteSettings__ISiteSettingsUpdatedRequestDto
+            ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<IWorkspaceSettingsRequestDto>(),
+                WorkspaceMappingProfile.map_WorkspaceSiteSettings__IWorkspaceSettingsRequestDto
+            ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<INewWorkspaceRequestDto>(),
+                WorkspaceMappingProfile.map_WorkspaceSiteSettings__INewWorkspaceRequestDto
             ),
         ];
     }
 
-    private static mapIUserWorkspaceDtoToUserWorkspace(dto: IUserWorkspaceDto): UserWorkspace {
-        const user = MappingProfileBase.autoMap(dto, new UserWorkspace());
+    private static map_IUserWorkspaceResponseDto__UserWorkspace(dto: IUserWorkspaceResponseDto): UserWorkspace {
+        const user = new UserWorkspace();
+        user.role = dto.role;
+        user.id = dto.id;
+        user.domain = dto.domainName;
+        user.name = dto.name;
         return user;
     }
 
-    private static mapILandingConfigToLandingConfig(dto: ILandingConfigDto): LandingConfig {
+    private static map_ILandingConfigDto__LandingConfig(dto: ILandingConfigDto): LandingConfig {
         const config = new LandingConfig();
 
         config.id = dto.id;
@@ -54,35 +102,137 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         config.workspaceId = dto.workspaceId;
 
         config.siteConfig =
-            WorkspaceMappingProfile.mapIWorkspaceSiteSettingsDtoToSiteConfig(dto.siteConfig);
+            WorkspaceMappingProfile.map_ISiteSettingsUpdatedRequest__ToSiteConfig(dto.siteConfig);
 
-        config.dataConfig =
-            WorkspaceMappingProfile.mapIWorkspaceDataSettingsDtoToDataConfig(dto.iikoConfig);
+        config.dataConfig = {};
 
         config.contentConfig =
-            WorkspaceMappingProfile.mapIWorkspaceContentSettingsDtoToContentConfig(dto.contentConfig);
+            WorkspaceMappingProfile.map_IWorkspaceContentSettingsResponseDto__ContentConfig(dto.contentConfig);
 
         return config;
     }
 
-    private static mapIWorkspaceSiteSettingsDtoToSiteConfig(dto: IWorkspaceSiteSettingsUpdatedDto): SiteConfig {
-        const config = MappingProfileBase.autoMap(dto, new SiteConfig());
-
-        delete config[nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImage)];
-        delete config[nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImageTitle)];
-
-        config.openGraphImageUrl = dto.opengraphImage;
+    private static map_ISiteSettingsUpdatedRequest__ToSiteConfig(
+        dto: ISiteSettingsResponseDto
+    ): SiteConfig {
+        const config = new SiteConfig();
+        config.name = dto.name;
+        config.faviconUrl = dto.faviconUrl;
+        config.openGraphImageUrl = dto.opengraphImageUrl;
         config.openGraphTitle = dto.opengraphImageTitle;
+        config.color = dto.color;
         return config;
     }
 
-    private static mapIWorkspaceDataSettingsDtoToDataConfig(dto: IWorkspaceDataSettingsUpdatedDto): DataConfig {
-        const config = MappingProfileBase.autoMap(dto, new DataConfig());
+    private static map_IWorkspaceContentSettingsResponseDto__ContentConfig(
+        dto: IContentSettingsResponseDto
+    ): ContentConfig {
+        const config = new ContentConfig();
+        config.firstPhotoUrl = dto.firstPhotoUrl;
+        config.firstText = dto.firstText;
+        config.phone = dto.phone;
+        config.address = dto.address;
+        config.deliveryTime = dto.deliveryTime;
+        config.deliveryMapUrl = dto.deliveryMapUrl;
         return config;
     }
 
-    private static mapIWorkspaceContentSettingsDtoToContentConfig(dto: IWorkspaceContentSettingsDto): ContentConfig {
-        const config = MappingProfileBase.autoMap(dto, new ContentConfig());
-        return config;
+    private static map_ISiteSettingsFormValues__WorkspaceSiteSettings(
+        dto: ISiteSettingsFormValues
+    ): WorkspaceSiteSettings {
+
+        const settings = new WorkspaceSiteSettings();
+        settings.siteName = dto.siteName;
+        settings.domain = dto.domain;
+        settings.favicon = dto.favicon;
+        if (dto.openGraphImage) {
+            settings.openGraphImage = dto.openGraphImage.item(0);
+        }
+        settings.openGraphTitle = dto.openGraphTitle;
+        settings.primaryColor = dto.primaryColor;
+        return settings;
+    }
+
+    private static map_IDataSettingsFormValues__WorkspaceDataSettings(
+        dto: IDataSettingsFormValues
+    ): WorkspaceDataSettings {
+
+        const settings = new WorkspaceDataSettings();
+        if (dto.archive) {
+            settings.archive = dto.archive.item(0);
+        }
+        return settings;
+    }
+
+    private static map_IContactSettingsFormValues__WorkspaceContentSettings(
+        dto: IContactSettingsFormValues
+    ): WorkspaceContentSettings {
+
+        const settings = new WorkspaceContentSettings();
+        settings.firstBlockText = dto.firstBlockText;
+        if (dto.photo) {
+            settings.photo = dto.photo.item(0);
+        }
+        settings.phone = dto.phone;
+        settings.address = dto.address;
+        settings.deliveryTime = dto.deliveryTime;
+        settings.deliveryLocationLink = dto.deliveryLocationLink;
+        return settings;
+    }
+
+    private static map_WorkspaceContentSettings__IContentSettingsRequestDto(
+        settings: WorkspaceContentSettings
+    ): IContentSettingsRequestDto {
+
+        const dto: IContentSettingsRequestDto = {
+            firstPhoto: "",
+            firstText: settings.firstBlockText,
+            phone: settings.phone,
+            address: settings.address,
+            deliveryTime: settings.deliveryTime,
+            deliveryMapUrl: settings.deliveryLocationLink,
+        };
+
+        return dto;
+    }
+
+    private static map_WorkspaceSiteSettings__ISiteSettingsUpdatedRequestDto(
+        settings: WorkspaceSiteSettings
+    ): ISiteSettingsUpdatedRequestDto {
+
+        const dto: ISiteSettingsUpdatedRequestDto = {
+            name: settings.siteName,
+            faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
+            opengraphImageTitle: settings.openGraphTitle,
+            opengraphImage: null,
+            color: settings.primaryColor,
+        };
+
+        return dto;
+    }
+
+    private static map_WorkspaceSiteSettings__IWorkspaceSettingsRequestDto(
+        settings: WorkspaceSiteSettings
+    ): IWorkspaceSettingsRequestDto {
+
+        const siteConfig = WorkspaceMappingProfile.map_WorkspaceSiteSettings__ISiteSettingsUpdatedRequestDto(settings);
+        const dto: IWorkspaceSettingsRequestDto = {
+            domain: settings.domain,
+            siteConfig,
+        };
+
+        return dto;
+    }
+
+    private static map_WorkspaceSiteSettings__INewWorkspaceRequestDto(
+        settings: WorkspaceSiteSettings
+    ): INewWorkspaceRequestDto {
+
+        const dto: INewWorkspaceRequestDto = {
+            domain: settings.domain,
+            name: settings.siteName,
+        };
+
+        return dto;
     }
 }

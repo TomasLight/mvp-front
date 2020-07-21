@@ -4,7 +4,6 @@ import { call, put } from "@redux-saga/core/effects";
 import { DataFailed, DataService } from "@data";
 import { MainSelectors } from "@selectors";
 import { LandingConfig, UserWorkspace } from "@app/models";
-import { WorkspaceApi } from "@api/WorkspaceApi";
 import { SagaBase } from "@config/saga";
 import { ApiResponse } from "@utils";
 
@@ -45,12 +44,12 @@ export class MainSaga extends SagaBase {
             landingConfigIsLoading: true,
         });
 
-        const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfigAsync();
-        if (response.hasError()) {
+        const landingConfig: DataFailed | LandingConfig = yield call(DataService.workspace.landingConfigAsync);
+        if (landingConfig instanceof DataFailed) {
             yield MainSaga.updateStore({
                 landingConfigIsLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(landingConfig);
             return;
         }
 
@@ -58,13 +57,12 @@ export class MainSaga extends SagaBase {
             landingConfigIsLoading: false,
         };
 
-        const hasNoLandingConfig = !response.data;
-        if (hasNoLandingConfig) {
+        if (!landingConfig) {
             partialStore.hasWorkspace = false;
         }
         else {
             partialStore.hasWorkspace = true;
-            partialStore.landingConfig = response.data;
+            partialStore.landingConfig = landingConfig;
         }
 
         yield MainSaga.updateStore(partialStore);

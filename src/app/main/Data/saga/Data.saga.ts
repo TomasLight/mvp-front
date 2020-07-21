@@ -3,7 +3,7 @@ import { call, put } from "@redux-saga/core/effects";
 import { push } from "connected-react-router";
 
 import { DataFailed, DataService } from "@data";
-import { DataConfig, WorkspaceDataSettings } from "@app/models";
+import { WorkspaceDataSettings } from "@app/models";
 import { IDataSettingsFormValues } from "@main/Data/models";
 import { mainUrls } from "@main/routing";
 import { Mapper } from "@utils";
@@ -33,7 +33,7 @@ export class DataSaga extends SagaBase {
             settingsAreSending: true,
         });
 
-        const siteConfig: DataFailed | DataConfig = yield call(DataService.workspace.updateDataAsync, settings);
+        const siteConfig: DataFailed | null = yield call(DataService.workspace.updateDataAsync, settings);
         if (siteConfig instanceof DataFailed) {
             yield DataSaga.updateStore({
                 settingsAreSending: false,

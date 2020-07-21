@@ -49,7 +49,6 @@ export class MenuDataService extends DataServiceBase {
             return this.failed(response);
         }
 
-
         this._dishes = response.data.map((dto: IMenuItemDto) => Mapper.map<Dish>(
             nameof<IMenuItemDto>(),
             nameof<Dish>(),

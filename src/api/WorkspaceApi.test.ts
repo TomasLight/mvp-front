@@ -1,16 +1,16 @@
-import {
-    ICreatedMenuCategoriesDto,
-    ICreatedWorkspaceDataSettingsDto
-} from "@api/models/workspace/responses/ICreatedWorkspaceDataSettingsDto";
 import frisby, { Joi } from "frisby";
 
-import {
-    IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsUpdatedDto,
-    IWorkspaceSiteSettingsUpdatedDto
-} from "@api/models/workspace/requests";
-import { ILandingConfigDto, IUserWorkspaceDto } from "@api/models/workspace/responses";
 import { ApiTest } from "@api/ApiTest";
+import {
+    IContentSettingsRequestDto,
+    IDataSettingsUpdatedRequestDto,
+    ISiteSettingsUpdatedRequestDto
+} from "@api/models/workspace/requests";
+import { ILandingConfigDto, IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
+import {
+    ICreatedMenuCategoriesDto,
+    IDataSettingsResponseDto
+} from "@api/models/workspace/responses/IDataSettingsResponseDto";
 import { ApiResponseStatus, urlWithIds } from "@utils/api";
 import { TestsFileHelper } from "../../tests/TestsFileHelper";
 
@@ -22,10 +22,10 @@ describe("get wokrspaces", () => {
             .fetch(requestUrl, ApiTest.options("GET", true, true))
             .expect("status", ApiResponseStatus.Ok)
             .expect("jsonTypes", Joi.array().items(Joi.object({
-                [nameof<IUserWorkspaceDto>(o => o.role)]: Joi.string().required(),
-                [nameof<IUserWorkspaceDto>(o => o.id)]: Joi.string().required(),
-                [nameof<IUserWorkspaceDto>(o => o.domainName)]: Joi.string().required(),
-                [nameof<IUserWorkspaceDto>(o => o.name)]: Joi.string().required(),
+                [nameof<IUserWorkspaceResponseDto>(o => o.role)]: Joi.string().required(),
+                [nameof<IUserWorkspaceResponseDto>(o => o.id)]: Joi.string().required(),
+                [nameof<IUserWorkspaceResponseDto>(o => o.domainName)]: Joi.string().required(),
+                [nameof<IUserWorkspaceResponseDto>(o => o.name)]: Joi.string().required(),
             })).required())
             .done(done)
         ;
@@ -33,24 +33,24 @@ describe("get wokrspaces", () => {
 });
 
 const SiteConfigSchema = Joi.object({
-    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.name)]: Joi.string().required(),
-    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.faviconUrl)]: Joi.string().allow(null),
-    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImage)]: Joi.string().allow(null),
-    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.opengraphImageTitle)]: Joi.string().allow(null),
-    [nameof<IWorkspaceSiteSettingsUpdatedDto>(o => o.color)]: Joi.string().required(),
+    [nameof<ISiteSettingsUpdatedRequestDto>(o => o.name)]: Joi.string().required(),
+    [nameof<ISiteSettingsUpdatedRequestDto>(o => o.faviconUrl)]: Joi.string().allow(null),
+    [nameof<ISiteSettingsUpdatedRequestDto>(o => o.opengraphImage)]: Joi.string().allow(null),
+    [nameof<ISiteSettingsUpdatedRequestDto>(o => o.opengraphImageTitle)]: Joi.string().allow(null),
+    [nameof<ISiteSettingsUpdatedRequestDto>(o => o.color)]: Joi.string().required(),
 });
 
 const IikoConfigSchema = Joi.object({
-    [nameof<IWorkspaceDataSettingsUpdatedDto>(o => o.archive)]: Joi.string().optional(),
+    [nameof<IDataSettingsUpdatedRequestDto>(o => o.archive)]: Joi.string().optional(),
 });
 
 const ContentConfigSchema = Joi.object({
-    [nameof<IWorkspaceContentSettingsDto>(o => o.firstPhoto)]: Joi.string().allow(null),
-    [nameof<IWorkspaceContentSettingsDto>(o => o.firstText)]: Joi.string().required(),
-    [nameof<IWorkspaceContentSettingsDto>(o => o.phone)]: Joi.string().required(),
-    [nameof<IWorkspaceContentSettingsDto>(o => o.address)]: Joi.string().required(),
-    [nameof<IWorkspaceContentSettingsDto>(o => o.deliveryTime)]: Joi.string().required(),
-    [nameof<IWorkspaceContentSettingsDto>(o => o.deliveryMapUrl)]: Joi.string().allow(null),
+    [nameof<IContentSettingsRequestDto>(o => o.firstPhoto)]: Joi.string().allow(null),
+    [nameof<IContentSettingsRequestDto>(o => o.firstText)]: Joi.string().required(),
+    [nameof<IContentSettingsRequestDto>(o => o.phone)]: Joi.string().required(),
+    [nameof<IContentSettingsRequestDto>(o => o.address)]: Joi.string().required(),
+    [nameof<IContentSettingsRequestDto>(o => o.deliveryTime)]: Joi.string().required(),
+    [nameof<IContentSettingsRequestDto>(o => o.deliveryMapUrl)]: Joi.string().allow(null),
 });
 
 describe("get landing config", () => {
@@ -93,7 +93,7 @@ class ConfigLoader {
         return this.landing;
     }
 
-    async updateSiteConfig(dto: IWorkspaceSiteSettingsUpdatedDto): Promise<void> {
+    async updateSiteConfig(dto: ISiteSettingsUpdatedRequestDto): Promise<void> {
         const url = urlWithIds(
             process.env.API_PATCH_WORKSPACE_SITE_SETTINGS,
             {
@@ -119,7 +119,7 @@ class ConfigLoader {
         await this.waitingLoop();
     }
 
-    async updateContentConfig(dto: IWorkspaceContentSettingsDto): Promise<void> {
+    async updateContentConfig(dto: IContentSettingsRequestDto): Promise<void> {
         const url = urlWithIds(
             process.env.API_PATCH_WORKSPACE_CONTENT_SETTINGS,
             {
@@ -165,7 +165,7 @@ describe("update site config", () => {
         const loader = new ConfigLoader();
         const originalLanding = await loader.loadLanding();
 
-        const originalConfig: IWorkspaceSiteSettingsUpdatedDto = {
+        const originalConfig: ISiteSettingsUpdatedRequestDto = {
             name: originalLanding.siteConfig.name,
             color: originalLanding.siteConfig.color,
             faviconUrl: originalLanding.siteConfig.faviconUrl,
@@ -173,7 +173,7 @@ describe("update site config", () => {
             opengraphImageTitle: originalLanding.siteConfig.opengraphImageTitle,
         };
 
-        const newConfig: IWorkspaceSiteSettingsUpdatedDto = {
+        const newConfig: ISiteSettingsUpdatedRequestDto = {
             name: "api test",
             color: "#000",
             faviconUrl: "/images/favicons/avocado.svg",
@@ -219,7 +219,7 @@ describe("update data config", () => {
         const requestUrl = ApiTest.tenantUrl(url);
         const options: RequestInit = ApiTest.options("POST", true, true);
 
-        const newConfig: IWorkspaceDataSettingsUpdatedDto = {
+        const newConfig: IDataSettingsUpdatedRequestDto = {
             archive: TestsFileHelper.getDataConfigBase64ForTests(),
         };
         options.body = JSON.stringify(newConfig);
@@ -228,12 +228,12 @@ describe("update data config", () => {
             .fetch(requestUrl, options)
             .expect("status", ApiResponseStatus.Created)
             .expect("jsonTypes", Joi.object({
-                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.id)]: Joi.string().required(),
-                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.workspaceId)]: Joi.string().required(),
-                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.restaurants)]: Joi.array().required(),
-                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.created)]: Joi.string().required(),
-                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.categories)]: Joi.array().items(MenuCategorySchema).required(),
-                [nameof<ICreatedWorkspaceDataSettingsDto>(o => o.name)]: Joi.string().required(),
+                [nameof<IDataSettingsResponseDto>(o => o.id)]: Joi.string().required(),
+                [nameof<IDataSettingsResponseDto>(o => o.workspaceId)]: Joi.string().required(),
+                [nameof<IDataSettingsResponseDto>(o => o.restaurants)]: Joi.array().required(),
+                [nameof<IDataSettingsResponseDto>(o => o.created)]: Joi.string().required(),
+                [nameof<IDataSettingsResponseDto>(o => o.categories)]: Joi.array().items(MenuCategorySchema).required(),
+                [nameof<IDataSettingsResponseDto>(o => o.name)]: Joi.string().required(),
             }).required())
             .done(done)
         ;
@@ -245,7 +245,7 @@ describe("update content config", () => {
         const loader = new ConfigLoader();
         const originalLanding = await loader.loadLanding();
 
-        const originalConfig: IWorkspaceContentSettingsDto = {
+        const originalConfig: IContentSettingsRequestDto = {
             firstPhoto: "",
             firstText: originalLanding.contentConfig.firstText,
             phone: originalLanding.contentConfig.phone,
@@ -254,7 +254,7 @@ describe("update content config", () => {
             deliveryMapUrl: originalLanding.contentConfig.deliveryMapUrl,
         };
 
-        const newConfig: IWorkspaceContentSettingsDto = {
+        const newConfig: IContentSettingsRequestDto = {
             firstPhoto: "",
             firstText: "test first text",
             phone: "123 123 7",

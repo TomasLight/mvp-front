@@ -1,13 +1,12 @@
-import { IWorkspaceSiteSettingsDto } from "./IWorkspaceSiteSettingsDto";
-import { IWorkspaceDataSettingsDto } from "./IWorkspaceDataSettingsDto";
-import { IWorkspaceContentSettingsDto } from "./IWorkspaceContentSettingsDto";
+import { ISiteSettingsResponseDto } from "./ISiteSettingsResponseDto";
+import { IContentSettingsResponseDto } from "./IContentSettingsResponseDto";
 
 export interface ILandingConfigDto {
     id: string;
     workspaceId: string;
     menuId: string;
 
-    siteConfig: IWorkspaceSiteSettingsDto;
-    iikoConfig?: IWorkspaceDataSettingsDto;
-    contentConfig?: IWorkspaceContentSettingsDto;
+    siteConfig: ISiteSettingsResponseDto;
+    iikoConfig?: {};
+    contentConfig?: IContentSettingsResponseDto;
 }

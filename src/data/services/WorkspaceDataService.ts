@@ -1,10 +1,10 @@
 import {
-    INewWorkspaceDto,
-    IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsUpdatedDto,
-    IWorkspaceSiteSettingsUpdatedDto
+    INewWorkspaceRequestDto,
+    IContentSettingsRequestDto,
+    IDataSettingsUpdatedRequestDto,
+    ISiteSettingsUpdatedRequestDto
 } from "@api/models/workspace/requests";
-import { ILandingConfigDto, IUserWorkspaceDto } from "@api/models/workspace/responses";
+import { ILandingConfigDto, IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import {
     ContentConfig,
@@ -37,7 +37,9 @@ export class WorkspaceDataService extends DataServiceBase {
         this.getByDomainAsync = this.getByDomainAsync.bind(this);
         this.createAsync = this.createAsync.bind(this);
         this.updateSiteAsync = this.updateSiteAsync.bind(this);
+        this.updateDataAsync = this.updateDataAsync.bind(this);
         this.updateContentAsync = this.updateContentAsync.bind(this);
+        this.landingConfigAsync = this.landingConfigAsync.bind(this);
     }
 
     async siteConfigAsync(): Data<SiteConfig> {
@@ -79,8 +81,8 @@ export class WorkspaceDataService extends DataServiceBase {
             return this.failed(workspacesResponse);
         }
 
-        this._workspaces = workspacesResponse.data.map((dto: IUserWorkspaceDto) => Mapper.map<UserWorkspace>(
-            nameof<IUserWorkspaceDto>(),
+        this._workspaces = workspacesResponse.data.map((dto: IUserWorkspaceResponseDto) => Mapper.map<UserWorkspace>(
+            nameof<IUserWorkspaceResponseDto>(),
             nameof<UserWorkspace>(),
             dto
         ));
@@ -107,14 +109,14 @@ export class WorkspaceDataService extends DataServiceBase {
             return workspaces;
         }
 
-        const workspace = workspaces.find(ws => ws.domainName === domain);
+        const workspace = workspaces.find(ws => ws.domain === domain);
         return workspace;
     }
 
     async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
-        const dto = Mapper.map<INewWorkspaceDto>(
+        const dto = Mapper.map<INewWorkspaceRequestDto>(
             nameof<WorkspaceSiteSettings>(),
-            nameof<INewWorkspaceDto>(),
+            nameof<INewWorkspaceRequestDto>(),
             settings
         );
 
@@ -131,7 +133,7 @@ export class WorkspaceDataService extends DataServiceBase {
         }
 
         this._workspaces.push({
-            domainName: domainName,
+            domain: domainName,
             id: workspace.id,
             name,
             role: workspace.role,
@@ -146,9 +148,9 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const dto = Mapper.map<IWorkspaceSiteSettingsUpdatedDto>(
+        const dto = Mapper.map<ISiteSettingsUpdatedRequestDto>(
             nameof<WorkspaceSiteSettings>(),
-            nameof<IWorkspaceSiteSettingsUpdatedDto>(),
+            nameof<ISiteSettingsUpdatedRequestDto>(),
             settings
         );
         if (settings.openGraphImage) {
@@ -175,7 +177,7 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const dto: IWorkspaceDataSettingsUpdatedDto = {
+        const dto: IDataSettingsUpdatedRequestDto = {
             archive: "",
         };
         if (settings.archive) {
@@ -201,9 +203,9 @@ export class WorkspaceDataService extends DataServiceBase {
             return landingConfig;
         }
 
-        const dto = Mapper.map<IWorkspaceContentSettingsDto>(
+        const dto = Mapper.map<IContentSettingsRequestDto>(
             nameof<WorkspaceContentSettings>(),
-            nameof<IWorkspaceContentSettingsDto>(),
+            nameof<IContentSettingsRequestDto>(),
             settings
         );
         if (settings.photo) {
@@ -224,7 +226,7 @@ export class WorkspaceDataService extends DataServiceBase {
         return contentConfig;
     }
 
-    private async landingConfigAsync(): Data<LandingConfig> {
+    async landingConfigAsync(): Data<LandingConfig> {
         if (this._landingConfig) {
             return this._landingConfig;
         }

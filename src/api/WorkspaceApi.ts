@@ -1,13 +1,13 @@
 import {
-    INewWorkspaceDto,
-    IWorkspaceContentSettingsDto,
-    IWorkspaceDataSettingsUpdatedDto,
-    IWorkspaceSiteSettingsUpdatedDto
+    INewWorkspaceRequestDto,
+    IContentSettingsRequestDto,
+    IDataSettingsUpdatedRequestDto,
+    ISiteSettingsUpdatedRequestDto
 } from "@api/models/workspace/requests";
 import {
     ILandingConfigDto,
-    IUserWorkspaceDto,
-    ICreatedWorkspaceDto,
+    IUserWorkspaceResponseDto,
+    IWorkspaceResponseDto,
 } from "@api/models/workspace/responses";
 import { ApiBase, ApiResponse, urlWithIds } from "@utils/api";
 
@@ -18,7 +18,7 @@ export class WorkspaceApi extends ApiBase {
         return mockApi(url, method, data) as any;
     }
 
-    static getWorkspacesAsync(): Promise<ApiResponse<IUserWorkspaceDto[]>> {
+    static getWorkspacesAsync(): Promise<ApiResponse<IUserWorkspaceResponseDto[]>> {
         return this.get(process.env.API_GET_WORKSPACES);
     }
 
@@ -26,14 +26,14 @@ export class WorkspaceApi extends ApiBase {
         return this.get(process.env.API_GET_LANDING_CONFIG);
     }
 
-    static async createAsync(dto: INewWorkspaceDto): Promise<ApiResponse<ICreatedWorkspaceDto>> {
+    static async createAsync(dto: INewWorkspaceRequestDto): Promise<ApiResponse<IWorkspaceResponseDto>> {
         return this.post(process.env.API_CREATE_WORKSPACE, dto);
     }
 
     static updateSiteSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        dto: IWorkspaceSiteSettingsUpdatedDto
+        dto: ISiteSettingsUpdatedRequestDto
     ): Promise<ApiResponse> {
 
         const url = urlWithIds(
@@ -46,7 +46,7 @@ export class WorkspaceApi extends ApiBase {
     static async updateDataSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        dto: IWorkspaceDataSettingsUpdatedDto
+        dto: IDataSettingsUpdatedRequestDto
     ): Promise<ApiResponse> {
 
         const url = urlWithIds(
@@ -59,7 +59,7 @@ export class WorkspaceApi extends ApiBase {
     static async updateContentSettingsAsync(
         workspaceId: string,
         landingConfigId: string,
-        dto: IWorkspaceContentSettingsDto
+        dto: IContentSettingsRequestDto
     ): Promise<ApiResponse> {
 
         const url = urlWithIds(

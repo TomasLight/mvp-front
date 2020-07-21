@@ -1,5 +1,4 @@
 import { ContentConfig } from "./ContentConfig";
-import { DataConfig } from "./DataConfig";
 import { SiteConfig } from "./SiteConfig";
 
 interface ILandingConfig {
@@ -7,7 +6,7 @@ interface ILandingConfig {
     workspaceId: string;
     menuId: string;
     siteConfig: SiteConfig;
-    dataConfig: DataConfig;
+    dataConfig: {};
     contentConfig: ContentConfig;
 }
 
@@ -16,7 +15,7 @@ export class LandingConfig implements ILandingConfig {
     workspaceId: string;
     menuId: string;
     siteConfig: SiteConfig;
-    dataConfig: DataConfig;
+    dataConfig: {};
     contentConfig: ContentConfig;
 
     constructor() {
@@ -24,7 +23,7 @@ export class LandingConfig implements ILandingConfig {
         this.workspaceId = "";
         this.menuId = "";
         this.siteConfig = new SiteConfig();
-        this.dataConfig = new DataConfig();
+        this.dataConfig = {};
         this.contentConfig = new ContentConfig();
     }
 }

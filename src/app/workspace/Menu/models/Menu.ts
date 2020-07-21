@@ -7,4 +7,13 @@ export class Menu {
     created: string;
     categories: Category[];
     name: string;
+
+    constructor() {
+        this.id = "";
+        this.workspaceId = "";
+        this.restaurants = [];
+        this.created = "";
+        this.categories = [];
+        this.name = "";
+    }
 }
