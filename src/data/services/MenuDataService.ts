@@ -4,11 +4,11 @@ import { DataFailed } from "@data";
 import { ApiResponseStatus, Mapper } from "@utils";
 import { Category, Dish, Menu } from "@ws/Menu/models";
 import { ActionProcessing } from "../ActionProcessing";
+import { Data } from "../Data";
 import { DataServiceBase } from "../DataServiceBase";
+import { IMenuDataService } from "../IMenuDataService";
 
-type Data<TModel> = Promise<DataFailed | TModel>;
-
-export class MenuDataService extends DataServiceBase {
+export class MenuDataService extends DataServiceBase implements IMenuDataService {
     private static readonly STORAGE_MILLISECONDS = 10000;
     private _menu: Menu;
     private _dishes: Dish[];

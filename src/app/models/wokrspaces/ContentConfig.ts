@@ -15,12 +15,22 @@ export class ContentConfig implements IContentConfig {
     deliveryTime: string;
     deliveryMapUrl: string;
 
-    constructor() {
-        this.firstPhotoUrl = "";
-        this.firstText = "";
-        this.phone = "";
-        this.address = "";
-        this.deliveryTime = "";
-        this.deliveryMapUrl = "";
+    constructor(config: IContentConfig = null) {
+        if (!config) {
+            this.firstPhotoUrl = "";
+            this.firstText = "";
+            this.phone = "";
+            this.address = "";
+            this.deliveryTime = "";
+            this.deliveryMapUrl = "";
+        }
+        else {
+            this.firstPhotoUrl = config.firstPhotoUrl;
+            this.firstText = config.firstText;
+            this.phone = config.phone;
+            this.address = config.address;
+            this.deliveryTime = config.deliveryTime;
+            this.deliveryMapUrl = config.deliveryMapUrl;
+        }
     }
 }

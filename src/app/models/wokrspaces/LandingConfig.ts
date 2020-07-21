@@ -18,12 +18,22 @@ export class LandingConfig implements ILandingConfig {
     dataConfig: {};
     contentConfig: ContentConfig;
 
-    constructor() {
-        this.id = "";
-        this.workspaceId = "";
-        this.menuId = "";
-        this.siteConfig = new SiteConfig();
-        this.dataConfig = {};
-        this.contentConfig = new ContentConfig();
+    constructor(config: ILandingConfig = null) {
+        if (!config) {
+            this.id = "";
+            this.workspaceId = "";
+            this.menuId = "";
+            this.siteConfig = new SiteConfig();
+            this.dataConfig = {};
+            this.contentConfig = new ContentConfig();
+        }
+        else {
+            this.id = config.id;
+            this.workspaceId = config.workspaceId;
+            this.menuId = config.menuId;
+            this.siteConfig = config.siteConfig;
+            this.dataConfig = config.dataConfig;
+            this.contentConfig = config.contentConfig;
+        }
     }
 }

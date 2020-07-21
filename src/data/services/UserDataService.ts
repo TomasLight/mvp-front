@@ -4,11 +4,11 @@ import { DataFailed } from "@data";
 import { AuthorizedUser } from "@models";
 import { ApiResponseStatus, Mapper } from "@utils";
 import { ActionProcessing } from "../ActionProcessing";
+import { Data } from "../Data";
 import { DataServiceBase } from "../DataServiceBase";
+import { IUserDataService } from "../IUserDataService";
 
-type Data<TModel> = Promise<DataFailed | TModel>;
-
-export class UserDataService extends DataServiceBase {
+export class UserDataService extends DataServiceBase implements IUserDataService {
     private _authorizedUser: AuthorizedUser;
 
     constructor() {

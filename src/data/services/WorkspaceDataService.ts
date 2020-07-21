@@ -17,12 +17,12 @@ import {
 import { ApiResponseStatus, FileHelper, Mapper } from "@utils";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { ActionProcessing } from "../ActionProcessing";
+import { Data } from "../Data";
 import { DataFailed } from "../DataFailed";
 import { DataServiceBase } from "../DataServiceBase";
+import { IWorkspaceDataService } from "../IWorkspaceDataService";
 
-type Data<TModel> = Promise<DataFailed | TModel>;
-
-export class WorkspaceDataService extends DataServiceBase {
+export class WorkspaceDataService extends DataServiceBase implements IWorkspaceDataService {
     private static readonly STORAGE_MILLISECONDS = 1000;
     private _landingConfig: LandingConfig;
     private _workspaces: UserWorkspace[];

@@ -13,11 +13,20 @@ export class SiteConfig implements ISiteConfig {
     openGraphTitle: string;
     color: string;
 
-    constructor() {
-        this.name = "";
-        this.faviconUrl = "";
-        this.openGraphImageUrl = "";
-        this.openGraphTitle = "";
-        this.color = "";
+    constructor(config: ISiteConfig = null) {
+        if (!config) {
+            this.name = "";
+            this.faviconUrl = "";
+            this.openGraphImageUrl = "";
+            this.openGraphTitle = "";
+            this.color = "";
+        }
+        else {
+            this.name = config.name;
+            this.faviconUrl = config.faviconUrl;
+            this.openGraphImageUrl = config.openGraphImageUrl;
+            this.openGraphTitle = config.openGraphTitle;
+            this.color = config.color;
+        }
     }
 }

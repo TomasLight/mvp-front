@@ -1,4 +1,13 @@
-export class AuthorizedUser {
+interface IAuthorizedUser {
+    id: string;
+    email: string;
+    role: string;
+    firstName: string;
+    lastName: string;
+    patronymic: string;
+}
+
+export class AuthorizedUser implements IAuthorizedUser {
     id: string;
     email: string;
     role: string;
@@ -6,7 +15,7 @@ export class AuthorizedUser {
     lastName: string;
     patronymic: string;
 
-    constructor(user: AuthorizedUser = null) {
+    constructor(user: IAuthorizedUser = null) {
         if (!user) {
             this.id = "";
             this.email = "";
