@@ -48,6 +48,7 @@ const SiteOpenGraph = (props: Props) => {
             </Typography>
 
             <DragAndDropFormField
+                label={Translate.getString("картинка")}
                 name={nameof<ISiteSettingsFormValues>(o => o.openGraphImage)}
                 subscription={DefaultFieldSubscription}
                 required

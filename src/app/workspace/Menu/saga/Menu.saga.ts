@@ -1,20 +1,18 @@
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 
-import { MenuApi } from "@api";
-import { MenuSelectors, WorkspaceSelectors } from "@selectors";
-import { ApiResponse } from "@utils/api";
 import { SagaBase } from "@config/saga";
-
+import { DataFailed, DataService } from "@data";
+import { MenuSelectors } from "@selectors";
 import { Cart, Category, Dish } from "../models";
 import {
-    MenuActions,
-    MenuStore,
     IAddDishToCartData,
     IChangeSelectedCategoryData,
     IDecreaseDishAmountInCartData,
     IIncreaseDishAmountInCartData,
-    IOpenDishModalData
+    IOpenDishModalData,
+    MenuActions,
+    MenuStore
 } from "../redux";
 
 export class MenuSaga extends SagaBase {
@@ -32,20 +30,19 @@ export class MenuSaga extends SagaBase {
             categoriesAreLoading: true,
         });
 
-        const menuId = yield WorkspaceSelectors.getMenuId();
-        const response: ApiResponse<Category[]> = yield MenuApi.getCategories(menuId);
-        if (response.hasError()) {
+        const categories: DataFailed | Category[] = yield call(DataService.menu.categoriesAsync);
+        if (categories instanceof DataFailed) {
             yield MenuSaga.updateStore({
                 categoriesAreLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(categories);
             return;
         }
 
         yield MenuSaga.updateStore({
             categoriesAreLoading: false,
-            categories: response.data,
-            selectedCategory: response.data.length ? response.data[0] : null,
+            categories,
+            selectedCategory: categories.length ? categories[0] : null,
         });
     }
 
@@ -54,18 +51,18 @@ export class MenuSaga extends SagaBase {
             dishesAreLoading: true,
         });
 
-        const response: ApiResponse<Dish[]> = yield MenuApi.getDishes();
-        if (response.hasError()) {
+        const dishes: DataFailed | Dish[] = yield call(DataService.menu.dishesAsync);
+        if (dishes instanceof DataFailed) {
             yield MenuSaga.updateStore({
                 dishesAreLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(dishes);
             return;
         }
 
         yield MenuSaga.updateStore({
             dishesAreLoading: false,
-            dishes: response.data,
+            dishes,
         });
     }
 
@@ -77,21 +74,21 @@ export class MenuSaga extends SagaBase {
 
         yield MenuSaga.preloadDish(dishId);
 
-        const response: ApiResponse<Dish> = yield MenuApi.getMenuItem(dishId);
-        if (response.hasError()) {
+        const dish: DataFailed | Dish = yield call(DataService.menu.dishByIdAsync, dishId);
+        if (dish instanceof DataFailed) {
             yield MenuSaga.updateStore({
-                openedDishIsLoading: false,
+                dishesAreLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(dish);
             return;
         }
 
         yield MenuSaga.updateStore({
-            openedDish: response.data,
+            openedDish: dish,
             openedDishIsLoading: false,
         });
 
-        yield MenuSaga.updateDishInStore(response.data);
+        yield MenuSaga.updateDishInStore(dish);
     }
 
     private static* preloadDish(dishId: string) {

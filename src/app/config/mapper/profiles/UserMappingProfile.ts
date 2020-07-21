@@ -17,7 +17,13 @@ export class UserMappingProfile extends MappingProfileBase implements IMappingPr
     }
 
     private static mapIAuthorizedUserDtoToAuthorizedUser(dto: IAuthorizedUserDto): AuthorizedUser {
-        const user = MappingProfileBase.autoMap(dto, new AuthorizedUser());
+        const user = new AuthorizedUser();
+        user.id = dto.id;
+        user.email = dto.email;
+        user.role = dto.role;
+        user.firstName = dto.firstName;
+        user.lastName = dto.lastName;
+        user.patronymic = dto.patronymic;
         return user;
     }
 }

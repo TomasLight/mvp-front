@@ -83,13 +83,15 @@ const MainAppBar = (props: Props) => {
                     />
                 )}
 
-                <Typography
-                    variant="h6"
-                    noWrap
-                    className={classes.title}
-                >
-                    {title}
-                </Typography>
+                {title && (
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        className={classes.title}
+                    >
+                        {title}
+                    </Typography>
+                )}
 
                 <Typography
                     variant="body1"

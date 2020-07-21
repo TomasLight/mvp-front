@@ -1,12 +1,11 @@
+import { call, put } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { push } from "connected-react-router";
 
-import { PageApi } from "@api";
-import { Notification, NotifierActions } from "@app/Notifier";
 import { SagaBase } from "@config/saga";
-import { Translate, ApiResponse } from "@utils";
-import { Pages } from "../models";
-
+import { DataFailed, DataService } from "@data";
+import { mainUrls } from "@main/routing";
+import { ContentConfig, SiteConfig } from "@models";
 import { WorkspaceActions, WorkspaceStore } from "../redux";
 
 export class WorkspaceSaga extends SagaBase {
@@ -14,37 +13,39 @@ export class WorkspaceSaga extends SagaBase {
         yield put(WorkspaceActions.updateStore(partialStore));
     }
 
-    static* loadPage(action: AppAction) {
+    static* loadWorkspace(action: AppAction) {
         yield WorkspaceSaga.updateStore({
-            indexPageIsLoading: true,
+            dataIsLoading: true,
         });
 
-        const response: ApiResponse<Pages> = yield PageApi.getPages();
-        if (response.hasError()) {
+        const siteConfig: DataFailed | SiteConfig = yield call(DataService.workspace.siteConfigAsync);
+        if (siteConfig instanceof DataFailed) {
+            action.stop();
+
             yield WorkspaceSaga.updateStore({
-                indexPageIsLoading: false,
+                dataIsLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+
+            if (siteConfig.actionProcessing.isRedirect()) {
+                yield put(push(mainUrls.siteSettings));
+                return;
+            }
+
+            yield SagaBase.displayClientError(siteConfig);
             return;
         }
 
-        const pages = response.data;
-        if (!pages.index) {
-            const notification = new Notification(
-                Translate.getString("Информация о текущей страница не получена"),
-                { variant: "error" }
-            );
-            yield put(NotifierActions.enqueueSnackbar(notification));
-        }
+        const contentConfig: ContentConfig = yield call(DataService.workspace.contentConfigAsync);
+        const menuId: string = yield call(DataService.workspace.menuIdAsync);
 
         yield WorkspaceSaga.updateStore({
-            indexPageIsLoading: false,
-            indexPage: pages.index,
+            dataIsLoading: false,
+            site: siteConfig,
+            content: contentConfig,
+            menuId,
         });
-
-        const site = pages.index.blocks.site;
-        WorkspaceSaga.updateSiteTitle(site.title);
-        WorkspaceSaga.updateSiteFavicon(site.favicon);
+        WorkspaceSaga.updateSiteTitle(siteConfig.name);
+        WorkspaceSaga.updateSiteFavicon(siteConfig.faviconUrl);
     }
 
     private static updateSiteTitle(title: string) {

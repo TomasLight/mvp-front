@@ -9,13 +9,8 @@ export class WorkspaceSelectors {
         return state.workspace;
     }
 
-    static* getPage() {
-        const store: WorkspaceStore = yield WorkspaceSelectors.getStore();
-        return store.indexPage;
-    }
-
     static* getMenuId() {
         const store: WorkspaceStore = yield WorkspaceSelectors.getStore();
-        return store.indexPage.blocks.menu.menuId;
+        return store.menuId;
     }
 }

@@ -6,6 +6,5 @@ export interface IMenuItemDto {
     readonly name: string;
     readonly description: string;
     readonly price: number;
-
-    image: string;
+    readonly imageUrl: string;
 }

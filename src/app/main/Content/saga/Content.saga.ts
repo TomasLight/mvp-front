@@ -1,16 +1,15 @@
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 
-import { WorkspaceApi } from "@api";
 import { MockStorage } from "@api/mock/MockStorage";
 import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
-import { LandingConfig, WorkspaceContentSettings } from "@app/models";
-
+import { ContentConfig, LandingConfig, WorkspaceContentSettings } from "@app/models";
+import { DataFailed, DataService } from "@data";
 import { IContactSettingsFormValues } from "@main/Content/models";
 import { MainSelectors, SetupSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
-import { ApiResponse, Mapper } from "@utils";
+import { Mapper } from "@utils";
 
 import {
     ISubmitData,
@@ -36,23 +35,30 @@ export class ContentSaga extends SagaBase {
         }
 
         const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
-        const contentConfig = landingConfig.contentConfig;
+        const {
+            firstText,
+            firstPhotoUrl,
+            deliveryMapUrl,
+            deliveryTime,
+            address,
+            phone,
+        } = landingConfig.contentConfig;
 
         yield ContentSaga.updateStore({
             initialValues: {
                 photo: null,
-                firstBlockText: contentConfig.firstText,
-                phone: contentConfig.phone,
-                address: contentConfig.address,
-                deliveryTime: contentConfig.deliveryTime,
-                deliveryLocationLink: contentConfig.deliveryMapUrl,
+                firstBlockText: firstText,
+                phone: phone,
+                address: address,
+                deliveryTime: deliveryTime,
+                deliveryLocationLink: deliveryMapUrl,
             },
-            photo: contentConfig.firstPhotoUrl,
-            text: contentConfig.firstText,
-            phone: contentConfig.phone,
-            address: contentConfig.address,
-            time: contentConfig.deliveryTime,
-            link: contentConfig.deliveryMapUrl,
+            photo: firstPhotoUrl,
+            text: firstText,
+            phone: phone,
+            address: address,
+            time: deliveryTime,
+            link: deliveryMapUrl,
         });
     }
 
@@ -140,19 +146,12 @@ export class ContentSaga extends SagaBase {
             contentIsSaving: true,
         });
 
-        const workspaceId: string = yield MainSelectors.getWorkspaceId();
-        const landingConfigId: string = yield MainSelectors.getLandingConfigId();
-
-        const response: ApiResponse = yield WorkspaceApi.updateContentSettings(
-            workspaceId,
-            landingConfigId,
-            settings
-        );
-        if (response.hasError()) {
+        const siteConfig: DataFailed | ContentConfig = yield call(DataService.workspace.updateContentAsync, settings);
+        if (siteConfig instanceof DataFailed) {
             yield ContentSaga.updateStore({
                 contentIsSaving: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(siteConfig);
             return;
         }
 

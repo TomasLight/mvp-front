@@ -1,9 +1,9 @@
 import { Guid } from "@utils";
-import { INewWorkspaceDto } from "@api/models/workspace/requests";
-import { IUserWorkspaceDto } from "@api/models/workspace/responses";
+import { INewWorkspaceRequestDto } from "@api/models/workspace/requests";
+import { IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
 
 export class WorkspaceMockStorage {
-    static workspaces: IUserWorkspaceDto[] = [ {
+    static workspaces: IUserWorkspaceResponseDto[] = [ {
         "role": "owner",
         "id": Guid.generate(),
         "domainName": "shaurma-zbs",
@@ -14,8 +14,8 @@ export class WorkspaceMockStorage {
         return WorkspaceMockStorage.workspaces;
     }
 
-    static create(workspace: INewWorkspaceDto) {
-        const newWorkspace: IUserWorkspaceDto = {
+    static create(workspace: INewWorkspaceRequestDto) {
+        const newWorkspace: IUserWorkspaceResponseDto = {
             "role": "owner",
             "id": Guid.generate(),
             "domainName": workspace.domain,

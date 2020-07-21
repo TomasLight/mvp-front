@@ -26,8 +26,11 @@ export abstract class ApiBase {
             return this.createMockResponse<TResponseData>(url, "GET");
         }
 
-        const builder = new RequestInitBuilder("GET");
-        const response: Response = await fetch(this.url(url), builder.build());
+        // const builder = new RequestInitBuilder("GET");
+        // const response: Response = await fetch(this.url(url), builder.build());
+        const requestUrl = this.url(url);
+        const requestOptions = new RequestInitBuilder("GET").build();
+        const response = await fetch(requestUrl, requestOptions);
 
         return this.createResponse<TResponseData>(response);
     }
@@ -84,7 +87,9 @@ export abstract class ApiBase {
         apiResponse.statusCode = response.status;
 
         if (response.ok) {
-            apiResponse.data = await response.json();
+            if (response.status !== ApiResponseStatus.NoContent) {
+                apiResponse.data = await response.json();
+            }
         }
         else if (this.isApiError(response)) {
             const apiError: IApiError = await response.json();

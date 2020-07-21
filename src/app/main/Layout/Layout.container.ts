@@ -10,10 +10,10 @@ import { Translate } from "@utils/translates";
 import { Layout, ILayoutProps, ILayoutCallProps, Variant } from "@shared/templates/Layout";
 import { workspaceUrls } from "@ws/routing";
 
-const mapStateToProps = (state: CommonState & State): Partial<ILayoutProps> => ({
-    title: state.main.landingConfig.siteConfig.name,
-    name: state.user.authorizedUser.getName(),
-    menuItems: [
+const mapStateToProps = (state: CommonState & State): Partial<ILayoutProps> => {
+    const isNewWorkspace = state.main.settingsMode === "create";
+
+    const menuItems = [
         {
             title: Translate.getString("Импорт данных"),
             url: mainUrls.dataSettings,
@@ -26,15 +26,22 @@ const mapStateToProps = (state: CommonState & State): Partial<ILayoutProps> => (
             title: Translate.getString("Настройки"),
             url: mainUrls.siteSettings,
         },
-        {
+    ];
+
+    if (!isNewWorkspace) {
+        menuItems.push({
             title: Translate.getString("Ресторан"),
             url: workspaceUrls.menu,
-        },
-    ],
-    variant: state.main.settingsMode === "create"
-        ? Variant.MainNew
-        : Variant.MainEdit,
-});
+        });
+    }
+
+    return {
+        title: state.main.hasWorkspace ? state.main.landingConfig.siteConfig.name : "",
+        name: state.user.authorizedUser.getName(),
+        menuItems,
+        variant: isNewWorkspace ? Variant.MainNew : Variant.MainEdit,
+    };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch): ILayoutCallProps => ({
     redirect: (url: string) => dispatch(push(url)),

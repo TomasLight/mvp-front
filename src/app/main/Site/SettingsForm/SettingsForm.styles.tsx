@@ -17,14 +17,14 @@ const styles = createStyles<ClassKey, {}>((theme) => ({
     root: {
         display: "grid",
         gridTemplateAreas: "\
-            'siteName' '.' \
+            '.' 'siteName' '.' \
             'domain' '.' \
             'favicon' '.' \
             'openGraph' '.' \
             'colors' '.' \
             'stepper'",
         gridTemplateRows: "\
-            auto 64px \
+            48px auto 64px \
             auto 60px \
             auto 132px \
             auto 264px \

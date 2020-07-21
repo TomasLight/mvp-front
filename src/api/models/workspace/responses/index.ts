@@ -1,3 +1,3 @@
-export * from "./ILandingConfig";
-export * from "./IUserWorkspaceDto";
-export * from "./IWorkspaceAddressDto";
+export * from "./IWorkspaceResponseDto";
+export * from "./ILandingConfigDto";
+export * from "./IUserWorkspaceResponseDto";

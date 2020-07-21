@@ -1,12 +1,11 @@
 import { AppAction } from "app-redux-utils";
-import { put } from "@redux-saga/core/effects";
+import { call, put } from "@redux-saga/core/effects";
 
+import { DataFailed, DataService } from "@data";
 import { MainSelectors } from "@selectors";
-import { LandingConfig } from "@app/models";
-import { IUserWorkspaceDto } from "@api/models/workspace/responses";
-import { WorkspaceApi } from "@api/WorkspaceApi";
+import { LandingConfig, UserWorkspace } from "@app/models";
 import { SagaBase } from "@config/saga";
-import { ApiResponse, ApiResponseStatus } from "@utils";
+import { ApiResponse } from "@utils";
 
 import { ISetLandingConfigIdData, ISetWorkspaceIdData, MainActions, MainStore, } from "../redux";
 
@@ -20,17 +19,17 @@ export class MainSaga extends SagaBase {
             workspacesAreLoading: true,
         });
 
-        const response: ApiResponse<IUserWorkspaceDto[]> = yield WorkspaceApi.get();
-        if (response.hasError()) {
+        const workspaces: DataFailed | UserWorkspace[] = yield call(DataService.workspace.listAsync);
+        if (workspaces instanceof DataFailed && !workspaces.actionProcessing.isRedirect()) {
             yield MainSaga.updateStore({
                 workspacesAreLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(workspaces);
             return;
         }
 
         let settingsMode: "create" | "update" = "update";
-        if (response.statusCode === ApiResponseStatus.Forbidden) {
+        if (workspaces instanceof DataFailed || workspaces.length === 0) {
             settingsMode = "create";
         }
 
@@ -45,19 +44,28 @@ export class MainSaga extends SagaBase {
             landingConfigIsLoading: true,
         });
 
-        const response: ApiResponse<LandingConfig> = yield WorkspaceApi.getLandingConfig();
-        if (response.hasError()) {
+        const landingConfig: DataFailed | LandingConfig = yield call(DataService.workspace.landingConfigAsync);
+        if (landingConfig instanceof DataFailed) {
             yield MainSaga.updateStore({
                 landingConfigIsLoading: false,
             });
-            yield SagaBase.displayClientError(response);
+            yield SagaBase.displayClientError(landingConfig);
             return;
         }
 
-        yield MainSaga.updateStore({
-            landingConfig: response.data,
+        const partialStore: Partial<MainStore> = {
             landingConfigIsLoading: false,
-        });
+        };
+
+        if (!landingConfig) {
+            partialStore.hasWorkspace = false;
+        }
+        else {
+            partialStore.hasWorkspace = true;
+            partialStore.landingConfig = landingConfig;
+        }
+
+        yield MainSaga.updateStore(partialStore);
     }
 
     static* setWorkspaceId(action: AppAction<ISetWorkspaceIdData>) {

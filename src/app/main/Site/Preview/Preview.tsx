@@ -1,7 +1,9 @@
+import { Globe } from "@shared/atoms/icons/GLobe";
+import { Translate } from "@utils";
 import clsx from "clsx";
 import React from "react";
 
-import { StyledComponentProps, withStyles } from "@material-ui/core";
+import { StyledComponentProps, Typography, withStyles } from "@material-ui/core";
 
 import { IconVariant } from "@enums";
 import { BrowserPreview } from "@main/Site/Preview/BrowserPreview";
@@ -35,14 +37,21 @@ const Preview = (props: Props) => {
 
     return (
         <div className={classes.root}>
-            <BrowserPreview
-                classes={{
-                    root: clsx(classes.browser, classes.shadow),
-                }}
-                faviconVariant={faviconVariant}
-                siteName={siteName}
-                siteUrl={siteUrl}
-            />
+            <div className={classes.settings}>
+                <Globe className={classes.settingsIcon}/>
+                <Typography className={classes.settingsTitle}>
+                    {Translate.getString("Базовые настройки")}
+                </Typography>
+
+                <BrowserPreview
+                    classes={{
+                        root: clsx(classes.browser, classes.shadow),
+                    }}
+                    faviconVariant={faviconVariant}
+                    siteName={siteName}
+                    siteUrl={siteUrl}
+                />
+            </div>
 
             <VkPostPreview
                 classes={{
