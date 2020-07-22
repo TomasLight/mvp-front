@@ -229,7 +229,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
     ): INewWorkspaceRequestDto {
 
         const dto: INewWorkspaceRequestDto = {
-            domain: settings.domain,
+            domainName: settings.domain,
             name: settings.siteName,
         };
 

@@ -1,4 +1,4 @@
 export interface INewWorkspaceRequestDto {
-    domain: string;
+    domainName: string;
     name: string;
 }

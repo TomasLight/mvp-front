@@ -101,8 +101,10 @@ export class MenuSaga extends SagaBase {
     }
 
     private static* updateDishInStore(changedDish: Dish) {
-        const storedDish: Dish[] = yield MenuSelectors.filterDishes(changedDish.id);
-        storedDish.push(changedDish);
+        const storedDish: Dish[] = yield MenuSelectors.dishes();
+        if (storedDish.every((dish: Dish) => dish.id !== changedDish.id)) {
+            storedDish.push(changedDish);
+        }
 
         yield MenuSaga.updateStore({
             dishes: storedDish,
