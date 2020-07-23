@@ -3,7 +3,9 @@ import { DefinePlugin } from "webpack";
 import dotenv from "dotenv";
 import { merge } from "webpack-merge";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
-// import HtmlWebpackPlugin from "html-webpack-plugin";
+import ManifestPlugin from "webpack-manifest-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import { CleanWebpackPlugin  } from "clean-webpack-plugin";
 
 import { tsRule } from "./rules/ts-rule";
 import { imgRule } from "./rules/img-rule";
@@ -16,6 +18,7 @@ const paths = {
     app: path.join(__dirname, "../src/app/index.tsx"),
 
     output: path.join(__dirname, "../public/js"),
+    public: path.join(__dirname, "../public/"),
 };
 
 const commonWebpackConfig = merge(
@@ -27,7 +30,8 @@ const commonWebpackConfig = merge(
             app: [ "@babel/polyfill", paths.app ],
         },
         output: {
-            filename: "[name].bundle.js",
+            filename: "[name].[contenthash].bundle.js",
+            publicPath: '/js/',
             path: paths.output,
         },
         resolve: {
@@ -40,10 +44,13 @@ const commonWebpackConfig = merge(
             new DefinePlugin({
                 "process.env": JSON.stringify(dotenv.config({path: paths.env}).parsed),
             }),
-            // new HtmlWebpackPlugin({
-            //     template: paths.output + "/src/public/index.template.html",
-            //     inject: "body"
-            // })
+            new CleanWebpackPlugin(),
+            new HtmlWebpackPlugin({
+                template: paths.public + "index.template.html",
+                filename: paths.public + "index.html",
+                inject: "body"
+            }),
+            new ManifestPlugin(),
         ],
     },
     tsRule(),
