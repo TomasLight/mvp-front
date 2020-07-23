@@ -1,16 +1,20 @@
 import {
     INewWorkspaceRequestDto,
     IWorkspaceSettingsRequestDto,
-    ISiteSettingsUpdatedRequestDto, IContentSettingsRequestDto
+    ISiteSettingsUpdatedRequestDto, IContentSettingsRequestDto, INewLandingConfigRequestDto
 } from "@api/models/workspace/requests";
-import { ILandingConfigDto, IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
+import {
+    ILandingConfigDto,
+    INewLandingConfigResponseDto,
+    IUserWorkspaceResponseDto
+} from "@api/models/workspace/responses";
 import { IContentSettingsResponseDto } from "@api/models/workspace/responses/IContentSettingsResponseDto";
 import { ISiteSettingsResponseDto } from "@api/models/workspace/responses/ISiteSettingsResponseDto";
 import {
     ContentConfig,
     LandingConfig,
     SiteConfig,
-    UserWorkspace,
+    Workspace,
     WorkspaceContentSettings,
     WorkspaceDataSettings
 } from "@app/models";
@@ -29,7 +33,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         return [
             new MapFunction(
                 nameof<IUserWorkspaceResponseDto>(),
-                nameof<UserWorkspace>(),
+                nameof<Workspace>(),
                 WorkspaceMappingProfile.map_IUserWorkspaceResponseDto__UserWorkspace
             ),
             new MapFunction(
@@ -82,11 +86,21 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<INewWorkspaceRequestDto>(),
                 WorkspaceMappingProfile.map_WorkspaceSiteSettings__INewWorkspaceRequestDto
             ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<INewLandingConfigRequestDto>(),
+                WorkspaceMappingProfile.map_WorkspaceSiteSettings__INewLandingConfigRequestDto
+            ),
+            new MapFunction(
+                nameof<INewLandingConfigResponseDto>(),
+                nameof<LandingConfig>(),
+                WorkspaceMappingProfile.map_INewLandingConfigResponseDto__LandingConfig
+            ),
         ];
     }
 
-    private static map_IUserWorkspaceResponseDto__UserWorkspace(dto: IUserWorkspaceResponseDto): UserWorkspace {
-        const user = new UserWorkspace();
+    private static map_IUserWorkspaceResponseDto__UserWorkspace(dto: IUserWorkspaceResponseDto): Workspace {
+        const user = new Workspace();
         user.role = dto.role;
         user.id = dto.id;
         user.domain = dto.domainName;
@@ -234,5 +248,68 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         };
 
         return dto;
+    }
+
+    private static map_WorkspaceSiteSettings__INewLandingConfigRequestDto(
+        settings: WorkspaceSiteSettings
+    ): INewLandingConfigRequestDto {
+
+        const dto: INewLandingConfigRequestDto = {
+            domainName: settings.domain,
+            // menuId: "",
+            siteConfig: {
+                name: settings.siteName,
+                faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
+                opengraphImage: "",
+                opengraphImageTitle: settings.openGraphTitle,
+                color: settings.primaryColor,
+            },
+            iikoConfig: {},
+            contentConfig: {
+                firstPhoto: "",
+                firstText: "",
+                phone: "",
+                address: "",
+                deliveryTime: "",
+                deliveryMapUrl: "",
+            },
+        };
+
+        return dto;
+    }
+
+    private static map_INewLandingConfigResponseDto__LandingConfig(
+        dto: INewLandingConfigResponseDto
+    ): LandingConfig {
+
+        const {
+            siteConfig,
+            iikoConfig,
+            contentConfig,
+        } = dto;
+
+        const config = new LandingConfig({
+            id: dto.id,
+            workspaceId: dto.workspaceId,
+            menuId: dto.menuId,
+            siteConfig: new SiteConfig({
+                name: siteConfig.name,
+                faviconUrl: siteConfig.faviconUrl,
+                openGraphImageUrl: siteConfig.opengraphImageUrl,
+                openGraphTitle: siteConfig.opengraphImageTitle,
+                color: siteConfig.color,
+            }),
+            dataConfig: {},
+            contentConfig: new ContentConfig({
+                firstPhotoUrl: contentConfig.firstPhotoUrl,
+                firstText: contentConfig.firstText,
+                phone: contentConfig.phone,
+                address: contentConfig.address,
+                deliveryTime: contentConfig.deliveryTime,
+                deliveryMapUrl: contentConfig.deliveryMapUrl,
+            }),
+        });
+
+        return config;
     }
 }

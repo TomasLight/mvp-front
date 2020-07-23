@@ -5,12 +5,10 @@ import { AuthorizedUser } from "@models";
 import { ApiResponseStatus, Mapper } from "@utils";
 import { ActionProcessing } from "../ActionProcessing";
 import { Data } from "../Data";
-import { DataServiceBase } from "../DataServiceBase";
+import { DataServiceBase } from "./DataServiceBase";
 import { IUserDataService } from "../IUserDataService";
 
 export class UserDataService extends DataServiceBase implements IUserDataService {
-    private _authorizedUser: AuthorizedUser;
-
     constructor() {
         super();
         this.authorizedUserAsync = this.authorizedUserAsync.bind(this);

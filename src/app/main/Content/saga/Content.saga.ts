@@ -1,9 +1,8 @@
 import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
-import { ICategoryDto, IMenuItemDto } from "@api/models/menu/responses";
 import { ContentConfig, LandingConfig, WorkspaceContentSettings } from "@app/models";
-import { DataFailed, DataService } from "@data";
+import { Data, DataFailed, DataService } from "@data";
 import { IContactSettingsFormValues } from "@main/Content/models";
 import { MainSelectors, SetupSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
@@ -34,31 +33,27 @@ export class ContentSaga extends SagaBase {
             return;
         }
 
-        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
-        const {
-            firstText,
-            firstPhotoUrl,
-            deliveryMapUrl,
-            deliveryTime,
-            address,
-            phone,
-        } = landingConfig.contentConfig;
+        const contentConfig: Data<ContentConfig> = yield call(DataService.workspace.contentConfigAsync);
+        if (contentConfig instanceof DataFailed) {
+            yield SagaBase.displayClientError(contentConfig);
+            return;
+        }
 
         yield ContentSaga.updateStore({
             initialValues: {
                 photo: null,
-                firstBlockText: firstText,
-                phone: phone,
-                address: address,
-                deliveryTime: deliveryTime,
-                deliveryLocationLink: deliveryMapUrl,
+                firstBlockText: contentConfig.firstText,
+                phone: contentConfig.phone,
+                address: contentConfig.address,
+                deliveryTime: contentConfig.deliveryTime,
+                deliveryLocationLink: contentConfig.deliveryMapUrl,
             },
-            photo: firstPhotoUrl,
-            text: firstText,
-            phone: phone,
-            address: address,
-            time: deliveryTime,
-            link: deliveryMapUrl,
+            photo: contentConfig.firstPhotoUrl,
+            text: contentConfig.firstText,
+            phone: contentConfig.phone,
+            address: contentConfig.address,
+            time: contentConfig.deliveryTime,
+            link: contentConfig.deliveryMapUrl,
         });
     }
 
@@ -67,16 +62,26 @@ export class ContentSaga extends SagaBase {
             fakeMenuIsLoading: true,
         });
 
-        const fakeDataService = new FakeMenuDataService();
-        const fakeCategories = yield call(fakeDataService.categoriesAsync);
-        const fakeDishes = yield call(fakeDataService.dishesAsync);
+        let categories: Category[];
+        let dishes: Dish[];
+
+        const dataCategories: Data<Category[]> = yield call(DataService.menu.categoriesAsync);
+        if (dataCategories instanceof DataFailed) {
+            const fakeDataService = new FakeMenuDataService();
+            categories = yield call(fakeDataService.categoriesAsync);
+            dishes = yield call(fakeDataService.dishesAsync);
+        }
+        else {
+            categories = dataCategories;
+            dishes = yield call(DataService.menu.dishesAsync);
+        }
 
         yield ContentSaga.updateStore({
             fakeMenu: {
                 cart: new Cart(),
-                categories: fakeCategories,
-                dishes: fakeDishes,
-                selectedCategory: fakeCategories[0],
+                categories,
+                dishes,
+                selectedCategory: categories[0],
             },
         });
     }
@@ -138,17 +143,25 @@ export class ContentSaga extends SagaBase {
             contentIsSaving: true,
         });
 
-        const siteConfig: DataFailed | ContentConfig = yield call(DataService.workspace.updateContentAsync, settings);
-        if (siteConfig instanceof DataFailed) {
+        const contentConfig: Data<ContentConfig> = yield call(DataService.workspace.updateContentAsync, settings);
+        if (contentConfig instanceof DataFailed) {
             yield ContentSaga.updateStore({
                 contentIsSaving: false,
             });
-            yield SagaBase.displayClientError(siteConfig);
+            yield SagaBase.displayClientError(contentConfig);
             return;
         }
 
         const partialStore: Partial<ContentStore> = {
             contentIsSaving: false,
+            initialValues: {
+                photo: null,
+                firstBlockText: contentConfig.firstText,
+                phone: contentConfig.phone,
+                address: contentConfig.address,
+                deliveryTime: contentConfig.deliveryTime,
+                deliveryLocationLink: contentConfig.deliveryMapUrl,
+            },
         };
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {

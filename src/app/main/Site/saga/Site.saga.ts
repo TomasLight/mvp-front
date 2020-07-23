@@ -2,9 +2,9 @@ import { call, put } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
 import { push } from "connected-react-router";
 
-import { LandingConfig, SiteConfig, UserWorkspace, WorkspaceSiteSettings } from "@app/models/wokrspaces";
+import { LandingConfig, SiteConfig, Workspace, WorkspaceSiteSettings } from "@app/models/wokrspaces";
 import { SagaBase } from "@config/saga";
-import { DataFailed, DataService } from "@data";
+import { Data, DataFailed, DataService } from "@data";
 import { MainActions } from "@main/redux";
 import { mainUrls } from "@main/routing";
 import { ISiteSettingsFormValues } from "@main/Site/models";
@@ -35,20 +35,29 @@ export class SiteSaga extends SagaBase {
             return;
         }
 
-        const landingConfig: LandingConfig = yield MainSelectors.getLandingConfig();
-        const siteConfig = landingConfig.siteConfig;
+        const workspace: Data<Workspace> = yield call(DataService.workspace.currentWorkspaceAsync);
+        if (workspace instanceof DataFailed) {
+            yield SagaBase.displayClientError(workspace);
+            return;
+        }
+
+        const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.siteConfigAsync);
+        if (siteConfig instanceof DataFailed) {
+            yield SagaBase.displayClientError(siteConfig);
+            return;
+        }
 
         const faviconVariant = FavIconUrlResolver.getVariant(siteConfig.faviconUrl);
         yield SiteSaga.updateStore({
             initialValues: {
-                domain: "hardcode-domain",
+                domain: workspace.domain,
                 siteName: siteConfig.name,
                 favicon: faviconVariant,
                 openGraphImage: null,
                 openGraphTitle: siteConfig.openGraphTitle,
                 primaryColor: siteConfig.color,
             },
-            siteUrl: `hardcode-domain.${process.env.MAIN_DOMAIN}`,
+            siteUrl: `${workspace.domain}.${process.env.MAIN_DOMAIN}`,
             siteName: siteConfig.name,
             faviconVariant,
             openGraphImage: siteConfig.openGraphImageUrl,
@@ -121,7 +130,7 @@ export class SiteSaga extends SagaBase {
 
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
-            const workspace: DataFailed | UserWorkspace = yield call(DataService.workspace.createAsync, settings);
+            const workspace: Data<Workspace> = yield call(DataService.workspace.createConfigAsync, settings);
             if (workspace instanceof DataFailed) {
                 yield SiteSaga.updateStore({
                     settingsAreSending: false,
@@ -130,22 +139,24 @@ export class SiteSaga extends SagaBase {
                 return;
             }
         }
-
-        const siteConfig: DataFailed | SiteConfig = yield call(DataService.workspace.updateSiteAsync, settings);
-        if (siteConfig instanceof DataFailed) {
-            yield SiteSaga.updateStore({
-                settingsAreSending: false,
-            });
-            yield SagaBase.displayClientError(siteConfig);
-            return;
+        else {
+            const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.updateSiteAsync, settings);
+            if (siteConfig instanceof DataFailed) {
+                yield SiteSaga.updateStore({
+                    settingsAreSending: false,
+                });
+                yield SagaBase.displayClientError(siteConfig);
+                return;
+            }
         }
 
         yield SiteSaga.updateStore({
             settingsAreSending: false,
+            initialValues: formValues,
         });
 
-        yield put(MainActions.loadLandingConfig());
-
-        yield put(push(mainUrls.dataSettings));
+        const notificationAction = MainActions.workspaceWasCreated();
+        notificationAction.callbackAction = () => push(mainUrls.dataSettings) as any;
+        yield put(notificationAction);
     }
 }

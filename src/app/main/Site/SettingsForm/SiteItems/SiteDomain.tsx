@@ -37,7 +37,7 @@ const SiteDomain = (props: Props) => {
                 }}
                 customEndAdornment={(
                     <Typography className={classes.adornment}>
-                        .bizarre.ru
+                        {process.env.MAIN_DOMAIN}
                     </Typography>
                 )}
                 subscription={DefaultFieldSubscription}

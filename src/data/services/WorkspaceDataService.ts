@@ -1,45 +1,54 @@
 import {
-    INewWorkspaceRequestDto,
     IContentSettingsRequestDto,
     IDataSettingsUpdatedRequestDto,
+    INewLandingConfigRequestDto,
     ISiteSettingsUpdatedRequestDto
 } from "@api/models/workspace/requests";
-import { ILandingConfigDto, IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
+import {
+    ILandingConfigDto,
+    INewLandingConfigResponseDto,
+    IUserWorkspaceResponseDto
+} from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import {
     ContentConfig,
     LandingConfig,
     SiteConfig,
-    UserWorkspace, WorkspaceContentSettings,
+    Workspace,
+    WorkspaceContentSettings,
     WorkspaceDataSettings,
     WorkspaceSiteSettings
 } from "@models";
-import { ApiResponseStatus, FileHelper, Mapper } from "@utils";
+import { ApiResponseStatus, FileHelper, Mapper, Translate } from "@utils";
 import { ApiResponse } from "@utils/api/ApiResponse";
 import { ActionProcessing } from "../ActionProcessing";
 import { Data } from "../Data";
 import { DataFailed } from "../DataFailed";
-import { DataServiceBase } from "../DataServiceBase";
+import { DataServiceBase } from "./DataServiceBase";
 import { IWorkspaceDataService } from "../IWorkspaceDataService";
 
 export class WorkspaceDataService extends DataServiceBase implements IWorkspaceDataService {
-    private static readonly STORAGE_MILLISECONDS = 1000;
-    private _landingConfig: LandingConfig;
-    private _workspaces: UserWorkspace[];
+    private static readonly STORAGE_TIME_MILLISECONDS = 5000;
+    private static readonly NEW_LANDING_CONFIG_STORAGE_TIME_MILLISECONDS = 10000;
 
     constructor() {
         super();
         this.siteConfigAsync = this.siteConfigAsync.bind(this);
         this.contentConfigAsync = this.contentConfigAsync.bind(this);
         this.menuIdAsync = this.menuIdAsync.bind(this);
+        this.currentWorkspaceAsync = this.currentWorkspaceAsync.bind(this);
+        this.hasWorkspaceAsync = this.hasWorkspaceAsync.bind(this);
         this.listAsync = this.listAsync.bind(this);
         this.getByIdAsync = this.getByIdAsync.bind(this);
         this.getByDomainAsync = this.getByDomainAsync.bind(this);
-        this.createAsync = this.createAsync.bind(this);
+        // this.createAsync = this.createAsync.bind(this);
+        this.createConfigAsync = this.createConfigAsync.bind(this);
         this.updateSiteAsync = this.updateSiteAsync.bind(this);
         this.updateDataAsync = this.updateDataAsync.bind(this);
         this.updateContentAsync = this.updateContentAsync.bind(this);
         this.landingConfigAsync = this.landingConfigAsync.bind(this);
+
+        this._workspaces = [];
     }
 
     async siteConfigAsync(): Data<SiteConfig> {
@@ -69,7 +78,11 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
         return landingConfig.menuId;
     }
 
-    async listAsync(): Data<UserWorkspace[]> {
+    async listAsync(): Data<Workspace[]> {
+        if (this._workspaces.length) {
+            return this._workspaces;
+        }
+
         const workspacesResponse = await WorkspaceApi.getWorkspacesAsync();
         if (workspacesResponse.hasError()) {
             if (workspacesResponse.statusCode === ApiResponseStatus.Forbidden) {
@@ -81,19 +94,37 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
             return this.failed(workspacesResponse);
         }
 
-        this._workspaces = workspacesResponse.data.map((dto: IUserWorkspaceResponseDto) => Mapper.map<UserWorkspace>(
+        this._workspaces = workspacesResponse.data.map((dto: IUserWorkspaceResponseDto) => Mapper.map<Workspace>(
             nameof<IUserWorkspaceResponseDto>(),
-            nameof<UserWorkspace>(),
+            nameof<Workspace>(),
             dto
         ));
 
         setTimeout(() => {
-            this._workspaces = null;
-        }, WorkspaceDataService.STORAGE_MILLISECONDS);
+            this._workspaces = [];
+        }, WorkspaceDataService.STORAGE_TIME_MILLISECONDS);
         return this._workspaces;
     }
 
-    async getByIdAsync(workspaceId: string): Data<UserWorkspace> {
+    async currentWorkspaceAsync(): Data<Workspace> {
+        const workspaces = await this.listAsync();
+        if (workspaces instanceof DataFailed) {
+            return workspaces;
+        }
+
+        return workspaces[0];
+    }
+
+    async hasWorkspaceAsync(): Data<boolean> {
+        const workspaces = await this.listAsync();
+        if (workspaces instanceof DataFailed) {
+            return workspaces;
+        }
+
+        return !!workspaces.length;
+    }
+
+    async getByIdAsync(workspaceId: string): Data<Workspace> {
         const workspaces = await this.listAsync();
         if (workspaces instanceof DataFailed) {
             return workspaces;
@@ -103,7 +134,7 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
         return workspace;
     }
 
-    async getByDomainAsync(domain: string): Data<UserWorkspace> {
+    async getByDomainAsync(domain: string): Data<Workspace> {
         const workspaces = await this.listAsync();
         if (workspaces instanceof DataFailed) {
             return workspaces;
@@ -113,31 +144,75 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
         return workspace;
     }
 
-    async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
-        const dto = Mapper.map<INewWorkspaceRequestDto>(
+    // async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
+    //     const dto = Mapper.map<INewWorkspaceRequestDto>(
+    //         nameof<WorkspaceSiteSettings>(),
+    //         nameof<INewWorkspaceRequestDto>(),
+    //         settings
+    //     );
+    //
+    //     const createdWorkspaceResponse = await WorkspaceApi.createAsync(dto);
+    //     if (createdWorkspaceResponse.hasError()) {
+    //         return this.failed(createdWorkspaceResponse);
+    //     }
+    //
+    //     const { name, domainName } = createdWorkspaceResponse.data;
+    //
+    //     const workspace = await this.getByDomainAsync(domainName);
+    //     if (workspace instanceof DataFailed) {
+    //         return workspace;
+    //     }
+    //
+    //     this._workspaces.push({
+    //         domain: domainName,
+    //         id: workspace.id,
+    //         name,
+    //         role: workspace.role,
+    //     });
+    //
+    //     return workspace;
+    // }
+
+    async createConfigAsync(settings: WorkspaceSiteSettings): Data<Workspace> {
+        const dto = Mapper.map<INewLandingConfigRequestDto>(
             nameof<WorkspaceSiteSettings>(),
-            nameof<INewWorkspaceRequestDto>(),
+            nameof<INewLandingConfigRequestDto>(),
             settings
         );
 
-        const createdWorkspaceResponse = await WorkspaceApi.createAsync(dto);
-        if (createdWorkspaceResponse.hasError()) {
-            return this.failed(createdWorkspaceResponse);
+        const base64 = await FileHelper.toBase64(settings.openGraphImage);
+        dto.siteConfig.opengraphImage = FileHelper.clearBase64(base64);
+
+        const landingConfigResponse = await WorkspaceApi.createConfigAsync(dto);
+        if (landingConfigResponse.hasError()) {
+            return this.failed(landingConfigResponse);
         }
 
-        const { name, domainName } = createdWorkspaceResponse.data;
+        const {
+            id,
+            workspaceId,
+            menuId,
+            siteConfig,
+            iikoConfig,
+            contentConfig,
+        } = landingConfigResponse.data;
 
-        const workspace = await this.getByDomainAsync(domainName);
-        if (workspace instanceof DataFailed) {
-            return workspace;
-        }
-
-        this._workspaces.push({
-            domain: domainName,
-            id: workspace.id,
-            name,
-            role: workspace.role,
+        const workspace: Workspace = new Workspace({
+            domain: dto.domainName,
+            id: workspaceId,
+            name: siteConfig.name,
+            role: "owner",
         });
+        this._workspaces.push(workspace);
+        this._landingConfig = Mapper.map<LandingConfig>(
+            nameof<INewLandingConfigResponseDto>(),
+            nameof<LandingConfig>(),
+            landingConfigResponse.data
+        );
+
+        setTimeout(() => {
+            this._landingConfig = null;
+        }, WorkspaceDataService.NEW_LANDING_CONFIG_STORAGE_TIME_MILLISECONDS);
 
         return workspace;
     }
@@ -231,7 +306,71 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
             return this._landingConfig;
         }
 
+        const isTenant = window.location.hostname !== process.env.MAIN_DOMAIN;
+        if (isTenant) {
+            const landingConfig = await this.getTenantLandingConfigAsync();
+            if (landingConfig instanceof DataFailed) {
+                return landingConfig;
+            }
+            this._landingConfig = landingConfig;
+        }
+        else {
+            const landingConfig = await this.getCreatedLandingConfigAsync();
+            if (landingConfig instanceof DataFailed) {
+                return landingConfig;
+            }
+            this._landingConfig = landingConfig;
+        }
+
+        setTimeout(() => {
+            this._landingConfig = null;
+        }, WorkspaceDataService.STORAGE_TIME_MILLISECONDS);
+        return this._landingConfig;
+    }
+
+    private async getTenantLandingConfigAsync(): Data<LandingConfig> {
         const response = await WorkspaceApi.getLandingConfigAsync();
+        if (response.hasError()) {
+            return this.failed(response);
+        }
+
+        if (!response.data) {
+            return new DataFailed({
+                actionProcessing: new ActionProcessing("display"),
+                message: Translate.getString("Что-то пошло не так и мы не смогли загрузить настройки сайта."),
+            });
+        }
+
+        const landingConfig = Mapper.map<LandingConfig>(
+            nameof<ILandingConfigDto>(),
+            nameof<LandingConfig>(),
+            response.data
+        );
+
+        return landingConfig;
+    }
+
+    private async getCreatedLandingConfigAsync(): Data<LandingConfig> {
+        let workspaceId: string;
+        if (this._workspaces.length > 0) {
+            workspaceId = this._workspaces[0].id;
+        }
+        else {
+            const workspaceResponse = await WorkspaceApi.getWorkspacesAsync();
+            if (workspaceResponse.hasError() || !workspaceResponse.data.length) {
+                if (workspaceResponse.statusCode === ApiResponseStatus.Forbidden) {
+                    return new DataFailed({
+                        actionProcessing: new ActionProcessing("create"),
+                    });
+                }
+
+                return this.failed(workspaceResponse);
+            }
+
+            workspaceId = workspaceResponse.data[0].id;
+        }
+
+        const response = await WorkspaceApi.getLandingConfigByWorkspaceIdAsync(workspaceId);
         if (response.hasError()) {
             if (response.statusCode === ApiResponseStatus.Forbidden) {
                 return new DataFailed({
@@ -244,19 +383,16 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
 
         if (!response.data) {
             return new DataFailed({
-                actionProcessing: new ActionProcessing("redirect"),
+                actionProcessing: new ActionProcessing("create"),
             });
         }
 
-        this._landingConfig = Mapper.map<LandingConfig>(
+        const landingConfig = Mapper.map<LandingConfig>(
             nameof<ILandingConfigDto>(),
             nameof<LandingConfig>(),
             response.data
         );
 
-        setTimeout(() => {
-            this._landingConfig = null;
-        }, WorkspaceDataService.STORAGE_MILLISECONDS);
-        return this._landingConfig;
+        return landingConfig;
     }
 }

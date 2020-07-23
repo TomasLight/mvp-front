@@ -5,13 +5,11 @@ import { ApiResponseStatus, Mapper } from "@utils";
 import { Category, Dish, Menu } from "@ws/Menu/models";
 import { ActionProcessing } from "../ActionProcessing";
 import { Data } from "../Data";
-import { DataServiceBase } from "../DataServiceBase";
+import { DataServiceBase } from "./DataServiceBase";
 import { IMenuDataService } from "../IMenuDataService";
 
 export class MenuDataService extends DataServiceBase implements IMenuDataService {
     private static readonly STORAGE_MILLISECONDS = 10000;
-    private _menu: Menu;
-    private _dishes: Dish[];
 
     constructor() {
         super();
@@ -78,18 +76,25 @@ export class MenuDataService extends DataServiceBase implements IMenuDataService
             return this._menu;
         }
 
-        const landingConfigResponse = await WorkspaceApi.getLandingConfigAsync();
-        if (landingConfigResponse.hasError()) {
-            if (landingConfigResponse.statusCode === ApiResponseStatus.Forbidden) {
-                return new DataFailed({
-                    actionProcessing: new ActionProcessing("redirect"),
-                });
-            }
+        let menuId: string;
+        if (this._landingConfig) {
+            menuId = this._landingConfig.menuId;
+        }
+        else {
+            const landingConfigResponse = await WorkspaceApi.getLandingConfigAsync();
+            if (landingConfigResponse.hasError()) {
+                if (landingConfigResponse.statusCode === ApiResponseStatus.Forbidden) {
+                    return new DataFailed({
+                        actionProcessing: new ActionProcessing("redirect"),
+                    });
+                }
 
-            return this.failed(landingConfigResponse);
+                return this.failed(landingConfigResponse);
+            }
+            menuId = landingConfigResponse.data.menuId;
         }
 
-        const response = await MenuApi.getMenuAsync(landingConfigResponse.data.menuId);
+        const response = await MenuApi.getMenuAsync(menuId);
         if (response.hasError()) {
             if (response.statusCode === ApiResponseStatus.Forbidden) {
                 return new DataFailed({

@@ -2,7 +2,7 @@ import {
     ContentConfig,
     LandingConfig,
     SiteConfig,
-    UserWorkspace,
+    Workspace,
     WorkspaceContentSettings,
     WorkspaceDataSettings,
     WorkspaceSiteSettings
@@ -13,10 +13,13 @@ export interface IWorkspaceDataService {
     siteConfigAsync(): Data<SiteConfig>;
     contentConfigAsync(): Data<ContentConfig>;
     menuIdAsync(): Data<string>;
-    listAsync(): Data<UserWorkspace[]>;
-    getByIdAsync(workspaceId: string): Data<UserWorkspace>;
-    getByDomainAsync(domain: string): Data<UserWorkspace>;
-    createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace>;
+    listAsync(): Data<Workspace[]>;
+    currentWorkspaceAsync(): Data<Workspace>;
+    hasWorkspaceAsync(): Data<boolean>;
+    getByIdAsync(workspaceId: string): Data<Workspace>;
+    getByDomainAsync(domain: string): Data<Workspace>;
+    // createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace>;
+    createConfigAsync(settings: WorkspaceSiteSettings): Data<Workspace>;
     updateSiteAsync(settings: WorkspaceSiteSettings): Data<SiteConfig>;
     updateDataAsync(settings: WorkspaceDataSettings): Data<null> ;
     updateContentAsync(settings: WorkspaceContentSettings): Data<ContentConfig>;

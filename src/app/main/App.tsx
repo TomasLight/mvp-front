@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { configureApp } from "@config/configureApp";
 import { configureMapper, MainReducerConfig, RootSaga } from "@main/config";
 import { AppProviderContainer } from "./AppProvider.container";
-import { PageComponentRouter } from "./routing";
+import { PageComponentRouterContainer } from "./routing";
 
 configureMapper();
 
@@ -29,7 +29,7 @@ const App = (props: Props) => {
         <Provider store={store}>
             <ConnectedRouter history={history}>
                 <AppProviderContainer>
-                    <PageComponentRouter/>
+                    <PageComponentRouterContainer/>
                 </AppProviderContainer>
             </ConnectedRouter>
         </Provider>

@@ -1,9 +1,8 @@
 import { call, put } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
-import { push } from "connected-react-router";
 
 import { SagaBase } from "@config/saga";
-import { DataFailed, DataService } from "@data";
+import { Data, DataFailed, DataService } from "@data";
 import { mainUrls } from "@main/routing";
 import { ContentConfig, SiteConfig } from "@models";
 import { WorkspaceActions, WorkspaceStore } from "../redux";
@@ -13,12 +12,12 @@ export class WorkspaceSaga extends SagaBase {
         yield put(WorkspaceActions.updateStore(partialStore));
     }
 
-    static* loadWorkspace(action: AppAction) {
+    static* loadSettings(action: AppAction) {
         yield WorkspaceSaga.updateStore({
             dataIsLoading: true,
         });
 
-        const siteConfig: DataFailed | SiteConfig = yield call(DataService.workspace.siteConfigAsync);
+        const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.siteConfigAsync);
         if (siteConfig instanceof DataFailed) {
             action.stop();
 
@@ -27,7 +26,8 @@ export class WorkspaceSaga extends SagaBase {
             });
 
             if (siteConfig.actionProcessing.isRedirect()) {
-                yield put(push(mainUrls.siteSettings));
+                const url = `${window.location.protocol}//${process.env.MAIN_DOMAIN}/${mainUrls.siteSettings}`;
+                window.location.href = url;
                 return;
             }
 

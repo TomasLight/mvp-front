@@ -1,8 +1,9 @@
+import { DataFailed } from "@data";
 import {
     ContentConfig,
     LandingConfig,
     SiteConfig,
-    UserWorkspace,
+    Workspace,
     WorkspaceContentSettings,
     WorkspaceDataSettings,
     WorkspaceSiteSettings
@@ -21,16 +22,18 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
         this.contentConfigAsync = this.contentConfigAsync.bind(this);
         this.menuIdAsync = this.menuIdAsync.bind(this);
         this.listAsync = this.listAsync.bind(this);
+        this.hasWorkspaceAsync = this.hasWorkspaceAsync.bind(this);
         this.getByIdAsync = this.getByIdAsync.bind(this);
         this.getByDomainAsync = this.getByDomainAsync.bind(this);
-        this.createAsync = this.createAsync.bind(this);
+        // this.createAsync = this.createAsync.bind(this);
+        this.createConfigAsync = this.createConfigAsync.bind(this);
         this.updateSiteAsync = this.updateSiteAsync.bind(this);
         this.updateDataAsync = this.updateDataAsync.bind(this);
         this.updateContentAsync = this.updateContentAsync.bind(this);
         this.landingConfigAsync = this.landingConfigAsync.bind(this);
 
         this.workspaces = [
-            new UserWorkspace({
+            new Workspace({
                 role: "owner",
                 id: FakeServiceBase.DEFAULT_WORKSPACE_ID,
                 domain: "shaurma-zbs",
@@ -72,30 +75,74 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
         return Promise.resolve(this.landingConfig.menuId);
     }
 
-    async listAsync(): Data<UserWorkspace[]> {
+    async listAsync(): Data<Workspace[]> {
         return Promise.resolve(this.workspaces);
     }
 
-    async getByIdAsync(workspaceId: string): Data<UserWorkspace> {
+    async currentWorkspaceAsync(): Data<Workspace> {
+        const workspaces = await this.listAsync();
+        if (workspaces instanceof DataFailed) {
+            return workspaces;
+        }
+
+        return workspaces[0];
+    }
+
+    async hasWorkspaceAsync(): Data<boolean> {
+        const workspaces = await this.listAsync();
+        if (workspaces instanceof DataFailed) {
+            return workspaces;
+        }
+
+        return !!workspaces.length;
+    }
+
+    async getByIdAsync(workspaceId: string): Data<Workspace> {
         const workspace = this.workspaces.find(ws => ws.id === workspaceId);
         return Promise.resolve(workspace);
     }
 
-    async getByDomainAsync(domain: string): Data<UserWorkspace> {
+    async getByDomainAsync(domain: string): Data<Workspace> {
         const workspace = this.workspaces.find(ws => ws.domain === domain);
         return Promise.resolve(workspace);
     }
 
-    async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
-        const workspace = new UserWorkspace({
+    // async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
+    //     const workspace = new UserWorkspace({
+    //         domain: settings.domain,
+    //         id: Guid.generate(),
+    //         name: settings.siteName,
+    //         role: "owner",
+    //     });
+    //
+    //     this.workspaces.push(workspace);
+    //     return Promise.resolve(workspace);
+    // }
+
+    async createConfigAsync(settings: WorkspaceSiteSettings): Data<Workspace> {
+        const workspace = new Workspace({
             domain: settings.domain,
             id: Guid.generate(),
             name: settings.siteName,
             role: "owner",
         });
+        this.landingConfig = new LandingConfig({
+            id: Guid.generate(),
+            menuId: Guid.generate(),
+            workspaceId: Guid.generate(),
+            siteConfig: new SiteConfig({
+                name: settings.siteName,
+                faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
+                openGraphImageUrl: await FileHelper.toBase64(settings.openGraphImage),
+                openGraphTitle: settings.openGraphTitle,
+                color: settings.primaryColor,
+            }),
+            dataConfig: {},
+            contentConfig: new ContentConfig(),
+        });
 
         this.workspaces.push(workspace);
-        return Promise.resolve(workspace);
+        return workspace;
     }
 
     async updateSiteAsync(settings: WorkspaceSiteSettings): Data<SiteConfig> {

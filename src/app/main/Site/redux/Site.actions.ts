@@ -12,7 +12,7 @@ import {
 import { SiteStore } from "./Site.store";
 
 export class SiteActions {
-    static readonly PREFIX = "SETUP_";
+    static readonly PREFIX = "SITE_";
     static readonly UPDATE_STORE = SiteActions.PREFIX + "UPDATE_STORE";
 
     static readonly LOAD_DATA = SiteActions.PREFIX + "LOAD_DATA";

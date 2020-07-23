@@ -1,4 +1,5 @@
 import { Typography } from "@material-ui/core";
+import { Image } from "@shared/molecules";
 import { Translate } from "@utils";
 import React, { useEffect } from "react";
 
@@ -40,7 +41,14 @@ const MenuPage = (props: Props) => {
 
     return (
         <div className={classes.root}>
-            <div className={classes.image}>
+            <Image
+                src={firstPhotoUrl}
+                animation={false}
+                classes={{
+                    root: classes.image,
+                    skeleton: classes.imageSkeleton,
+                }}
+            >
                 <Typography className={classes.firstText} noWrap>
                     {firstText}
                 </Typography>
@@ -48,7 +56,7 @@ const MenuPage = (props: Props) => {
                 <Typography className={classes.address} noWrap>
                     {Translate.getString(`${address}, доставка ${deliveryTime}`)}
                 </Typography>
-            </div>
+            </Image>
 
             <FiltersContainer classes={{ root: classes.filters }}/>
 

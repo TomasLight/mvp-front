@@ -8,7 +8,7 @@ export class TestsFileHelper {
     }
 
     static getDataConfigBase64ForTests(): string {
-        const buffer = fs.readFileSync(`${process.cwd()}/public/files/test-data-config.zip`);
+        const buffer = fs.readFileSync(`${process.cwd()}/public/files/export_pizza.zip`);
         const fileBase64 = buffer.toString("base64");
         return fileBase64;
     }

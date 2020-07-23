@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 
-import { State } from "@WsState";
+import { State } from "@MainState";
 import { IPageComponentRouterProps, PageComponentRouter } from "./PageComponentRouter";
 
 const mapStateToProps = (state: State): IPageComponentRouterProps => ({
-    // hasWorkspace: !!state.workspace.site.name,
+    hasWorkspace: state.main.hasWorkspace,
 });
 
 const PageComponentRouterContainer = connect(

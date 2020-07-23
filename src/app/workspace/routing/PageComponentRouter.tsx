@@ -10,17 +10,17 @@ import { MenuPageContainer } from "@ws/Menu";
 import { workspaceUrls } from "./workspaceUrls";
 
 interface IPageComponentRouterProps {
-    hasWorkspace: boolean;
+    // hasWorkspace: boolean;
 }
 
 type Props = IPageComponentRouterProps & RouteComponentProps;
 
 const PageComponentRouter = (props: Props) => {
-    const { location, hasWorkspace } = props;
+    const { location/*, hasWorkspace*/ } = props;
 
-    if (!hasWorkspace) {
-        return <Redirect push to={mainUrls.siteSettings}/>;
-    }
+    // if (!hasWorkspace) {
+    //     return <Redirect push to={mainUrls.siteSettings}/>;
+    // }
 
     if (location.pathname === workspaceUrls.workspace) {
         return <Redirect push to={workspaceUrls.menu}/>;

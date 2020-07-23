@@ -9,14 +9,16 @@
 type ConstructorValue =
     | "redirect"
     | "display"
+    | "create"
     ;
 
 enum ActionFlag {
     none = 0,
     redirect = 1 << 0,
-    display = 1 << 0,
-    error = 1 << 1,
-    warning = 1 << 2,
+    display = 1 << 1,
+    create = 1 << 2,
+    error = 1 << 3,
+    warning = 1 << 4,
 }
 
 export class ActionProcessing {
@@ -30,6 +32,10 @@ export class ActionProcessing {
 
             case "display":
                 this._value = ActionFlag.display;
+                break;
+
+            case "create":
+                this._value = ActionFlag.create;
                 break;
         }
     }
@@ -50,6 +56,10 @@ export class ActionProcessing {
 
     isRedirect() {
         return this._value & ActionFlag.redirect;
+    }
+
+    isCreate() {
+        return this._value & ActionFlag.create;
     }
 
     isWarning() {

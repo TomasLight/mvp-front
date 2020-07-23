@@ -1,19 +1,24 @@
-import { Typography, makeStyles } from "@material-ui/core";
-import { Translate } from "@utils";
+import { Image } from "@shared/molecules";
 import clsx from "clsx";
 import React, { useCallback, useEffect, useMemo } from "react";
 
 import { ThemeProvider } from "@material-ui/core/styles";
+import { Typography, makeStyles } from "@material-ui/core";
+import { Skeleton } from "@material-ui/lab";
 
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { Filters } from "@ws/Menu/Filters";
 import { Food } from "@ws/Menu/Food";
 import { useStyles as useMenuStyles } from "@ws/Menu/MenuPage.styles";
 import { createTheme } from "@shared/theme";
+import { Translate } from "@utils";
 
 const useStyles = makeStyles({
     root: {
         padding: "20px 30px",
+    },
+    photoSkeleton: {
+        position: "absolute",
     },
 });
 
@@ -84,15 +89,26 @@ const ContactPreview = (props: Props) => {
     return (
         <ThemeProvider theme={theme}>
             <div className={clsx(menuClasses.root, classes.root)}>
-                <div className={menuClasses.image}>
-                    <Typography className={menuClasses.firstText} noWrap>
-                        {firstBlockText}
-                    </Typography>
+                <Image
+                    src={photo}
+                    animation="wave"
+                    classes={{
+                        root: menuClasses.image,
+                        skeleton: menuClasses.imageSkeleton,
+                    }}
+                >
+                    {firstBlockText && (
+                        <Typography className={menuClasses.firstText} noWrap>
+                            {firstBlockText}
+                        </Typography>
+                    )}
 
-                    <Typography className={menuClasses.address} noWrap>
-                        {addressString}
-                    </Typography>
-                </div>
+                    {addressString && (
+                        <Typography className={menuClasses.address} noWrap>
+                            {addressString}
+                        </Typography>
+                    )}
+                </Image>
 
                 <Filters
                     classes={{ root: menuClasses.filters }}

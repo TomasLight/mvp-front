@@ -1,3 +1,4 @@
+import { Translate } from "@utils";
 import React, { useEffect, useMemo } from "react";
 
 import { makeStyles } from "@material-ui/core";
@@ -55,6 +56,7 @@ const SitePage = (props: Props) => {
     const Form = useMemo(() => formProvider.createForm(submitSettings), [ submitSettings ]);
 
     useEffect(() => {
+        document.title = Translate.getString("Настройки сайта");
         loadData();
     }, []);
 

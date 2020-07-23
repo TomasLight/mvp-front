@@ -8,20 +8,12 @@ export class MainWatcher extends Watcher {
         super();
 
         this.watchLatest(
-            MainActions.LOAD_LANDING_CONFIG,
-            MainSaga.loadLandingConfig
+            MainActions.CHECK_WORKSPACE,
+            MainSaga.checkWorkspace
         );
         this.watchLatest(
-            MainActions.LOAD_WORKSPACES,
-            MainSaga.loadWorkspaces
-        );
-        this.watchLatest(
-            MainActions.SET_WORKSPACE_ID,
-            MainSaga.setWorkspaceId
-        );
-        this.watchLatest(
-            MainActions.SET_LANDING_CONFIG_ID,
-            MainSaga.setLandingConfigId
+            MainActions.WORKSPACE_WAS_CREATED,
+            MainSaga.workspaceWasCreated
         );
     }
 }

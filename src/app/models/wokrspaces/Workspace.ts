@@ -1,17 +1,17 @@
-interface IUserWorkspace {
+interface IWorkspace {
     role: string;
     id: string;
     domain: string;
     name: string;
 }
 
-export class UserWorkspace implements IUserWorkspace {
+export class Workspace implements IWorkspace {
     role: string;
     id: string;
     domain: string;
     name: string;
 
-    constructor(workspace: IUserWorkspace = null) {
+    constructor(workspace: IWorkspace = null) {
         if (!workspace) {
             this.role = "";
             this.id = "";

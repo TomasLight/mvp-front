@@ -1,7 +1,12 @@
 import React from "react";
 
-import { StyledComponentProps, Typography, withStyles } from "@material-ui/core";
+import {
+    StyledComponentProps,
+    Typography,
+    withStyles,
+} from "@material-ui/core";
 
+import { Image } from "@shared/molecules";
 import { styles, ClassKey } from "./VkPostPreview.styles";
 
 interface IVkPostPreviewProps {
@@ -19,6 +24,7 @@ const VkPostPreview = (props: Props) => {
         userName,
         title,
         siteUrl,
+        image,
     } = props;
 
     return (
@@ -27,7 +33,13 @@ const VkPostPreview = (props: Props) => {
                 {userName}
             </Typography>
 
-            <div className={classes.image} />
+            <Image
+                src={image}
+                animation="wave"
+                classes={{
+                    root: classes.image,
+                }}
+            />
 
             <Typography className={classes.title} noWrap>
                 {title}

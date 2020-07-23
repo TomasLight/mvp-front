@@ -47,6 +47,7 @@ const styles = createStyles<ClassKey, {}>({
         fontSize: 14,
         lineHeight: "16px",
         padding: "0 104px 0 161px",
+        textAlign: "left",
     },
 });
 export { styles, ClassKey };

@@ -11,12 +11,20 @@ import { ContentPageContainer } from "../Content";
 
 import { mainUrls } from "./mainUrls";
 
-type Props = RouteComponentProps;
+interface IPageComponentRouterProps {
+    hasWorkspace: boolean;
+}
+
+type Props = IPageComponentRouterProps & RouteComponentProps;
 
 const PageComponentRouter = (props: Props) => {
-    const { location } = props;
+    const { location, hasWorkspace } = props;
 
     if (location.pathname === mainUrls.main) {
+        return <Redirect push to={mainUrls.siteSettings}/>;
+    }
+
+    if (!hasWorkspace && location.pathname !== mainUrls.siteSettings) {
         return <Redirect push to={mainUrls.siteSettings}/>;
     }
 
@@ -55,4 +63,4 @@ const PageComponentRouter = (props: Props) => {
 };
 
 const componentWithRouter = withRouter(PageComponentRouter);
-export { componentWithRouter as PageComponentRouter };
+export { componentWithRouter as PageComponentRouter, IPageComponentRouterProps };

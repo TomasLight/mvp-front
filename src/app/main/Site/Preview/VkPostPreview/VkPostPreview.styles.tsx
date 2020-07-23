@@ -42,13 +42,6 @@ const styles = createStyles<ClassKey, { image: string }>({
         margin: "0 20px 0 20px",
         borderTopLeftRadius: 4,
         borderTopRightRadius: 4,
-        maxWidth: "calc(100% - 40px)", // width - margins
-        height: "100%",
-
-        overflow: "hidden",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundImage: props => `url(${props.image})`,
     },
     title: {
         gridArea: "title",

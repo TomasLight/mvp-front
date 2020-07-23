@@ -1,4 +1,5 @@
-import React, { useMemo } from "react";
+import { Translate } from "@utils";
+import React, { useEffect, useMemo } from "react";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -43,6 +44,10 @@ const DataPage = (props: Props) => {
         submitSettings,
     } = props;
     const classes = useStyles();
+
+    useEffect(() => {
+        document.title = Translate.getString("Импорт данных");
+    }, []);
 
     const DataForm = useMemo(() => dataFormProvider.createForm(submitSettings), [ submitSettings ]);
 

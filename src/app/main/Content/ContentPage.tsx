@@ -72,6 +72,7 @@ const ContentPage = (props: Props) => {
     const ContactForm = useMemo(() => formProvider.createForm(submit), [ submit ]);
 
     useEffect(() => {
+        document.title = Translate.getString("Настройки контента");
         loadData();
     }, []);
 

@@ -17,16 +17,11 @@ export class AppProviderSaga extends SagaBase {
     }
 
     static* initializeMainApp(action: AppAction) {
-        const callbackAction = AppProviderActions.incrementInitializedActions;
-
-        const landingAction = MainActions.loadLandingConfig();
-        landingAction.callbackAction = callbackAction;
-
-        const workspaceAction = MainActions.loadWorkspaces();
-        workspaceAction.callbackAction = callbackAction;
-
         const initializedAction = AppProviderActions.getAuthorizedUser();
-        initializedAction.actions.push(landingAction);
+
+        const workspaceAction = MainActions.checkWorkspace();
+        workspaceAction.callbackAction = AppProviderActions.incrementInitializedActions;
+
         initializedAction.actions.push(workspaceAction);
 
         yield AppProviderSaga.updateStore({
@@ -36,34 +31,19 @@ export class AppProviderSaga extends SagaBase {
     }
 
     static* initializePosApp(action: AppAction) {
-        // const callbackAction = AppProviderActions.incrementInitializedActions;
-        // const initializedActions = [
-        //     put(AppProviderActions.getAuthorizedUserWithCallback()(callbackAction)),
-        // ];
-        //
         yield AppProviderSaga.updateStore({
             initialized: true,
-            // targetActionsAmount: initializedActions.length,
         });
-        // yield all(initializedActions);
     }
 
     static* initializedWorkspaceApp(action: AppAction) {
-        const getAuthorizedUserAction = AppProviderActions.getAuthorizedUser();
-
-        const loadWorkspaceAction = WorkspaceActions.loadWorkspace();
+        const loadWorkspaceAction = WorkspaceActions.loadSettings();
         loadWorkspaceAction.callbackAction = AppProviderActions.incrementInitializedActions;
 
-        getAuthorizedUserAction.actions.push(loadWorkspaceAction);
-
-        const initializedActions = [
-            put(getAuthorizedUserAction),
-        ];
-
         yield AppProviderSaga.updateStore({
-            targetActionsAmount: initializedActions.length,
+            targetActionsAmount: loadWorkspaceAction.actions.length,
         });
-        yield all(initializedActions);
+        yield put(loadWorkspaceAction);
     }
 
     static* getAuthorizedUser(action: AppAction<IGetAuthorizedUserData>) {

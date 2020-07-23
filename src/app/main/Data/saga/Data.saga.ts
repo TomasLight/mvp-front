@@ -33,12 +33,12 @@ export class DataSaga extends SagaBase {
             settingsAreSending: true,
         });
 
-        const siteConfig: DataFailed | null = yield call(DataService.workspace.updateDataAsync, settings);
-        if (siteConfig instanceof DataFailed) {
+        const result: DataFailed | null = yield call(DataService.workspace.updateDataAsync, settings);
+        if (result instanceof DataFailed) {
             yield DataSaga.updateStore({
                 settingsAreSending: false,
             });
-            yield SagaBase.displayClientError(siteConfig);
+            yield SagaBase.displayClientError(result);
             return;
         }
 

@@ -1,4 +1,4 @@
-import { AuthorizedUser, LandingConfig, UserWorkspace } from "@models";
+import { AuthorizedUser, LandingConfig, Workspace } from "@models";
 import { Guid } from "@utils";
 import { Dish, Menu } from "@ws/Menu/models";
 
@@ -8,7 +8,7 @@ export abstract class FakeServiceBase {
     protected authorizedUser: AuthorizedUser;
 
     protected landingConfig: LandingConfig;
-    protected workspaces: UserWorkspace[];
+    protected workspaces: Workspace[];
 
     protected menu: Menu;
     protected dishes: Dish[];
