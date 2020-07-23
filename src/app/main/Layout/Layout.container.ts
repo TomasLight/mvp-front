@@ -28,12 +28,12 @@ const mapStateToProps = (state: CommonState & State): Partial<ILayoutProps> => {
         },
     ];
 
-    if (!isNewWorkspace) {
-        menuItems.push({
-            title: Translate.getString("Ресторан"),
-            url: workspaceUrls.menu,
-        });
-    }
+    // if (!isNewWorkspace) {
+    //     menuItems.push({
+    //         title: Translate.getString("Ресторан"),
+    //         url: workspaceUrls.menu,
+    //     });
+    // }
 
     return {
         title: state.main.hasWorkspace ? state.main.landingConfig.siteConfig.name : "",

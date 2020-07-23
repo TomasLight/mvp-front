@@ -4,7 +4,7 @@ import { call, put } from "@redux-saga/core/effects";
 import { ContentConfig, LandingConfig, WorkspaceContentSettings } from "@app/models";
 import { Data, DataFailed, DataService } from "@data";
 import { IContactSettingsFormValues } from "@main/Content/models";
-import { MainSelectors, SetupSelectors } from "@selectors";
+import { MainSelectors, SiteSelectors } from "@selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
 import { Mapper } from "@utils";
@@ -65,8 +65,12 @@ export class ContentSaga extends SagaBase {
         let categories: Category[];
         let dishes: Dish[];
 
+        const hasWorkspace: boolean = yield MainSelectors.getHasWorkspace();
         const dataCategories: Data<Category[]> = yield call(DataService.menu.categoriesAsync);
         if (dataCategories instanceof DataFailed) {
+            if (hasWorkspace) {
+                yield SagaBase.displayClientError(dataCategories);
+            }
             const fakeDataService = new FakeMenuDataService();
             categories = yield call(fakeDataService.categoriesAsync);
             dishes = yield call(fakeDataService.dishesAsync);
@@ -178,7 +182,7 @@ export class ContentSaga extends SagaBase {
     }
 
     static* redirectToSite(action: AppAction) {
-        const siteUrl: string = yield SetupSelectors.getSiteUrl();
+        const siteUrl: string = yield SiteSelectors.getSiteUrl();
 
         window.location.href = siteUrl;
     }

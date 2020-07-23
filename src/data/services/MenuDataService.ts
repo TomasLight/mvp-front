@@ -7,6 +7,7 @@ import { ActionProcessing } from "../ActionProcessing";
 import { Data } from "../Data";
 import { DataServiceBase } from "./DataServiceBase";
 import { IMenuDataService } from "../IMenuDataService";
+import { WorkspaceDataService } from "./WorkspaceDataService";
 
 export class MenuDataService extends DataServiceBase implements IMenuDataService {
     private static readonly STORAGE_MILLISECONDS = 10000;
@@ -81,17 +82,12 @@ export class MenuDataService extends DataServiceBase implements IMenuDataService
             menuId = this._landingConfig.menuId;
         }
         else {
-            const landingConfigResponse = await WorkspaceApi.getLandingConfigAsync();
-            if (landingConfigResponse.hasError()) {
-                if (landingConfigResponse.statusCode === ApiResponseStatus.Forbidden) {
-                    return new DataFailed({
-                        actionProcessing: new ActionProcessing("redirect"),
-                    });
-                }
-
-                return this.failed(landingConfigResponse);
+            const wsDataService = new WorkspaceDataService();
+            const landingConfig = await wsDataService.landingConfigAsync();
+            if (landingConfig instanceof DataFailed) {
+                return landingConfig;
             }
-            menuId = landingConfigResponse.data.menuId;
+            menuId = landingConfig.menuId;
         }
 
         const response = await MenuApi.getMenuAsync(menuId);

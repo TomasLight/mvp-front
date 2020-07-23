@@ -10,6 +10,11 @@ export class MainSelectors {
         return state.main;
     }
 
+    static* getHasWorkspace() {
+        const store: MainStore = yield MainSelectors.getStore();
+        return store.hasWorkspace;
+    }
+
     static* getSettingsMode() {
         const store: MainStore = yield MainSelectors.getStore();
         return store.settingsMode;
