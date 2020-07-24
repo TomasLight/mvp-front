@@ -5,9 +5,6 @@ import common from "./webpack.common";
 const prodWebpackConfig = merge(common, {
     mode: "production",
     optimization: {
-        // splitChunks: {
-        //     chunks: "all",
-        // },
         moduleIds: "hashed",
         runtimeChunk: "single",
         splitChunks: {

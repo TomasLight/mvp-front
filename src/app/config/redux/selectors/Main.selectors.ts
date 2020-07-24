@@ -1,8 +1,8 @@
 import { select } from "redux-saga/effects";
 
 import { LandingConfig } from "@models";
-import { State } from "@MainState";
-import { MainStore } from "@main/redux";
+import { State } from "@AdminState";
+import { MainStore } from "@admin/redux";
 
 export class MainSelectors {
     static* getStore() {

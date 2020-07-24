@@ -7,14 +7,10 @@ import {
     Redirect,
     withRouter,
 } from "react-router-dom";
-// import loadable from "@loadable/component";
+import loadable from "@loadable/component";
 
-// const MainApp = loadable(() => import(/* webpackChunkName: "MainApp" */ "@main/App"));
-// const PosApp = loadable(() => import(/* webpackChunkName: "PosApp" */ "@pos/App"));
-// const WorkspaceApp = loadable(() => import(/* webpackChunkName: "WsApp" */ "@ws/App"));
-import { App as MainApp } from "@main/App";
-import { App as PosApp } from "@ws/App";
-import { App as WorkspaceApp } from "@ws/App";
+const MainApp = loadable(() => import(/* webpackChunkName: "MainApp" */ "@admin/App"));
+const WorkspaceApp = loadable(() => import(/* webpackChunkName: "WsApp" */ "@ws/App"));
 import { NotFound } from "./404";
 
 const appUrls = {
@@ -39,10 +35,6 @@ const AppRouter = (props: Props) => {
                 <Route
                     path={appUrls.main}
                     render={() => <MainApp history={history}/>}
-                />
-                <Route
-                    path={appUrls.pos}
-                    render={() => <PosApp history={history}/>}
                 />
                 <Route
                     path={appUrls.workspace}

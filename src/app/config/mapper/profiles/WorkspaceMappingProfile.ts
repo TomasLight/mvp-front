@@ -19,9 +19,9 @@ import {
     WorkspaceDataSettings
 } from "@app/models";
 import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
-import { IContactSettingsFormValues } from "@main/Content/models";
-import { IDataSettingsFormValues } from "@main/Data/models";
-import { ISiteSettingsFormValues } from "@main/Site/models";
+import { IContactSettingsFormValues } from "@admin/Content/models";
+import { IDataSettingsFormValues } from "@admin/Data/models";
+import { ISiteSettingsFormValues } from "@admin/Site/models";
 import { FavIconUrlResolver } from "@shared/molecules";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";

@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 
 import { NotFound } from "@app/404";
-import { mainUrls } from "@main/routing/mainUrls";
+import { mainUrls } from "@admin/routing/mainUrls";
 import { LayoutContainer } from "@ws/Layout";
 import { NotifierContainer } from "@app/Notifier";
 import { MenuPageContainer } from "@ws/Menu";

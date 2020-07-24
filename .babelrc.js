@@ -23,11 +23,8 @@ const alias = {
     "@selectors": "./src/app/config/redux/selectors/index.ts",
     "@shared": "./src/shared",
 
-    "@main": "./src/app/main",
-    "@MainState": "./src/app/main/config/redux/State.ts",
-
-    "@pos": "./src/app/pos",
-    "@PosState": "./src/app/pos/config/redux/State.ts",
+    "@admin": "./src/app/admin",
+    "@AdminState": "./src/app/admin/config/redux/State.ts",
 
     "@ws": "./src/app/workspace",
     "@WsState": "./src/app/workspace/config/redux/State.ts",

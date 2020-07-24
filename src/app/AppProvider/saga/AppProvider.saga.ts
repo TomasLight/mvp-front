@@ -4,7 +4,7 @@ import { all, call, put } from "@redux-saga/core/effects";
 import { DataFailed, DataService } from "@data";
 import { UserActions } from "@app/redux";
 import { AuthorizedUser } from "@models/user";
-import { MainActions } from "@main/redux";
+import { MainActions } from "@admin/redux";
 import { AppProviderSelectors } from "@selectors";
 import { WorkspaceActions } from "@ws/redux";
 import { SagaBase } from "@config/saga/SagaBase";

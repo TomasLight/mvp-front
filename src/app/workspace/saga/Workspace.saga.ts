@@ -3,7 +3,7 @@ import { AppAction } from "app-redux-utils";
 
 import { SagaBase } from "@config/saga";
 import { Data, DataFailed, DataService } from "@data";
-import { mainUrls } from "@main/routing";
+import { mainUrls } from "@admin/routing";
 import { ContentConfig, SiteConfig } from "@models";
 import { WorkspaceActions, WorkspaceStore } from "../redux";
 
