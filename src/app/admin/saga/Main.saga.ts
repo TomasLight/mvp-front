@@ -2,7 +2,8 @@ import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
 import { AuthorizedUser } from "../models";
-import { DataFailed, DataService } from "@data";
+import { DataFailed } from "@utils/data";
+import { DataService } from "@admin/data";
 import { SagaBase } from "@config/saga";
 import { MainActions, MainStore, } from "../redux";
 

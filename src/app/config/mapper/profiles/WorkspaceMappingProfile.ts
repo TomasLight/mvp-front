@@ -1,5 +1,5 @@
 import { IContactSettingsFormValues } from "@admin/Content/models";
-import { IDataSettingsFormValues } from "@admin/Data/models";
+import { IImportSettingsFormValues } from "@admin/Import/models";
 import { ISiteSettingsFormValues } from "@admin/Site/models";
 import {
     IContentSettingsRequestDto,
@@ -31,7 +31,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 WorkspaceMappingProfile.map_ISiteSettingsFormValues__WorkspaceSiteSettings
             ),
             new MapFunction(
-                nameof<IDataSettingsFormValues>(),
+                nameof<IImportSettingsFormValues>(),
                 nameof<WorkspaceDataSettings>(),
                 WorkspaceMappingProfile.map_IDataSettingsFormValues__WorkspaceDataSettings
             ),
@@ -94,7 +94,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
     }
 
     private static map_IDataSettingsFormValues__WorkspaceDataSettings(
-        dto: IDataSettingsFormValues
+        dto: IImportSettingsFormValues
     ): WorkspaceDataSettings {
 
         const settings = new WorkspaceDataSettings();

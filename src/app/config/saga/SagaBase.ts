@@ -3,7 +3,7 @@ import { put } from "@redux-saga/core/effects";
 import { INotification, Notification } from "@app/Notifier";
 import { NotifierActions } from "@app/Notifier/redux";
 import { ApiResponse } from "@utils/api";
-import { DataFailed } from "../../../data/DataFailed";
+import { DataFailed } from "@utils/data/DataFailed";
 
 export abstract class SagaBase {
     protected static* displayNotification(notification: INotification) {

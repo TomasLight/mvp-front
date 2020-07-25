@@ -2,7 +2,8 @@ import { call, put } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
 
 import { SagaBase } from "@config/saga/SagaBase";
-import { Data, DataFailed, DataService } from "@data";
+import { DataServiceResult as Data, DataFailed } from "@utils/data";
+import { DataService } from "@ws/data";
 import { ContentConfig, SiteConfig } from "@models";
 import { WorkspaceActions, WorkspaceStore } from "../redux";
 
@@ -25,7 +26,7 @@ export class WorkspaceSaga extends SagaBase {
             dataIsLoading: true,
         });
 
-        const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.siteConfigAsync);
+        const siteConfig: Data<SiteConfig> = yield call(DataService.config.siteConfigAsync);
         if (siteConfig instanceof DataFailed) {
             yield updateStore({
                 dataIsLoading: false,
@@ -35,8 +36,8 @@ export class WorkspaceSaga extends SagaBase {
             return;
         }
 
-        const contentConfig: ContentConfig = yield call(DataService.workspace.contentConfigAsync);
-        const menuId: string = yield call(DataService.workspace.menuIdAsync);
+        const contentConfig: ContentConfig = yield call(DataService.config.contentConfigAsync);
+        const menuId: string = yield call(DataService.menu.menuIdAsync);
 
         yield updateStore({
             appIsInitialized: true,

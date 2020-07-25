@@ -6,7 +6,7 @@ import { LayoutContainer } from "@admin/Layout";
 import { NotifierContainer } from "@app/Notifier";
 import { NotFound } from "@app/404";
 const SitePageContainer = loadable(() => import(/* webpackChunkName: "SitePage" */ "../Site/SitePage.container"));
-const DataPageContainer = loadable(() => import(/* webpackChunkName: "DataPage" */ "../Data/DataPage.container"));
+const DataPageContainer = loadable(() => import(/* webpackChunkName: "DataPage" */ "../Import/ImportPage.container"));
 const ContentPageContainer = loadable(() => import(/* webpackChunkName: "ContentPage" */ "../Content/ContentPage.container"));
 
 import { mainUrls } from "./mainUrls";

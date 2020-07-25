@@ -2,7 +2,8 @@ import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
 import { SagaBase } from "@config/saga";
-import { DataFailed, DataService } from "@data";
+import { DataFailed } from "@utils/data";
+import { DataService } from "@ws/data";
 import { Cart, Category, Dish } from "../models";
 import {
     IAddDishToCartData,

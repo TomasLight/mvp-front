@@ -2,14 +2,15 @@ import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
 import { ContentConfig, WorkspaceContentSettings } from "@app/models";
-import { Data, DataFailed, DataService } from "@data";
+import { DataFailed, DataServiceResult as Data } from "@utils/data";
+import { DataService } from "@admin/data";
 import { IContactSettingsFormValues } from "@admin/Content/models";
 import { MainSelectors } from "@admin/redux/Main.selectors";
 import { SiteSelectors } from "@admin/Site/redux/Site.selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
 import { Mapper } from "@utils";
-import { FakeMenuDataService } from "../../../../data/fakeServices/FakeMenuDataService";
+import { FakeMenuDataService } from "../../data/fakeServices/FakeMenuDataService";
 
 import {
     ISubmitData,

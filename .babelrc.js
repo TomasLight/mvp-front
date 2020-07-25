@@ -17,7 +17,6 @@ const alias = {
     "@app": "./src/app",
     "@CommonState": "./src/app/config/redux/CommonState",
     "@config": "./src/app/config",
-    "@data": "./src/data/index.ts",
     "@enums": "./src/enums/index.ts",
     "@icons": "./src/shared/atoms/icons",
     "@shared": "./src/shared",
@@ -27,7 +26,6 @@ const alias = {
 
     "@ws": "./src/app/workspace",
     "@WsState": "./src/app/workspace/config/redux/State.ts",
-
 
     "@api": "./src/api",
     "@models": "./src/app/models",

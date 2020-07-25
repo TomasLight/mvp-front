@@ -2,7 +2,7 @@ import { OptionsObject, VariantType } from "notistack";
 import { ReactNode } from "react";
 
 import { ApiResponse } from "@utils/api";
-import { DataFailed } from "../../data/DataFailed";
+import { DataFailed } from "@utils/data/DataFailed";
 
 export interface INotification {
     message: string | ReactNode;

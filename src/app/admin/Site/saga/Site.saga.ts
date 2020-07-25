@@ -4,7 +4,8 @@ import { push } from "connected-react-router";
 
 import { SiteConfig, Workspace, WorkspaceSiteSettings } from "@app/models/wokrspaces";
 import { SagaBase } from "@config/saga";
-import { Data, DataFailed, DataService } from "@data";
+import { DataFailed, DataServiceResult as Data } from "@utils/data";
+import { DataService } from "@admin/data";
 import { MainActions } from "@admin/redux";
 import { mainUrls } from "@admin/routing";
 import { ISiteSettingsFormValues } from "@admin/Site/models";

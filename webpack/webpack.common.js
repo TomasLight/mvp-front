@@ -11,26 +11,21 @@ import { tsRule } from "./rules/ts-rule";
 import { imgRule } from "./rules/img-rule";
 import { fontRule } from "./rules/font-rule";
 
-const paths = {
-    // root: path.join(__dirname, "../"),
-    // env: path.join(__dirname, "../.env"),
+const rootPath = path.join(__dirname, "..");
+const envPath = path.join(rootPath, ".env");
 
-    // adminApp: path.join(__dirname, "../src/app/admin/index.tsx"),
-    // siteApp: path.join(__dirname, "../src/app/workspace/index.tsx"),
+const publicPath = path.join(rootPath, "public");
+const outputPath = path.join(publicPath, "js");
+const htmlTemplatePath = path.join(publicPath, "templates", "index.html");
 
-    // output: path.join(__dirname, "../public/js"),
-    // public: path.join(__dirname, "../public/"),
+const appPath = path.join(rootPath, "src", "app");
+const adminAppPath = path.join(appPath, "admin", "index.tsx");
+const siteAppPath = path.join(appPath, "workspace", "index.tsx");
 
-    root: path.join(__dirname, ".."),
-    env: path.join(__dirname, "..", ".env"),
-
-    adminApp: path.join(__dirname, "..", "src", "app", "admin", "index.tsx"),
-    siteApp: path.join(__dirname, "..", "src", "app", "workspace", "index.tsx"),
-
-    output: path.join(__dirname, "..", "public", "js"),
-    public: path.join(__dirname, "..", "public"),
-    htmlTemplate: path.join(__dirname, "..", "public", "templates", "index.html"),
-};
+function getEnvConfig() {
+    const config = dotenv.config({path: envPath});
+    return config.parsed;
+}
 
 const commonWebpackConfig = merge(
     {
@@ -38,38 +33,36 @@ const commonWebpackConfig = merge(
             fs: "empty"
         },
         entry: {
-            // adminApp: [ "@babel/polyfill", paths.adminApp ],
-            // siteApp: [ "@babel/polyfill", paths.siteApp ],
-            adminApp: paths.adminApp,
-            siteApp: paths.siteApp,
+            adminApp: adminAppPath,
+            siteApp: siteAppPath,
         },
         output: {
             filename: "[name].bundle.[contenthash].js",
             publicPath: "/js/",
-            path: paths.output,
+            path: outputPath,
         },
         resolve: {
             extensions: [ ".js", ".jsx", ".ts", ".tsx" ],
-            modules: [ paths.root, "node_modules" ]
+            modules: [ rootPath, "node_modules" ]
         },
         plugins: [
             // increase build performance
             new ForkTsCheckerWebpackPlugin(),
             new DefinePlugin({
-                "process.env": JSON.stringify(dotenv.config({path: paths.env}).parsed),
+                "process.env": JSON.stringify(getEnvConfig()),
             }),
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 inject: "body",
                 chunks: [ "adminApp" ],
-                template: paths.htmlTemplate,
-                filename: path.join(paths.public, "admin.html"),
+                template: htmlTemplatePath,
+                filename: path.join(publicPath, "admin.html"),
             }),
             new HtmlWebpackPlugin({
                 inject: "body",
                 chunks: [ "siteApp" ],
-                template: paths.htmlTemplate,
-                filename: path.join(paths.public, "site.html"),
+                template: htmlTemplatePath,
+                filename: path.join(publicPath, "site.html"),
             }),
             new ManifestPlugin(),
         ],
