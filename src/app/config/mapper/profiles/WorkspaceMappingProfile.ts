@@ -1,23 +1,16 @@
+import { IContactSettingsFormValues } from "@admin/Content/models";
+import { IImportSettingsFormValues } from "@admin/Import/models";
+import { ISiteSettingsFormValues } from "@admin/Site/models";
 import {
+    IContentSettingsRequestDto,
+    INewLandingConfigRequestDto,
     INewWorkspaceRequestDto,
-    IWorkspaceSettingsRequestDto,
-    ISiteSettingsUpdatedRequestDto, IContentSettingsRequestDto
+    ISiteSettingsUpdatedRequestDto,
+    IWorkspaceSettingsRequestDto
 } from "@api/models/workspace/requests";
-import { ILandingConfigDto, IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
-import { IContentSettingsResponseDto } from "@api/models/workspace/responses/IContentSettingsResponseDto";
-import { ISiteSettingsResponseDto } from "@api/models/workspace/responses/ISiteSettingsResponseDto";
-import {
-    ContentConfig,
-    LandingConfig,
-    SiteConfig,
-    UserWorkspace,
-    WorkspaceContentSettings,
-    WorkspaceDataSettings
-} from "@app/models";
+import { IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
+import { Workspace, WorkspaceContentSettings, WorkspaceDataSettings } from "@app/models";
 import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
-import { IContactSettingsFormValues } from "@main/Content/models";
-import { IDataSettingsFormValues } from "@main/Data/models";
-import { ISiteSettingsFormValues } from "@main/Site/models";
 import { FavIconUrlResolver } from "@shared/molecules";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
@@ -29,23 +22,8 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         return [
             new MapFunction(
                 nameof<IUserWorkspaceResponseDto>(),
-                nameof<UserWorkspace>(),
+                nameof<Workspace>(),
                 WorkspaceMappingProfile.map_IUserWorkspaceResponseDto__UserWorkspace
-            ),
-            new MapFunction(
-                nameof<ILandingConfigDto>(),
-                nameof<LandingConfig>(),
-                WorkspaceMappingProfile.map_ILandingConfigDto__LandingConfig
-            ),
-            new MapFunction(
-                nameof<ISiteSettingsUpdatedRequestDto>(),
-                nameof<SiteConfig>(),
-                WorkspaceMappingProfile.map_ISiteSettingsUpdatedRequest__ToSiteConfig
-            ),
-            new MapFunction(
-                nameof<IContentSettingsResponseDto>(),
-                nameof<ContentConfig>(),
-                WorkspaceMappingProfile.map_IWorkspaceContentSettingsResponseDto__ContentConfig
             ),
             new MapFunction(
                 nameof<ISiteSettingsFormValues>(),
@@ -53,7 +31,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 WorkspaceMappingProfile.map_ISiteSettingsFormValues__WorkspaceSiteSettings
             ),
             new MapFunction(
-                nameof<IDataSettingsFormValues>(),
+                nameof<IImportSettingsFormValues>(),
                 nameof<WorkspaceDataSettings>(),
                 WorkspaceMappingProfile.map_IDataSettingsFormValues__WorkspaceDataSettings
             ),
@@ -82,59 +60,21 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<INewWorkspaceRequestDto>(),
                 WorkspaceMappingProfile.map_WorkspaceSiteSettings__INewWorkspaceRequestDto
             ),
+            new MapFunction(
+                nameof<WorkspaceSiteSettings>(),
+                nameof<INewLandingConfigRequestDto>(),
+                WorkspaceMappingProfile.map_WorkspaceSiteSettings__INewLandingConfigRequestDto
+            ),
         ];
     }
 
-    private static map_IUserWorkspaceResponseDto__UserWorkspace(dto: IUserWorkspaceResponseDto): UserWorkspace {
-        const user = new UserWorkspace();
+    private static map_IUserWorkspaceResponseDto__UserWorkspace(dto: IUserWorkspaceResponseDto): Workspace {
+        const user = new Workspace();
         user.role = dto.role;
         user.id = dto.id;
         user.domain = dto.domainName;
         user.name = dto.name;
         return user;
-    }
-
-    private static map_ILandingConfigDto__LandingConfig(dto: ILandingConfigDto): LandingConfig {
-        const config = new LandingConfig();
-
-        config.id = dto.id;
-        config.menuId = dto.menuId;
-        config.workspaceId = dto.workspaceId;
-
-        config.siteConfig =
-            WorkspaceMappingProfile.map_ISiteSettingsUpdatedRequest__ToSiteConfig(dto.siteConfig);
-
-        config.dataConfig = {};
-
-        config.contentConfig =
-            WorkspaceMappingProfile.map_IWorkspaceContentSettingsResponseDto__ContentConfig(dto.contentConfig);
-
-        return config;
-    }
-
-    private static map_ISiteSettingsUpdatedRequest__ToSiteConfig(
-        dto: ISiteSettingsResponseDto
-    ): SiteConfig {
-        const config = new SiteConfig();
-        config.name = dto.name;
-        config.faviconUrl = dto.faviconUrl;
-        config.openGraphImageUrl = dto.opengraphImageUrl;
-        config.openGraphTitle = dto.opengraphImageTitle;
-        config.color = dto.color;
-        return config;
-    }
-
-    private static map_IWorkspaceContentSettingsResponseDto__ContentConfig(
-        dto: IContentSettingsResponseDto
-    ): ContentConfig {
-        const config = new ContentConfig();
-        config.firstPhotoUrl = dto.firstPhotoUrl;
-        config.firstText = dto.firstText;
-        config.phone = dto.phone;
-        config.address = dto.address;
-        config.deliveryTime = dto.deliveryTime;
-        config.deliveryMapUrl = dto.deliveryMapUrl;
-        return config;
     }
 
     private static map_ISiteSettingsFormValues__WorkspaceSiteSettings(
@@ -154,7 +94,7 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
     }
 
     private static map_IDataSettingsFormValues__WorkspaceDataSettings(
-        dto: IDataSettingsFormValues
+        dto: IImportSettingsFormValues
     ): WorkspaceDataSettings {
 
         const settings = new WorkspaceDataSettings();
@@ -231,6 +171,34 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         const dto: INewWorkspaceRequestDto = {
             domainName: settings.domain,
             name: settings.siteName,
+        };
+
+        return dto;
+    }
+
+    private static map_WorkspaceSiteSettings__INewLandingConfigRequestDto(
+        settings: WorkspaceSiteSettings
+    ): INewLandingConfigRequestDto {
+
+        const dto: INewLandingConfigRequestDto = {
+            domainName: settings.domain,
+            // menuId: "",
+            siteConfig: {
+                name: settings.siteName,
+                faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
+                opengraphImage: "",
+                opengraphImageTitle: settings.openGraphTitle,
+                color: settings.primaryColor,
+            },
+            iikoConfig: {},
+            contentConfig: {
+                firstPhoto: "",
+                firstText: "",
+                phone: "",
+                address: "",
+                deliveryTime: "",
+                deliveryMapUrl: "",
+            },
         };
 
         return dto;

@@ -6,14 +6,11 @@ import { WorkspaceSaga } from "./Workspace.saga";
 export class WorkspaceWatcher extends Watcher {
     constructor() {
         super();
+        const saga = new WorkspaceSaga();
 
         this.watchLatest(
-            WorkspaceActions.LOAD_WORKSPACE,
-            WorkspaceSaga.loadWorkspace
+            WorkspaceActions.LOAD_SETTINGS,
+            saga.loadSettings
         );
-        // this.watchLatest(
-        //     WorkspaceActions.LOAD_PAGE,
-        //     WorkspaceSaga.loadPage
-        // );
     }
 }

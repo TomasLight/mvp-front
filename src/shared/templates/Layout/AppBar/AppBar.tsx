@@ -21,8 +21,8 @@ const AppBar = (props: Props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {
-        case Variant.MainNew:
-        case Variant.MainEdit:
+        case Variant.AdminNew:
+        case Variant.AdminEdit:
             return (
                 <MainAppBar variant={variant} {...rest}/>
             );

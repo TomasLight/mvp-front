@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
     contentShift: {
         marginLeft: theme.drawerWidth,
     },
-    [Variant.MainNew]: {
+    [Variant.AdminNew]: {
         padding: 0,
     },
-    [Variant.MainEdit]: {
+    [Variant.AdminEdit]: {
         padding: 0,
     },
     [Variant.Workspace]: {

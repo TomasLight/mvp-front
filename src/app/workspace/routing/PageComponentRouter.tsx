@@ -1,42 +1,28 @@
 import React from "react";
-import { Redirect, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import loadable from "@loadable/component";
 
 import { NotFound } from "@app/404";
-import { mainUrls } from "@main/routing/mainUrls";
 import { LayoutContainer } from "@ws/Layout";
 import { NotifierContainer } from "@app/Notifier";
-import { MenuPageContainer } from "@ws/Menu";
-
+const MenuPageContainer = loadable(() => import(/* webpackChunkName: "MenuPage" */ "@ws/Menu/MenuPage.container"));
 import { workspaceUrls } from "./workspaceUrls";
 
-interface IPageComponentRouterProps {
-    hasWorkspace: boolean;
-}
-
-type Props = IPageComponentRouterProps & RouteComponentProps;
-
-const PageComponentRouter = (props: Props) => {
-    const { location, hasWorkspace } = props;
-
-    if (!hasWorkspace) {
-        return <Redirect push to={mainUrls.siteSettings}/>;
-    }
-
-    if (location.pathname === workspaceUrls.workspace) {
-        return <Redirect push to={workspaceUrls.menu}/>;
-    }
-
+const PageComponentRouter = () => {
     return (
         <LayoutContainer>
             <Switch>
                 <Route
                     exact
-                    path={workspaceUrls.menu}
+                    path={[
+                        workspaceUrls.root,
+                        workspaceUrls.menu,
+                    ]}
                     component={MenuPageContainer}
                 />
 
                 <Route path="*">
-                    <NotFound />
+                    <DefaultRouteResolver/>
                 </Route>
             </Switch>
 
@@ -45,5 +31,14 @@ const PageComponentRouter = (props: Props) => {
     );
 };
 
-const componentWithRouter = withRouter(PageComponentRouter);
-export { componentWithRouter as PageComponentRouter, IPageComponentRouterProps };
+const DefaultRouteResolver = withRouter(({ location }) => {
+    // if (location.pathname === workspaceUrls.root) {
+    //     return <Redirect push to={workspaceUrls.menu}/>;
+    // }
+
+    return (
+        <NotFound/>
+    );
+});
+
+export { PageComponentRouter };

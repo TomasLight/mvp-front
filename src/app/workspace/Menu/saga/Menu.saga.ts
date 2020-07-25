@@ -2,8 +2,8 @@ import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
 import { SagaBase } from "@config/saga";
-import { DataFailed, DataService } from "@data";
-import { MenuSelectors } from "@selectors";
+import { DataFailed } from "@utils/data";
+import { DataService } from "@ws/data";
 import { Cart, Category, Dish } from "../models";
 import {
     IAddDishToCartData,
@@ -12,123 +12,124 @@ import {
     IIncreaseDishAmountInCartData,
     IOpenDishModalData,
     MenuActions,
-    MenuStore
+    MenuStore,
+    MenuSelectors,
 } from "../redux";
 
-export class MenuSaga extends SagaBase {
-    private static* updateStore(partialStore: Partial<MenuStore>) {
-        yield put(MenuActions.updateStore(partialStore));
+function * updateStore(partialStore: Partial<MenuStore>) {
+    yield put(MenuActions.updateStore(partialStore));
+}
+
+function * preloadDish(dishId: string) {
+    const dish: Dish = yield MenuSelectors.getDishById(dishId);
+    if (dish) {
+        yield updateStore({
+            openedDish: dish,
+        });
+    }
+}
+
+function * updateDishInStore(changedDish: Dish) {
+    const storedDish: Dish[] = yield MenuSelectors.dishes();
+    if (storedDish.every((dish: Dish) => dish.id !== changedDish.id)) {
+        storedDish.push(changedDish);
     }
 
-    static* loadMenu(action: AppAction) {
+    yield updateStore({
+        dishes: storedDish,
+    });
+}
+
+export class MenuSaga extends SagaBase {
+    * loadMenu(action: AppAction) {
         yield put(MenuActions.loadCategories());
         yield put(MenuActions.loadDishes());
     }
 
-    static* loadCategories(action: AppAction) {
-        yield MenuSaga.updateStore({
+    * loadCategories(action: AppAction) {
+        yield updateStore({
             categoriesAreLoading: true,
         });
 
         const categories: DataFailed | Category[] = yield call(DataService.menu.categoriesAsync);
         if (categories instanceof DataFailed) {
-            yield MenuSaga.updateStore({
+            yield updateStore({
                 categoriesAreLoading: false,
             });
-            yield SagaBase.displayClientError(categories);
+            yield this.displayClientError(categories);
             return;
         }
 
-        yield MenuSaga.updateStore({
+        yield updateStore({
             categoriesAreLoading: false,
             categories,
             selectedCategory: categories.length ? categories[0] : null,
         });
     }
 
-    static* loadDishes(action: AppAction) {
-        yield MenuSaga.updateStore({
+    * loadDishes(action: AppAction) {
+        yield updateStore({
             dishesAreLoading: true,
         });
 
         const dishes: DataFailed | Dish[] = yield call(DataService.menu.dishesAsync);
         if (dishes instanceof DataFailed) {
-            yield MenuSaga.updateStore({
+            yield updateStore({
                 dishesAreLoading: false,
             });
-            yield SagaBase.displayClientError(dishes);
+            yield this.displayClientError(dishes);
             return;
         }
 
-        yield MenuSaga.updateStore({
+        yield updateStore({
             dishesAreLoading: false,
             dishes,
         });
     }
 
-    static* openDishModal(action: AppAction<IOpenDishModalData>) {
+    * openDishModal(action: AppAction<IOpenDishModalData>) {
         const { dishId } = action.payload;
-        yield MenuSaga.updateStore({
+        yield updateStore({
             openedDishIsLoading: true,
         });
 
-        yield MenuSaga.preloadDish(dishId);
+        yield preloadDish(dishId);
 
         const dish: DataFailed | Dish = yield call(DataService.menu.dishByIdAsync, dishId);
         if (dish instanceof DataFailed) {
-            yield MenuSaga.updateStore({
+            yield updateStore({
                 dishesAreLoading: false,
             });
-            yield SagaBase.displayClientError(dish);
+            yield this.displayClientError(dish);
             return;
         }
 
-        yield MenuSaga.updateStore({
+        yield updateStore({
             openedDish: dish,
             openedDishIsLoading: false,
         });
 
-        yield MenuSaga.updateDishInStore(dish);
+        yield updateDishInStore(dish);
     }
 
-    private static* preloadDish(dishId: string) {
-        const dish: Dish = yield MenuSelectors.getDishById(dishId);
-        if (dish) {
-            yield MenuSaga.updateStore({
-                openedDish: dish,
-            });
-        }
-    }
-
-    private static* updateDishInStore(changedDish: Dish) {
-        const storedDish: Dish[] = yield MenuSelectors.dishes();
-        if (storedDish.every((dish: Dish) => dish.id !== changedDish.id)) {
-            storedDish.push(changedDish);
-        }
-
-        yield MenuSaga.updateStore({
-            dishes: storedDish,
-        });
-    }
-
-    static* closeDishModal(action: AppAction) {
-        yield MenuSaga.updateStore({
+    * closeDishModal(action: AppAction) {
+        yield updateStore({
             openedDish: null,
         });
     }
 
-    static* addDishToCart(action: AppAction<IAddDishToCartData>) {
+    * addDishToCart(action: AppAction<IAddDishToCartData>) {
         const { dishId, size } = action.payload;
 
         const cart: Cart = yield MenuSelectors.cart();
         cart.add(dishId, size);
 
-        yield MenuSaga.updateStore({
+        yield updateStore({
             cart,
         });
     }
 
-    static* increaseDishAmountInCart(action: AppAction<IIncreaseDishAmountInCartData>) {
+    * increaseDishAmountInCart(action: AppAction<IIncreaseDishAmountInCartData>) {
         const { dishId, size } = action.payload;
 
         const cart: Cart = yield MenuSelectors.cart();
@@ -138,12 +139,12 @@ export class MenuSaga extends SagaBase {
             amount: 1,
         });
 
-        yield MenuSaga.updateStore({
+        yield updateStore({
             cart,
         });
     }
 
-    static* decreaseDishAmountInCart(action: AppAction<IDecreaseDishAmountInCartData>) {
+    * decreaseDishAmountInCart(action: AppAction<IDecreaseDishAmountInCartData>) {
         const { dishId, size } = action.payload;
 
         const cart: Cart = yield MenuSelectors.cart();
@@ -153,17 +154,17 @@ export class MenuSaga extends SagaBase {
             amount: 1,
         });
 
-        yield MenuSaga.updateStore({
+        yield updateStore({
             cart,
         });
     }
 
-    static* changeSelectedCategory(action: AppAction<IChangeSelectedCategoryData>) {
+    * changeSelectedCategory(action: AppAction<IChangeSelectedCategoryData>) {
         const { categoryId } = action.payload;
 
         const categories: Category[] = yield MenuSelectors.getCategories();
         const selectedCategory = categories.find(category => category.id === categoryId);
-        yield MenuSaga.updateStore({
+        yield updateStore({
             selectedCategory,
         });
     }

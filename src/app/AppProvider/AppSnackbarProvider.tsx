@@ -1,8 +1,7 @@
 import { SnackbarProvider, WithSnackbarProps } from "notistack";
 import React, { createRef, PropsWithChildren } from "react";
 
-import { Button } from "@material-ui/core";
-
+import { Button } from "@shared/molecules/Button";
 import { Translate } from "@utils/translates";
 
 type Props = PropsWithChildren<any>;
@@ -17,7 +16,7 @@ const AppSnackbarProvider = (props: Props) => {
             snackbarRef.current.closeSnackbar(key);
         };
         return (
-            <Button onClick={onClickDismiss} variant={"contained"}>
+            <Button onClick={onClickDismiss} variant={"snack"}>
                 {Translate.getString("Dismiss")}
             </Button>
         );

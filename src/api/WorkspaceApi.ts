@@ -2,10 +2,10 @@ import {
     INewWorkspaceRequestDto,
     IContentSettingsRequestDto,
     IDataSettingsUpdatedRequestDto,
-    ISiteSettingsUpdatedRequestDto
+    ISiteSettingsUpdatedRequestDto, INewLandingConfigRequestDto
 } from "@api/models/workspace/requests";
 import {
-    ILandingConfigDto,
+    ILandingConfigDto, INewLandingConfigResponseDto,
     IUserWorkspaceResponseDto,
     IWorkspaceResponseDto,
 } from "@api/models/workspace/responses";
@@ -20,8 +20,23 @@ export class WorkspaceApi extends ApiBase {
         return this.get(process.env.API_GET_LANDING_CONFIG);
     }
 
-    static async createAsync(dto: INewWorkspaceRequestDto): Promise<ApiResponse<IWorkspaceResponseDto>> {
-        return this.post(process.env.API_CREATE_WORKSPACE, dto);
+    static getLandingConfigByWorkspaceIdAsync(workspaceId: string): Promise<ApiResponse<ILandingConfigDto>> {
+        const url = urlWithIds(
+            process.env.API_WORKSPACE_LANDING_CONFIG,
+            { workspaceId }
+        );
+        return this.get(url);
+    }
+
+    // static async createAsync(dto: INewWorkspaceRequestDto): Promise<ApiResponse<IWorkspaceResponseDto>> {
+    //     return this.post(process.env.API_CREATE_WORKSPACE, dto);
+    // }
+
+    static async createConfigAsync(
+        dto: INewLandingConfigRequestDto
+    ): Promise<ApiResponse<INewLandingConfigResponseDto>> {
+
+        return this.post(process.env.API_CREATE_LANDING_CONFIG, dto);
     }
 
     static updateSiteSettingsAsync(
@@ -47,7 +62,7 @@ export class WorkspaceApi extends ApiBase {
             process.env.API_PATCH_WORKSPACE_DATA_SETTINGS,
             { workspaceId, landingConfigId }
         );
-        return this.patch(url, dto);
+        return this.post(url, dto);
     }
 
     static async updateContentSettingsAsync(

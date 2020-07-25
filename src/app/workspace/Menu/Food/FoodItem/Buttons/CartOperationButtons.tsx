@@ -1,7 +1,9 @@
 import React from "react";
 
-import { Button, ButtonGroup } from "@material-ui/core";
 import { Add, Remove } from "@material-ui/icons";
+
+import { ButtonGroup } from "@shared/molecules/ButtonGroup";
+import { Button } from "@shared/molecules/Button";
 
 interface ICartOperationButtonsProps {
     amount: number;
@@ -22,23 +24,21 @@ const CartOperationButtons = (props: Props) => {
     } = props;
 
     return (
-        <ButtonGroup variant="contained" color="primary" aria-label="cart operation buttons">
+        <ButtonGroup aria-label="cart operation buttons">
             <Button
-                color="primary"
-                size="small"
-                // aria-controls={open ? "split-button-menu" : undefined}
-                // aria-expanded={open ? "true" : undefined}
+                variant="group-item"
                 aria-label="decrease dish amount"
                 onClick={decreaseAmount}
             >
                 <Remove/>
             </Button>
-            <Button>{amount}</Button>
+
+            <Button variant="default">
+                {amount}
+            </Button>
+
             <Button
-                color="primary"
-                size="small"
-                // aria-controls={open ? "split-button-menu" : undefined}
-                // aria-expanded={open ? "true" : undefined}
+                variant="group-item"
                 aria-label="increase dish amount"
                 onClick={increaseAmount}
             >

@@ -3,19 +3,11 @@ import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { mainUrls } from "@main/routing/mainUrls";
-import { State } from "@MainState";
+import { State } from "@WsState";
 import { ILayoutCallProps, ILayoutProps, Layout, Variant } from "@shared/templates/Layout";
-import { Translate } from "@utils/translates";
 
 const mapStateToProps = (state: State): Partial<ILayoutProps> => ({
-    title: Translate.getString("Кофейня Вкусник"),
-    menuItems: [
-        {
-            title: Translate.getString("Main"),
-            url: mainUrls.siteSettings,
-        },
-    ],
+    title: state.workspace.site.name,
     variant: Variant.Workspace,
 });
 

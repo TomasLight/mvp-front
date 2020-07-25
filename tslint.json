@@ -45,7 +45,7 @@
         "new-parens": true,
         "no-consecutive-blank-lines": [true, 2],
         "no-trailing-whitespace": true,
-        "quotemark": [true, "double"],
+        "quotemark": [true, "double", "avoid-template"],
         "semicolon": [true, "always", "ignore-bound-class-methods"],
         "trailing-comma": [
             true,

@@ -1,5 +1,5 @@
+import { AuthorizedUser } from "@admin/models";
 import { IAuthorizedUserDto } from "@api/models/user/responses";
-import { AuthorizedUser } from "@models";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
 import { MapFunction } from "@utils/mapping/MapFunction";

@@ -3,15 +3,12 @@ import { makeStyles, Theme } from "@material-ui/core";
 type ClassKey =
     | "root"
     | "image"
+    | "imageSkeleton"
     | "firstText"
     | "address"
     | "filters"
     | "menu"
     ;
-
-type Props = {
-    firstPhotoUrl: string;
-};
 
 const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
     root: {
@@ -25,13 +22,7 @@ const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
         borderRadius: theme.borderRadius,
         height: "100%",
         width: "100%",
-
-        overflow: "hidden",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundImage: (props: Props) => props.firstPhotoUrl
-            ? `url(${props.firstPhotoUrl})`
-            : `url(/images/image-placeholder_600x400.png)`,
+        position: "relative",
 
         display: "grid",
         gridTemplateAreas: "\
@@ -43,6 +34,9 @@ const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
             auto 5px \
             auto 1fr",
         justifyItems: "center",
+    },
+    imageSkeleton: {
+        position: "absolute",
     },
     firstText: {
         gridArea: "firstText",

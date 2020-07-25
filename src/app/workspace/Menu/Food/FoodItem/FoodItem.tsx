@@ -9,10 +9,11 @@ import {
     Typography,
     makeStyles
 } from "@material-ui/core";
-import { Translate } from "@utils/translates";
 
+import { Translate } from "@utils/translates";
 import { CartIcon } from "@icons";
 import { Dish } from "@ws/Menu/models";
+import { Image } from "@shared/molecules";
 import { CartOperationButtons, SizeButtons } from "./Buttons";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.primary.main,
         },
     },
+    emptyImage: {
+        height: 210,
+    },
 }), { name: "FoodItem" });
 
 interface IFoodItemProps {
@@ -89,6 +93,7 @@ const FoodItem = (props: Props) => {
 
     const classes = useStyles();
     const [ selectedSize, setSelectedSize ] = useState<number>(0);
+    const [ imageIsLoaded, setImageIsLoaded ] = useState<boolean>(true);
 
     // useEffect(() => {
     //     if (!dish || dish.sizes.length === 0) {
@@ -111,16 +116,33 @@ const FoodItem = (props: Props) => {
         decreaseAmount(dish.id, selectedSize);
     };
 
+    const onImageLoadedError = () => {
+        setImageIsLoaded(false);
+    };
+
     return (
         <Card elevation={0}>
             <CardActionArea onClick={handleOpen}>
-                <CardMedia
-                    component="img"
-                    alt={dish.title}
-                    height="210"
-                    image={dish.image}
-                    title={dish.title}
-                />
+                {dish.image && imageIsLoaded
+                    ? (
+                        <CardMedia
+                            component="img"
+                            alt={dish.title}
+                            height="210"
+                            image={dish.image}
+                            title={dish.title}
+                            onError={onImageLoadedError}
+                        />
+                    )
+                    : (
+                        <Image
+                            animation={false}
+                            classes={{
+                                root: classes.emptyImage,
+                            }}
+                        />
+                    )
+                }
             </CardActionArea>
 
             <CardActions className={classes.actions} disableSpacing>

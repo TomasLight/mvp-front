@@ -2,7 +2,7 @@ import React from "react";
 
 import { Variant } from "../variant";
 import { SideBarItem } from "../models";
-import { WorkspaceDrawer } from "./WorkspaceDrawer";
+import { AdminDrawer } from "./AdminDrawer";
 
 interface IDrawerProps {
     open: boolean;
@@ -20,18 +20,16 @@ const Drawer = (props: Props) => {
     const { variant, ...rest } = props;
 
     switch (variant) {
-        case Variant.MainNew:
+        case Variant.AdminNew:
             return null;
 
-        case Variant.MainEdit:
+        case Variant.AdminEdit:
             return (
-                <WorkspaceDrawer {...rest}/>
+                <AdminDrawer {...rest}/>
             );
 
         case Variant.Workspace:
-            return (
-                <WorkspaceDrawer {...rest}/>
-            );
+            return null;
 
         default:
             throw new Error(`Invalid variant(${variant}) for ${nameof(Drawer)}`);

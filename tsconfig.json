@@ -21,17 +21,12 @@
             "@app/*": ["app/*"],
             "@CommonState": ["app/config/redux/CommonState.ts"],
             "@config/*": ["app/config/*"],
-            "@data": ["data/index.ts"],
             "@enums": ["enums/index.ts"],
             "@icons": ["shared/atoms/icons/index.ts"],
-            "@selectors": ["app/config/redux/selectors/index.ts"],
             "@shared/*": ["shared/*"],
 
-            "@main/*": ["app/main/*"],
-            "@MainState": ["app/main/config/redux/State.ts"],
-
-            "@pos/*": ["app/pos/*"],
-            "@PosState": ["app/pos/config/redux/State.ts"],
+            "@admin/*": ["app/admin/*"],
+            "@AdminState": ["app/admin/config/redux/State.ts"],
 
             "@ws/*": ["app/workspace/*"],
             "@WsState": ["app/workspace/config/redux/State.ts"],

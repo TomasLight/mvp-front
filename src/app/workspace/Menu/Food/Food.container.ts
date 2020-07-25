@@ -1,10 +1,10 @@
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-
 import { StyledComponentProps } from "@material-ui/core";
-import { State } from "@WsState";
 
+import { State } from "@WsState";
+import { Dish } from "@ws/Menu/models";
 import { MenuActions } from "../redux";
 import { Food, FoodClassKey, IFoodCallProps, IFoodProps } from "./Food";
 
@@ -13,6 +13,14 @@ const mapStateToProps = (state: State): IFoodProps => {
     if (state.menu.selectedCategory) {
         dishes = state.menu.dishes.filter(dish => state.menu.selectedCategory.contains(dish.id));
     }
+    dishes = dishes.sort((leftDish: Dish, rightDish: Dish) => {
+        if (leftDish.title < rightDish.title) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    });
 
     return {
         dishes,

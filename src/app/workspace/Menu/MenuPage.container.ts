@@ -23,4 +23,6 @@ const MenuPageContainer: ComponentType = connect(
     mapStateToProps,
     mapDispatchToProps
 )(MenuPage);
+
 export { MenuPageContainer };
+export default MenuPageContainer;

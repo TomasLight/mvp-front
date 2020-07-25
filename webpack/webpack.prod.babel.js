@@ -1,22 +1,31 @@
-// import webpack from "webpack";
 import { merge } from "webpack-merge";
+import TerserPlugin from 'terser-webpack-plugin';
 
 import common from "./webpack.common";
 
 const prodWebpackConfig = merge(common, {
     mode: "production",
-    // plugins: [
-    //     // don't include all moment locale packages in bundle, its not need now
-    //     new webpack.IgnorePlugin({
-    //         resourceRegExp: /^\.\/locale$/,
-    //         contextRegExp: /moment$/,
-    //     })
-    // ],
-    // optimization: {
-    //     splitChunks: {
-    //         chunks: "all",
-    //     },
-    // },
+    optimization: {
+        moduleIds: "hashed",
+        runtimeChunk: "single",
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all",
+                },
+                shared: {
+                    test: /[\\/]shared[\\/]/,
+                    name: "shared",
+                    chunks: "all",
+                },
+            },
+        },
+        minimizer: [
+            new TerserPlugin(),
+        ]
+    },
 });
 
 module.exports = prodWebpackConfig;
