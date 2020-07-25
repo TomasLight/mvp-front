@@ -1,24 +1,17 @@
 import { ConnectedRouter } from "connected-react-router";
-import { History } from "history";
+import { History, createBrowserHistory } from "history";
 import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
 import { configureApp } from "@config/configureApp";
 import { configureMapper, WorkspaceReducerConfig, RootSaga } from "@ws/config";
 import { AppProviderContainer } from "./AppProvider.container";
-import { PageComponentRouterContainer } from "./routing";
+import { PageComponentRouter } from "./routing";
 
+const history: History = createBrowserHistory();
 configureMapper();
 
-interface IAppProps {
-    history: History;
-}
-
-type Props = IAppProps;
-
-const App = (props: Props) => {
-    const { history } = props;
-
+const App = () => {
     const store = useMemo(() => configureApp(
         history,
         new WorkspaceReducerConfig(),
@@ -29,7 +22,7 @@ const App = (props: Props) => {
         <Provider store={store}>
             <ConnectedRouter history={history}>
                 <AppProviderContainer>
-                    <PageComponentRouterContainer/>
+                    <PageComponentRouter/>
                 </AppProviderContainer>
             </ConnectedRouter>
         </Provider>
@@ -37,4 +30,3 @@ const App = (props: Props) => {
 };
 
 export { App };
-export default App;

@@ -3,7 +3,6 @@ import React from "react";
 import { Toolbar, Typography, makeStyles } from "@material-ui/core";
 
 import { AppBar } from "@shared/atoms/AppBar";
-import { MenuButton } from "../MenuButton";
 
 const useStyles = makeStyles({
     toolbar: {
@@ -37,7 +36,6 @@ const WorkspaceAppBar = (props: Props) => {
     const {
         open,
         title,
-        toggle,
     } = props;
 
     const classes = useStyles();
@@ -45,8 +43,6 @@ const WorkspaceAppBar = (props: Props) => {
     return (
         <AppBar open={open}>
             <Toolbar className={classes.toolbar}>
-                <MenuButton open={open} toggle={toggle} />
-
                 <Typography variant="h6" noWrap className={classes.title}>
                     {title}
                 </Typography>

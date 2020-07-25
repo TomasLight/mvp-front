@@ -1,27 +1,16 @@
-import {
-    INewWorkspaceRequestDto,
-    IWorkspaceSettingsRequestDto,
-    ISiteSettingsUpdatedRequestDto, IContentSettingsRequestDto, INewLandingConfigRequestDto
-} from "@api/models/workspace/requests";
-import {
-    ILandingConfigDto,
-    INewLandingConfigResponseDto,
-    IUserWorkspaceResponseDto
-} from "@api/models/workspace/responses";
-import { IContentSettingsResponseDto } from "@api/models/workspace/responses/IContentSettingsResponseDto";
-import { ISiteSettingsResponseDto } from "@api/models/workspace/responses/ISiteSettingsResponseDto";
-import {
-    ContentConfig,
-    LandingConfig,
-    SiteConfig,
-    Workspace,
-    WorkspaceContentSettings,
-    WorkspaceDataSettings
-} from "@app/models";
-import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
 import { IContactSettingsFormValues } from "@admin/Content/models";
 import { IDataSettingsFormValues } from "@admin/Data/models";
 import { ISiteSettingsFormValues } from "@admin/Site/models";
+import {
+    IContentSettingsRequestDto,
+    INewLandingConfigRequestDto,
+    INewWorkspaceRequestDto,
+    ISiteSettingsUpdatedRequestDto,
+    IWorkspaceSettingsRequestDto
+} from "@api/models/workspace/requests";
+import { IUserWorkspaceResponseDto } from "@api/models/workspace/responses";
+import { Workspace, WorkspaceContentSettings, WorkspaceDataSettings } from "@app/models";
+import { WorkspaceSiteSettings } from "@app/models/wokrspaces/WorkspaceSiteSettings";
 import { FavIconUrlResolver } from "@shared/molecules";
 import { IMapFunction } from "@utils/mapping/IMapFunction";
 import { IMappingProfile } from "@utils/mapping/IMappingProfile";
@@ -35,21 +24,6 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<IUserWorkspaceResponseDto>(),
                 nameof<Workspace>(),
                 WorkspaceMappingProfile.map_IUserWorkspaceResponseDto__UserWorkspace
-            ),
-            new MapFunction(
-                nameof<ILandingConfigDto>(),
-                nameof<LandingConfig>(),
-                WorkspaceMappingProfile.map_ILandingConfigDto__LandingConfig
-            ),
-            new MapFunction(
-                nameof<ISiteSettingsUpdatedRequestDto>(),
-                nameof<SiteConfig>(),
-                WorkspaceMappingProfile.map_ISiteSettingsUpdatedRequest__ToSiteConfig
-            ),
-            new MapFunction(
-                nameof<IContentSettingsResponseDto>(),
-                nameof<ContentConfig>(),
-                WorkspaceMappingProfile.map_IWorkspaceContentSettingsResponseDto__ContentConfig
             ),
             new MapFunction(
                 nameof<ISiteSettingsFormValues>(),
@@ -91,11 +65,6 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
                 nameof<INewLandingConfigRequestDto>(),
                 WorkspaceMappingProfile.map_WorkspaceSiteSettings__INewLandingConfigRequestDto
             ),
-            new MapFunction(
-                nameof<INewLandingConfigResponseDto>(),
-                nameof<LandingConfig>(),
-                WorkspaceMappingProfile.map_INewLandingConfigResponseDto__LandingConfig
-            ),
         ];
     }
 
@@ -106,49 +75,6 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         user.domain = dto.domainName;
         user.name = dto.name;
         return user;
-    }
-
-    private static map_ILandingConfigDto__LandingConfig(dto: ILandingConfigDto): LandingConfig {
-        const config = new LandingConfig();
-
-        config.id = dto.id;
-        config.menuId = dto.menuId;
-        config.workspaceId = dto.workspaceId;
-
-        config.siteConfig =
-            WorkspaceMappingProfile.map_ISiteSettingsUpdatedRequest__ToSiteConfig(dto.siteConfig);
-
-        config.dataConfig = {};
-
-        config.contentConfig =
-            WorkspaceMappingProfile.map_IWorkspaceContentSettingsResponseDto__ContentConfig(dto.contentConfig);
-
-        return config;
-    }
-
-    private static map_ISiteSettingsUpdatedRequest__ToSiteConfig(
-        dto: ISiteSettingsResponseDto
-    ): SiteConfig {
-        const config = new SiteConfig();
-        config.name = dto.name;
-        config.faviconUrl = dto.faviconUrl;
-        config.openGraphImageUrl = dto.opengraphImageUrl;
-        config.openGraphTitle = dto.opengraphImageTitle;
-        config.color = dto.color;
-        return config;
-    }
-
-    private static map_IWorkspaceContentSettingsResponseDto__ContentConfig(
-        dto: IContentSettingsResponseDto
-    ): ContentConfig {
-        const config = new ContentConfig();
-        config.firstPhotoUrl = dto.firstPhotoUrl;
-        config.firstText = dto.firstText;
-        config.phone = dto.phone;
-        config.address = dto.address;
-        config.deliveryTime = dto.deliveryTime;
-        config.deliveryMapUrl = dto.deliveryMapUrl;
-        return config;
     }
 
     private static map_ISiteSettingsFormValues__WorkspaceSiteSettings(
@@ -276,40 +202,5 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
         };
 
         return dto;
-    }
-
-    private static map_INewLandingConfigResponseDto__LandingConfig(
-        dto: INewLandingConfigResponseDto
-    ): LandingConfig {
-
-        const {
-            siteConfig,
-            iikoConfig,
-            contentConfig,
-        } = dto;
-
-        const config = new LandingConfig({
-            id: dto.id,
-            workspaceId: dto.workspaceId,
-            menuId: dto.menuId,
-            siteConfig: new SiteConfig({
-                name: siteConfig.name,
-                faviconUrl: siteConfig.faviconUrl,
-                openGraphImageUrl: siteConfig.opengraphImageUrl,
-                openGraphTitle: siteConfig.opengraphImageTitle,
-                color: siteConfig.color,
-            }),
-            dataConfig: {},
-            contentConfig: new ContentConfig({
-                firstPhotoUrl: contentConfig.firstPhotoUrl,
-                firstText: contentConfig.firstText,
-                phone: contentConfig.phone,
-                address: contentConfig.address,
-                deliveryTime: contentConfig.deliveryTime,
-                deliveryMapUrl: contentConfig.deliveryMapUrl,
-            }),
-        });
-
-        return config;
     }
 }

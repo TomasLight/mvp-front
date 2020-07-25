@@ -20,11 +20,10 @@ type Props = IPageComponentRouterProps & RouteComponentProps;
 const PageComponentRouter = (props: Props) => {
     const { location, hasWorkspace } = props;
 
-    if (location.pathname === mainUrls.main) {
-        return <Redirect push to={mainUrls.siteSettings}/>;
-    }
-
-    if (!hasWorkspace && location.pathname !== mainUrls.siteSettings) {
+    if (!hasWorkspace &&
+        location.pathname !== mainUrls.root &&
+        location.pathname !== mainUrls.siteSettings
+    ) {
         return <Redirect push to={mainUrls.siteSettings}/>;
     }
 
@@ -33,7 +32,10 @@ const PageComponentRouter = (props: Props) => {
             <Switch>
                 <Route
                     exact
-                    path={mainUrls.siteSettings}
+                    path={[
+                        mainUrls.root,
+                        mainUrls.siteSettings,
+                    ]}
                     component={SitePageContainer}
                 />
                 <Route

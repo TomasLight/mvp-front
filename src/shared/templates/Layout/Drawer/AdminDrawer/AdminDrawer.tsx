@@ -34,7 +34,7 @@ interface IWorkspaceDrawerCallProps {
 
 type Props = IWorkspaceDrawerProps & IWorkspaceDrawerCallProps;
 
-const WorkspaceDrawer = (props: Props) => {
+const AdminDrawer = (props: Props) => {
     const { open, menuItems, redirect } = props;
 
     const classes = useStyles();
@@ -63,4 +63,4 @@ const WorkspaceDrawer = (props: Props) => {
     );
 };
 
-export { WorkspaceDrawer, IWorkspaceDrawerProps };
+export { AdminDrawer, IWorkspaceDrawerProps };

@@ -4,23 +4,23 @@ import { Dispatch } from "redux";
 
 import { CommonState } from "@CommonState";
 import { State } from "@WsState";
+import { WorkspaceActions } from "@ws/redux";
 import {
     AppProvider,
     IAppProviderCallProps,
     IAppProviderProps,
-    AppProviderActions,
 } from "@app/AppProvider";
 
 const mapStateToProps = (state: CommonState & State): IAppProviderProps => {
     return {
-        appIsInitialized: state.appProvider.initialized,
+        appIsInitialized: state.workspace.appIsInitialized,
         themeSettings: state.workspace.site.color,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IAppProviderCallProps => {
     return {
-        initialize: () => dispatch(AppProviderActions.initializedWorkspaceApp()),
+        initialize: () => dispatch(WorkspaceActions.loadSettings()),
     };
 };
 

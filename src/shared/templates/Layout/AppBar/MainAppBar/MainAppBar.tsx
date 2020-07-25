@@ -75,7 +75,7 @@ const MainAppBar = (props: Props) => {
     return (
         <AppBar open={open} className={classes.root} elevation={0}>
             <Toolbar className={classes.toolbar}>
-                {variant === Variant.MainEdit && (
+                {variant === Variant.AdminEdit && (
                     <MenuButton
                         open={open}
                         toggle={toggle}

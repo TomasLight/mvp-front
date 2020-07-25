@@ -6,10 +6,11 @@ import { UserSaga } from "./User.saga";
 export class UserWatcher extends Watcher {
     constructor() {
         super();
+        const saga = new UserSaga();
 
         this.watchLatest(
             UserActions.SET_USER,
-            UserSaga.setUser
+            saga.setUser
         );
     }
 }

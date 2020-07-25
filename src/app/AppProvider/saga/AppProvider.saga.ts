@@ -30,22 +30,6 @@ export class AppProviderSaga extends SagaBase {
         yield put(initializedAction);
     }
 
-    static* initializePosApp(action: AppAction) {
-        yield AppProviderSaga.updateStore({
-            initialized: true,
-        });
-    }
-
-    static* initializedWorkspaceApp(action: AppAction) {
-        const loadWorkspaceAction = WorkspaceActions.loadSettings();
-        loadWorkspaceAction.callbackAction = AppProviderActions.incrementInitializedActions;
-
-        yield AppProviderSaga.updateStore({
-            targetActionsAmount: loadWorkspaceAction.actions.length,
-        });
-        yield put(loadWorkspaceAction);
-    }
-
     static* getAuthorizedUser(action: AppAction<IGetAuthorizedUserData>) {
         const user: DataFailed | AuthorizedUser = yield call(DataService.user.authorizedUserAsync);
         if (user instanceof DataFailed) {

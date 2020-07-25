@@ -16,14 +16,6 @@ export class AppProviderWatcher extends Watcher {
             AppProviderSaga.initializeMainApp
         );
         this.watchLatest(
-            AppProviderActions.INITIALIZE_POS_APP,
-            AppProviderSaga.initializePosApp
-        );
-        this.watchLatest(
-            AppProviderActions.INITIALIZE_WORKSPACE_APP,
-            AppProviderSaga.initializedWorkspaceApp
-        );
-        this.watchLatest(
             AppProviderActions.GET_AUTHORIZED_USER,
             AppProviderSaga.getAuthorizedUser
         );

@@ -39,7 +39,7 @@ const mapStateToProps = (state: CommonState & State): Partial<ILayoutProps> => {
         title: state.main.hasWorkspace ? state.main.landingConfig.siteConfig.name : "",
         name: state.user.authorizedUser.getName(),
         menuItems,
-        variant: isNewWorkspace ? Variant.MainNew : Variant.MainEdit,
+        variant: isNewWorkspace ? Variant.AdminNew : Variant.AdminEdit,
     };
 };
 

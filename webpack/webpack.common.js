@@ -5,7 +5,7 @@ import { merge } from "webpack-merge";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ManifestPlugin from "webpack-manifest-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { CleanWebpackPlugin  } from "clean-webpack-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
 
 import { tsRule } from "./rules/ts-rule";
 import { imgRule } from "./rules/img-rule";
@@ -15,7 +15,8 @@ const paths = {
     root: path.join(__dirname, "../"),
     env: path.join(__dirname, "../.env"),
 
-    app: path.join(__dirname, "../src/app/index.tsx"),
+    adminApp: path.join(__dirname, "../src/app/admin/index.tsx"),
+    siteApp: path.join(__dirname, "../src/app/workspace/index.tsx"),
 
     output: path.join(__dirname, "../public/js"),
     public: path.join(__dirname, "../public/"),
@@ -27,11 +28,14 @@ const commonWebpackConfig = merge(
             fs: "empty"
         },
         entry: {
-            app: [ "@babel/polyfill", paths.app ],
+            // adminApp: [ "@babel/polyfill", paths.adminApp ],
+            // siteApp: [ "@babel/polyfill", paths.siteApp ],
+            adminApp: paths.adminApp,
+            siteApp: paths.siteApp,
         },
         output: {
             filename: "[name].[contenthash].bundle.js",
-            publicPath: '/js/',
+            publicPath: "/js/",
             path: paths.output,
         },
         resolve: {
@@ -46,9 +50,16 @@ const commonWebpackConfig = merge(
             }),
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
+                inject: "body",
+                chunks: [ "adminApp" ],
                 template: paths.public + "index.template.html",
-                filename: paths.public + "index.html",
-                inject: "body"
+                filename: paths.public + "admin.html",
+            }),
+            new HtmlWebpackPlugin({
+                inject: "body",
+                chunks: [ "siteApp" ],
+                template: paths.public + "index.template.html",
+                filename: paths.public + "site.html",
             }),
             new ManifestPlugin(),
         ],

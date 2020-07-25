@@ -14,6 +14,11 @@ const prodWebpackConfig = merge(common, {
                     name: "vendors",
                     chunks: "all",
                 },
+                shared: {
+                    test: /[\\/]shared[\\/]/,
+                    name: "shared",
+                    chunks: "all",
+                },
             },
         },
     },

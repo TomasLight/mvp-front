@@ -1,5 +1,5 @@
 import { ConnectedRouter } from "connected-react-router";
-import { History } from "history";
+import { createBrowserHistory, History } from "history";
 import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
@@ -8,16 +8,10 @@ import { configureMapper, MainReducerConfig, RootSaga } from "@admin/config";
 import { AppProviderContainer } from "./AppProvider.container";
 import { PageComponentRouterContainer } from "./routing";
 
+const history: History = createBrowserHistory();
 configureMapper();
 
-interface IAppProps {
-    history: History;
-}
-
-type Props = IAppProps;
-
-const App = (props: Props) => {
-    const { history } = props;
+const App = () => {
 
     const store = useMemo(() => configureApp(
         history,
