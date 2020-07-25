@@ -14,6 +14,7 @@ interface OwnProps {
 }
 
 const mapStateToProps = (state: State): IImportSettingsFormProps => ({
+    isSaving: state.import.settingsAreSending,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IImportSettingsFormCallProps => ({

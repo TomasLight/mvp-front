@@ -19,6 +19,7 @@ const mapStateToProps = (state: State): IContactSettingsFormProps => ({
     buttonText: state.main.settingsMode === "create"
         ? Translate.getString("Опубликовать сайт")
         :  Translate.getString("Сохранить"),
+    isSaving: state.content.contentIsSaving,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContactSettingsFormCallProps => ({

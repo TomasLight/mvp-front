@@ -9,7 +9,7 @@ import { MainSelectors } from "@admin/redux/Main.selectors";
 import { SiteSelectors } from "@admin/Site/redux/Site.selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
-import { Mapper } from "@utils";
+import { Mapper, Translate } from "@utils";
 import { FakeMenuDataService } from "../../data/fakeServices/FakeMenuDataService";
 
 import {
@@ -29,6 +29,13 @@ function * updateStore(partialStore: Partial<ContentStore>) {
 }
 
 export class ContentSaga extends SagaBase {
+    constructor() {
+        super();
+        this.loadData = this.loadData.bind(this);
+        this.loadFakeMenu = this.loadFakeMenu.bind(this);
+        this.submitSettings = this.submitSettings.bind(this);
+    }
+
     * loadData(action: AppAction) {
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
@@ -172,6 +179,10 @@ export class ContentSaga extends SagaBase {
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
             partialStore.showPublishDialog = true;
+            yield this.displaySuccessMessage(Translate.getString("Сайт опубликован"));
+        }
+        else {
+            yield this.displaySuccessMessage(Translate.getString("Настройки контента сохранены"));
         }
 
         yield updateStore(partialStore);
