@@ -1,9 +1,8 @@
-import { Category } from "@ws/Menu/models";
-import React from "react";
-
+import React, { SyntheticEvent, useCallback } from "react";
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
-import { FilterButton } from "./FilterButton";
+import { Category } from "@ws/Menu/models";
+import { Button, ButtonProps } from "@shared/molecules/Button";
 
 interface IFiltersProps {
     categories: Category[];
@@ -19,20 +18,28 @@ type Props = IFiltersProps & IFiltersCallProps & StyledComponentProps<FiltersCla
 const Filters = (props: Props) => {
     const { classes, categories, selectedCategory, onCategoryChange } = props;
 
-    const handleClick = (tagId) => () => {
-        onCategoryChange(tagId);
-    };
+    const handleClick = useCallback((event: SyntheticEvent) => {
+        const categoryId = event.currentTarget.getAttribute(
+            nameof<ButtonProps>(o => o.data)
+        );
+
+        onCategoryChange(categoryId);
+    }, [ onCategoryChange ]);
 
     return (
         <div className={classes.root}>
             {categories.map((category: Category) => (
-                <FilterButton
+                <Button
                     key={`category-${category.id}`}
-                    isActive={category.id === selectedCategory.id}
-                    onClick={handleClick(category.id)}
+                    variant="filter"
+                    state={{
+                        active: category.id === selectedCategory.id,
+                    }}
+                    onClick={handleClick}
+                    data={category.id}
                 >
                     {category.name}
-                </FilterButton>
+                </Button>
             ))}
         </div>
     );

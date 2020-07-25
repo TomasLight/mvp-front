@@ -1,4 +1,4 @@
-import { OptionsObject, VariantType } from "notistack";
+import { OptionsObject } from "notistack";
 import { ReactNode } from "react";
 
 import { ApiResponse } from "@utils/api";
@@ -36,3 +36,5 @@ export class Notification implements INotification {
         }
     }
 }
+
+export { OptionsObject as NotificationOptions };

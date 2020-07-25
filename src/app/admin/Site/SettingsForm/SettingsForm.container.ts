@@ -18,6 +18,7 @@ interface OwnProps {
 const mapStateToProps = (state: State): ISettingsFormProps => ({
     faviconOptions: state.site.faviconOptions,
     colorOptions: state.site.colorOptions,
+    isSaving: state.site.settingsAreSending,
     domainIsReadonly: state.main.settingsMode === "update",
 });
 

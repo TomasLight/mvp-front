@@ -1,3 +1,4 @@
+export * from "./Button";
 export * from "./FavIcon";
 export * from "./FieldLabel";
 export * from "./FieldLoadingIndicator";

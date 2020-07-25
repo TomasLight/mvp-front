@@ -61,13 +61,6 @@ const styles = createStyles<ClassKey, {}>((theme) => ({
         lineHeight: "28px",
     },
     stepperButton: {
-        backgroundColor: "#6FCF97",
-        borderRadius: theme.borderRadius,
-        color: "#FFF",
-        fontWeight: "bold",
-        fontSize: 20,
-        lineHeight: "23px",
-        padding: "12px 16px",
         width: "100%",
     },
 }));

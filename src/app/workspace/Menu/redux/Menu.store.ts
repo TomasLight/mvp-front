@@ -1,9 +1,6 @@
-import { Cart, Category, Dish, Menu } from "@ws/Menu/models";
+import { Cart, Category, Dish } from "@ws/Menu/models";
 
 export class MenuStore {
-    // menu: Menu;
-    // menuIsLoading: boolean;
-
     dishes: Dish[];
     dishesAreLoading: boolean;
 
@@ -18,9 +15,6 @@ export class MenuStore {
     cart: Cart;
 
     constructor() {
-        // this.menu = new Menu();
-        // this.menuIsLoading = false;
-
         this.dishes = [];
         this.dishesAreLoading = false;
 

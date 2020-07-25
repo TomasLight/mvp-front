@@ -1,8 +1,8 @@
-import { Translate } from "@utils";
 import React from "react";
+import { StyledComponentProps, Typography, withStyles } from "@material-ui/core";
 
-import { Button, StyledComponentProps, Typography, withStyles } from "@material-ui/core";
-
+import { Button } from "@shared/molecules/Button";
+import { Translate } from "@utils";
 import { styles, ClassKey } from "./ColorPreview.styles";
 
 interface IColorPreviewProps {
@@ -21,7 +21,7 @@ const ColorPreview = (props: Props) => {
                 {siteName}
             </Typography>
 
-            <Button variant="contained" color="secondary" className={classes.button}>
+            <Button variant="default" className={classes.button}>
                 {Translate.getString("Заказать обратный звонок")}
             </Button>
         </div>

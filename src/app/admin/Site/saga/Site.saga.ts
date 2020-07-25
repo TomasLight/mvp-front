@@ -11,7 +11,7 @@ import { mainUrls } from "@admin/routing";
 import { ISiteSettingsFormValues } from "@admin/Site/models";
 import { MainSelectors } from "@admin/redux/Main.selectors";
 import { FavIconUrlResolver } from "@shared/molecules";
-import { FileHelper, Mapper } from "@utils";
+import { FileHelper, Mapper, Translate } from "@utils";
 
 import {
     IOnChangeColorData,
@@ -25,11 +25,17 @@ import {
     SiteStore,
 } from "../redux";
 
-function * updateStore(partialStore: Partial<SiteStore>) {
+function* updateStore(partialStore: Partial<SiteStore>) {
     yield put(SiteActions.updateStore(partialStore));
 }
 
 export class SiteSaga extends SagaBase {
+    constructor() {
+        super();
+        this.loadData = this.loadData.bind(this);
+        this.submitSettings = this.submitSettings.bind(this);
+    }
+
     * loadData(action: AppAction) {
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
@@ -149,6 +155,7 @@ export class SiteSaga extends SagaBase {
                 yield this.displayClientError(siteConfig);
                 return;
             }
+            yield this.displaySuccessMessage(Translate.getString("Настройки сайта сохранены"));
         }
 
         yield updateStore({

@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import React from "react";
 
-import { makeStyles, Button, Typography, Divider } from "@material-ui/core";
+import { makeStyles, Typography, Divider } from "@material-ui/core";
 
+import { Button } from "@shared/molecules/Button";
 import { Translate } from "@utils";
 
 import {
@@ -73,20 +74,13 @@ const useStyles = makeStyles((theme) => ({
         gridArea: "link",
     },
     button: {
-        gridArea: "button",
-        backgroundColor: "#6FCF97",
-        borderRadius: theme.borderRadius,
-        color: "#FFF",
-        fontWeight: "bold",
-        fontSize: 20,
-        lineHeight: "23px",
-        padding: "12px 16px",
         width: "100%",
     },
 }), { name: "ContactSettingsForm" });
 
 interface IContactSettingsFormProps {
     buttonText: string;
+    isSaving: boolean;
 }
 
 interface IContactSettingsFormCallProps {
@@ -104,6 +98,7 @@ type Props = IContactSettingsFormProps & IContactSettingsFormCallProps;
 const ContactSettingsForm = (props: Props) => {
     const {
         buttonText,
+        isSaving,
         onChangeAddress,
         onChangeDeliveryLocationLink,
         onChangeDeliveryTime,
@@ -164,7 +159,14 @@ const ContactSettingsForm = (props: Props) => {
                 onChange={onChangeDeliveryLocationLink}
             />
 
-            <Button onClick={onSubmit} variant="contained" className={classes.button}>
+            <Button
+                variant="form"
+                onClick={onSubmit}
+                className={classes.button}
+                state={{
+                    loading: isSaving,
+                }}
+            >
                 {buttonText}
             </Button>
         </div>

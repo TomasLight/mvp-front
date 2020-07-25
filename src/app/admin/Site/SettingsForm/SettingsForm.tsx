@@ -1,9 +1,10 @@
 import React from "react";
 
-import { makeStyles, Button, Typography, Theme } from "@material-ui/core";
+import { makeStyles, Typography, Theme } from "@material-ui/core";
 
 import { IconVariant } from "@enums";
 import { ColorSelectFieldOption, IconSelectFieldOption } from "@select/types";
+import { Button } from "@shared/molecules/Button";
 import { Translate } from "@utils";
 
 import {
@@ -20,6 +21,7 @@ const useStyles = makeStyles<Theme, ClassKey>(styles, { name: "SettingsForm" });
 interface ISettingsFormProps {
     faviconOptions: IconSelectFieldOption[];
     colorOptions: ColorSelectFieldOption[];
+    isSaving: boolean;
     domainIsReadonly: boolean;
 }
 
@@ -39,6 +41,7 @@ const SettingsForm = (props: Props) => {
     const {
         faviconOptions,
         colorOptions,
+        isSaving,
         domainIsReadonly,
 
         onChangeSiteName,
@@ -102,7 +105,14 @@ const SettingsForm = (props: Props) => {
                     {Translate.getString("Шаг 1/3")}
                 </Typography>
 
-                <Button onClick={onSubmit} className={classes.stepperButton}>
+                <Button
+                    variant="form"
+                    onClick={onSubmit}
+                    className={classes.stepperButton}
+                    state={{
+                        loading: isSaving,
+                    }}
+                >
                     {Translate.getString("Дальше")}
                 </Button>
             </div>

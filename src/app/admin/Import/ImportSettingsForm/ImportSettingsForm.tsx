@@ -1,11 +1,12 @@
 import React from "react";
 
-import { makeStyles, Button, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 
 import { SiteItem } from "@admin/Site/SettingsForm/SiteItems";
 import { IImportSettingsFormValues } from "@admin/Import/models";
+import { Button } from "@shared/molecules/Button";
 import { DefaultFieldSubscription } from "@shared/organisms";
-import { DragAndDropFormField, TextFormField } from "@shared/templates";
+import { DragAndDropFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,18 +39,12 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: "28px",
     },
     stepperButton: {
-        backgroundColor: "#6FCF97",
-        borderRadius: theme.borderRadius,
-        color: "#FFF",
-        fontWeight: "bold",
-        fontSize: 20,
-        lineHeight: "23px",
-        padding: "12px 16px",
         width: "100%",
     },
 }), { name: "DataSettingsForm" });
 
 interface IImportSettingsFormProps {
+    isSaving: boolean;
 }
 
 interface IImportSettingsFormCallProps {
@@ -60,6 +55,7 @@ type Props = IImportSettingsFormProps & IImportSettingsFormCallProps;
 
 const ImportSettingsForm = (props: Props) => {
     const {
+        isSaving,
         onSubmit,
     } = props;
     const classes = useStyles();
@@ -88,7 +84,14 @@ const ImportSettingsForm = (props: Props) => {
                     {Translate.getString("Шаг 2/3")}
                 </Typography>
 
-                <Button onClick={onSubmit} className={classes.stepperButton}>
+                <Button
+                    variant="form"
+                    onClick={onSubmit}
+                    className={classes.stepperButton}
+                    state={{
+                        loading: isSaving,
+                    }}
+                >
                     {Translate.getString("Дальше")}
                 </Button>
             </div>

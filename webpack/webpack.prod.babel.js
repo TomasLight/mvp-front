@@ -1,4 +1,5 @@
 import { merge } from "webpack-merge";
+import TerserPlugin from 'terser-webpack-plugin';
 
 import common from "./webpack.common";
 
@@ -21,6 +22,9 @@ const prodWebpackConfig = merge(common, {
                 },
             },
         },
+        minimizer: [
+            new TerserPlugin(),
+        ]
     },
 });
 

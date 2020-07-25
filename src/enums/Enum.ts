@@ -1,1 +1,1 @@
-export type Enum<TEnumValues extends object> = TEnumValues[keyof TEnumValues];
+export type Enum<TEnumValues extends object> = Readonly<TEnumValues[keyof TEnumValues]>;

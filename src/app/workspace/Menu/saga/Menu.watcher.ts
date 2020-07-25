@@ -6,45 +6,46 @@ import { MenuSaga } from "./Menu.saga";
 export class MenuWatcher extends Watcher {
     constructor() {
         super();
+        const saga = new MenuSaga();
 
         this.watchLatest(
             MenuActions.LOAD_MENU,
-            MenuSaga.loadMenu
+            saga.loadMenu
         );
         this.watchLatest(
             MenuActions.LOAD_CATEGORIES,
-            MenuSaga.loadCategories
+            saga.loadCategories
         );
         this.watchLatest(
             MenuActions.LOAD_DISHES,
-            MenuSaga.loadDishes
+            saga.loadDishes
         );
 
         this.watchLatest(
             MenuActions.OPEN_DISH_MODAL,
-            MenuSaga.openDishModal
+            saga.openDishModal
         );
         this.watchLatest(
             MenuActions.CLOSE_DISH_MODAL,
-            MenuSaga.closeDishModal
+            saga.closeDishModal
         );
 
         this.watchLatest(
             MenuActions.ADD_DISH_TO_CART,
-            MenuSaga.addDishToCart
+            saga.addDishToCart
         );
         this.watchLatest(
             MenuActions.INCREASE_DISH_AMOUNT_IN_CART,
-            MenuSaga.increaseDishAmountInCart
+            saga.increaseDishAmountInCart
         );
         this.watchLatest(
             MenuActions.DECREASE_DISH_AMOUNT_IN_CART,
-            MenuSaga.decreaseDishAmountInCart
+            saga.decreaseDishAmountInCart
         );
 
         this.watchLatest(
             MenuActions.CHANGE_SELECTED_CATEGORY,
-            MenuSaga.changeSelectedCategory
+            saga.changeSelectedCategory
         );
     }
 }

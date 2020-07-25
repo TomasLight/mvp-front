@@ -7,7 +7,7 @@ import { DataService } from "@admin/data";
 import { WorkspaceDataSettings } from "@app/models";
 import { IImportSettingsFormValues } from "@admin/Import/models";
 import { mainUrls } from "@admin/routing";
-import { Mapper } from "@utils";
+import { Mapper, Translate } from "@utils";
 import { SagaBase } from "@config/saga";
 
 import {
@@ -16,11 +16,16 @@ import {
     ImportStore,
 } from "../redux";
 
-function * updateStore(partialStore: Partial<ImportStore>) {
+function* updateStore(partialStore: Partial<ImportStore>) {
     yield put(ImportActions.updateStore(partialStore));
 }
 
 export class ImportSaga extends SagaBase {
+    constructor() {
+        super();
+        this.submitSettings = this.submitSettings.bind(this);
+    }
+
     * submitSettings(action: AppAction<ISubmitSettingsData>) {
         const { formValues } = action.payload;
 
@@ -39,7 +44,7 @@ export class ImportSaga extends SagaBase {
             yield updateStore({
                 settingsAreSending: false,
             });
-            yield SagaBase.displayClientError(result);
+            yield this.displayClientError(result);
             return;
         }
 
@@ -47,6 +52,7 @@ export class ImportSaga extends SagaBase {
             settingsAreSending: false,
         });
 
+        yield this.displaySuccessMessage(Translate.getString("Меню импортировано"));
         yield put(push(mainUrls.contentSettings));
     }
 }
