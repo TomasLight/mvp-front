@@ -28,7 +28,6 @@ export class MainSaga extends SagaBase {
         }
 
         yield updateStore({
-            appIsInitialized: true,
             authorizedUser: user,
         });
     }
@@ -54,6 +53,7 @@ export class MainSaga extends SagaBase {
         const settingsMode = hasWorkspace ? "update" : "create";
 
         yield updateStore({
+            appIsInitialized: true,
             workspacesAreLoading: false,
             settingsMode,
             hasWorkspace,

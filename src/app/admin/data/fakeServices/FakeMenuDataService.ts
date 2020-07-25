@@ -19,9 +19,9 @@ export class FakeMenuDataService extends FakeServiceBase implements IMenuDataSer
                 productIds: [
                     Guid.generate(),
                 ],
-                title: "Шаурмяха (в защитном лаваше)",
+                title: "Шаверма в тонком лаваше",
                 image: "/images/shaurma_001.jpg",
-                description: "Готовится по класеке",
+                description: "Готовится по классике",
                 price: 200,
             }),
         ];

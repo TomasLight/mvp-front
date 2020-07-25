@@ -186,6 +186,6 @@ export class ContentSaga extends SagaBase {
     * redirectToSite(action: AppAction) {
         const siteUrl: string = yield SiteSelectors.getSiteUrl();
 
-        window.location.href = siteUrl;
+        window.location.href = `${window.location.protocol}//${siteUrl}`;
     }
 }

@@ -18,7 +18,11 @@ const mapStateToProps = (state: State): IAppProviderProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch): IAppProviderCallProps => {
     return {
-        initialize: () => dispatch(MainActions.checkUserAuthorization()),
+        initialize: () => {
+            const action = MainActions.checkUserAuthorization();
+            action.actions.push(MainActions.checkWorkspace());
+            dispatch(action);
+        },
     };
 };
 

@@ -93,15 +93,18 @@ const ContentPage = (props: Props) => {
                 <DialogTitle id="alert-dialog-title">
                     {Translate.getString("Успешная публикация")}
                 </DialogTitle>
+
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         {Translate.getString(`Ваш сайт опубликован по адресу ${siteUrl}. Желаете перейти?`)}
                     </DialogContentText>
                 </DialogContent>
+
                 <DialogActions>
                     <Button onClick={closePublishDialog} color="default" autoFocus>
                         {Translate.getString("Редактировать дальше")}
                     </Button>
+
                     <Button onClick={redirectToSite} color="primary" autoFocus>
                         {Translate.getString("Посетить сайт")}
                     </Button>

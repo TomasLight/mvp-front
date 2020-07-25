@@ -123,7 +123,7 @@ const FoodItem = (props: Props) => {
     return (
         <Card elevation={0}>
             <CardActionArea onClick={handleOpen}>
-                {imageIsLoaded
+                {dish.image && imageIsLoaded
                     ? (
                         <CardMedia
                             component="img"

@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
             1fr \
             auto",
         gridGap: 20,
-        height: "100%",
+        position: 'fixed',
     },
     field: {
         width: "100%",
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
         padding: "12px 16px",
         width: "100%",
     },
-}), { name: "SiteSettingsForm" });
+}), { name: "ContactSettingsForm" });
 
 interface IContactSettingsFormProps {
     buttonText: string;
