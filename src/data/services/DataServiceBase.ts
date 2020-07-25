@@ -1,4 +1,5 @@
-import { AuthorizedUser, LandingConfig, Workspace } from "@models";
+import { AuthorizedUser } from "@admin/models";
+import {LandingConfig, Workspace } from "@models";
 import { ApiResponse } from "@utils";
 import { Dish, Menu } from "@ws/Menu/models";
 import { ActionProcessing } from "../ActionProcessing";

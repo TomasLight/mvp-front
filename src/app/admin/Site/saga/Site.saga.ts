@@ -2,13 +2,13 @@ import { call, put } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
 import { push } from "connected-react-router";
 
-import { LandingConfig, SiteConfig, Workspace, WorkspaceSiteSettings } from "@app/models/wokrspaces";
+import { SiteConfig, Workspace, WorkspaceSiteSettings } from "@app/models/wokrspaces";
 import { SagaBase } from "@config/saga";
 import { Data, DataFailed, DataService } from "@data";
 import { MainActions } from "@admin/redux";
 import { mainUrls } from "@admin/routing";
 import { ISiteSettingsFormValues } from "@admin/Site/models";
-import { MainSelectors } from "@selectors";
+import { MainSelectors } from "@admin/redux/Main.selectors";
 import { FavIconUrlResolver } from "@shared/molecules";
 import { FileHelper, Mapper } from "@utils";
 
@@ -24,12 +24,12 @@ import {
     SiteStore,
 } from "../redux";
 
-export class SiteSaga extends SagaBase {
-    private static* updateStore(partialStore: Partial<SiteStore>) {
-        yield put(SiteActions.updateStore(partialStore));
-    }
+function * updateStore(partialStore: Partial<SiteStore>) {
+    yield put(SiteActions.updateStore(partialStore));
+}
 
-    static* loadData(action: AppAction) {
+export class SiteSaga extends SagaBase {
+    * loadData(action: AppAction) {
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
             return;
@@ -37,18 +37,18 @@ export class SiteSaga extends SagaBase {
 
         const workspace: Data<Workspace> = yield call(DataService.workspace.currentWorkspaceAsync);
         if (workspace instanceof DataFailed) {
-            yield SagaBase.displayClientError(workspace);
+            yield this.displayClientError(workspace);
             return;
         }
 
         const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.siteConfigAsync);
         if (siteConfig instanceof DataFailed) {
-            yield SagaBase.displayClientError(siteConfig);
+            yield this.displayClientError(siteConfig);
             return;
         }
 
         const faviconVariant = FavIconUrlResolver.getVariant(siteConfig.faviconUrl);
-        yield SiteSaga.updateStore({
+        yield updateStore({
             initialValues: {
                 domain: workspace.domain,
                 siteName: siteConfig.name,
@@ -66,13 +66,13 @@ export class SiteSaga extends SagaBase {
         });
     }
 
-    static* onChangeSiteName(action: AppAction<IOnChangeSiteNameData>) {
-        yield SiteSaga.updateStore({
+    * onChangeSiteName(action: AppAction<IOnChangeSiteNameData>) {
+        yield updateStore({
             siteName: action.payload.siteName,
         });
     }
 
-    static* onChangeDomain(action: AppAction<IOnChangeDomainData>) {
+    * onChangeDomain(action: AppAction<IOnChangeDomainData>) {
         const { domain } = action.payload;
 
         let url = "";
@@ -80,18 +80,18 @@ export class SiteSaga extends SagaBase {
             url = `${domain}.${process.env.MAIN_DOMAIN}`;
         }
 
-        yield SiteSaga.updateStore({
+        yield updateStore({
             siteUrl: url,
         });
     }
 
-    static* onChangeFavicon(action: AppAction<IOnChangeFaviconData>) {
-        yield SiteSaga.updateStore({
+    * onChangeFavicon(action: AppAction<IOnChangeFaviconData>) {
+        yield updateStore({
             faviconVariant: action.payload.faviconVariant,
         });
     }
 
-    static* onChangeOpenGraphImage(action: AppAction<IOnChangeOpenGraphImageData>) {
+    * onChangeOpenGraphImage(action: AppAction<IOnChangeOpenGraphImageData>) {
         const { imageFile, dispatch } = action.payload;
 
         let openGraphImage = "";
@@ -103,19 +103,19 @@ export class SiteSaga extends SagaBase {
         }));
     }
 
-    static* onChangeOpenGraphTitle(action: AppAction<IOnChangeOpenGraphTitleData>) {
-        yield SiteSaga.updateStore({
+    * onChangeOpenGraphTitle(action: AppAction<IOnChangeOpenGraphTitleData>) {
+        yield updateStore({
             openGraphTitle: action.payload.title,
         });
     }
 
-    static* onChangeColor(action: AppAction<IOnChangeColorData>) {
-        yield SiteSaga.updateStore({
+    * onChangeColor(action: AppAction<IOnChangeColorData>) {
+        yield updateStore({
             color: action.payload.color,
         });
     }
 
-    static* submitSettings(action: AppAction<ISubmitSettingsData>) {
+    * submitSettings(action: AppAction<ISubmitSettingsData>) {
         const { formValues } = action.payload;
 
         const settings = Mapper.map<WorkspaceSiteSettings>(
@@ -124,7 +124,7 @@ export class SiteSaga extends SagaBase {
             formValues
         );
 
-        yield SiteSaga.updateStore({
+        yield updateStore({
             settingsAreSending: true,
         });
 
@@ -132,25 +132,25 @@ export class SiteSaga extends SagaBase {
         if (settingsMode === "create") {
             const workspace: Data<Workspace> = yield call(DataService.workspace.createConfigAsync, settings);
             if (workspace instanceof DataFailed) {
-                yield SiteSaga.updateStore({
+                yield updateStore({
                     settingsAreSending: false,
                 });
-                yield SagaBase.displayClientError(workspace);
+                yield this.displayClientError(workspace);
                 return;
             }
         }
         else {
             const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.updateSiteAsync, settings);
             if (siteConfig instanceof DataFailed) {
-                yield SiteSaga.updateStore({
+                yield updateStore({
                     settingsAreSending: false,
                 });
-                yield SagaBase.displayClientError(siteConfig);
+                yield this.displayClientError(siteConfig);
                 return;
             }
         }
 
-        yield SiteSaga.updateStore({
+        yield updateStore({
             settingsAreSending: false,
             initialValues: formValues,
         });

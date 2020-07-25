@@ -1,10 +1,11 @@
 import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
-import { ContentConfig, LandingConfig, WorkspaceContentSettings } from "@app/models";
+import { ContentConfig, WorkspaceContentSettings } from "@app/models";
 import { Data, DataFailed, DataService } from "@data";
 import { IContactSettingsFormValues } from "@admin/Content/models";
-import { MainSelectors, SiteSelectors } from "@selectors";
+import { MainSelectors } from "@admin/redux/Main.selectors";
+import { SiteSelectors } from "@admin/Site/redux/Site.selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
 import { Mapper } from "@utils";
@@ -22,12 +23,12 @@ import {
     ContentStore,
 } from "../redux";
 
-export class ContentSaga extends SagaBase {
-    private static* updateStore(partialStore: Partial<ContentStore>) {
-        yield put(ContentActions.updateStore(partialStore));
-    }
+function * updateStore(partialStore: Partial<ContentStore>) {
+    yield put(ContentActions.updateStore(partialStore));
+}
 
-    static* loadData(action: AppAction) {
+export class ContentSaga extends SagaBase {
+    * loadData(action: AppAction) {
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
             return;
@@ -35,11 +36,11 @@ export class ContentSaga extends SagaBase {
 
         const contentConfig: Data<ContentConfig> = yield call(DataService.workspace.contentConfigAsync);
         if (contentConfig instanceof DataFailed) {
-            yield SagaBase.displayClientError(contentConfig);
+            yield this.displayClientError(contentConfig);
             return;
         }
 
-        yield ContentSaga.updateStore({
+        yield updateStore({
             initialValues: {
                 photo: null,
                 firstBlockText: contentConfig.firstText,
@@ -57,8 +58,8 @@ export class ContentSaga extends SagaBase {
         });
     }
 
-    static* loadFakeMenu(action: AppAction) {
-        yield ContentSaga.updateStore({
+    * loadFakeMenu(action: AppAction) {
+        yield updateStore({
             fakeMenuIsLoading: true,
         });
 
@@ -69,7 +70,7 @@ export class ContentSaga extends SagaBase {
         const dataCategories: Data<Category[]> = yield call(DataService.menu.categoriesAsync);
         if (dataCategories instanceof DataFailed) {
             if (hasWorkspace) {
-                yield SagaBase.displayClientError(dataCategories);
+                yield this.displayClientError(dataCategories);
             }
             const fakeDataService = new FakeMenuDataService();
             categories = yield call(fakeDataService.categoriesAsync);
@@ -80,7 +81,7 @@ export class ContentSaga extends SagaBase {
             dishes = yield call(DataService.menu.dishesAsync);
         }
 
-        yield ContentSaga.updateStore({
+        yield updateStore({
             fakeMenu: {
                 cart: new Cart(),
                 categories,
@@ -90,37 +91,37 @@ export class ContentSaga extends SagaBase {
         });
     }
 
-    static* onChangeAddress(action: AppAction<IOnChangeAddressData>) {
-        yield ContentSaga.updateStore({
+    * onChangeAddress(action: AppAction<IOnChangeAddressData>) {
+        yield updateStore({
             address: action.payload.address,
         });
     }
 
-    static* onChangeDeliveryLocationLink(action: AppAction<IOnChangeDeliveryLocationLinkData>) {
-        yield ContentSaga.updateStore({
+    * onChangeDeliveryLocationLink(action: AppAction<IOnChangeDeliveryLocationLinkData>) {
+        yield updateStore({
             link: action.payload.link,
         });
     }
 
-    static* onChangeDeliveryTime(action: AppAction<IOnChangeDeliveryTimeData>) {
-        yield ContentSaga.updateStore({
+    * onChangeDeliveryTime(action: AppAction<IOnChangeDeliveryTimeData>) {
+        yield updateStore({
             time: action.payload.time,
         });
     }
 
-    static* onChangeFirstBlockText(action: AppAction<IOnChangeFirstBlockTextData>) {
-        yield ContentSaga.updateStore({
+    * onChangeFirstBlockText(action: AppAction<IOnChangeFirstBlockTextData>) {
+        yield updateStore({
             text: action.payload.text,
         });
     }
 
-    static* onChangePhone(action: AppAction<IOnChangePhoneData>) {
-        yield ContentSaga.updateStore({
+    * onChangePhone(action: AppAction<IOnChangePhoneData>) {
+        yield updateStore({
             phone: action.payload.phone,
         });
     }
 
-    static* onChangePhoto(action: AppAction<IOnChangePhotoData>) {
+    * onChangePhoto(action: AppAction<IOnChangePhotoData>) {
         const { photoFile, dispatch } = action.payload;
 
         if (FileReader && photoFile) {
@@ -134,7 +135,7 @@ export class ContentSaga extends SagaBase {
         }
     }
 
-    static* submitSettings(action: AppAction<ISubmitData>) {
+    * submitSettings(action: AppAction<ISubmitData>) {
         const { formValues } = action.payload;
 
         const settings = Mapper.map<WorkspaceContentSettings>(
@@ -143,16 +144,16 @@ export class ContentSaga extends SagaBase {
             formValues
         );
 
-        yield ContentSaga.updateStore({
+        yield updateStore({
             contentIsSaving: true,
         });
 
         const contentConfig: Data<ContentConfig> = yield call(DataService.workspace.updateContentAsync, settings);
         if (contentConfig instanceof DataFailed) {
-            yield ContentSaga.updateStore({
+            yield updateStore({
                 contentIsSaving: false,
             });
-            yield SagaBase.displayClientError(contentConfig);
+            yield this.displayClientError(contentConfig);
             return;
         }
 
@@ -172,16 +173,16 @@ export class ContentSaga extends SagaBase {
             partialStore.showPublishDialog = true;
         }
 
-        yield ContentSaga.updateStore(partialStore);
+        yield updateStore(partialStore);
     }
 
-    static* closePublishDialog(action: AppAction) {
-        yield ContentSaga.updateStore({
+    * closePublishDialog(action: AppAction) {
+        yield updateStore({
             showPublishDialog: false,
         });
     }
 
-    static* redirectToSite(action: AppAction) {
+    * redirectToSite(action: AppAction) {
         const siteUrl: string = yield SiteSelectors.getSiteUrl();
 
         window.location.href = siteUrl;

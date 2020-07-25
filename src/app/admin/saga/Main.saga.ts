@@ -1,27 +1,48 @@
 import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
+import { AuthorizedUser } from "../models";
 import { DataFailed, DataService } from "@data";
 import { SagaBase } from "@config/saga";
-
 import { MainActions, MainStore, } from "../redux";
 
+function * updateStore(partialStore: Partial<MainStore>) {
+    yield put(MainActions.updateStore(partialStore));
+}
+
 export class MainSaga extends SagaBase {
-    private static* updateStore(partialStore: Partial<MainStore>) {
-        yield put(MainActions.updateStore(partialStore));
+    * checkUserAuthorization(action: AppAction) {
+        const user: DataFailed | AuthorizedUser = yield call(DataService.user.authorizedUserAsync);
+        if (user instanceof DataFailed) {
+            action.stop();
+
+            if (user.actionProcessing.isRedirect()) {
+                const currentUrl = window.location.href;
+                window.location.href = `${process.env.AUTHORIZE_URL}?returnUrl=${currentUrl}`;
+                return;
+            }
+
+            this.displayClientError(user);
+            return;
+        }
+
+        yield updateStore({
+            appIsInitialized: true,
+            authorizedUser: user,
+        });
     }
 
-    static* checkWorkspace(action: AppAction) {
-        yield MainSaga.updateStore({
+    * checkWorkspace(action: AppAction) {
+        yield updateStore({
             workspacesAreLoading: true,
         });
 
         let hasWorkspace: DataFailed | boolean = yield call(DataService.workspace.hasWorkspaceAsync);
         if (hasWorkspace instanceof DataFailed && !hasWorkspace.actionProcessing.isRedirect()) {
-            yield MainSaga.updateStore({
+            yield updateStore({
                 workspacesAreLoading: false,
             });
-            yield SagaBase.displayClientError(hasWorkspace);
+            yield this.displayClientError(hasWorkspace);
             return;
         }
 
@@ -31,15 +52,15 @@ export class MainSaga extends SagaBase {
 
         const settingsMode = hasWorkspace ? "update" : "create";
 
-        yield MainSaga.updateStore({
+        yield updateStore({
             workspacesAreLoading: false,
             settingsMode,
             hasWorkspace,
         });
     }
 
-    static* workspaceWasCreated(action: AppAction) {
-        yield MainSaga.updateStore({
+    * workspaceWasCreated(action: AppAction) {
+        yield updateStore({
             hasWorkspace: true,
         });
     }

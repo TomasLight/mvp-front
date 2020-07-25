@@ -45,4 +45,4 @@ public/aspnet_client/*
 public/logs/*
 public/js/*
 /.env
-/public/index.html
+/public/*.html

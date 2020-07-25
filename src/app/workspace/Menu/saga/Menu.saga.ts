@@ -3,7 +3,6 @@ import { call, put } from "@redux-saga/core/effects";
 
 import { SagaBase } from "@config/saga";
 import { DataFailed, DataService } from "@data";
-import { MenuSelectors } from "@selectors";
 import { Cart, Category, Dish } from "../models";
 import {
     IAddDishToCartData,
@@ -12,7 +11,8 @@ import {
     IIncreaseDishAmountInCartData,
     IOpenDishModalData,
     MenuActions,
-    MenuStore
+    MenuStore,
+    MenuSelectors,
 } from "../redux";
 
 export class MenuSaga extends SagaBase {

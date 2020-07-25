@@ -1,6 +1,10 @@
+import { AuthorizedUser } from "@admin/models";
 import { LandingConfig } from "@app/models";
 
 export class MainStore {
+    appIsInitialized: boolean;
+    authorizedUser: AuthorizedUser;
+
     workspacesAreLoading: boolean;
     settingsMode: "create" | "update";
 
@@ -9,6 +13,9 @@ export class MainStore {
     landingConfigIsLoading: boolean;
 
     constructor() {
+        this.appIsInitialized = false;
+        this.authorizedUser = new AuthorizedUser();
+
         this.workspacesAreLoading = false;
         this.settingsMode = "update";
 

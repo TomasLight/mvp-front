@@ -6,52 +6,53 @@ import { ContentSaga } from "./Content.saga";
 export class ContentWatcher extends Watcher {
     constructor() {
         super();
+        const saga = new ContentSaga();
 
         this.watchLatest(
             ContentActions.LOAD_DATA,
-            ContentSaga.loadData
+            saga.loadData
         );
         this.watchLatest(
             ContentActions.LOAD_FAKE_MENU,
-            ContentSaga.loadFakeMenu
+            saga.loadFakeMenu
         );
 
         this.watchLatest(
             ContentActions.ON_CHANGE_ADDRESS,
-            ContentSaga.onChangeAddress
+            saga.onChangeAddress
         );
         this.watchLatest(
             ContentActions.ON_CHANGE_DELIVERY_LOCATION_LINK,
-            ContentSaga.onChangeDeliveryLocationLink
+            saga.onChangeDeliveryLocationLink
         );
         this.watchLatest(
             ContentActions.ON_CHANGE_DELIVERY_TIME,
-            ContentSaga.onChangeDeliveryTime
+            saga.onChangeDeliveryTime
         );
         this.watchLatest(
             ContentActions.ON_CHANGE_FIRST_BLOCK_TEXT,
-            ContentSaga.onChangeFirstBlockText
+            saga.onChangeFirstBlockText
         );
         this.watchLatest(
             ContentActions.ON_CHANGE_PHONE,
-            ContentSaga.onChangePhone
+            saga.onChangePhone
         );
         this.watchLatest(
             ContentActions.ON_CHANGE_PHOTO,
-            ContentSaga.onChangePhoto
+            saga.onChangePhoto
         );
 
         this.watchLatest(
             ContentActions.SUBMIT_SETTINGS,
-            ContentSaga.submitSettings
+            saga.submitSettings
         );
         this.watchLatest(
             ContentActions.CLOSE_PUBLISH_DIALOG,
-            ContentSaga.closePublishDialog
+            saga.closePublishDialog
         );
         this.watchLatest(
             ContentActions.REDIRECT_TO_SITE,
-            ContentSaga.redirectToSite
+            saga.redirectToSite
         );
     }
 }

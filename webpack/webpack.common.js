@@ -12,14 +12,24 @@ import { imgRule } from "./rules/img-rule";
 import { fontRule } from "./rules/font-rule";
 
 const paths = {
-    root: path.join(__dirname, "../"),
-    env: path.join(__dirname, "../.env"),
+    // root: path.join(__dirname, "../"),
+    // env: path.join(__dirname, "../.env"),
 
-    adminApp: path.join(__dirname, "../src/app/admin/index.tsx"),
-    siteApp: path.join(__dirname, "../src/app/workspace/index.tsx"),
+    // adminApp: path.join(__dirname, "../src/app/admin/index.tsx"),
+    // siteApp: path.join(__dirname, "../src/app/workspace/index.tsx"),
 
-    output: path.join(__dirname, "../public/js"),
-    public: path.join(__dirname, "../public/"),
+    // output: path.join(__dirname, "../public/js"),
+    // public: path.join(__dirname, "../public/"),
+
+    root: path.join(__dirname, ".."),
+    env: path.join(__dirname, "..", ".env"),
+
+    adminApp: path.join(__dirname, "..", "src", "app", "admin", "index.tsx"),
+    siteApp: path.join(__dirname, "..", "src", "app", "workspace", "index.tsx"),
+
+    output: path.join(__dirname, "..", "public", "js"),
+    public: path.join(__dirname, "..", "public"),
+    htmlTemplate: path.join(__dirname, "..", "public", "templates", "index.html"),
 };
 
 const commonWebpackConfig = merge(
@@ -34,7 +44,7 @@ const commonWebpackConfig = merge(
             siteApp: paths.siteApp,
         },
         output: {
-            filename: "[name].[contenthash].bundle.js",
+            filename: "[name].bundle.[contenthash].js",
             publicPath: "/js/",
             path: paths.output,
         },
@@ -52,14 +62,14 @@ const commonWebpackConfig = merge(
             new HtmlWebpackPlugin({
                 inject: "body",
                 chunks: [ "adminApp" ],
-                template: paths.public + "index.template.html",
-                filename: paths.public + "admin.html",
+                template: paths.htmlTemplate,
+                filename: path.join(paths.public, "admin.html"),
             }),
             new HtmlWebpackPlugin({
                 inject: "body",
                 chunks: [ "siteApp" ],
-                template: paths.public + "index.template.html",
-                filename: paths.public + "site.html",
+                template: paths.htmlTemplate,
+                filename: path.join(paths.public, "site.html"),
             }),
             new ManifestPlugin(),
         ],

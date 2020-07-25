@@ -1,8 +1,8 @@
-import { Dish } from "@ws/Menu/models";
 import { select } from "redux-saga/effects";
 
-import { MenuStore } from "@ws/Menu/redux";
+import { Dish } from "@ws/Menu/models";
 import { State } from "@WsState";
+import { MenuStore } from "./Menu.store";
 
 export class MenuSelectors {
     static* getStore() {
@@ -18,11 +18,6 @@ export class MenuSelectors {
     static* dishes() {
         const store: MenuStore = yield MenuSelectors.getStore();
         return store.dishes;
-    }
-
-    static* filterDishes(dishId: string) {
-        const dishes: Dish[] = yield MenuSelectors.dishes();
-        return dishes.filter((dish: Dish) => dish.id !== dishId);
     }
 
     static* getDishById(dishId: string) {

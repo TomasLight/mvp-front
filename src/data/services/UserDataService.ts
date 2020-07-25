@@ -1,7 +1,7 @@
+import { AuthorizedUser } from "@admin/models";
 import { UserApi } from "@api";
 import { IAuthorizedUserDto } from "@api/models/user/responses";
-import { DataFailed } from "@data";
-import { AuthorizedUser } from "@models";
+import { DataFailed } from "../DataFailed";
 import { ApiResponseStatus, Mapper } from "@utils";
 import { ActionProcessing } from "../ActionProcessing";
 import { Data } from "../Data";

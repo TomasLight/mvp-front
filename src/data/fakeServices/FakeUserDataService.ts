@@ -1,4 +1,4 @@
-import { AuthorizedUser } from "@models";
+import { AuthorizedUser } from "@admin/models";
 import { Guid } from "@utils";
 import { Data } from "../Data";
 import { IUserDataService } from "../IUserDataService";

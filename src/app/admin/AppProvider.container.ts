@@ -2,23 +2,23 @@ import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { CommonState } from "@CommonState";
+import { State } from "@AdminState";
+import { MainActions } from "@admin/redux";
 import {
     AppProvider,
     IAppProviderCallProps,
     IAppProviderProps,
-    AppProviderActions,
 } from "@app/AppProvider";
 
-const mapStateToProps = (state: CommonState): IAppProviderProps => {
+const mapStateToProps = (state: State): IAppProviderProps => {
     return {
-        appIsInitialized: state.appProvider.initialized,
+        appIsInitialized: state.main.appIsInitialized,
     };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch): IAppProviderCallProps => {
     return {
-        initialize: () => dispatch(AppProviderActions.initializedMainApp()),
+        initialize: () => dispatch(MainActions.checkUserAuthorization()),
     };
 };
 

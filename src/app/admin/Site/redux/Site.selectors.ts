@@ -1,6 +1,6 @@
 import { select } from "redux-saga/effects";
 
-import { SiteStore } from "@admin/Site/redux";
+import { SiteStore } from "./Site.store";
 import { State } from "@AdminState";
 
 export class SiteSelectors {

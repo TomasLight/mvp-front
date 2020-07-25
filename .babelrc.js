@@ -20,7 +20,6 @@ const alias = {
     "@data": "./src/data/index.ts",
     "@enums": "./src/enums/index.ts",
     "@icons": "./src/shared/atoms/icons",
-    "@selectors": "./src/app/config/redux/selectors/index.ts",
     "@shared": "./src/shared",
 
     "@admin": "./src/app/admin",

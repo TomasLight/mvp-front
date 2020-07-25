@@ -6,44 +6,41 @@ import { SiteSaga } from "./Site.saga";
 export class SiteWatcher extends Watcher {
     constructor() {
         super();
+        const saga = new SiteSaga();
 
         this.watchLatest(
             SiteActions.LOAD_DATA,
-            SiteSaga.loadData
+            saga.loadData
         );
 
         this.watchLatest(
             SiteActions.ON_CHANGE_SITE_NAME,
-            SiteSaga.onChangeSiteName
+            saga.onChangeSiteName
         );
         this.watchLatest(
             SiteActions.ON_CHANGE_DOMAIN,
-            SiteSaga.onChangeDomain
+            saga.onChangeDomain
         );
         this.watchLatest(
             SiteActions.ON_CHANGE_FAVICON,
-            SiteSaga.onChangeFavicon
+            saga.onChangeFavicon
         );
         this.watchLatest(
             SiteActions.ON_CHANGE_OPEN_GRAPH_IMAGE,
-            SiteSaga.onChangeOpenGraphImage
+            saga.onChangeOpenGraphImage
         );
         this.watchLatest(
             SiteActions.ON_CHANGE_OPEN_GRAPH_TITLE,
-            SiteSaga.onChangeOpenGraphTitle
+            saga.onChangeOpenGraphTitle
         );
         this.watchLatest(
             SiteActions.ON_CHANGE_COLOR,
-            SiteSaga.onChangeColor
+            saga.onChangeColor
         );
 
         this.watchLatest(
             SiteActions.SUBMIT_SETTINGS,
-            SiteSaga.submitSettings
+            saga.submitSettings
         );
-        // this.watchLatest(
-        //     SiteActions.GO_TO_STEP_THREE,
-        //     SiteSaga.goToStepThree
-        // );
     }
 }

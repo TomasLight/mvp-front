@@ -1,5 +1,5 @@
-import { MenuStore } from "@ws/Menu/redux";
-import { WorkspaceStore } from "@ws/redux";
+import { MenuStore } from "@ws/Menu/redux/Menu.store";
+import { WorkspaceStore } from "@ws/redux/Workspace.store";
 
 export class State {
     workspace: WorkspaceStore;

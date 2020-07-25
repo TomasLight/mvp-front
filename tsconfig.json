@@ -24,7 +24,6 @@
             "@data": ["data/index.ts"],
             "@enums": ["enums/index.ts"],
             "@icons": ["shared/atoms/icons/index.ts"],
-            "@selectors": ["app/config/redux/selectors/index.ts"],
             "@shared/*": ["shared/*"],
 
             "@admin/*": ["app/admin/*"],

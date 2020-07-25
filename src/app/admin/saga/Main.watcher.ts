@@ -6,14 +6,19 @@ import { MainSaga } from "./Main.saga";
 export class MainWatcher extends Watcher {
     constructor() {
         super();
+        const saga = new MainSaga();
 
         this.watchLatest(
+            MainActions.CHECK_USER_AUTHORIZATION,
+            saga.checkUserAuthorization
+        );
+        this.watchLatest(
             MainActions.CHECK_WORKSPACE,
-            MainSaga.checkWorkspace
+            saga.checkWorkspace
         );
         this.watchLatest(
             MainActions.WORKSPACE_WAS_CREATED,
-            MainSaga.workspaceWasCreated
+            saga.workspaceWasCreated
         );
     }
 }

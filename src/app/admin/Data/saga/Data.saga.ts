@@ -15,12 +15,12 @@ import {
     DataStore,
 } from "../redux";
 
-export class DataSaga extends SagaBase {
-    private static* updateStore(partialStore: Partial<DataStore>) {
-        yield put(DataActions.updateStore(partialStore));
-    }
+function * updateStore(partialStore: Partial<DataStore>) {
+    yield put(DataActions.updateStore(partialStore));
+}
 
-    static* submitSettings(action: AppAction<ISubmitSettingsData>) {
+export class DataSaga extends SagaBase {
+    * submitSettings(action: AppAction<ISubmitSettingsData>) {
         const { formValues } = action.payload;
 
         const settings = Mapper.map<WorkspaceDataSettings>(
@@ -29,20 +29,20 @@ export class DataSaga extends SagaBase {
             formValues
         );
 
-        yield DataSaga.updateStore({
+        yield updateStore({
             settingsAreSending: true,
         });
 
         const result: DataFailed | null = yield call(DataService.workspace.updateDataAsync, settings);
         if (result instanceof DataFailed) {
-            yield DataSaga.updateStore({
+            yield updateStore({
                 settingsAreSending: false,
             });
             yield SagaBase.displayClientError(result);
             return;
         }
 
-        yield DataSaga.updateStore({
+        yield updateStore({
             settingsAreSending: false,
         });
 

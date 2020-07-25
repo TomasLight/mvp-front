@@ -1,4 +1,3 @@
-import { DataFailed } from "@data";
 import {
     ContentConfig,
     LandingConfig,
@@ -12,6 +11,7 @@ import { FavIconUrlResolver } from "@shared/molecules";
 import { brandColors } from "@shared/theme";
 import { FileHelper, Guid } from "@utils";
 import { Data } from "../Data";
+import { DataFailed } from "../DataFailed";
 import { IWorkspaceDataService } from "../IWorkspaceDataService";
 import { FakeServiceBase } from "./FakeServiceBase";
 
