@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
             1fr \
             auto",
         gridGap: 20,
-        position: 'fixed',
+        // position: "fixed",
     },
     field: {
         width: "100%",
@@ -117,7 +117,7 @@ const ContactSettingsForm = (props: Props) => {
                 {Translate.getString("Контент")}
             </Typography>
 
-            <Divider className={classes.divider} />
+            <Divider className={classes.divider}/>
 
             <ContactPhoto
                 classes={{

@@ -1,10 +1,11 @@
-import { Translate } from "@utils";
 import React, { useEffect, useMemo } from "react";
 
 import { makeStyles } from "@material-ui/core";
 
 import { FormProvider } from "@shared/organisms";
+import { Translate } from "@utils/translates";
 import { ImportSettingsFormContainer } from "./ImportSettingsForm";
+import { ImportPreview } from "./ImportPreview";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,6 +59,7 @@ const ImportPage = (props: Props) => {
                     <ImportSettingsFormContainer onSubmit={dataFormProvider.submitOnClick}/>
                 </DataForm>
             </div>
+            <ImportPreview classes={{ root: classes.right }}/>
         </div>
     );
 };

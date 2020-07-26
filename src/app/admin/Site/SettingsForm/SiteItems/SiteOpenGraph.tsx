@@ -64,6 +64,7 @@ const SiteOpenGraph = (props: Props) => {
                 }}
                 isLoading={imageIsLoading}
                 sideOnChange={chooseFile}
+                fileTypes={"image/jpeg,image/png,image/jpg"}
             />
 
             <Typography className={clsx(classes.helpText, classes.imageHelpArea)}>

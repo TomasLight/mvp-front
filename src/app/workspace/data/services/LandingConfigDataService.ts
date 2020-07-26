@@ -1,6 +1,7 @@
 import { ILandingConfigDto } from "@api/models/workspace/responses";
 import { WorkspaceApi } from "@api/WorkspaceApi";
 import { ContentConfig, LandingConfig, SiteConfig } from "@models";
+import { ApiResponseStatus } from "@utils/api";
 import { DataFailed, Data, ActionProcessing } from "@utils/data";
 import { Mapper } from "@utils/mapping";
 import { Translate } from "@utils/translates";
@@ -41,7 +42,7 @@ export class LandingConfigDataService extends DataServiceBase implements ILandin
         }
 
         const response = await WorkspaceApi.getLandingConfigAsync();
-        if (response.hasError()) {
+        if (response.hasError() || response.statusCode === ApiResponseStatus.NoContent) {
             return this.failed(response);
         }
 

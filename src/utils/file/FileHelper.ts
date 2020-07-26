@@ -32,4 +32,8 @@ export class FileHelper {
     static clearBase64(base64: string): string {
         return base64.substr(base64.indexOf(",") + 1);
     }
+
+    static getFileExtension(file: File) {
+        return file.name.substring(file.name.lastIndexOf(".") + 1, file.name.length) || file.name;
+    }
 }

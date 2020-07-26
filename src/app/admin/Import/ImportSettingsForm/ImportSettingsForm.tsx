@@ -76,6 +76,7 @@ const ImportSettingsForm = (props: Props) => {
                             root: classes.field,
                         },
                     }}
+                    fileTypes={".zip"}
                 />
             </SiteItem>
 

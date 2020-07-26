@@ -1,15 +1,28 @@
-import clsx from "clsx";
 import React, { FC, SyntheticEvent, useEffect, useRef, useState } from "react";
-
+import clsx from "clsx";
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
-import { Guid } from "@utils";
+import { FileHelper, Guid } from "@utils";
 import { EventHandler } from "./EventHandler";
+
+function checkFilesExtension(files: FileList, fileTypes: string) {
+    let extensionIsAllowed = true;
+    for (let i = 0; i < files.length; i++) {
+        const file = files.item(i);
+        const extension = FileHelper.getFileExtension(file);
+        if (fileTypes.indexOf(extension) === -1) {
+            extensionIsAllowed = false;
+            break;
+        }
+    }
+    return extensionIsAllowed;
+}
 
 interface IDragAndDropProps {
     id?: string;
     name?: string;
     error?: boolean;
+    fileTypes?: string;
 }
 
 interface IDragAndDropCallProps {
@@ -28,6 +41,7 @@ const DragAndDrop: FC<Props> = (props) => {
         id = Guid.generate(),
         name,
         error,
+        fileTypes = "image/jpeg",
         ...rest
     } = props;
 
@@ -42,14 +56,14 @@ const DragAndDrop: FC<Props> = (props) => {
 
         const div = ref.current;
 
-        div.addEventListener("dragenter", handleDragIn);
-        div.addEventListener("dragleave", handleDragOut);
+        div.addEventListener("dragenter", handleDragEnter);
+        div.addEventListener("dragleave", handleDragLeave);
         div.addEventListener("dragover", stopEvent);
         div.addEventListener("drop", handleDrop);
 
         return () => {
-            div.removeEventListener("dragenter", handleDragIn);
-            div.removeEventListener("dragleave", handleDragOut);
+            div.removeEventListener("dragenter", handleDragEnter);
+            div.removeEventListener("dragleave", handleDragLeave);
             div.removeEventListener("dragover", stopEvent);
             div.removeEventListener("drop", handleDrop);
         };
@@ -60,7 +74,7 @@ const DragAndDrop: FC<Props> = (props) => {
         dragEvent.stopPropagation();
     };
 
-    const handleDragIn = (dragEvent: DragEvent) => {
+    const handleDragEnter = (dragEvent: DragEvent) => {
         const { dataTransfer: { items } } = dragEvent;
         stopEvent(dragEvent);
 
@@ -70,7 +84,7 @@ const DragAndDrop: FC<Props> = (props) => {
         }
     };
 
-    const handleDragOut = (dragEvent: DragEvent) => {
+    const handleDragLeave = (dragEvent: DragEvent) => {
         stopEvent(dragEvent);
 
         eventHandler.out();
@@ -87,6 +101,11 @@ const DragAndDrop: FC<Props> = (props) => {
 
         setDragging(false);
         if (files && files.length > 0) {
+            const extensionIsAllowed = checkFilesExtension(files, fileTypes);
+            if (!extensionIsAllowed) {
+                return;
+            }
+
             onDrop(files);
             eventHandler.done();
         }
@@ -97,7 +116,11 @@ const DragAndDrop: FC<Props> = (props) => {
         if (!files || !files.length) {
             return;
         }
-        onDrop(files);
+
+        const extensionIsAllowed = checkFilesExtension(files, fileTypes);
+        if (extensionIsAllowed) {
+            onDrop(files);
+        }
     };
 
     const handleOnClick = () => {
@@ -120,6 +143,7 @@ const DragAndDrop: FC<Props> = (props) => {
                 name={name}
                 style={{ display: "none" }}
                 type="file"
+                accept={fileTypes}
                 onChange={handleOnChange}
             />
             {children}
@@ -145,6 +169,5 @@ export {
     componentWithStyles as DragAndDrop,
     IDragAndDropProps,
     IDragAndDropCallProps,
-    Props as DragAndDropProps,
     ClassKey as DragAndDropClassKey,
 };
