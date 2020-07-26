@@ -20,7 +20,9 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
         super();
         this.siteConfigAsync = this.siteConfigAsync.bind(this);
         this.contentConfigAsync = this.contentConfigAsync.bind(this);
+        this.listAsync = this.listAsync.bind(this);
         this.hasWorkspaceAsync = this.hasWorkspaceAsync.bind(this);
+        this.currentWorkspaceAsync = this.currentWorkspaceAsync.bind(this);
         this.createConfigAsync = this.createConfigAsync.bind(this);
         this.updateSiteAsync = this.updateSiteAsync.bind(this);
         this.updateDataAsync = this.updateDataAsync.bind(this);

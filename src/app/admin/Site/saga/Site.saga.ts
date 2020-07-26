@@ -100,14 +100,18 @@ export class SiteSaga extends SagaBase {
 
     * onChangeOpenGraphImage(action: AppAction<IOnChangeOpenGraphImageData>) {
         const { imageFile, dispatch } = action.payload;
+        yield updateStore({
+            openGraphImageIsLoading: true,
+        });
 
-        let openGraphImage = "";
         if (imageFile) {
-            openGraphImage = yield call(FileHelper.toBase64, imageFile);
+            FileHelper.toBase64(imageFile).then(image => {
+                dispatch(SiteActions.updateStore({
+                    openGraphImageIsLoading: false,
+                    openGraphImage: image,
+                }));
+            });
         }
-        dispatch(SiteActions.updateStore({
-            openGraphImage,
-        }));
     }
 
     * onChangeOpenGraphTitle(action: AppAction<IOnChangeOpenGraphTitleData>) {

@@ -21,6 +21,7 @@ const useStyles = makeStyles<Theme, ClassKey>(styles, { name: "SettingsForm" });
 interface ISettingsFormProps {
     faviconOptions: IconSelectFieldOption[];
     colorOptions: ColorSelectFieldOption[];
+    openGraphImageIsLoading: boolean;
     isSaving: boolean;
     domainIsReadonly: boolean;
 }
@@ -41,6 +42,7 @@ const SettingsForm = (props: Props) => {
     const {
         faviconOptions,
         colorOptions,
+        openGraphImageIsLoading,
         isSaving,
         domainIsReadonly,
 
@@ -87,6 +89,7 @@ const SettingsForm = (props: Props) => {
                     item: classes.openGraph,
                     field: classes.field,
                 }}
+                imageIsLoading={openGraphImageIsLoading}
                 onChangeImage={onChangeOpenGraphImage}
                 onChangeTitle={onChangeOpenGraphTitle}
             />

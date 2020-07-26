@@ -10,16 +10,21 @@ import { Translate } from "@utils";
 
 import { ClassKey, styles } from "./SiteOpenGraph.classes";
 
+interface ISiteOpenGraphProps {
+    imageIsLoading: boolean;
+}
+
 interface ISiteOpenGraphCallProps {
     onChangeImage: (file: File) => void;
     onChangeTitle: (title: string) => void;
 }
 
-type Props = ISiteOpenGraphCallProps & StyledComponentProps<ClassKey>;
+type Props = ISiteOpenGraphProps & ISiteOpenGraphCallProps & StyledComponentProps<ClassKey>;
 
 const SiteOpenGraph = (props: Props) => {
     const {
         classes,
+        imageIsLoading,
         onChangeImage,
         onChangeTitle,
     } = props;
@@ -57,6 +62,7 @@ const SiteOpenGraph = (props: Props) => {
                         root: clsx(classes.field, classes.imageField),
                     },
                 }}
+                isLoading={imageIsLoading}
                 sideOnChange={chooseFile}
             />
 

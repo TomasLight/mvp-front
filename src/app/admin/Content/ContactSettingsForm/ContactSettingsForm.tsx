@@ -80,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IContactSettingsFormProps {
     buttonText: string;
+    photoIsLoading: boolean;
     isSaving: boolean;
 }
 
@@ -98,6 +99,7 @@ type Props = IContactSettingsFormProps & IContactSettingsFormCallProps;
 const ContactSettingsForm = (props: Props) => {
     const {
         buttonText,
+        photoIsLoading,
         isSaving,
         onChangeAddress,
         onChangeDeliveryLocationLink,
@@ -121,6 +123,7 @@ const ContactSettingsForm = (props: Props) => {
                 classes={{
                     field: clsx(classes.field, classes.photo),
                 }}
+                isLoading={photoIsLoading}
                 onChange={onChangePhoto}
             />
 

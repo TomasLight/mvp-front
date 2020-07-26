@@ -1,6 +1,5 @@
-import { FileImageIcon } from "@icons";
 import React, { useState } from "react";
-import { Typography, withStyles } from "@material-ui/core";
+import { CircularProgress, makeStyles, Typography, withStyles } from "@material-ui/core";
 
 import {
     DragAndDrop as DragAndDropAtom,
@@ -8,8 +7,8 @@ import {
     IDragAndDropCallProps,
     DragAndDropClassKey
 } from "@shared/atoms";
+import { FileImageIcon } from "@icons";
 import { Guid, Translate } from "@utils";
-
 import { FieldBase, FieldBaseProps } from "./FieldBase";
 
 const DragAndDrop = withStyles<DragAndDropClassKey>((theme) => ({
@@ -18,6 +17,7 @@ const DragAndDrop = withStyles<DragAndDropClassKey>((theme) => ({
         height: 48,
         padding: "12px 16px",
         width: "100%",
+        position: "relative",
 
         display: "grid",
         gridGap: 10,
@@ -56,10 +56,21 @@ const DragAndDrop = withStyles<DragAndDropClassKey>((theme) => ({
     },
 }))(DragAndDropAtom);
 
+const useStyles = makeStyles({
+    progress: {
+        color: "rgba(0, 0, 0, 0.5)",
+        position: "absolute",
+        top: "50%",
+        marginTop: -12,
+        right: 16,
+    },
+}, { name: "DragAndDropField" });
+
 interface IDragAndDropFieldProps extends FieldBaseProps<DragAndDropClassKey>,
     IDragAndDropProps {
 
     innerText?: string;
+    isLoading?: boolean;
 }
 
 type Props = IDragAndDropFieldProps & IDragAndDropCallProps;
@@ -69,10 +80,11 @@ const DragAndDropField = (props: Props) => {
         id = Guid.generate(),
         name,
         innerText = Translate.getString("перетащите или кликните"),
+        isLoading = false,
         onDrop,
         ...rest
     } = props;
-
+    const classes = useStyles();
     const [ fileName, setFileName ] = useState<string>("");
 
     const handleOnDrop = (files: FileList) => {
@@ -87,9 +99,12 @@ const DragAndDropField = (props: Props) => {
         >
             <DragAndDrop id={id} name={name} onDrop={handleOnDrop} error={rest.error}>
                 <FileImageIcon/>
-                <Typography>
+                <Typography noWrap>
                     {fileName || innerText}
                 </Typography>
+                {isLoading && (
+                    <CircularProgress size={24} thickness={4} className={classes.progress}/>
+                )}
             </DragAndDrop>
         </FieldBase>
     );
