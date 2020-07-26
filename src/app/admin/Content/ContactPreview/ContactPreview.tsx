@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useMemo } from "react";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Typography, makeStyles } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
 
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { Filters } from "@ws/Menu/Filters";
