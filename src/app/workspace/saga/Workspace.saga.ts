@@ -21,6 +21,11 @@ function updateSiteFavicon(faviconUrl: string) {
 }
 
 export class WorkspaceSaga extends SagaBase {
+    constructor() {
+        super();
+        this.loadSettings = this.loadSettings.bind(this);
+    }
+
     * loadSettings(action: AppAction) {
         yield updateStore({
             dataIsLoading: true,

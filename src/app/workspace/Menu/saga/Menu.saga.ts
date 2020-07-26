@@ -16,11 +16,11 @@ import {
     MenuSelectors,
 } from "../redux";
 
-function * updateStore(partialStore: Partial<MenuStore>) {
+function* updateStore(partialStore: Partial<MenuStore>) {
     yield put(MenuActions.updateStore(partialStore));
 }
 
-function * preloadDish(dishId: string) {
+function* preloadDish(dishId: string) {
     const dish: Dish = yield MenuSelectors.getDishById(dishId);
     if (dish) {
         yield updateStore({
@@ -29,7 +29,7 @@ function * preloadDish(dishId: string) {
     }
 }
 
-function * updateDishInStore(changedDish: Dish) {
+function* updateDishInStore(changedDish: Dish) {
     const storedDish: Dish[] = yield MenuSelectors.dishes();
     if (storedDish.every((dish: Dish) => dish.id !== changedDish.id)) {
         storedDish.push(changedDish);
@@ -41,6 +41,13 @@ function * updateDishInStore(changedDish: Dish) {
 }
 
 export class MenuSaga extends SagaBase {
+    constructor() {
+        super();
+        this.loadCategories = this.loadCategories.bind(this);
+        this.loadDishes = this.loadDishes.bind(this);
+        this.openDishModal = this.openDishModal.bind(this);
+    }
+
     * loadMenu(action: AppAction) {
         yield put(MenuActions.loadCategories());
         yield put(MenuActions.loadDishes());

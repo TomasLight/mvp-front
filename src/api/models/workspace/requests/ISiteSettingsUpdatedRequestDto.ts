@@ -1,7 +1,7 @@
 export interface ISiteSettingsUpdatedRequestDto {
     name: string;
     faviconUrl: string;
-    opengraphImage: string;
+    opengraphImage?: string;
     opengraphImageTitle: string;
     color: string;
 }

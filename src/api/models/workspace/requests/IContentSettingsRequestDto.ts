@@ -1,5 +1,5 @@
 export interface IContentSettingsRequestDto {
-    firstPhoto: string;
+    firstPhoto?: string;
     firstText: string;
     phone: string;
     address: string;
