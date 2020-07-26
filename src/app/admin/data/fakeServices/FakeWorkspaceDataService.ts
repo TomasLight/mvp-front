@@ -20,17 +20,11 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
         super();
         this.siteConfigAsync = this.siteConfigAsync.bind(this);
         this.contentConfigAsync = this.contentConfigAsync.bind(this);
-        this.menuIdAsync = this.menuIdAsync.bind(this);
-        this.listAsync = this.listAsync.bind(this);
         this.hasWorkspaceAsync = this.hasWorkspaceAsync.bind(this);
-        this.getByIdAsync = this.getByIdAsync.bind(this);
-        this.getByDomainAsync = this.getByDomainAsync.bind(this);
-        // this.createAsync = this.createAsync.bind(this);
         this.createConfigAsync = this.createConfigAsync.bind(this);
         this.updateSiteAsync = this.updateSiteAsync.bind(this);
         this.updateDataAsync = this.updateDataAsync.bind(this);
         this.updateContentAsync = this.updateContentAsync.bind(this);
-        this.landingConfigAsync = this.landingConfigAsync.bind(this);
 
         this.workspaces = [
             new Workspace({
@@ -71,10 +65,6 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
         return Promise.resolve(this.landingConfig.contentConfig);
     }
 
-    async menuIdAsync(): Data<string> {
-        return Promise.resolve(this.landingConfig.menuId);
-    }
-
     async listAsync(): Data<Workspace[]> {
         return Promise.resolve(this.workspaces);
     }
@@ -96,28 +86,6 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
 
         return !!workspaces.length;
     }
-
-    async getByIdAsync(workspaceId: string): Data<Workspace> {
-        const workspace = this.workspaces.find(ws => ws.id === workspaceId);
-        return Promise.resolve(workspace);
-    }
-
-    async getByDomainAsync(domain: string): Data<Workspace> {
-        const workspace = this.workspaces.find(ws => ws.domain === domain);
-        return Promise.resolve(workspace);
-    }
-
-    // async createAsync(settings: WorkspaceSiteSettings): Data<UserWorkspace> {
-    //     const workspace = new UserWorkspace({
-    //         domain: settings.domain,
-    //         id: Guid.generate(),
-    //         name: settings.siteName,
-    //         role: "owner",
-    //     });
-    //
-    //     this.workspaces.push(workspace);
-    //     return Promise.resolve(workspace);
-    // }
 
     async createConfigAsync(settings: WorkspaceSiteSettings): Data<Workspace> {
         const workspace = new Workspace({
@@ -198,9 +166,5 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
         }
 
         return contentConfig;
-    }
-
-    async landingConfigAsync(): Data<LandingConfig> {
-        return Promise.resolve(this.landingConfig);
     }
 }
