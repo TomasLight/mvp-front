@@ -10,5 +10,3 @@ export function imgRule() {
         },
     };
 }
-
-// module.exports = imgRule;

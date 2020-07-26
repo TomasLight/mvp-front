@@ -1,11 +1,3 @@
-// export type ActionProcessing =
-//     | "redirect"
-//
-//     | "display"
-//     | "error"
-//     | "warning"
-//     ;
-
 type ConstructorValue =
     | "redirect"
     | "display"

@@ -7,16 +7,21 @@ import { DefaultFieldSubscription } from "@shared/organisms";
 import { DragAndDropFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
+interface IContactPhotoProps {
+    isLoading: boolean;
+}
+
 interface IContactPhotoCallProps {
     onChange: (file: File) => void;
 }
 
 type ClassKey = "field";
-type Props = IContactPhotoCallProps & StyledComponentProps<ClassKey>;
+type Props = IContactPhotoProps & IContactPhotoCallProps & StyledComponentProps<ClassKey>;
 
 const ContactPhoto = (props: Props) => {
     const {
         classes,
+        isLoading,
         onChange,
     } = props;
 
@@ -44,6 +49,7 @@ const ContactPhoto = (props: Props) => {
                     root: classes.field,
                 },
             }}
+            isLoading={isLoading}
             sideOnChange={chooseFile}
         />
     );

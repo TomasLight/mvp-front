@@ -16,6 +16,7 @@ export class SiteStore {
     siteUrl: string;
     userName: string;
     openGraphImage: string;
+    openGraphImageIsLoading: boolean;
     openGraphTitle: string;
     color: string;
 
@@ -38,6 +39,7 @@ export class SiteStore {
 
         this.userName = "Имя и Фамилия";
         this.openGraphImage = "";
+        this.openGraphImageIsLoading = false;
         this.openGraphTitle = "";
 
         this.color = initialColor;

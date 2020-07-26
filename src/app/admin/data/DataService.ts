@@ -9,7 +9,7 @@ import { UserDataService } from "./services/UserDataService";
 import { WorkspaceDataService } from "./services/WorkspaceDataService";
 
 function make(service, fakeService) {
-    if (process.env.MOCK_API === "true") {
+    if (process.env.FAKE_DATA === "true") {
         return fakeService;
     }
 

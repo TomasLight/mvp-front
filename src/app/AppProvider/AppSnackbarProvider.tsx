@@ -16,9 +16,7 @@ const AppSnackbarProvider = (props: Props) => {
             snackbarRef.current.closeSnackbar(key);
         };
         return (
-            <Button onClick={onClickDismiss} variant={"snack"}>
-                {Translate.getString("Dismiss")}
-            </Button>
+            <Button onClick={onClickDismiss} variant="snack-dismiss"/>
         );
     };
 

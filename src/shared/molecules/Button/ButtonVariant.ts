@@ -1,6 +1,7 @@
 type ButtonVariant =
     | "form"
-    | "snack"
+    | "snack-undo"
+    | "snack-dismiss"
     | "filter"
     | "size"
     | "group-item"

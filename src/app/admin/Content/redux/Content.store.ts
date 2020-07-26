@@ -19,6 +19,7 @@ export class ContentStore {
         cart: Cart,
     };
 
+    photoIsLoading: boolean;
     contentIsSaving: boolean;
     showPublishDialog: boolean;
 
@@ -40,6 +41,7 @@ export class ContentStore {
             selectedCategory: null,
         };
 
+        this.photoIsLoading = false;
         this.contentIsSaving = false;
         this.showPublishDialog = false;
     }

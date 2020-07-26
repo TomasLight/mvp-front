@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import loadable from "@loadable/component";
 
 import { NotFound } from "@app/404";
@@ -22,7 +22,7 @@ const PageComponentRouter = () => {
                 />
 
                 <Route path="*">
-                    <DefaultRouteResolver/>
+                    <NotFound/>
                 </Route>
             </Switch>
 
@@ -30,15 +30,5 @@ const PageComponentRouter = () => {
         </LayoutContainer>
     );
 };
-
-const DefaultRouteResolver = withRouter(({ location }) => {
-    // if (location.pathname === workspaceUrls.root) {
-    //     return <Redirect push to={workspaceUrls.menu}/>;
-    // }
-
-    return (
-        <NotFound/>
-    );
-});
 
 export { PageComponentRouter };

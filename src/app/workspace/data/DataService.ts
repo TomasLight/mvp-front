@@ -6,7 +6,7 @@ import { LandingConfigDataService } from "./services/LandingConfigDataService";
 import { MenuDataService } from "./services/MenuDataService";
 
 function make(service, fakeService) {
-    if (process.env.MOCK_API === "true") {
+    if (process.env.FAKE_DATA === "true") {
         return fakeService;
     }
 

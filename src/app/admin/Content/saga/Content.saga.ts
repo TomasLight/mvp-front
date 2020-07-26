@@ -9,7 +9,7 @@ import { MainSelectors } from "@admin/redux/Main.selectors";
 import { SiteSelectors } from "@admin/Site/redux/Site.selectors";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { SagaBase } from "@config/saga";
-import { Mapper, Translate } from "@utils";
+import { FileHelper, Mapper, Translate } from "@utils";
 import { FakeMenuDataService } from "../../data/fakeServices/FakeMenuDataService";
 
 import {
@@ -131,15 +131,27 @@ export class ContentSaga extends SagaBase {
 
     * onChangePhoto(action: AppAction<IOnChangePhotoData>) {
         const { photoFile, dispatch } = action.payload;
+        yield updateStore({
+            photoIsLoading: true,
+        });
 
-        if (FileReader && photoFile) {
-            const fileReader = new FileReader();
-            fileReader.onload = () => {
+        // if (FileReader && photoFile) {
+        //     const fileReader = new FileReader();
+        //     fileReader.onload = () => {
+        //         dispatch(ContentActions.updateStore({
+        //             photoIsLoading: false,
+        //             photo: fileReader.result as string,
+        //         }));
+        //     };
+        //     fileReader.readAsDataURL(photoFile);
+        // }
+        if (photoFile) {
+            FileHelper.toBase64(photoFile).then(image => {
                 dispatch(ContentActions.updateStore({
-                    photo: fileReader.result as string,
+                    photoIsLoading: false,
+                    photo: image,
                 }));
-            };
-            fileReader.readAsDataURL(photoFile);
+            });
         }
     }
 
