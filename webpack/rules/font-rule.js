@@ -10,5 +10,3 @@ export function fontRule() {
         },
     };
 }
-
-// module.exports = fontRule;

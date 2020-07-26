@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     iconWrapper: {
         padding: 12,
         "&:hover": {
-            // background: theme.colors.default.outline.hover,
             borderRadius: "50%",
         },
     },

@@ -1,5 +1,4 @@
 import tsNameof from "ts-nameof";
-// const tsNameof = require( "ts-nameof");
 
 export function tsRule() {
     return {
@@ -23,5 +22,3 @@ export function tsRule() {
         },
     };
 }
-
-// module.exports = tsRule;

@@ -20,7 +20,6 @@ export class Notification implements INotification {
 
         if (messageOrApiResponse instanceof ApiResponse) {
             this.message = messageOrApiResponse.error;
-            // this.options.variant = this.chooseVariant(messageOrApiResponse);
             this.options.variant = messageOrApiResponse.hasClientError()
                 ? "warning"
                 : "error";

@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     iconWrapper: {
         padding: 12,
         "&:hover": {
-            // background: theme.colors.default.outline.hover,
             borderRadius: "50%",
         },
     },
@@ -81,15 +80,7 @@ const SingleValueWithIcon = (props: Props) => {
                     )
                     : renderIcon(data)
             }
-            <Typography
-                // size={400}
-                // color={
-                //     isDisabled
-                //         ? "disabled"
-                //         : active ? "primary" : "medium"
-                // }
-                noWrap
-            >
+            <Typography noWrap>
                 {children}
             </Typography>
         </components.SingleValue>

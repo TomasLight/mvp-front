@@ -28,10 +28,6 @@ export class WorkspaceApi extends ApiBase {
         return this.get(url);
     }
 
-    // static async createAsync(dto: INewWorkspaceRequestDto): Promise<ApiResponse<IWorkspaceResponseDto>> {
-    //     return this.post(process.env.API_CREATE_WORKSPACE, dto);
-    // }
-
     static async createConfigAsync(
         dto: INewLandingConfigRequestDto
     ): Promise<ApiResponse<INewLandingConfigResponseDto>> {

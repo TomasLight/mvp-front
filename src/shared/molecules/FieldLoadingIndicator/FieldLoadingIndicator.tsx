@@ -45,9 +45,6 @@ const FieldLoadingIndicator = (props: Props) => {
             isLoading={isLoading}
             size={loaderSize}
             className={classes.root}
-            // style={{
-            //     right,
-            // }}
             {...rest}
         />
     );
