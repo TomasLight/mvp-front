@@ -12,6 +12,12 @@ function * updateStore(partialStore: Partial<MainStore>) {
 }
 
 export class MainSaga extends SagaBase {
+    constructor() {
+        super();
+        this.checkUserAuthorization = this.checkUserAuthorization.bind(this);
+        this.checkWorkspace = this.checkWorkspace.bind(this);
+    }
+
     * checkUserAuthorization(action: AppAction) {
         const user: DataFailed | AuthorizedUser = yield call(DataService.user.authorizedUserAsync);
         if (user instanceof DataFailed) {

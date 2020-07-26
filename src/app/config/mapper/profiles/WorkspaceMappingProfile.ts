@@ -125,7 +125,6 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
     ): IContentSettingsRequestDto {
 
         const dto: IContentSettingsRequestDto = {
-            firstPhoto: "",
             firstText: settings.firstBlockText,
             phone: settings.phone,
             address: settings.address,
@@ -144,7 +143,6 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
             name: settings.siteName,
             faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
             opengraphImageTitle: settings.openGraphTitle,
-            opengraphImage: null,
             color: settings.primaryColor,
         };
 
@@ -182,11 +180,9 @@ export class WorkspaceMappingProfile extends MappingProfileBase implements IMapp
 
         const dto: INewLandingConfigRequestDto = {
             domainName: settings.domain,
-            // menuId: "",
             siteConfig: {
                 name: settings.siteName,
                 faviconUrl: FavIconUrlResolver.getUrl(settings.favicon),
-                opengraphImage: "",
                 opengraphImageTitle: settings.openGraphTitle,
                 color: settings.primaryColor,
             },

@@ -4,13 +4,13 @@ export interface INewLandingConfigRequestDto {
     siteConfig: {
         name: string,
         faviconUrl: string,
-        opengraphImage: string,
+        opengraphImage?: string,
         opengraphImageTitle: string,
         color: string
     };
     iikoConfig: {};
     contentConfig: {
-        firstPhoto: string,
+        firstPhoto?: string,
         firstText: string,
         phone: string,
         address: string,

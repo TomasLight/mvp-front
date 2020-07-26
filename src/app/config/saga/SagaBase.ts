@@ -10,25 +10,25 @@ export abstract class SagaBase {
         yield put(NotifierActions.enqueueSnackbar(notification));
     }
 
-    protected * displayClientError(error: ApiResponse | DataFailed) {
-        const notification = new Notification(error);
-        yield put(NotifierActions.enqueueSnackbar(notification));
-    }
-
-    protected * displaySuccessMessage(message: string) {
+    protected displaySuccessMessage(message: string) {
         return this.displayMessage(message, { variant: "success" });
     }
 
-    protected * displayInfoMessage(message: string) {
+    protected displayInfoMessage(message: string) {
         return this.displayMessage(message, { variant: "info" });
     }
 
-    protected * displayWarningMessage(message: string) {
+    protected displayWarningMessage(message: string) {
         return this.displayMessage(message, { variant: "warning" });
     }
 
-    protected * displayMessage(message: string, options: NotificationOptions) {
+    protected displayClientError(error: ApiResponse | DataFailed) {
+        const notification = new Notification(error);
+        return this.displayNotification(notification);
+    }
+
+    protected displayMessage(message: string, options: NotificationOptions) {
         const notification = new Notification(message, options);
-        yield put(NotifierActions.enqueueSnackbar(notification));
+        return this.displayNotification(notification);
     }
 }
