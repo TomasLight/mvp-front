@@ -51,6 +51,7 @@ const ContactPhoto = (props: Props) => {
             }}
             isLoading={isLoading}
             sideOnChange={chooseFile}
+            fileTypes={"image/jpeg,image/png,image/jpg"}
         />
     );
 };

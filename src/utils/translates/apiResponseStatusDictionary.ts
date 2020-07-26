@@ -1,6 +1,8 @@
 import { ApiResponseStatus } from "../api/ApiResponseStatus";
 
 export const apiResponseStatusDictionary = Object.freeze({
+    [ApiResponseStatus.NoContent]: "Данные не найдены",
+
     [ApiResponseStatus.BadRequest]: "Неправильный запрос",
     [ApiResponseStatus.Unauthorized]: "Не авторизован",
     [ApiResponseStatus.Forbidden]: "Доступ запрещен",

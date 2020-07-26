@@ -81,6 +81,7 @@ const DragAndDropField = (props: Props) => {
         name,
         innerText = Translate.getString("перетащите или кликните"),
         isLoading = false,
+        fileTypes,
         onDrop,
         ...rest
     } = props;
@@ -97,7 +98,13 @@ const DragAndDropField = (props: Props) => {
             htmlFor={id}
             {...rest}
         >
-            <DragAndDrop id={id} name={name} onDrop={handleOnDrop} error={rest.error}>
+            <DragAndDrop
+                id={id}
+                name={name}
+                onDrop={handleOnDrop}
+                error={rest.error}
+                fileTypes={fileTypes}
+            >
                 <FileImageIcon/>
                 <Typography noWrap>
                     {fileName || innerText}
@@ -110,4 +117,4 @@ const DragAndDropField = (props: Props) => {
     );
 };
 
-export { DragAndDropField, Props as DragAndDropFieldProps, IDragAndDropFieldProps };
+export { DragAndDropField, IDragAndDropFieldProps };

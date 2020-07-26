@@ -116,8 +116,11 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
             settings
         );
 
-        const base64 = await FileHelper.toBase64(settings.openGraphImage);
-        dto.siteConfig.opengraphImage = FileHelper.clearBase64(base64);
+        if (settings.openGraphImage) {
+            const base64 = await FileHelper.toBase64(settings.openGraphImage);
+            dto.siteConfig.opengraphImage = FileHelper.clearBase64(base64);
+            dto.siteConfig.opengraphImageExtension = FileHelper.getFileExtension(settings.openGraphImage);
+        }
 
         const landingConfigResponse = await WorkspaceApi.createConfigAsync(dto);
         if (landingConfigResponse.hasError()) {
@@ -160,6 +163,7 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
         if (settings.openGraphImage) {
             const base64 = await FileHelper.toBase64(settings.openGraphImage);
             dto.opengraphImage = FileHelper.clearBase64(base64);
+            dto.opengraphImageExtension = FileHelper.getFileExtension(settings.openGraphImage);
         }
 
         const response: ApiResponse = await WorkspaceApi.updateSiteSettingsAsync(
@@ -215,6 +219,7 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
         if (settings.photo) {
             const base64 = await FileHelper.toBase64(settings.photo);
             dto.firstPhoto = FileHelper.clearBase64(base64);
+            dto.firstPhotoExtension  = FileHelper.getFileExtension(settings.photo);
         }
 
         const response: ApiResponse = await WorkspaceApi.updateContentSettingsAsync(
