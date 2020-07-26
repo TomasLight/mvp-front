@@ -2,7 +2,7 @@ import React from "react";
 import { Button as MuiButton } from "@material-ui/core";
 
 import { FormButton } from "./variants/FormButton";
-import { SnackButton } from "./variants/SnackButton";
+import { SnackDismissButton } from "./variants/SnackButton";
 import { FilterButton } from "./variants/FilterButton";
 import { GroupItemButton } from "./variants/GroupItemButton";
 import { SizeButton } from "./variants/SizeButton";
@@ -17,8 +17,9 @@ const Button = (props: Props) => {
         case "form":
             return <FormButton {...rest} />;
 
-        case "snack":
-            return <SnackButton {...rest} />;
+        case "snack-undo":
+        case "snack-dismiss":
+            return <SnackDismissButton {...rest} />;
 
         case "filter":
             return <FilterButton {...rest} />;

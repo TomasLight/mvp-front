@@ -1,50 +1,31 @@
 import React from "react";
-import { Button, ButtonProps, ButtonClassKey, withStyles } from "@material-ui/core";
+import { IconButton, IconButtonProps, IconButtonClassKey, withStyles } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 
-type Props = Omit<ButtonProps, "variant">;
+type Props = Omit<IconButtonProps, "size">;
 
-const SnackButton = (props: Props) => {
+const SnackDismissButton = (props: Props) => {
     const { children, ...rest } = props;
 
     return (
-        <Button
-            {...rest}
-            variant="contained"
-        >
-            {children}
-        </Button>
+        <IconButton {...rest}>
+            <Close/>
+        </IconButton>
     );
 };
 
-const componentWithStyles = withStyles<ButtonClassKey>(theme => ({
-    root: {},
-    label: {},
-    text: {},
-    textPrimary: {},
-    textSecondary: {},
-    outlined: {},
-    outlinedPrimary: {},
-    outlinedSecondary: {},
-    contained: {},
-    containedPrimary: {},
-    containedSecondary: {},
-    disableElevation: {},
-    focusVisible: {},
-    disabled: {},
+const componentWithStyles = withStyles<IconButtonClassKey>(theme => ({
+    root: {
+        color: "#fff",
+        padding: 6,
+    },
+    edgeStart: {},
+    edgeEnd: {},
     colorInherit: {},
-    textSizeSmall: {},
-    textSizeLarge: {},
-    outlinedSizeSmall: {},
-    outlinedSizeLarge: {},
-    containedSizeSmall: {},
-    containedSizeLarge: {},
+    colorPrimary: {},
+    colorSecondary: {},
+    disabled: {},
     sizeSmall: {},
-    sizeLarge: {},
-    fullWidth: {},
-    startIcon: {},
-    endIcon: {},
-    iconSizeSmall: {},
-    iconSizeMedium: {},
-    iconSizeLarge: {},
-}))(SnackButton);
-export { componentWithStyles as SnackButton };
+    label: {},
+}))(SnackDismissButton);
+export { componentWithStyles as SnackDismissButton };
