@@ -3,9 +3,10 @@ import React, { FC } from "react";
 
 import { makeStyles } from "@material-ui/core";
 
-import { SideBarItem } from "@shared/templates/Layout/models";
+import { SideBarItem } from "./models";
 import { AppBar } from "./AppBar";
 import { Drawer } from "./Drawer";
+import { Footer } from "./Footer";
 import { Variant } from "./variant";
 
 const useStyles = makeStyles((theme) => ({
@@ -96,6 +97,7 @@ const Layout: FC<Props> = (props) => {
                 )}
             >
                 {children}
+                <Footer siteName={title} variant={variant} />
             </main>
         </div>
     );

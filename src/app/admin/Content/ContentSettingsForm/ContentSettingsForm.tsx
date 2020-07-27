@@ -1,90 +1,28 @@
 import clsx from "clsx";
 import React from "react";
 
-import { makeStyles, Typography, Divider } from "@material-ui/core";
+import { Typography, Divider } from "@material-ui/core";
 
 import { Button } from "@shared/molecules/Button";
 import { Translate } from "@utils";
 
 import {
-    ContactAddress,
-    ContactDeliveryLocationLink,
-    ContactDeliveryTime,
-    ContactFirstBlockText,
-    ContactPhone,
-    ContactPhoto,
-} from "./ContactItems";
+    Address,
+    DeliveryLocationLink,
+    DeliveryTime,
+    FirstBlockText,
+    Phone,
+    Photo,
+} from "./ContentItems";
+import { useStyles } from "./ContentSettingsForm.styles";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "grid",
-        gridTemplateAreas: "\
-            'title' \
-            'divider' \
-            'photo' \
-            'firstText' \
-            'phone' \
-            'address' \
-            'time' \
-            'link' \
-            '.' \
-            'button'",
-        gridTemplateRows: "\
-            auto \
-            auto \
-            auto \
-            auto \
-            auto \
-            auto \
-            auto \
-            auto \
-            1fr \
-            auto",
-        gridGap: 20,
-        // position: "fixed",
-    },
-    field: {
-        width: "100%",
-    },
-    title: {
-        gridArea: "title",
-        fontWeight: "bold",
-        fontSize: 24,
-        lineHeight: "28px",
-    },
-    divider: {
-        gridArea: "divider",
-    },
-    photo: {
-        gridArea: "photo",
-    },
-    firstText: {
-        gridArea: "firstText",
-    },
-    phone: {
-        gridArea: "phone",
-    },
-    address: {
-        gridArea: "address",
-    },
-    time: {
-        gridArea: "time",
-    },
-    link: {
-        gridArea: "link",
-    },
-    button: {
-        width: "100%",
-    },
-}), { name: "ContactSettingsForm" });
-
-interface IContactSettingsFormProps {
+interface IContentSettingsFormProps {
     buttonText: string;
     photoIsLoading: boolean;
     isSaving: boolean;
 }
 
-interface IContactSettingsFormCallProps {
+interface IContentSettingsFormCallProps {
     onChangeAddress: (address: string) => void;
     onChangeDeliveryLocationLink: (link: string) => void;
     onChangeDeliveryTime: (time: string) => void;
@@ -94,9 +32,9 @@ interface IContactSettingsFormCallProps {
     onSubmit: () => void;
 }
 
-type Props = IContactSettingsFormProps & IContactSettingsFormCallProps;
+type Props = IContentSettingsFormProps & IContentSettingsFormCallProps;
 
-const ContactSettingsForm = (props: Props) => {
+const ContentSettingsForm = (props: Props) => {
     const {
         buttonText,
         photoIsLoading,
@@ -119,7 +57,7 @@ const ContactSettingsForm = (props: Props) => {
 
             <Divider className={classes.divider}/>
 
-            <ContactPhoto
+            <Photo
                 classes={{
                     field: clsx(classes.field, classes.photo),
                 }}
@@ -127,35 +65,35 @@ const ContactSettingsForm = (props: Props) => {
                 onChange={onChangePhoto}
             />
 
-            <ContactFirstBlockText
+            <FirstBlockText
                 classes={{
                     field: clsx(classes.field, classes.firstText),
                 }}
                 onChange={onChangeFirstBlockText}
             />
 
-            <ContactPhone
+            <Phone
                 classes={{
                     field: clsx(classes.field, classes.phone),
                 }}
                 onChange={onChangePhone}
             />
 
-            <ContactAddress
+            <Address
                 classes={{
                     field: clsx(classes.field, classes.address),
                 }}
                 onChange={onChangeAddress}
             />
 
-            <ContactDeliveryTime
+            <DeliveryTime
                 classes={{
                     field: clsx(classes.field, classes.time),
                 }}
                 onChange={onChangeDeliveryTime}
             />
 
-            <ContactDeliveryLocationLink
+            <DeliveryLocationLink
                 classes={{
                     field: clsx(classes.field, classes.link),
                 }}
@@ -176,4 +114,4 @@ const ContactSettingsForm = (props: Props) => {
     );
 };
 
-export { ContactSettingsForm, IContactSettingsFormProps, IContactSettingsFormCallProps };
+export { ContentSettingsForm, IContentSettingsFormProps, IContentSettingsFormCallProps };

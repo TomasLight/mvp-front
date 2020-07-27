@@ -9,21 +9,21 @@ import { Translate } from "@utils";
 
 type ClassKey = "field";
 
-interface IContactFirstBlockTextCallProps {
-    onChange: (text: string) => void;
+interface IContactDeliveryTimeCallProps {
+    onChange: (time: string) => void;
 }
 
-type Props = IContactFirstBlockTextCallProps & StyledComponentProps<ClassKey>;
+type Props = IContactDeliveryTimeCallProps & StyledComponentProps<ClassKey>;
 
-const ContactFirstBlockText = (props: Props) => {
+const DeliveryTime = (props: Props) => {
     const { classes, onChange } = props;
 
     return (
         <TextFormField
-            name={nameof<IContactSettingsFormValues>(o => o.firstBlockText)}
-            label={Translate.getString("текст в первом блоке")}
+            name={nameof<IContactSettingsFormValues>(o => o.deliveryTime)}
+            label={Translate.getString("время доставки")}
             InputProps={{
-                placeholder: Translate.getString("Вкусный кофе и булочки!"),
+                placeholder: Translate.getString("15 минут"),
             }}
 
             subscription={DefaultFieldSubscription}
@@ -40,5 +40,5 @@ const ContactFirstBlockText = (props: Props) => {
 
 const componentWithStyles = withStyles<ClassKey>({
     field: {},
-}, { name: "ContactFirstBlockText" })(ContactFirstBlockText);
-export { componentWithStyles as ContactFirstBlockText };
+}, { name: "DeliveryTime" })(DeliveryTime);
+export { componentWithStyles as DeliveryTime };

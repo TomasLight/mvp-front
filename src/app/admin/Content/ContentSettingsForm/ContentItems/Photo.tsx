@@ -18,7 +18,7 @@ interface IContactPhotoCallProps {
 type ClassKey = "field";
 type Props = IContactPhotoProps & IContactPhotoCallProps & StyledComponentProps<ClassKey>;
 
-const ContactPhoto = (props: Props) => {
+const Photo = (props: Props) => {
     const {
         classes,
         isLoading,
@@ -58,5 +58,5 @@ const ContactPhoto = (props: Props) => {
 
 const componentWithStyles = withStyles({
     field: {},
-}, { name: "ContactPhoto" })(ContactPhoto);
-export { componentWithStyles as ContactPhoto };
+}, { name: "Photo" })(Photo);
+export { componentWithStyles as Photo };

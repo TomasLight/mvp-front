@@ -9,6 +9,8 @@ import { MenuPage, IMenuPageProps, IMenuPageCallProps } from "./MenuPage";
 const mapStateToProps = (state: State): IMenuPageProps => ({
     firstPhotoUrl: state.workspace.content.firstPhotoUrl,
     firstText: state.workspace.content.firstText,
+    color: state.workspace.site.color,
+    siteName: state.workspace.site.name,
     phone: state.workspace.content.phone,
     address: state.workspace.content.address,
     deliveryTime: state.workspace.content.deliveryTime,

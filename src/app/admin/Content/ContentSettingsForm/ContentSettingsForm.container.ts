@@ -6,16 +6,16 @@ import { State } from "@AdminState";
 import { ContentActions } from "@admin/Content/redux";
 import { Translate } from "@utils";
 import {
-    ContactSettingsForm,
-    IContactSettingsFormProps,
-    IContactSettingsFormCallProps
-} from "./ContactSettingsForm";
+    ContentSettingsForm,
+    IContentSettingsFormProps,
+    IContentSettingsFormCallProps
+} from "./ContentSettingsForm";
 
 interface OwnProps {
     onSubmit: () => void;
 }
 
-const mapStateToProps = (state: State): IContactSettingsFormProps => ({
+const mapStateToProps = (state: State): IContentSettingsFormProps => ({
     buttonText: state.main.settingsMode === "create"
         ? Translate.getString("Опубликовать сайт")
         :  Translate.getString("Сохранить"),
@@ -23,7 +23,7 @@ const mapStateToProps = (state: State): IContactSettingsFormProps => ({
     isSaving: state.content.contentIsSaving,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContactSettingsFormCallProps => ({
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContentSettingsFormCallProps => ({
     onChangeAddress: (address: string) =>
         dispatch(ContentActions.onChangeAddress({ address })),
 
@@ -45,9 +45,9 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContactSet
     onSubmit: () => ownProps.onSubmit(),
 });
 
-const ContactSettingsFormContainer: ComponentType<OwnProps> = connect(
+const ContentSettingsFormContainer: ComponentType<OwnProps> = connect(
     mapStateToProps,
     mapDispatchToProps
-)(ContactSettingsForm);
+)(ContentSettingsForm);
 
-export { ContactSettingsFormContainer };
+export { ContentSettingsFormContainer };

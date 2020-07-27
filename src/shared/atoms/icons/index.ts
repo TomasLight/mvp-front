@@ -14,3 +14,5 @@ export { HotDog as HotDogIcon } from "./HotDog";
 export { Noodles as NoodlesIcon } from "./Noodles";
 export { Salad as SaladIcon } from "./Salad";
 export { Sushi as SushiIcon } from "./Sushi";
+export { Phone as PhoneIcon } from "./Phone";
+export { Bizarre as BizarreIcon } from "./Bizarre";
