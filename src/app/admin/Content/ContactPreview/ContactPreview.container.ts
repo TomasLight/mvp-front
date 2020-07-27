@@ -1,31 +1,65 @@
-import { ContentActions } from "@admin/Content/redux";
-import { StyledComponentProps } from "@material-ui/styles";
 import { ComponentType } from "react";
+import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import { StyledComponentProps } from "@material-ui/styles";
 
+import { ContentActions } from "@admin/Content/redux";
+import { Category, Dish } from "@ws/Menu/models";
 import { State } from "@AdminState";
 import { ClassKey } from "@ws/Menu/MenuPage.styles";
-import { Dispatch } from "redux";
 import {
     ContactPreview,
     IContactPreviewProps,
     IContactPreviewCallProps,
 } from "./ContactPreview";
 
-const mapStateToProps = (state: State): IContactPreviewProps => ({
-    primaryColor: state.site.color,
-    photo: state.content.photo,
-    firstBlockText: state.content.text,
-    phone: state.content.phone,
-    address: state.content.address,
-    deliveryTime: state.content.time,
-    deliveryLocationLink: state.content.link,
+let storedDishes: Dish[];
+let storedCategory: Category;
+let dishesForCategory: Dish[];
 
-    categories: state.content.fakeMenu.categories,
-    selectedCategory: state.content.fakeMenu.selectedCategory,
-    dishes: state.content.fakeMenu.dishes,
-    cart: state.content.fakeMenu.cart,
-});
+function getDishes(dishes: Dish[], selectedCategory: Category) {
+    let flag = true;
+    if (storedDishes != dishes) {
+        storedDishes = dishes;
+        flag = false;
+    }
+    if (storedCategory != selectedCategory) {
+        storedCategory = selectedCategory;
+        flag = false;
+    }
+
+    if (flag) {
+        return dishesForCategory;
+    }
+
+    let _dishes = [];
+    if (selectedCategory) {
+        _dishes = dishes.filter(
+            dish => selectedCategory.contains(dish.id)
+        );
+    }
+    dishesForCategory = Dish.sort(_dishes);
+    return dishesForCategory;
+}
+
+const mapStateToProps = (state: State): IContactPreviewProps => {
+    const { content } = state;
+    const { fakeMenu } = content;
+    return {
+        primaryColor: state.site.color,
+        photo: content.photo,
+        firstBlockText: content.text,
+        phone: content.phone,
+        address: content.address,
+        deliveryTime: content.time,
+        deliveryLocationLink: content.link,
+
+        categories: fakeMenu.categories,
+        selectedCategory: fakeMenu.selectedCategory,
+        dishes: getDishes(fakeMenu.dishes, fakeMenu.selectedCategory),
+        cart: fakeMenu.cart,
+    };
+};
 
 const mapDispatchToProps = (dispatch: Dispatch): IContactPreviewCallProps => ({
     loadData: () => dispatch(ContentActions.loadFakeMenu()),

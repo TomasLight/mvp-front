@@ -11,16 +11,11 @@ import { Food, FoodClassKey, IFoodCallProps, IFoodProps } from "./Food";
 const mapStateToProps = (state: State): IFoodProps => {
     let dishes = [];
     if (state.menu.selectedCategory) {
-        dishes = state.menu.dishes.filter(dish => state.menu.selectedCategory.contains(dish.id));
+        dishes = state.menu.dishes.filter(
+            dish => state.menu.selectedCategory.contains(dish.id)
+        );
     }
-    dishes = dishes.sort((leftDish: Dish, rightDish: Dish) => {
-        if (leftDish.title < rightDish.title) {
-            return 0;
-        }
-        else {
-            return 1;
-        }
-    });
+    dishes = Dish.sort(dishes);
 
     return {
         dishes,
