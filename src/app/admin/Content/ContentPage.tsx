@@ -12,8 +12,8 @@ import {
 
 import { FormProvider } from "@shared/organisms";
 import { Translate } from "@utils";
-import { ContactPreviewContainer } from "./ContactPreview";
-import { ContactSettingsFormContainer } from "./ContactSettingsForm";
+import { ContentPreviewContainer } from "./ContentPreview";
+import { ContentSettingsFormContainer } from "./ContentSettingsForm";
 import { IContactSettingsFormValues } from "./models";
 import { ContactSettingsValidator } from "./validation";
 
@@ -80,11 +80,11 @@ const ContentPage = (props: Props) => {
         <div className={classes.root}>
             <div className={classes.left}>
                 <ContactForm initialValues={initialValues}>
-                    <ContactSettingsFormContainer onSubmit={formProvider.submitOnClick}/>
+                    <ContentSettingsFormContainer onSubmit={formProvider.submitOnClick}/>
                 </ContactForm>
             </div>
 
-            <ContactPreviewContainer classes={{ root: classes.right }}/>
+            <ContentPreviewContainer classes={{ root: classes.right }}/>
 
             <Dialog
                 open={showPublishDialog}

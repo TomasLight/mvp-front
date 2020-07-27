@@ -1,7 +1,5 @@
-import { Image } from "@shared/molecules";
 import clsx from "clsx";
 import React, { useCallback, useEffect, useMemo } from "react";
-
 import { ThemeProvider } from "@material-ui/core/styles";
 import { Typography, makeStyles } from "@material-ui/core";
 
@@ -10,7 +8,8 @@ import { Filters } from "@ws/Menu/Filters";
 import { Food } from "@ws/Menu/Food";
 import { useStyles as useMenuStyles } from "@ws/Menu/MenuPage.styles";
 import { createTheme } from "@shared/theme";
-import { Translate } from "@utils";
+import { Image } from "@shared/molecules";
+import { buildAddress } from "@ws/Menu/Contacts/buildAddres";
 
 const useStyles = makeStyles({
     root: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles({
     },
 });
 
-interface IContactPreviewProps {
+interface IContentPreviewProps {
     primaryColor: string;
     photo: string;
     firstBlockText: string;
@@ -36,13 +35,13 @@ interface IContactPreviewProps {
     cart: Cart;
 }
 
-interface IContactPreviewCallProps {
+interface IContentPreviewCallProps {
     loadData: () => void;
 }
 
-type Props = IContactPreviewProps & IContactPreviewCallProps;
+type Props = IContentPreviewProps & IContentPreviewCallProps;
 
-const ContactPreview = (props: Props) => {
+const ContentPreview = (props: Props) => {
     const {
         primaryColor,
         photo,
@@ -63,7 +62,7 @@ const ContactPreview = (props: Props) => {
         loadData();
     }, []);
 
-    const menuClasses = useMenuStyles({ firstPhotoUrl: photo });
+    const menuClasses = useMenuStyles();
     const classes = useStyles();
     const emptyCallback = useCallback(() => undefined, []);
 
@@ -74,16 +73,10 @@ const ContactPreview = (props: Props) => {
         return createTheme();
     }, [ primaryColor ]);
 
-    let addressString = "";
-    if (address && deliveryTime) {
-        addressString = Translate.getString(`${address}, доставка ${deliveryTime}`);
-    }
-    else if (address) {
-        addressString = Translate.getString(`${address}`);
-    }
-    else if (deliveryTime) {
-        addressString = Translate.getString(`доставка ${deliveryTime}`);
-    }
+    const addressString = useMemo(
+        () => buildAddress(address, deliveryTime),
+        [address, deliveryTime]
+    );
 
     return (
         <ThemeProvider theme={theme}>
@@ -130,4 +123,4 @@ const ContactPreview = (props: Props) => {
     );
 };
 
-export { ContactPreview, IContactPreviewProps, IContactPreviewCallProps };
+export { ContentPreview, IContentPreviewProps, IContentPreviewCallProps };

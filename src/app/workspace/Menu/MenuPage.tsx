@@ -1,7 +1,8 @@
 import { Typography } from "@material-ui/core";
-import { Image } from "@shared/molecules";
+import { Button, Image } from "@shared/molecules";
 import { Translate } from "@utils";
-import React, { useEffect } from "react";
+import { Contacts } from "@ws/Menu/Contacts/Contacts";
+import React, { useEffect, useMemo } from "react";
 
 import { FiltersContainer } from "./Filters";
 import { FoodContainer } from "./Food";
@@ -10,6 +11,8 @@ import { useStyles } from "./MenuPage.styles";
 interface IMenuPageProps {
     firstPhotoUrl: string;
     firstText: string;
+    color: string;
+    siteName: string;
     phone: string;
     address: string;
     deliveryTime: string;
@@ -26,6 +29,8 @@ const MenuPage = (props: Props) => {
     const {
         firstPhotoUrl,
         firstText,
+        color,
+        siteName,
         phone,
         address,
         deliveryTime,
@@ -37,7 +42,7 @@ const MenuPage = (props: Props) => {
         loadData();
     }, []);
 
-    const classes = useStyles({ firstPhotoUrl });
+    const classes = useStyles();
 
     return (
         <div className={classes.root}>
@@ -61,6 +66,18 @@ const MenuPage = (props: Props) => {
             <FiltersContainer classes={{ root: classes.filters }}/>
 
             <FoodContainer classes={{ root: classes.menu }}/>
+
+            <div className={classes.contacts}>
+                <Contacts
+                    color={color}
+                    siteName={siteName}
+                    phone={phone}
+                    address={address}
+                    deliveryTime={deliveryTime}
+                />
+
+                <iframe className={classes.map} src={deliveryMapUrl}/>
+            </div>
         </div>
     );
 };

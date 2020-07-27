@@ -9,21 +9,21 @@ import { Translate } from "@utils";
 
 type ClassKey = "field";
 
-interface IContactAddressCallProps {
-    onChange: (address: string) => void;
+interface IContactDeliveryLocationLinkCallProps {
+    onChange: (link: string) => void;
 }
 
-type Props = IContactAddressCallProps & StyledComponentProps<ClassKey>;
+type Props = IContactDeliveryLocationLinkCallProps & StyledComponentProps<ClassKey>;
 
-const ContactAddress = (props: Props) => {
+const DeliveryLocationLink = (props: Props) => {
     const { classes, onChange } = props;
 
     return (
         <TextFormField
-            name={nameof<IContactSettingsFormValues>(o => o.address)}
-            label={Translate.getString("адрес")}
+            name={nameof<IContactSettingsFormValues>(o => o.deliveryLocationLink)}
+            label={Translate.getString("зона доставки")}
             InputProps={{
-                placeholder: Translate.getString("Кузнецовская 15"),
+                placeholder: Translate.getString("Вставьте ссылку"),
             }}
 
             subscription={DefaultFieldSubscription}
@@ -34,11 +34,12 @@ const ContactAddress = (props: Props) => {
                 },
             }}
             sideOnChange={onChange}
+            helperText={Translate.getString("Вставьте сюда ссылку на вашу карту из яндекса")}
         />
     );
 };
 
 const componentWithStyles = withStyles<ClassKey>({
     field: {},
-}, { name: "ContactAddress" })(ContactAddress);
-export { componentWithStyles as ContactAddress };
+}, { name: "DeliveryLocationLink" })(DeliveryLocationLink);
+export { componentWithStyles as DeliveryLocationLink };

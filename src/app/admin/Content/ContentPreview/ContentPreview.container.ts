@@ -8,10 +8,10 @@ import { Category, Dish } from "@ws/Menu/models";
 import { State } from "@AdminState";
 import { ClassKey } from "@ws/Menu/MenuPage.styles";
 import {
-    ContactPreview,
-    IContactPreviewProps,
-    IContactPreviewCallProps,
-} from "./ContactPreview";
+    ContentPreview,
+    IContentPreviewProps,
+    IContentPreviewCallProps,
+} from "./ContentPreview";
 
 let storedDishes: Dish[];
 let storedCategory: Category;
@@ -42,7 +42,7 @@ function getDishes(dishes: Dish[], selectedCategory: Category) {
     return dishesForCategory;
 }
 
-const mapStateToProps = (state: State): IContactPreviewProps => {
+const mapStateToProps = (state: State): IContentPreviewProps => {
     const { content } = state;
     const { fakeMenu } = content;
     return {
@@ -61,13 +61,13 @@ const mapStateToProps = (state: State): IContactPreviewProps => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch): IContactPreviewCallProps => ({
+const mapDispatchToProps = (dispatch: Dispatch): IContentPreviewCallProps => ({
     loadData: () => dispatch(ContentActions.loadFakeMenu()),
 });
 
-const ContactPreviewContainer: ComponentType<StyledComponentProps<ClassKey>> = connect(
+const ContentPreviewContainer: ComponentType<StyledComponentProps<ClassKey>> = connect(
     mapStateToProps,
     mapDispatchToProps
-)(ContactPreview);
+)(ContentPreview);
 
-export { ContactPreviewContainer };
+export { ContentPreviewContainer };

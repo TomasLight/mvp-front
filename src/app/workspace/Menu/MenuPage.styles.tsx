@@ -8,14 +8,17 @@ type ClassKey =
     | "address"
     | "filters"
     | "menu"
+    | "contacts"
+    | "map"
+    | "footer"
     ;
 
 const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
     root: {
         display: "grid",
         gridAutoFlow: "row",
-        gridTemplateAreas: "'image' '.' 'filters' '.' 'menu' '.'",
-        gridTemplateRows: "400px 16px 40px 20px auto 1fr",
+        gridTemplateAreas: "'image' '.' 'filters' '.' 'menu' '.' 'contacts'",
+        gridTemplateRows: "400px 16px 40px 20px auto 20px 340px",
     },
     image: {
         gridArea: "image",
@@ -65,6 +68,18 @@ const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))",
         gridGap: 20,
+    },
+    contacts: {
+        gridArea: "contacts",
+        display: "grid",
+        gridAutoFlow: "column",
+    },
+    contactBlock: {
+        gridArea: "contactBlock",
+    },
+    map: {
+        height: "100%",
+        width: "100%",
     },
 }), { name: "MenuPage" });
 
