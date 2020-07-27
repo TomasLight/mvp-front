@@ -1,12 +1,14 @@
-import { Typography } from "@material-ui/core";
-import { Button, Image } from "@shared/molecules";
-import { Translate } from "@utils";
-import { Contacts } from "@ws/Menu/Contacts/Contacts";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect} from "react";
+import { makeStyles, Typography } from "@material-ui/core";
 
+import { Image } from "@shared/molecules";
+import { Translate } from "@utils/translates";
+import { Contacts } from "@ws/Menu/Contacts/Contacts";
 import { FiltersContainer } from "./Filters";
 import { FoodContainer } from "./Food";
-import { useStyles } from "./MenuPage.styles";
+import { styles } from "./MenuPage.styles";
+
+const useStyles = makeStyles(styles, { name: "MenuPage" });
 
 interface IMenuPageProps {
     firstPhotoUrl: string;

@@ -6,7 +6,7 @@ import { Typography, makeStyles } from "@material-ui/core";
 import { Cart, Category, Dish } from "@ws/Menu/models";
 import { Filters } from "@ws/Menu/Filters";
 import { Food } from "@ws/Menu/Food";
-import { useStyles as useMenuStyles } from "@ws/Menu/MenuPage.styles";
+import { styles as menuStyles } from "@ws/Menu/MenuPage.styles";
 import { createTheme } from "@shared/theme";
 import { Image } from "@shared/molecules";
 import { buildAddress } from "@ws/Menu/Contacts/buildAddres";
@@ -19,6 +19,8 @@ const useStyles = makeStyles({
         position: "absolute",
     },
 });
+
+const useMenuStyles = makeStyles(menuStyles);
 
 interface IContentPreviewProps {
     primaryColor: string;

@@ -1,4 +1,4 @@
-import { makeStyles, Theme } from "@material-ui/core";
+import { createStyles } from "@material-ui/core";
 
 type ClassKey =
     | "root"
@@ -10,10 +10,9 @@ type ClassKey =
     | "menu"
     | "contacts"
     | "map"
-    | "footer"
     ;
 
-const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
+const styles = createStyles<ClassKey, {}>(theme => ({
     root: {
         display: "grid",
         gridAutoFlow: "row",
@@ -81,6 +80,6 @@ const useStyles = makeStyles<Theme, ClassKey>((theme) => ({
         height: "100%",
         width: "100%",
     },
-}), { name: "MenuPage" });
+}));
 
-export { useStyles, ClassKey };
+export { styles, ClassKey };
