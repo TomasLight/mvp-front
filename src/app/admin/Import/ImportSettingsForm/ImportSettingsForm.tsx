@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface IImportSettingsFormProps {
     isSaving: boolean;
+    buttonText: string;
 }
 
 interface IImportSettingsFormCallProps {
@@ -56,6 +57,7 @@ type Props = IImportSettingsFormProps & IImportSettingsFormCallProps;
 const ImportSettingsForm = (props: Props) => {
     const {
         isSaving,
+        buttonText,
         onSubmit,
     } = props;
     const classes = useStyles();
@@ -93,7 +95,7 @@ const ImportSettingsForm = (props: Props) => {
                         loading: isSaving,
                     }}
                 >
-                    {Translate.getString("Дальше")}
+                    {buttonText}
                 </Button>
             </div>
         </div>

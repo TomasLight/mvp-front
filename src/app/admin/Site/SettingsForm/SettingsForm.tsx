@@ -24,6 +24,7 @@ interface ISettingsFormProps {
     openGraphImageIsLoading: boolean;
     isSaving: boolean;
     domainIsReadonly: boolean;
+    buttonText: string;
 }
 
 interface ISettingsFormCallProps {
@@ -45,6 +46,7 @@ const SettingsForm = (props: Props) => {
         openGraphImageIsLoading,
         isSaving,
         domainIsReadonly,
+        buttonText,
 
         onChangeSiteName,
         onChangeDomain,
@@ -116,7 +118,7 @@ const SettingsForm = (props: Props) => {
                         loading: isSaving,
                     }}
                 >
-                    {Translate.getString("Дальше")}
+                    {buttonText}
                 </Button>
             </div>
         </div>

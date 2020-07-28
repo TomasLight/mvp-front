@@ -1,3 +1,4 @@
+import { Translate } from "@utils";
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -15,6 +16,9 @@ interface OwnProps {
 
 const mapStateToProps = (state: State): IImportSettingsFormProps => ({
     isSaving: state.import.settingsAreSending,
+    buttonText: state.main.settingsMode === "create"
+        ? Translate.getString("Дальше")
+        : Translate.getString("Импортировать"),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IImportSettingsFormCallProps => ({

@@ -36,7 +36,7 @@ export class SiteSaga extends SagaBase {
         this.submitSettings = this.submitSettings.bind(this);
     }
 
-    * loadData(action: AppAction) {
+    * loadData() {
         const settingsMode: "create" | "update" = yield MainSelectors.getSettingsMode();
         if (settingsMode === "create") {
             return;
@@ -105,7 +105,7 @@ export class SiteSaga extends SagaBase {
         });
 
         if (imageFile) {
-            FileHelper.toBase64(imageFile).then(image => {
+            FileHelper.toBase64(imageFile).then((image: string) => {
                 dispatch(SiteActions.updateStore({
                     openGraphImageIsLoading: false,
                     openGraphImage: image,
@@ -149,6 +149,10 @@ export class SiteSaga extends SagaBase {
                 yield this.displayClientError(workspace);
                 return;
             }
+
+            const notificationAction = MainActions.workspaceWasCreated();
+            notificationAction.callbackAction = () => push(mainUrls.dataSettings) as any;
+            yield put(notificationAction);
         }
         else {
             const siteConfig: Data<SiteConfig> = yield call(DataService.workspace.updateSiteAsync, settings);
@@ -166,9 +170,5 @@ export class SiteSaga extends SagaBase {
             settingsAreSending: false,
             initialValues: formValues,
         });
-
-        const notificationAction = MainActions.workspaceWasCreated();
-        notificationAction.callbackAction = () => push(mainUrls.dataSettings) as any;
-        yield put(notificationAction);
     }
 }

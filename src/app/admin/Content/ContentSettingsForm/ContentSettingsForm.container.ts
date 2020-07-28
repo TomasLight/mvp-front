@@ -18,7 +18,7 @@ interface OwnProps {
 const mapStateToProps = (state: State): IContentSettingsFormProps => ({
     buttonText: state.main.settingsMode === "create"
         ? Translate.getString("Опубликовать сайт")
-        :  Translate.getString("Сохранить"),
+        : Translate.getString("Сохранить"),
     photoIsLoading: state.content.photoIsLoading,
     isSaving: state.content.contentIsSaving,
 });

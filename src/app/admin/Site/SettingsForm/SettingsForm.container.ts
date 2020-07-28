@@ -1,3 +1,4 @@
+import { Translate } from "@utils";
 import { ComponentType } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -21,6 +22,9 @@ const mapStateToProps = (state: State): ISettingsFormProps => ({
     openGraphImageIsLoading: state.site.openGraphImageIsLoading,
     isSaving: state.site.settingsAreSending,
     domainIsReadonly: state.main.settingsMode === "update",
+    buttonText: state.main.settingsMode === "create"
+        ? Translate.getString("Дальше")
+        : Translate.getString("Сохранить"),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): ISettingsFormCallProps => ({
