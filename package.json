@@ -1,6 +1,6 @@
 {
   "name": "mvp-front",
-  "version": "0.2.4-alpha",
+  "version": "0.2.5-alpha",
   "description": "",
   "scripts": {
     "dev": "set NODE_OPTIONS=--max_old_space_size=2560 && webpack --inspect -d --config webpack/webpack.dev.babel.js --color --progress",
