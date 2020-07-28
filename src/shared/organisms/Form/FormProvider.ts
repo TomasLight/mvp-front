@@ -16,8 +16,12 @@ import { FormPropsContainer } from "./Props/FormPropsContainer";
 import { FormSettings } from "@shared/organisms/Form/FormSettings";
 import { Submit } from "@shared/organisms/Form/Submit";
 
-export class FormProvider {
-    private readonly validator: IValidator<any> | IValidatorAsync<any>;
+type ModelConstraint = {
+    [x: string]: any;
+};
+
+export class FormProvider<TModel extends ModelConstraint = any> {
+    private readonly validator: IValidator<TModel> | IValidatorAsync<TModel>;
     private readonly validateAsync: (model: any) => Promise<ModelState>;
     private readonly settings: FormSettings;
 
@@ -25,7 +29,7 @@ export class FormProvider {
     private formApi: FormApi;
     private formProps: FormPropsContainer;
 
-    constructor(validator: IValidator<any> | IValidatorAsync<any> = null, settings: FormSettings = {}) {
+    constructor(validator: IValidator<TModel> | IValidatorAsync<TModel> = null, settings: FormSettings = {}) {
         this.validator = validator;
         if (!validator) {
             this.validateAsync = (model: any) => Promise.resolve(new ModelState());
@@ -38,15 +42,18 @@ export class FormProvider {
         }
 
         this.settings = settings;
+
         this.submitOnClick = this.submitOnClick.bind(this);
+        this.handleFormSubmitAsync = this.handleFormSubmitAsync.bind(this);
+        this.setFormApi = this.setFormApi.bind(this);
     }
 
-    createForm(submit: Submit) {
+    createForm(submit: Submit<TModel>) {
         this.submit = submit;
 
         this.formProps = new FormPropsContainer(
-            this.handleFormSubmit.bind(this),
-            this.setFormApi.bind(this)
+            this.handleFormSubmitAsync,
+            this.setFormApi
         );
         this.formProps.addMutator("setErrors", setErrors);
 
@@ -58,7 +65,7 @@ export class FormProvider {
             this.formProps.validateAsync = (values: any) => this.validateAsync(values);
         }
 
-        const FormContainer: ComponentType<IFormProps> = connect(() => this.formProps.build())(Form);
+        const FormContainer: ComponentType<IFormProps<TModel>> = connect(this.formProps.build)(Form);
         return FormContainer;
     }
 
@@ -67,10 +74,10 @@ export class FormProvider {
             ...this.formApi.getState().values,
         };
 
-        this.handleFormSubmit(model).then();
+        this.handleFormSubmitAsync(model).then();
     }
 
-    private async handleFormSubmit<TModel>(model: TModel) {
+    private async handleFormSubmitAsync(model: TModel) {
         const { setCommonErrorMessage } = this.settings;
 
         const modelState: ModelState = await this.validateAsync(model);

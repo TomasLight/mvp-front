@@ -20,6 +20,7 @@ class FormPropsContainer implements IFormPropsContainer {
         };
         this.submitAnyway = false;
         this.validateAsync = () => Promise.resolve();
+        this.build = this.build.bind(this);
     }
 
     addMutator = (key: string, mutator: Mutator) => {

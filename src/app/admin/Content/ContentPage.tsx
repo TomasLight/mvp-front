@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo } from "react";
-
+import React, { useEffect } from "react";
 import {
     Button,
     Dialog,
@@ -10,8 +9,8 @@ import {
     makeStyles
 } from "@material-ui/core";
 
-import { FormProvider } from "@shared/organisms";
-import { Translate } from "@utils";
+import { useForm } from "@shared/organisms/Form";
+import { Translate } from "@utils/translates";
 import { ContentPreviewContainer } from "./ContentPreview";
 import { ContentSettingsFormContainer } from "./ContentSettingsForm";
 import { IContactSettingsFormValues } from "./models";
@@ -36,13 +35,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "SetupPage" });
 
-const formProvider = new FormProvider(
-    new ContactSettingsValidator(),
-    { resetValidationErrorOnActiveField: true }
-);
-
 interface ISetupPageProps {
-    initialValues: Partial<IContactSettingsFormValues>;
+    initialValues: IContactSettingsFormValues;
 
     showPublishDialog: boolean;
     siteUrl: string;
@@ -69,7 +63,11 @@ const ContentPage = (props: Props) => {
     } = props;
 
     const classes = useStyles();
-    const ContactForm = useMemo(() => formProvider.createForm(submit), [ submit ]);
+    const [ Form, submitOnClick ] = useForm<IContactSettingsFormValues>(
+        submit,
+        new ContactSettingsValidator(),
+        { resetValidationErrorOnActiveField: true }
+    );
 
     useEffect(() => {
         document.title = Translate.getString("Настройки контента");
@@ -79,9 +77,9 @@ const ContentPage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <ContactForm initialValues={initialValues}>
-                    <ContentSettingsFormContainer onSubmit={formProvider.submitOnClick}/>
-                </ContactForm>
+                <Form initialValues={initialValues}>
+                    <ContentSettingsFormContainer onSubmit={submitOnClick}/>
+                </Form>
             </div>
 
             <ContentPreviewContainer classes={{ root: classes.right }}/>

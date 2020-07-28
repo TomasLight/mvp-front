@@ -1,3 +1,4 @@
+import { SiteActions } from "@admin/Site/redux";
 import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 
@@ -64,6 +65,8 @@ export class ContentSaga extends SagaBase {
             time: contentConfig.deliveryTime,
             link: contentConfig.deliveryMapUrl,
         });
+
+        yield put(SiteActions.loadData());
     }
 
     * loadFakeMenu(action: AppAction) {

@@ -12,9 +12,9 @@ interface IFormOwnProps {
     validateAsync?: (formValues: any) => any;
 }
 
-interface IFormProps {
+interface IFormProps<TModel = any> {
     children: any;
-    initialValues?: any;
+    initialValues?: TModel;
     className?: any;
 }
 
