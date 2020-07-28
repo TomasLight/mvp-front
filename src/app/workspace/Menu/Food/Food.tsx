@@ -10,10 +10,7 @@ interface IFoodProps {
     cart: Cart;
 }
 
-interface IFoodCallProps extends IFoodItemCallProps {
-}
-
-type Props = IFoodProps & IFoodCallProps & StyledComponentProps<FoodClassKey>;
+type Props = IFoodProps & IFoodItemCallProps & StyledComponentProps<FoodClassKey>;
 
 const Food = (props: Props) => {
     const {
@@ -54,4 +51,4 @@ const componentWithStyles = withStyles<FoodClassKey>({
         gridGap: 20,
     },
 }, { name: "Food" })(Food);
-export { componentWithStyles as Food, FoodClassKey, IFoodProps, IFoodCallProps };
+export { componentWithStyles as Food, FoodClassKey, IFoodProps, IFoodItemCallProps as IFoodCallProps };

@@ -5,6 +5,8 @@ import { Dispatch } from "redux";
 import { State } from "@WsState";
 import { MenuActions} from "./redux";
 import { MenuPage, IMenuPageProps, IMenuPageCallProps } from "./MenuPage";
+import { FiltersContainer } from "./Filters";
+import { FoodContainer } from "./Food";
 
 const mapStateToProps = (state: State): IMenuPageProps => ({
     firstPhotoUrl: state.workspace.content.firstPhotoUrl,
@@ -15,6 +17,8 @@ const mapStateToProps = (state: State): IMenuPageProps => ({
     address: state.workspace.content.address,
     deliveryTime: state.workspace.content.deliveryTime,
     deliveryMapUrl: state.workspace.content.deliveryMapUrl,
+    Filters: FiltersContainer,
+    Food: FoodContainer,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): IMenuPageCallProps => ({
