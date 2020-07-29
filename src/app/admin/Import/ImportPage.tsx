@@ -55,8 +55,13 @@ const ImportPage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <DataForm initialValues={initialValues}>
-                    <ImportSettingsFormContainer onSubmit={dataFormProvider.submitOnClick}/>
+                <DataForm initialValues={initialValues} subscribe={{ pristine: true }}>
+                    {(state) => (
+                        <ImportSettingsFormContainer
+                            onSubmit={dataFormProvider.submitOnClick}
+                            pristine={state.pristine}
+                        />
+                    )}
                 </DataForm>
             </div>
             <ImportPreview classes={{ root: classes.right }}/>

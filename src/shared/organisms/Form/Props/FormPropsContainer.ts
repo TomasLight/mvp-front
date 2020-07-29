@@ -35,7 +35,6 @@ class FormPropsContainer implements IFormPropsContainer {
             submit: this.submit,
             setFormApi: this.setFormApi,
             mutators: this.mutators,
-            submitAnyway: this.submitAnyway,
             validate: this.validateAsync,
         };
     }

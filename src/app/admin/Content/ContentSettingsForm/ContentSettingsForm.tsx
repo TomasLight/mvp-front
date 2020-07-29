@@ -20,6 +20,7 @@ interface IContentSettingsFormProps {
     buttonText: string;
     photoIsLoading: boolean;
     isSaving: boolean;
+    pristine: boolean;
 }
 
 interface IContentSettingsFormCallProps {
@@ -39,6 +40,7 @@ const ContentSettingsForm = (props: Props) => {
         buttonText,
         photoIsLoading,
         isSaving,
+        pristine,
         onChangeAddress,
         onChangeDeliveryLocationLink,
         onChangeDeliveryTime,
@@ -106,6 +108,7 @@ const ContentSettingsForm = (props: Props) => {
                 className={classes.button}
                 state={{
                     loading: isSaving,
+                    pristine,
                 }}
             >
                 {buttonText}

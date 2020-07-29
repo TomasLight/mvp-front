@@ -1,5 +1,5 @@
-import { FormApi, FormSubscription } from "final-form";
-import React, { KeyboardEvent } from "react";
+import { FormApi, FormState, FormSubscription } from "final-form";
+import React, { KeyboardEvent, ReactNode } from "react";
 import { Form as FinalForm } from "react-final-form";
 
 import { FormMutators } from "./FormMutators";
@@ -12,19 +12,23 @@ interface IFormOwnProps {
     validateAsync?: (formValues: any) => any;
 }
 
+type RenderProp<TModel> = (state: Partial<FormState<TModel>>) => ReactNode;
+
 interface IFormProps<TModel = any> {
-    children: any;
     initialValues?: TModel;
     className?: any;
+    children?: RenderProp<TModel> | ReactNode;
+    subscribe?: FormSubscription;
 }
 
 type Props = IFormOwnProps & IFormProps;
 
 const Form = (props: Props) => {
-    const { submit, children, setFormApi, className, ...rest } = props;
+    const { submit, children, setFormApi, className, subscribe = {}, ...rest } = props;
 
-    const formSubscription: FormSubscription = {
+    const subscription: FormSubscription = {
         submitting: true,
+        ...subscribe,
     };
 
     const onSubmit = (values: any) => submit(values);
@@ -37,10 +41,10 @@ const Form = (props: Props) => {
     return (
         <FinalForm
             onSubmit={onSubmit}
-            subscription={formSubscription}
+            subscription={subscription}
             {...rest}
         >
-            {({ handleSubmit, form }) => {
+            {({ handleSubmit, form, ...restState }) => {
                 setFormApi(form);
 
                 return (
@@ -50,7 +54,10 @@ const Form = (props: Props) => {
                         className={className}
                         noValidate
                     >
-                        {children}
+                        {typeof children === "function"
+                            ? children(restState)
+                            : children
+                        }
                     </form>
                 );
             }}

@@ -77,8 +77,13 @@ const ContentPage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <Form initialValues={initialValues}>
-                    <ContentSettingsFormContainer onSubmit={submitOnClick}/>
+                <Form initialValues={initialValues} subscribe={{ pristine: true }}>
+                    {(state) => (
+                        <ContentSettingsFormContainer
+                            onSubmit={submitOnClick}
+                            pristine={state.pristine}
+                        />
+                    )}
                 </Form>
             </div>
 

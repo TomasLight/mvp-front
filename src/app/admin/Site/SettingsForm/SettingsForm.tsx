@@ -19,11 +19,13 @@ import { styles, ClassKey } from "./SettingsForm.styles";
 const useStyles = makeStyles<Theme, ClassKey>(styles, { name: "SettingsForm" });
 
 interface ISettingsFormProps {
+    pristine: boolean;
     faviconOptions: IconSelectFieldOption[];
     colorOptions: ColorSelectFieldOption[];
     openGraphImageIsLoading: boolean;
     isSaving: boolean;
     domainIsReadonly: boolean;
+    shouldDisplayStepperLabel: boolean;
     buttonText: string;
 }
 
@@ -41,11 +43,13 @@ type Props = ISettingsFormProps & ISettingsFormCallProps;
 
 const SettingsForm = (props: Props) => {
     const {
+        pristine,
         faviconOptions,
         colorOptions,
         openGraphImageIsLoading,
         isSaving,
         domainIsReadonly,
+        shouldDisplayStepperLabel,
         buttonText,
 
         onChangeSiteName,
@@ -56,8 +60,8 @@ const SettingsForm = (props: Props) => {
         onChangeColor,
         onSubmit,
     } = props;
-    const classes = useStyles();
 
+    const classes = useStyles();
     return (
         <div className={classes.root}>
             <SetupSiteName
@@ -106,9 +110,11 @@ const SettingsForm = (props: Props) => {
             />
 
             <div className={classes.stepper}>
-                <Typography variant={"body1"} className={classes.stepperLabel}>
-                    {Translate.getString("Шаг 1/3")}
-                </Typography>
+                {shouldDisplayStepperLabel && (
+                    <Typography variant={"body1"} className={classes.stepperLabel}>
+                        {Translate.getString("Шаг 1/3")}
+                    </Typography>
+                )}
 
                 <Button
                     variant="form"
@@ -116,6 +122,7 @@ const SettingsForm = (props: Props) => {
                     className={classes.stepperButton}
                     state={{
                         loading: isSaving,
+                        pristine,
                     }}
                 >
                     {buttonText}

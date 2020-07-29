@@ -45,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface IImportSettingsFormProps {
     isSaving: boolean;
+    pristine: boolean;
     buttonText: string;
+    shouldDisplayStepperLabel: boolean;
 }
 
 interface IImportSettingsFormCallProps {
@@ -57,7 +59,9 @@ type Props = IImportSettingsFormProps & IImportSettingsFormCallProps;
 const ImportSettingsForm = (props: Props) => {
     const {
         isSaving,
+        pristine,
         buttonText,
+        shouldDisplayStepperLabel,
         onSubmit,
     } = props;
     const classes = useStyles();
@@ -83,9 +87,11 @@ const ImportSettingsForm = (props: Props) => {
             </SiteItem>
 
             <div className={classes.stepper}>
-                <Typography variant={"body1"} className={classes.stepperLabel}>
-                    {Translate.getString("Шаг 2/3")}
-                </Typography>
+                {shouldDisplayStepperLabel && (
+                    <Typography variant={"body1"} className={classes.stepperLabel}>
+                        {Translate.getString("Шаг 2/3")}
+                    </Typography>
+                )}
 
                 <Button
                     variant="form"
@@ -93,6 +99,7 @@ const ImportSettingsForm = (props: Props) => {
                     className={classes.stepperButton}
                     state={{
                         loading: isSaving,
+                        pristine,
                     }}
                 >
                     {buttonText}
