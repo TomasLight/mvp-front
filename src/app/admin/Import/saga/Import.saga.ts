@@ -1,3 +1,4 @@
+import fs from "fs";
 import { AppAction } from "app-redux-utils";
 import { call, put } from "@redux-saga/core/effects";
 import { push } from "connected-react-router";
@@ -26,6 +27,8 @@ export class ImportSaga extends SagaBase {
     constructor() {
         super();
         this.submitSettings = this.submitSettings.bind(this);
+        this.skipImport = this.skipImport.bind(this);
+        this.handleUpdateResult = this.handleUpdateResult.bind(this);
     }
 
     * submitSettings(action: AppAction<ISubmitSettingsData>) {
@@ -42,6 +45,19 @@ export class ImportSaga extends SagaBase {
         });
 
         const result: DataFailed | null = yield call(DataService.workspace.updateDataAsync, settings);
+        yield this.handleUpdateResult(result);
+    }
+
+    * skipImport(action: AppAction) {
+        yield updateStore({
+            settingsAreSending: true,
+        });
+
+        const result: DataFailed | null = yield call(DataService.workspace.updateDataAsync);
+        yield this.handleUpdateResult(result);
+    }
+
+    private * handleUpdateResult(result: DataFailed | null) {
         if (result instanceof DataFailed) {
             yield updateStore({
                 settingsAreSending: false,

@@ -12,5 +12,9 @@ export class ImportWatcher extends Watcher {
             ImportActions.SUBMIT_SETTINGS,
             saga.submitSettings
         );
+        this.watchLatest(
+            ImportActions.SKIP_IMPORT,
+            saga.skipImport
+        );
     }
 }

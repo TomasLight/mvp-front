@@ -1,6 +1,6 @@
 import React from "react";
 import { DefaultFieldSubscription } from "final-form-app-form";
-import { makeStyles, Typography } from "@material-ui/core";
+import { Divider, makeStyles, Typography } from "@material-ui/core";
 
 import { SiteItem } from "@admin/Site/SettingsForm/SiteItems";
 import { IImportSettingsFormValues } from "@admin/Import/models";
@@ -8,49 +8,66 @@ import { Button } from "@shared/molecules/Button";
 import { DragAndDropFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
     root: {
         display: "grid",
         gridTemplateAreas: "\
+            'title' \
+            'divider' \
             'item' \
-            'stepper'",
+            '.' \
+            'buttons'",
         gridTemplateRows: "\
+            auto \
+            auto \
+            auto \
             1fr \
             auto",
+        gridRowGap: 20,
         height: "100%",
         alignItems: "center",
     },
-    item: {
-        gridArea: "item",
-    },
-    field: {
-        gridArea: "field",
-    },
-    stepper: {
-        gridArea: "stepper",
-        display: "grid",
-        gridGap: 24,
-        gridAutoFlow: "row",
-    },
-    stepperLabel: {
+    title: {
+        gridArea: "title",
         fontWeight: "bold",
         fontSize: 24,
         lineHeight: "28px",
     },
-    stepperButton: {
+    divider: {
+        gridArea: "divider",
+    },
+    item: {
+        gridArea: "item",
+        width: 308,
+    },
+    field: {
+        gridArea: "field",
+    },
+    buttons: {
+        gridArea: "buttons",
+        display: "grid",
+        gridGap: 16,
+        gridAutoFlow: "row",
+    },
+    button: {
         width: "100%",
     },
-}), { name: "DataSettingsForm" });
+    skipLabel: {
+        fontSize: 14,
+        lineHeight: "20px",
+    },
+}, { name: "ImportSettingsForm" });
 
 interface IImportSettingsFormProps {
     isSaving: boolean;
     pristine: boolean;
     buttonText: string;
-    shouldDisplayStepperLabel: boolean;
+    isOptionalStep: boolean;
 }
 
 interface IImportSettingsFormCallProps {
     onSubmit: () => void;
+    onSkip: () => void;
 }
 
 type Props = IImportSettingsFormProps & IImportSettingsFormCallProps;
@@ -60,13 +77,20 @@ const ImportSettingsForm = (props: Props) => {
         isSaving,
         pristine,
         buttonText,
-        shouldDisplayStepperLabel,
+        isOptionalStep,
         onSubmit,
+        onSkip,
     } = props;
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
+            <Typography className={classes.title}>
+                {Translate.getString("Импорт данных")}
+            </Typography>
+
+            <Divider className={classes.divider}/>
+
             <SiteItem
                 className={classes.item}
                 label={Translate.getString("Меню заведения")}
@@ -85,17 +109,11 @@ const ImportSettingsForm = (props: Props) => {
                 />
             </SiteItem>
 
-            <div className={classes.stepper}>
-                {shouldDisplayStepperLabel && (
-                    <Typography variant={"body1"} className={classes.stepperLabel}>
-                        {Translate.getString("Шаг 2/3")}
-                    </Typography>
-                )}
-
+            <div className={classes.buttons}>
                 <Button
                     variant="form"
                     onClick={onSubmit}
-                    className={classes.stepperButton}
+                    className={classes.button}
                     state={{
                         loading: isSaving,
                         pristine,
@@ -103,6 +121,26 @@ const ImportSettingsForm = (props: Props) => {
                 >
                     {buttonText}
                 </Button>
+
+                {isOptionalStep && (
+                    <>
+                        <Button
+                            variant="form"
+                            onClick={onSkip}
+                            className={classes.button}
+                            state={{
+                                loading: isSaving,
+                                alternative: true,
+                            }}
+                        >
+                            {Translate.getString("Пропустить")}
+                        </Button>
+
+                        <Typography variant={"body1"} className={classes.skipLabel}>
+                            {Translate.getString("Этот шаг необязательный, если вы нажмёте кнопку \"Пропустить\", то будет использовано меню из примера справа.")}
+                        </Typography>
+                    </>
+                )}
             </div>
         </div>
     );

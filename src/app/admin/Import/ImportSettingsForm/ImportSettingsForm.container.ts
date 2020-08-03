@@ -11,14 +11,13 @@ import {
 interface OwnProps {
     pristine: boolean;
     onSubmit: () => void;
+    onSkip: () => void;
 }
 
 const mapStateToProps = (state: State): Omit<IImportSettingsFormProps, "pristine"> => ({
     isSaving: state.import.settingsAreSending,
-    buttonText: state.main.settingsMode === "create"
-        ? Translate.getString("Дальше")
-        : Translate.getString("Импортировать"),
-    shouldDisplayStepperLabel: state.main.settingsMode === "create",
+    buttonText: Translate.getString("Импортировать"),
+    isOptionalStep: state.main.settingsMode === "create",
 });
 
 const ImportSettingsFormContainer: ComponentType<OwnProps> = connect(
