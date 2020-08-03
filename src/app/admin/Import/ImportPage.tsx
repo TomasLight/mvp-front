@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo } from "react";
-
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useForm } from "final-form-app-form";
 
-import { FormProvider } from "@shared/organisms";
 import { Translate } from "@utils/translates";
 import { ImportSettingsFormContainer } from "./ImportSettingsForm";
 import { ImportPreview } from "./ImportPreview";
@@ -27,8 +26,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "DataPage" });
 
-const dataFormProvider = new FormProvider();
-
 interface IDataPageProps {
     initialValues: Partial<any>;
 }
@@ -50,19 +47,19 @@ const ImportPage = (props: Props) => {
         document.title = Translate.getString("Импорт данных");
     }, []);
 
-    const DataForm = useMemo(() => dataFormProvider.createForm(submitSettings), [ submitSettings ]);
+    const [ Form, submitOnClick ] = useForm(submitSettings);
 
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <DataForm initialValues={initialValues} subscribe={{ pristine: true }}>
+                <Form initialValues={initialValues} subscribe={{ pristine: true }}>
                     {(state) => (
                         <ImportSettingsFormContainer
-                            onSubmit={dataFormProvider.submitOnClick}
+                            onSubmit={submitOnClick}
                             pristine={state.pristine}
                         />
                     )}
-                </DataForm>
+                </Form>
             </div>
             <ImportPreview classes={{ root: classes.right }}/>
         </div>

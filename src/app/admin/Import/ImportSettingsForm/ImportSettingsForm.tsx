@@ -1,11 +1,10 @@
 import React from "react";
-
+import { DefaultFieldSubscription } from "final-form-app-form";
 import { makeStyles, Typography } from "@material-ui/core";
 
 import { SiteItem } from "@admin/Site/SettingsForm/SiteItems";
 import { IImportSettingsFormValues } from "@admin/Import/models";
 import { Button } from "@shared/molecules/Button";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { DragAndDropFormField } from "@shared/templates";
 import { Translate } from "@utils";
 

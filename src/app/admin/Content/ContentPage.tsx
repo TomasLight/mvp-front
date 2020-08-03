@@ -8,8 +8,8 @@ import {
     DialogTitle,
     makeStyles
 } from "@material-ui/core";
+import { useForm } from "final-form-app-form";
 
-import { useForm } from "@shared/organisms/Form";
 import { Translate } from "@utils/translates";
 import { ContentPreviewContainer } from "./ContentPreview";
 import { ContentSettingsFormContainer } from "./ContentSettingsForm";
