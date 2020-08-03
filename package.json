@@ -1,6 +1,6 @@
 {
   "name": "mvp-front",
-  "version": "0.2.7-alpha",
+  "version": "0.2.8-alpha",
   "description": "",
   "scripts": {
     "dev": "set NODE_OPTIONS=--max_old_space_size=2560 && webpack --inspect -d --config webpack/webpack.dev.babel.js --color --progress",
@@ -26,9 +26,9 @@
     "connected-react-router": "6.8.0",
     "dotenv": "8.2.0",
     "final-form": "4.20.1",
-    "final-form-app-form": "1.0.0",
-    "final-form-set-errors-mutator": "^1.0.4",
-    "model-state-validation": "1.0.4",
+    "final-form-app-form": "1.0.1",
+    "final-form-set-errors-mutator": "1.0.4",
+    "model-state-validation": "1.0.5",
     "notistack": "0.9.17",
     "react": "16.13.1",
     "react-dom": "16.13.1",

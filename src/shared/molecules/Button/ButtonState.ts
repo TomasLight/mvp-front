@@ -2,6 +2,7 @@ type State =
     | "active"
     | "loading"
     | "disabled"
+    | "alternative"
     | "pristine"
     ;
 

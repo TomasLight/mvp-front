@@ -30,7 +30,7 @@ const ImportPreview = (props: Props) => {
 
 const componentWithStyles = withStyles<ClassKeys>({
     root: {
-        padding: "56px 36px 56px 0",
+        padding: "56px 0 56px 0",
     },
     header: {
         display: "flex",

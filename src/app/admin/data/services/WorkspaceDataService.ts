@@ -188,9 +188,12 @@ export class WorkspaceDataService extends DataServiceBase implements IWorkspaceD
         const dto: IDataSettingsUpdatedRequestDto = {
             archive: "",
         };
-        if (settings.archive) {
+        if (settings && settings.archive) {
             const base64 = await FileHelper.toBase64(settings.archive);
             dto.archive = FileHelper.clearBase64(base64);
+        }
+        else {
+            dto.useDefault = true;
         }
 
         const response: ApiResponse = await WorkspaceApi.updateDataSettingsAsync(

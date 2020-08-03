@@ -32,6 +32,7 @@ interface IDataPageProps {
 
 interface IDataPageCallProps {
     submitSettings: (formValues: any) => void;
+    skipImport: () => void;
 }
 
 type Props = IDataPageProps & IDataPageCallProps;
@@ -40,6 +41,7 @@ const ImportPage = (props: Props) => {
     const {
         initialValues,
         submitSettings,
+        skipImport,
     } = props;
     const classes = useStyles();
 
@@ -56,6 +58,7 @@ const ImportPage = (props: Props) => {
                     {(state) => (
                         <ImportSettingsFormContainer
                             onSubmit={submitOnClick}
+                            onSkip={skipImport}
                             pristine={state.pristine}
                         />
                     )}
