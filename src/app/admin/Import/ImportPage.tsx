@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     right: {
         gridArea: "right",
     },
+    form: {
+        width: "100%",
+    },
 }), { name: "DataPage" });
 
 interface IDataPageProps {
@@ -54,7 +57,11 @@ const ImportPage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <Form initialValues={initialValues} subscribe={{ pristine: true }}>
+                <Form
+                    initialValues={initialValues}
+                    subscribe={{ pristine: true }}
+                    className={classes.form}
+                >
                     {(state) => (
                         <ImportSettingsFormContainer
                             onSubmit={submitOnClick}

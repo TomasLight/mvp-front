@@ -38,6 +38,7 @@ const useStyles = makeStyles({
     },
     item: {
         gridArea: "item",
+        width: 308,
     },
     field: {
         gridArea: "field",
