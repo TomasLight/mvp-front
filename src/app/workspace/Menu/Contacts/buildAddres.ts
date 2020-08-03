@@ -7,6 +7,9 @@ export function buildAddress(address: string, deliveryTime: string) {
     else if (address) {
         return Translate.getString(`${address}`);
     }
+    else if (deliveryTime) {
+        return Translate.getString(`доставка ${deliveryTime}`);
+    }
 
-    return Translate.getString(`доставка ${deliveryTime}`);
+    return "";
 }

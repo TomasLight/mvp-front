@@ -33,7 +33,7 @@ const FormButton = (props: Props) => {
         <div className={classes.wrapper}>
             <Button
                 {...rest}
-                disabled={state.loading || state.disabled}
+                disabled={state.loading || state.disabled || state.pristine}
                 variant="contained"
             >
                 {children}
@@ -71,7 +71,12 @@ const componentWithStyles = withStyles<ButtonClassKey>(theme => ({
     containedSecondary: {},
     disableElevation: {},
     focusVisible: {},
-    disabled: {},
+    disabled: {
+        backgroundColor: "rgba(0, 0, 0, 0.12)",
+        color: "rgba(0, 0, 0, 0.26)",
+        boxShadow: "none",
+        cursor: "initial",
+    },
     colorInherit: {},
     textSizeSmall: {},
     textSizeLarge: {},

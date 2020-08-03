@@ -12,18 +12,19 @@ import {
 } from "./ContentSettingsForm";
 
 interface OwnProps {
+    pristine: boolean;
     onSubmit: () => void;
 }
 
-const mapStateToProps = (state: State): IContentSettingsFormProps => ({
+const mapStateToProps = (state: State): Omit<IContentSettingsFormProps, "pristine"> => ({
     buttonText: state.main.settingsMode === "create"
         ? Translate.getString("Опубликовать сайт")
-        :  Translate.getString("Сохранить"),
+        : Translate.getString("Сохранить"),
     photoIsLoading: state.content.photoIsLoading,
     isSaving: state.content.contentIsSaving,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContentSettingsFormCallProps => ({
+const mapDispatchToProps = (dispatch: Dispatch): Omit<IContentSettingsFormCallProps, "onSubmit"> => ({
     onChangeAddress: (address: string) =>
         dispatch(ContentActions.onChangeAddress({ address })),
 
@@ -41,8 +42,6 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps): IContentSet
 
     onChangePhoto: (photoFile: File) =>
         dispatch(ContentActions.onChangePhoto({ photoFile, dispatch })),
-
-    onSubmit: () => ownProps.onSubmit(),
 });
 
 const ContentSettingsFormContainer: ComponentType<OwnProps> = connect(

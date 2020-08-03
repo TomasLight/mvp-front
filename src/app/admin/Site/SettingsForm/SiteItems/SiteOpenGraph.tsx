@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import React from "react";
-
+import { DefaultFieldSubscription } from "final-form-app-form";
 import { StyledComponentProps, Typography, withStyles } from "@material-ui/core";
 
 import { ISiteSettingsFormValues } from "@admin/Site/models";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { DragAndDropFormField, TextFormField } from "@shared/templates";
 import { Translate } from "@utils";
 

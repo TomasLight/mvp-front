@@ -1,9 +1,8 @@
 import React from "react";
-
+import { DefaultFieldSubscription } from "final-form-app-form";
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
 import { IContactSettingsFormValues } from "@admin/Content/models";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { TextFormField } from "@shared/templates";
 import { Translate } from "@utils";
 

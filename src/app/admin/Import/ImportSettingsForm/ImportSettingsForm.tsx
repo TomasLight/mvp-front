@@ -1,11 +1,10 @@
 import React from "react";
-
+import { DefaultFieldSubscription } from "final-form-app-form";
 import { makeStyles, Typography } from "@material-ui/core";
 
 import { SiteItem } from "@admin/Site/SettingsForm/SiteItems";
 import { IImportSettingsFormValues } from "@admin/Import/models";
 import { Button } from "@shared/molecules/Button";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { DragAndDropFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
@@ -45,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
 
 interface IImportSettingsFormProps {
     isSaving: boolean;
+    pristine: boolean;
+    buttonText: string;
+    shouldDisplayStepperLabel: boolean;
 }
 
 interface IImportSettingsFormCallProps {
@@ -56,6 +58,9 @@ type Props = IImportSettingsFormProps & IImportSettingsFormCallProps;
 const ImportSettingsForm = (props: Props) => {
     const {
         isSaving,
+        pristine,
+        buttonText,
+        shouldDisplayStepperLabel,
         onSubmit,
     } = props;
     const classes = useStyles();
@@ -81,9 +86,11 @@ const ImportSettingsForm = (props: Props) => {
             </SiteItem>
 
             <div className={classes.stepper}>
-                <Typography variant={"body1"} className={classes.stepperLabel}>
-                    {Translate.getString("Шаг 2/3")}
-                </Typography>
+                {shouldDisplayStepperLabel && (
+                    <Typography variant={"body1"} className={classes.stepperLabel}>
+                        {Translate.getString("Шаг 2/3")}
+                    </Typography>
+                )}
 
                 <Button
                     variant="form"
@@ -91,9 +98,10 @@ const ImportSettingsForm = (props: Props) => {
                     className={classes.stepperButton}
                     state={{
                         loading: isSaving,
+                        pristine,
                     }}
                 >
-                    {Translate.getString("Дальше")}
+                    {buttonText}
                 </Button>
             </div>
         </div>
