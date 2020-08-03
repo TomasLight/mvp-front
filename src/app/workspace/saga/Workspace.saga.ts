@@ -1,10 +1,13 @@
 import { call, put } from "@redux-saga/core/effects";
 import { AppAction } from "app-redux-utils";
+import { push } from "connected-react-router";
 
 import { SagaBase } from "@config/saga/SagaBase";
 import { DataServiceResult as Data, DataFailed } from "@utils/data";
 import { DataService } from "@ws/data";
+import { LandingConfigDataService } from "@ws/data/services/LandingConfigDataService";
 import { ContentConfig, SiteConfig } from "@models";
+import { workspaceUrls } from "@ws/routing";
 import { WorkspaceActions, WorkspaceStore } from "../redux";
 
 function* updateStore(partialStore: Partial<WorkspaceStore>) {
@@ -31,13 +34,18 @@ export class WorkspaceSaga extends SagaBase {
             dataIsLoading: true,
         });
 
-        const siteConfig: Data<SiteConfig> = yield call(DataService.config.siteConfigAsync);
+        const landingDataService = new LandingConfigDataService();
+        const siteConfig: Data<SiteConfig> = yield call(landingDataService.siteConfigAsync);
         if (siteConfig instanceof DataFailed) {
             yield updateStore({
                 dataIsLoading: false,
             });
 
             yield this.displayClientError(siteConfig);
+            yield put(push(workspaceUrls.notFound));
+            yield updateStore({
+                appIsInitialized: true,
+            });
             return;
         }
 

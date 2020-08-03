@@ -30,7 +30,7 @@ const alias = {
     "@api": "./src/api",
     "@models": "./src/app/models",
     "@select": "./src/shared/organisms/Fields/Select",
-    "@utils": "./src/utils"
+    "@utils": "./src/utils",
 };
 
 const plugins = [

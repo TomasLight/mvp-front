@@ -16,6 +16,7 @@ const mapStateToProps = (state: State): IDataPageProps => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): IDataPageCallProps => ({
     submitSettings: (formValues: any) => dispatch(ImportActions.submitSettings({ formValues })),
+    skipImport: () => dispatch(ImportActions.skipImport()),
 });
 
 const ImportPageContainer: ComponentType = connect(

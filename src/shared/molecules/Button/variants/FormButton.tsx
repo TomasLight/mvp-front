@@ -33,8 +33,9 @@ const FormButton = (props: Props) => {
         <div className={classes.wrapper}>
             <Button
                 {...rest}
-                disabled={state.loading || state.disabled}
-                variant="contained"
+                disabled={state.loading || state.disabled || state.pristine}
+                variant={"contained"}
+                color={state.alternative ? "default" : "primary"}
             >
                 {children}
             </Button>
@@ -47,16 +48,16 @@ const FormButton = (props: Props) => {
 
 const componentWithStyles = withStyles<ButtonClassKey>(theme => ({
     root: {
-        backgroundColor: "#6FCF97",
         borderRadius: theme.borderRadius,
-        color: "#FFF",
         fontWeight: "bold",
         fontSize: 20,
         lineHeight: "23px",
         padding: "12px 16px",
 
+        backgroundColor: "#E0E0E0",
+        color: "rgba(0, 0, 0, 0.87)",
         "&:hover": {
-            backgroundColor: "#7be4a7",
+            backgroundColor: "#d5d5d5",
         },
     },
     label: {},
@@ -67,11 +68,22 @@ const componentWithStyles = withStyles<ButtonClassKey>(theme => ({
     outlinedPrimary: {},
     outlinedSecondary: {},
     contained: {},
-    containedPrimary: {},
+    containedPrimary: {
+        backgroundColor: "#6FCF97",
+        color: "#FFF",
+        "&:hover": {
+            backgroundColor: "#7be4a7",
+        },
+    },
     containedSecondary: {},
     disableElevation: {},
     focusVisible: {},
-    disabled: {},
+    disabled: {
+        backgroundColor: "rgba(0, 0, 0, 0.12)",
+        color: "rgba(0, 0, 0, 0.26)",
+        boxShadow: "none",
+        cursor: "initial",
+    },
     colorInherit: {},
     textSizeSmall: {},
     textSizeLarge: {},

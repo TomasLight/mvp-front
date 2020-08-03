@@ -1,10 +1,9 @@
 import clsx from "clsx";
 import React from "react";
-
+import { DefaultFieldSubscription } from "final-form-app-form";
 import { StyledComponentProps, Typography, withStyles } from "@material-ui/core";
 
 import { ISiteSettingsFormValues } from "@admin/Site/models";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { DragAndDropFormField, TextFormField } from "@shared/templates";
 import { Translate } from "@utils";
 
@@ -64,6 +63,7 @@ const SiteOpenGraph = (props: Props) => {
                 }}
                 isLoading={imageIsLoading}
                 sideOnChange={chooseFile}
+                fileTypes={"image/jpeg,image/png,image/jpg"}
             />
 
             <Typography className={clsx(classes.helpText, classes.imageHelpArea)}>

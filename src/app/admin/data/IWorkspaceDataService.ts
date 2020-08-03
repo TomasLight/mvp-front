@@ -15,6 +15,6 @@ export interface IWorkspaceDataService {
     hasWorkspaceAsync(): Data<boolean>;
     createConfigAsync(settings: WorkspaceSiteSettings): Data<Workspace>;
     updateSiteAsync(settings: WorkspaceSiteSettings): Data<SiteConfig>;
-    updateDataAsync(settings: WorkspaceDataSettings): Data<null>;
+    updateDataAsync(settings?: WorkspaceDataSettings): Data<null>;
     updateContentAsync(settings: WorkspaceContentSettings): Data<ContentConfig>;
 }

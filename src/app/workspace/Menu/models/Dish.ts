@@ -41,4 +41,16 @@ export class Dish implements IDish {
             this.created = dish.created;
         }
     }
+
+    static sort(dishes: Dish[]) {
+        return dishes.sort(Dish.compare);
+    }
+
+    static compare(leftDish: Dish, rightDish: Dish) {
+        if (leftDish.title < rightDish.title) {
+            return 0;
+        }
+
+        return 1;
+    }
 }

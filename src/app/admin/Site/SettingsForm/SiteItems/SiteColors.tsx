@@ -1,10 +1,9 @@
 import React from "react";
-
+import { DefaultFieldSubscription } from "final-form-app-form";
 import { StyledComponentProps, withStyles } from "@material-ui/core";
 
 import { ColorSelectFieldOption } from "@select";
 import { ISiteSettingsFormValues } from "@admin/Site/models";
-import { DefaultFieldSubscription } from "@shared/organisms";
 import { SelectFormField } from "@shared/templates";
 import { Translate } from "@utils";
 

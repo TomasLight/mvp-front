@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo } from "react";
-
+import React, { useEffect } from "react";
 import {
     Button,
     Dialog,
@@ -9,11 +8,11 @@ import {
     DialogTitle,
     makeStyles
 } from "@material-ui/core";
+import { useForm } from "final-form-app-form";
 
-import { FormProvider } from "@shared/organisms";
-import { Translate } from "@utils";
-import { ContactPreviewContainer } from "./ContactPreview";
-import { ContactSettingsFormContainer } from "./ContactSettingsForm";
+import { Translate } from "@utils/translates";
+import { ContentPreviewContainer } from "./ContentPreview";
+import { ContentSettingsFormContainer } from "./ContentSettingsForm";
 import { IContactSettingsFormValues } from "./models";
 import { ContactSettingsValidator } from "./validation";
 
@@ -36,13 +35,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "SetupPage" });
 
-const formProvider = new FormProvider(
-    new ContactSettingsValidator(),
-    { resetValidationErrorOnActiveField: true }
-);
-
 interface ISetupPageProps {
-    initialValues: Partial<IContactSettingsFormValues>;
+    initialValues: IContactSettingsFormValues;
 
     showPublishDialog: boolean;
     siteUrl: string;
@@ -69,7 +63,11 @@ const ContentPage = (props: Props) => {
     } = props;
 
     const classes = useStyles();
-    const ContactForm = useMemo(() => formProvider.createForm(submit), [ submit ]);
+    const [ Form, submitOnClick ] = useForm<IContactSettingsFormValues>(
+        submit,
+        new ContactSettingsValidator(),
+        { resetValidationErrorOnActiveField: true }
+    );
 
     useEffect(() => {
         document.title = Translate.getString("Настройки контента");
@@ -79,12 +77,17 @@ const ContentPage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <ContactForm initialValues={initialValues}>
-                    <ContactSettingsFormContainer onSubmit={formProvider.submitOnClick}/>
-                </ContactForm>
+                <Form initialValues={initialValues} subscribe={{ pristine: true }}>
+                    {(state) => (
+                        <ContentSettingsFormContainer
+                            onSubmit={submitOnClick}
+                            pristine={state.pristine}
+                        />
+                    )}
+                </Form>
             </div>
 
-            <ContactPreviewContainer classes={{ root: classes.right }}/>
+            <ContentPreviewContainer classes={{ root: classes.right }}/>
 
             <Dialog
                 open={showPublishDialog}

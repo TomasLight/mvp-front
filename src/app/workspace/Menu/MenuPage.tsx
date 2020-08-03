@@ -1,43 +1,56 @@
-import { Typography } from "@material-ui/core";
-import { Image } from "@shared/molecules";
-import { Translate } from "@utils";
-import React, { useEffect } from "react";
+import React, { ComponentType, useEffect, useMemo } from "react";
+import { withStyles, Typography, StyledComponentProps } from "@material-ui/core";
 
-import { FiltersContainer } from "./Filters";
-import { FoodContainer } from "./Food";
-import { useStyles } from "./MenuPage.styles";
+import { buildAddress } from "@ws/Menu/Contacts/buildAddres";
+import { Image } from "@shared/molecules";
+import { Contacts } from "@ws/Menu/Contacts/Contacts";
+import { styles, ClassKey } from "./MenuPage.styles";
 
 interface IMenuPageProps {
     firstPhotoUrl: string;
     firstText: string;
+    color: string;
+    siteName: string;
     phone: string;
     address: string;
     deliveryTime: string;
     deliveryMapUrl: string;
+
+    Filters: ComponentType<StyledComponentProps<"root">>;
+    Food: ComponentType<StyledComponentProps<"root">>;
 }
 
 interface IMenuPageCallProps {
     loadData: () => void;
 }
 
-type Props = IMenuPageProps & IMenuPageCallProps;
+type Props = IMenuPageProps & IMenuPageCallProps & StyledComponentProps<ClassKey>;
 
 const MenuPage = (props: Props) => {
     const {
+        classes,
         firstPhotoUrl,
         firstText,
+        color,
+        siteName,
         phone,
         address,
         deliveryTime,
         deliveryMapUrl,
         loadData,
+
+        Filters,
+        Food,
     } = props;
 
     useEffect(() => {
         loadData();
     }, []);
 
-    const classes = useStyles({ firstPhotoUrl });
+    const addressString = useMemo(
+        () => buildAddress(address, deliveryTime),
+        [ address, deliveryTime ]
+    );
 
     return (
         <div className={classes.root}>
@@ -54,15 +67,28 @@ const MenuPage = (props: Props) => {
                 </Typography>
 
                 <Typography className={classes.address} noWrap>
-                    {Translate.getString(`${address}, доставка ${deliveryTime}`)}
+                    {addressString}
                 </Typography>
             </Image>
 
-            <FiltersContainer classes={{ root: classes.filters }}/>
+            <Filters classes={{ root: classes.filters }}/>
 
-            <FoodContainer classes={{ root: classes.menu }}/>
+            <Food classes={{ root: classes.menu }}/>
+
+            <div className={classes.contacts}>
+                <Contacts
+                    color={color}
+                    siteName={siteName}
+                    phone={phone}
+                    address={address}
+                    deliveryTime={deliveryTime}
+                />
+
+                <iframe className={classes.map} src={deliveryMapUrl}/>
+            </div>
         </div>
     );
 };
 
-export { MenuPage, IMenuPageProps, IMenuPageCallProps };
+const componentWithStyles = withStyles<ClassKey>(styles, { name: "MenuPage" })(MenuPage);
+export { componentWithStyles as MenuPage, IMenuPageProps, IMenuPageCallProps };

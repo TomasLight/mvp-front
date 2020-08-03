@@ -1,10 +1,10 @@
-import { Translate } from "@utils";
-import React, { useEffect, useMemo } from "react";
-
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useForm } from "final-form-app-form";
 
-import { FormProvider } from "@shared/organisms";
+import { Translate } from "@utils/translates";
 import { ImportSettingsFormContainer } from "./ImportSettingsForm";
+import { ImportPreview } from "./ImportPreview";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,9 +24,10 @@ const useStyles = makeStyles((theme) => ({
     right: {
         gridArea: "right",
     },
+    form: {
+        width: "100%",
+    },
 }), { name: "DataPage" });
-
-const dataFormProvider = new FormProvider();
 
 interface IDataPageProps {
     initialValues: Partial<any>;
@@ -34,6 +35,7 @@ interface IDataPageProps {
 
 interface IDataPageCallProps {
     submitSettings: (formValues: any) => void;
+    skipImport: () => void;
 }
 
 type Props = IDataPageProps & IDataPageCallProps;
@@ -42,6 +44,7 @@ const ImportPage = (props: Props) => {
     const {
         initialValues,
         submitSettings,
+        skipImport,
     } = props;
     const classes = useStyles();
 
@@ -49,15 +52,26 @@ const ImportPage = (props: Props) => {
         document.title = Translate.getString("Импорт данных");
     }, []);
 
-    const DataForm = useMemo(() => dataFormProvider.createForm(submitSettings), [ submitSettings ]);
+    const [ Form, submitOnClick ] = useForm(submitSettings);
 
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <DataForm initialValues={initialValues}>
-                    <ImportSettingsFormContainer onSubmit={dataFormProvider.submitOnClick}/>
-                </DataForm>
+                <Form
+                    initialValues={initialValues}
+                    subscribe={{ pristine: true }}
+                    className={classes.form}
+                >
+                    {(state) => (
+                        <ImportSettingsFormContainer
+                            onSubmit={submitOnClick}
+                            onSkip={skipImport}
+                            pristine={state.pristine}
+                        />
+                    )}
+                </Form>
             </div>
+            <ImportPreview classes={{ root: classes.right }}/>
         </div>
     );
 };

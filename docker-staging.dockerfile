@@ -3,7 +3,7 @@ WORKDIR /build
 COPY . ./
 COPY .env-staging ./.env
 RUN npm i
-RUN npm run dev
+RUN npm run prod
 
 FROM nginx:1.18.0
 COPY nginx-staging.conf /etc/nginx/nginx.conf

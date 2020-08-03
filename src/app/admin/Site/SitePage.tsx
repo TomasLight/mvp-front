@@ -1,9 +1,8 @@
-import { Translate } from "@utils";
-import React, { useEffect, useMemo } from "react";
-
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
+import { useForm } from "final-form-app-form";
 
-import { FormProvider } from "@shared/organisms";
+import { Translate } from "@utils/translates";
 import { PreviewContainer } from "./Preview";
 import { ISiteSettingsFormValues } from "./models";
 import { SettingsFormContainer } from "./SettingsForm";
@@ -29,13 +28,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }), { name: "SetupPage" });
 
-const formProvider = new FormProvider(
-    new SiteSettingsValidator(),
-    { resetValidationErrorOnActiveField: true }
-);
-
 interface ISitePageProps {
-    initialValues: Partial<ISiteSettingsFormValues>;
+    initialValues: ISiteSettingsFormValues;
 }
 
 interface ISitePageCallProps {
@@ -53,7 +47,11 @@ const SitePage = (props: Props) => {
     } = props;
 
     const classes = useStyles();
-    const Form = useMemo(() => formProvider.createForm(submitSettings), [ submitSettings ]);
+    const [ Form, submitOnClick ] = useForm<ISiteSettingsFormValues>(
+        submitSettings,
+        new SiteSettingsValidator(),
+        { resetValidationErrorOnActiveField: true }
+    );
 
     useEffect(() => {
         document.title = Translate.getString("Настройки сайта");
@@ -63,8 +61,13 @@ const SitePage = (props: Props) => {
     return (
         <div className={classes.root}>
             <div className={classes.left}>
-                <Form initialValues={initialValues}>
-                    <SettingsFormContainer onSubmit={formProvider.submitOnClick}/>
+                <Form initialValues={initialValues} subscribe={{ pristine: true }}>
+                    {(state) => (
+                        <SettingsFormContainer
+                            onSubmit={submitOnClick}
+                            pristine={state.pristine}
+                        />
+                    )}
                 </Form>
             </div>
 

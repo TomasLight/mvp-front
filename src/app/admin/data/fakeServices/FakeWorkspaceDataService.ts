@@ -54,7 +54,7 @@ export class FakeWorkspaceDataService extends FakeServiceBase implements IWorksp
                 phone: "004",
                 address: "СПБ",
                 deliveryTime: "40 минут",
-                deliveryMapUrl: "https://yandex.ru",
+                deliveryMapUrl: "https://yandex.ru/map-widget/v1/?um=constructor%3A977a7ea4e4d59f3890cb2c7f5ffece9f1a8148007446514be255e11ee51dfa99",
             }),
         });
     }
